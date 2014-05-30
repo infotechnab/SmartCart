@@ -118,7 +118,35 @@
                 });
             }
         </script>
-
+<script>
+// This adds 'placeholder' to the items listed in the jQuery .support object. 
+jQuery(function() {
+   jQuery.support.placeholder = false;
+   test = document.createElement('input');
+   if('placeholder' in test) jQuery.support.placeholder = true;
+});
+// This adds placeholder support to browsers that wouldn't otherwise support it. 
+$(function() {
+   if(!$.support.placeholder) {
+       alert('here');
+      var active = document.activeElement;
+      $(':text').focus(function () {
+         if ($(this).attr('placeholder') != '' && $(this).val() == $(this).attr('placeholder')) {
+            $(this).val('').removeClass('hasPlaceholder');
+         }
+      }).blur(function () {
+         if ($(this).attr('placeholder') != '' && ($(this).val() == '' || $(this).val() == $(this).attr('placeholder'))) {
+            $(this).val($(this).attr('placeholder')).addClass('hasPlaceholder');
+         }
+      });
+      $(':text').blur();
+      $(active).focus();
+      $('form:eq(0)').submit(function () {
+         $(':text.hasPlaceholder').val('');
+      });
+   }
+});
+</script>
         <div id="container">
             <div id="headerBackground">
                 <div id="headerContent">
@@ -137,13 +165,13 @@
                      <?php  if ($this->session->userdata('logged_in')){ ?>
             <div id="signupHeader" style="min-width: 15%; float: right;">
                             <div style="border-radius: 3px; padding: 5px; min-width:40%; text-align: center; margin: 15% 1% 0% 1.5%; float: left; background-color: #6fa5e2; color: #000;"><?php echo $this->session->userdata ('username'); ?></div>
-                            <div style="border-radius: 3px; padding: 5px; width:40%; text-align: center; margin: 15% 1% 0% 1.5%; float: left; background-color: #f61938; color: #000;"><?php echo anchor('view/logout','Log Out') ?></div>
+                            <div style="border-radius: 3px; padding: 5px; min-width:40%; text-align: center; margin: 15% 1% 0% 1.5%; float: left; background-color: #f61938; color: #000;"><?php echo anchor('view/logout','Log Out') ?></div>
                         </div>
             <?php }
             else{ ?>
                 <div id="signupHeader" style="width: 15%; float: right;">
-                            <div style="border-radius: 3px; padding: 5px; width:40%; text-align: center; margin: 15% 1% 0% 1.5%; float: left; background-color: #6fa5e2; color: #000;"><?php echo anchor('view/homeLogin', 'login') ?></div>
-                            <div style="border-radius: 3px; padding: 5px; width:40%; text-align: center; margin: 15% 1% 0% 1.5%; float: left; background-color: #f61938; color: #000;"><?php echo anchor('view/homeLogin', 'signup') ?></div>
+                            <div style="border-radius: 3px; padding: 5px; min-width:40%; text-align: center; margin: 15% 1% 0% 1.5%; float: left; background-color: #6fa5e2; color: #000;"><?php echo anchor('view/homeLogin', 'login') ?></div>
+                            <div style="border-radius: 3px; padding: 5px; min-width:40%; text-align: center; margin: 15% 1% 0% 1.5%; float: left; background-color: #f61938; color: #000;"><?php echo anchor('view/homeLogin', 'signup') ?></div>
                         </div>
          <?php   }
                  } ?>  

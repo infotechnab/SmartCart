@@ -1581,7 +1581,7 @@ a
 
     text-align: center;
 float:right;
-    width:200px;
+    min-width:170px;
     margin-left: 50px;
     padding:5px;
     border-radius: 5px;
