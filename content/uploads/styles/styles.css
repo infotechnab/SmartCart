@@ -330,9 +330,9 @@ body
     margin: 0px;
     padding: 0px;
     min-height: 30px;
-    width: 53%;
-   *width:35%;
-  _width:35%;
+    width: 46%;
+   *width:46%;
+  _width:46%;
   float: left;
 }
 .detailsBottom
@@ -495,12 +495,12 @@ body
 }
 .sidebarContentNext
 {
-    margin: 5px;
+    margin: 1%;
     padding: 0px;
     background-color: #fff;
-    min-height: 52px;
+    min-height: 51px;
     border-radius: 5px;
-    width: 98%;
+    width: 99%;
 }
 
 .cartItems

@@ -92,9 +92,9 @@ class View extends CI_Controller {
     }
 
     public function authenticate_user() {
-if(!empty($_POST['email'])){
-        $useremail = $_POST['email'];
-}
+        if (!empty($_POST['email'])) {
+            $useremail = $_POST['email'];
+        }
         $username = $this->dbmodel->get_selected_user($useremail);
 
         foreach ($username as $dbemail) {
@@ -106,7 +106,7 @@ if(!empty($_POST['email'])){
             $this->test($token);
 
             // $this->mailresetlink($to, $token);
-} else {
+        } else {
             $this->session->set_flashdata('message', 'Please type valid Email Address');
             redirect("view/forgotPassword");
         }
@@ -169,7 +169,7 @@ if(!empty($_POST['email'])){
 
 
         if (!empty($_GET['resetPassword']))
-             $a = $_GET['resetPassword'];
+            $a = $_GET['resetPassword'];
         $data['query'] = $this->dbmodel->find_user_auth_key($a);
         if ($data['query']) {
             $this->load->view('templates/header', $data);
@@ -185,24 +185,25 @@ if(!empty($_POST['email'])){
     }
 
     public function setpassword() {
-if(!empty($_POST['user_pass']));
-if(!empty($_POST['tokenid']))
-{
-        $password = $_POST['user_pass'];
+        if (!empty($_POST['user_pass']))
+            ;
+        if (!empty($_POST['tokenid'])) {
+            $password = $_POST['user_pass'];
 
-        $token = $_POST['tokenid'];
-        
-        $confirmPassword = $_POST['user_confirm_pass'];
-        if ($password == $confirmPassword) {
+            $token = $_POST['tokenid'];
 
-            $userPassword = $this->input->post('user_pass');
+            $confirmPassword = $_POST['user_confirm_pass'];
+            if ($password == $confirmPassword) {
 
-            $this->dbmodel->update_user_password($token, $userPassword);
-           
+                $userPassword = $this->input->post('user_pass');
 
-            $this->session->set_flashdata('message', 'Your password has been changed successfully');
-            redirect('view/index', 'refresh');
-        } }else {
+                $this->dbmodel->update_user_password($token, $userPassword);
+
+
+                $this->session->set_flashdata('message', 'Your password has been changed successfully');
+                redirect('view/index', 'refresh');
+            }
+        } else {
 
             $this->session->set_flashdata('message', 'Password didnot match');
             redirect('view/forgotPassword', 'refresh');
@@ -425,21 +426,20 @@ if(!empty($_POST['tokenid']))
             redirect('view/homeLogin');
         } else {
             $email = $this->input->post('user_email');
-            $pass=$this->input->post('user_pass');
-            
+            $pass = $this->input->post('user_pass');
+
             $query = $this->dbmodel->validate_user($email, $pass);
-            
+
             if ($query) { // if the user's credentials validated...
-               foreach ($query as $users){
-                $userName= $users->user_name;
-            }
+                foreach ($query as $users) {
+                    $userName = $users->user_name;
+                }
                 $data = array(
                     'useremail' => $this->input->post('user_email'),
-                    'username'=> $userName,
+                    'username' => $userName,
                     'logged_in' => true);
                 $this->session->set_userdata($data);
                 redirect('view/index');
-                
             } else {
                 $this->session->set_flashdata('message', 'Username or password incorrect');
                 redirect('view/homeLogin');
@@ -450,43 +450,64 @@ if(!empty($_POST['tokenid']))
     public function addNewUser() {
         $this->load->library('form_validation');
         $users = $this->dbmodel->get_all_user();
+
         $this->form_validation->set_rules('u_name', 'Username', 'trim|required|xss_clean');
         $this->form_validation->set_rules('u_email', 'Email', 'trim|required|xss_clean');
-        $this->form_validation->set_rules('u_pass', 'Password', 'trim|required|xss_clean|md5|callback_check_database');
-        $this->form_validation->set_rules('u_pass_re', 'Password', 'trim|required|xss_clean|md5|callback_check_database');
+        $this->form_validation->set_rules('u_pass', 'Password', 'trim|required|xss_clean|callback_check_database');
+        $this->form_validation->set_rules('u_pass_re', 'Password', 'trim|required|xss_clean|callback_check_database');
         if ($this->form_validation->run() == FALSE) {
-            $this->userRegistration();
+            $this->homeLogin();
         } else {
-            foreach ($users as $user) {
-                $userName = $user->user_name;
-                $userEmail = $user->user_email;
+            
+            if (preg_match("/^[a-z,0-9,A-Z]{5,15}$/", $_POST['u_name'])) {
+                $name = trim($_POST['u_name']);
+                
+            } else {
+               
+                $this->session->set_flashdata('message', 'User name must be 5 to 15 character long');
+                redirect('view/homeLogin', 'refresh');
             }
-            if (isset($_POST['u_name']))
-                $inputuserName = $_POST['u_name'];
-            if ($userName === $inputuserName) {
+            if (preg_match("/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/", $_POST['u_email'])) {
+                $email = trim($_POST['u_email']);
+            } else {
+                $this->session->set_flashdata('message', 'Type valid email address');
+                redirect('view/homeLogin', 'refresh');
+            }
+            if (preg_match("/^[a-z,0-9,A-Z]{5,35}$/", $_POST['u_pass'])) {
+                $pass = trim($_POST['u_pass']);
+            } else {
+                $this->session->set_flashdata('message', 'password must be 5 to 35 character long');
+                redirect('view/homeLogin', 'refresh');
+            }
+            
+            $name = $this->input->post('u_name');
+
+
+            $userName = $this->dbmodel->check_user_name($name);
+
+            if (!empty($userName)) {
                 $this->session->set_flashdata('message', 'User Name already exsists');
                 redirect('view/homeLogin', 'refresh');
             } else {
                 $user_name = $this->input->post('u_name');
             }
-            if (isset($_POST['u_email']));
-            $inputuserEmail = $_POST['u_email'];
+            $userEmail = $this->dbmodel->check_user_email($email);
 
-            if ($userEmail === $inputuserEmail) {
+            if ($userEmail) {
                 $this->session->set_flashdata('message', 'User Email already exsists');
                 redirect('view/homeLogin', 'refresh');
             } else {
                 $user_email = $this->input->post('u_email');
             }
-            if (isset($_POST['u_pass']));
-            $pass = $_POST['u_pass'];
-            if (isset($_POST['u_pass_re']));
+            
+            if (isset($_POST['u_pass_re']))
+                ;
             $re_pass = $_POST['u_pass_re'];
-            if ($pass != $re_pass) {
+            if ($pass !== $re_pass) {
                 $this->session->set_flashdata('message', 'Password did not match');
                 redirect('view/homeLogin', 'refresh');
             } else {
-                
+
                 $this->dbmodel->add_new_user_for($user_name, $user_email, $re_pass);
                 $this->session->set_flashdata('message', 'User Registered Successfully');
                 redirect('view/index');

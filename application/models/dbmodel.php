@@ -902,7 +902,20 @@ public function get_navigation_info($navigationName)
         $query = $this->db->get('user');
         return $query->result();
     }
+    public function check_user_name($name){
+        $this->db->where('user_name', $name );
+        $query = $this->db->get('user');
+      
+        return $query->result();
+    }
+public function check_user_email($email){
+        $this->db->where('user_email', $email );
+        $query = $this->db->get('user');
+      
+        return $query->result();
+    }
     
+
     public function get_selected_user($useremail){
        $this->db->where('user_email', $useremail );
         $query = $this->db->get('user');
@@ -1652,12 +1665,13 @@ function delete_favicone($id) {
     }
     public function add_new_user_for($name,$email, $pass)
     {   
-         $user_type = 1;   
+         $user_type = 1; 
+         $password=md5($pass);
         $data = array(
             'user_name'=>$name,
             
             'user_email'=> $email,
-            'user_pass'=> $pass,
+            'user_pass'=> $password,
             
             'user_type'=> $user_type );
          $this->db->insert('user', $data); 

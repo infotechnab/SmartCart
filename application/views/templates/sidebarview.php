@@ -5,10 +5,10 @@
  foreach ($catProduct as $product_list) {
                 ?>
                 <div class='sidebarContentNext'>
-                    <div class="cartImage" style="float: left; width: 16%; min-height: 40px; margin: 0px; padding: 0px;">
+                    <div class="cartImage" style="float: left; width: 14%; min-height: 40px; margin: 0px; padding: 0px;">
                        <img src="<?php echo base_url().'content/uploads/images/'.$product_list->image1; ?>" width="50" height="50"  /> 
                     </div>
-                    <div class="cartImage" style="float: left; width: 30%; min-height: 40px; margin: 0px; padding: 0px;">
+                    <div class="cartImage" style="float: left; width: 40%; min-height: 40px; margin: 0px; padding: 0px;">
                         <p><b><?php echo $product_list->name;  ?></b></p>
                     </div> 
                     <div class="sidebarCart"> 
