@@ -4,11 +4,11 @@
     {
         if($data=="")
         {
-            echo '<span> $ </span>'.'<span class="priceTag">';  
+            echo '<span>$</span>'.'<span class="priceTag">';  
         }
         else
         {
-         echo '<span> $ </span>'.'<span class="priceTag">'.$data.'</span>';
+         echo '<span>$</span>'.'<span class="priceTag">'.$data.'</span>';
         
          
         }
