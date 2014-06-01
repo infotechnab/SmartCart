@@ -92,31 +92,45 @@ class View extends CI_Controller {
     }
 
     public function authenticate_user() {
-        if (!empty($_POST['email'])) {
-            $useremail = $_POST['email'];
+        if (preg_match("/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/", $_POST['email'])) {
+            $useremail = trim($_POST['email']);
+        } else {
+            $this->session->set_flashdata('message', 'Type valid email address');
+            redirect('view/homeLogin', 'refresh');
         }
         $username = $this->dbmodel->get_selected_user($useremail);
 
         foreach ($username as $dbemail) {
             $to = $dbemail->user_email;
-            $userName=$dbemail->user_name;
+            $userName = $dbemail->user_name;
         }
         if ($to === $useremail) {
             $token = $this->getRandomString(10);
             $this->dbmodel->update_emailed_user($to, $token);
-        $this->load->helper('emailsender_helper');
-   $subject = "Password Reset Link";
-   $imglink = base_url();
-   $message = register_email($to,$userName, $token, $imglink);   
-    
-   send_email_password_reset($to,$subject,$message);
+            $this->test($token);
+            //$this->load->helper('emailsender_helper');
+            //$subject = "Password Reset Link";
+            //$imglink = base_url();
+            // $message = register_email($useremail, $userName, $token, $imglink);   
+            //send_email_password_reset($useremail,$subject,$message);
         } else {
             $this->session->set_flashdata('message', 'Please type valid Email Address');
             redirect("view/forgotPassword");
         }
     }
 
-    
+    public function test($token) {
+        $data['headertitle'] = $this->viewmodel->get_header_title();
+        $data['headerlogo'] = $this->viewmodel->get_header_logo();
+        $data['meta'] = $this->dbmodel->get_meta_data();
+        $data['query'] = $this->dbmodel->find_user_auth_key($token);
+        $data['headerdescription'] = $this->viewmodel->get_header_description();
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/navigation');
+        $this->load->view('templates/messageSent', $data);
+         $this->load->view('templates/footer');
+    }
+
     function getRandomString($length) {
         $validCharacters = "ABCDEFGHIJKLMNPQRSTUXYVWZ123456789";
         $validCharNumber = strlen($validCharacters);
@@ -135,33 +149,48 @@ class View extends CI_Controller {
         $data['headerlogo'] = $this->viewmodel->get_header_logo();
         $data['meta'] = $this->dbmodel->get_meta_data();
         $data['headerdescription'] = $this->viewmodel->get_header_description();
+        $data['token_error'] = "Sorry! Your token has been expired. ";
 
-
-        if (!empty($_GET['resetPassword']))
+        if (!empty($_GET['resetPassword'])) {
             $a = $_GET['resetPassword'];
-        $data['query'] = $this->dbmodel->find_user_auth_key($a);
-        if ($data['query']) {
-            $this->load->view('templates/header', $data);
-            $this->load->view('templates/navigation');
-            $this->load->view("templates/resetPassword", $data);
-            $this->load->view('templates/footer');
+            $data['query'] = $this->dbmodel->find_user_auth_key($a);
+            if ($data['query']) {
+                $this->load->view('templates/header', $data);
+                $this->load->view('templates/navigation');
+                $this->load->view("templates/resetPassword", $data);
+                $this->load->view('templates/footer');
+            
         } else {
+
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navigation');
-            $this->load->view('templates/error_landing_page');
+            $this->load->view('templates/error_landing_page', $data);
             $this->load->view('templates/footer');
         }
     }
+    }
 
     public function setpassword() {
-        if (!empty($_POST['user_pass']))
-            ;
+        $data['headertitle'] = $this->viewmodel->get_header_title();
+        $data['headerlogo'] = $this->viewmodel->get_header_logo();
+        $data['meta'] = $this->dbmodel->get_meta_data();
+        $data['headerdescription'] = $this->viewmodel->get_header_description();
+         $data['token_error'] = "Sorry! Your token has been expired. ";
+        if (preg_match("/^[a-z,0-9,A-Z]{5,35}$/", $_POST['user_pass'])) {
+            $password = trim($_POST['user_pass']);
+        } else {
+            $this->session->set_flashdata('message', 'password must be 5 to 35 character long');
+            redirect('view/forgotpassword', 'refresh');
+        }
+        if (preg_match("/^[a-z,0-9,A-Z]{5,35}$/", $_POST['user_confirm_pass'])) {
+            $confirmPassword = trim($_POST['user_confirm_pass']);
+        } else {
+            $this->session->set_flashdata('message', 'password must be 5 to 35 character long');
+            redirect('view/forgotpassword', 'refresh');
+        }
+
         if (!empty($_POST['tokenid'])) {
-            $password = $_POST['user_pass'];
-
             $token = $_POST['tokenid'];
-
-            $confirmPassword = $_POST['user_confirm_pass'];
             if ($password == $confirmPassword) {
 
                 $userPassword = $this->input->post('user_pass');
@@ -172,10 +201,17 @@ class View extends CI_Controller {
                 $this->session->set_flashdata('message', 'Your password has been changed successfully');
                 redirect('view/index', 'refresh');
             }
+            else
+            {
+                 $this->session->set_flashdata('message', 'Password didnot match');
+            redirect('view/setpassword', 'refresh');
+            }
         } else {
 
-            $this->session->set_flashdata('message', 'Password didnot match');
-            redirect('view/forgotPassword', 'refresh');
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/navigation');
+            $this->load->view('templates/error_landing_page', $data);
+            $this->load->view('templates/footer');
         }
     }
 
@@ -207,15 +243,37 @@ class View extends CI_Controller {
     }
 
     public function login() {
+        
+        if ($this->session->userdata('logged_in')){
+            $data['headertitle'] = $this->viewmodel->get_header_title();
+        $data['headerlogo'] = $this->viewmodel->get_header_logo();
+        $data['meta'] = $this->dbmodel->get_meta_data();
+        $data['headerdescription'] = $this->viewmodel->get_header_description();
+            $name=$this->session->userdata ('username');
+            $email=  $this->session->userdata('useremail');
+            
+            $this->load->model('dbmodel');
+                        $data['detail'] = $this->productmodel->get_user($name, $email);
+                      
+                             if(!empty($data['detail']))
+                         { 
+                                  $data['shiping']=$this->productmodel->getship();
+               $this->load->view('templates/header', $data);
+        $this->load->view('templates/navigation');
+        $this->load->view('templates/userRegistrationAndShipping',$data);       
+        $this->load->view('templates/footer');     
+            }
+        }
+ else {
         $data['headertitle'] = $this->viewmodel->get_header_title();
         $data['headerlogo'] = $this->viewmodel->get_header_logo();
         $data['meta'] = $this->dbmodel->get_meta_data();
         $data['headerdescription'] = $this->viewmodel->get_header_description();
-
         $this->load->view('templates/header', $data);
         $this->load->view('templates/navigation');
         $this->load->view('templates/login');
         $this->load->view('templates/footer');
+    }
     }
 
     function add() {   //function to add item to the cart
@@ -389,14 +447,23 @@ class View extends CI_Controller {
         $data['headerdescription'] = $this->viewmodel->get_header_description();
 
         $this->load->library('form_validation');
-        $this->form_validation->set_rules('user_email', 'Email', 'trim|required|xss_clean');
-        $this->form_validation->set_rules('user_pass', 'Password', 'trim|required|xss_clean|md5|callback_check_database');
+        $this->form_validation->set_rules('user_email', 'Email', 'trim|regex_match[/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/]|required|xss_clean');
+        $this->form_validation->set_rules('user_pass', 'Password', 'trim|required|regex_match[/^[a-z,0-9,A-Z]{5,35}$/]|xss_clean|md5|callback_check_database');
         if ($this->form_validation->run() == FALSE) {
             redirect('view/homeLogin');
         } else {
-            $email = $this->input->post('user_email');
-            $pass = $this->input->post('user_pass');
-
+            if (preg_match("/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/", $_POST['user_email'])) {
+               $email = $this->input->post('user_email');
+            } else {
+                $this->session->set_flashdata('login_message', 'Type valid email address');
+                redirect('view/homeLogin', 'refresh');
+            }
+            if (preg_match("/^[a-z,0-9,A-Z]{5,35}$/", $_POST['user_pass'])) {
+                 $pass = $this->input->post('user_pass');
+            } else {
+                $this->session->set_flashdata('login_message', 'password must be 5 to 35 character long');
+                redirect('view/homeLogin', 'refresh');
+            }
             $query = $this->dbmodel->validate_user($email, $pass);
 
             if ($query) { // if the user's credentials validated...
@@ -410,7 +477,7 @@ class View extends CI_Controller {
                 $this->session->set_userdata($data);
                 redirect('view/index');
             } else {
-                $this->session->set_flashdata('message', 'Username or password incorrect');
+                $this->session->set_flashdata('login_message', 'Username or password incorrect');
                 redirect('view/homeLogin');
             }
         }
@@ -427,35 +494,34 @@ class View extends CI_Controller {
         if ($this->form_validation->run() == FALSE) {
             $this->homeLogin();
         } else {
-            
+
             if (preg_match("/^[a-z,0-9,A-Z]{5,15}$/", $_POST['u_name'])) {
                 $name = trim($_POST['u_name']);
-                
             } else {
-               
-                $this->session->set_flashdata('message', 'User name must be 5 to 15 character long');
+
+                $this->session->set_flashdata('register_message', 'User name must be 5 to 15 character long');
                 redirect('view/homeLogin', 'refresh');
             }
             if (preg_match("/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/", $_POST['u_email'])) {
                 $email = trim($_POST['u_email']);
             } else {
-                $this->session->set_flashdata('message', 'Type valid email address');
+                $this->session->set_flashdata('register_message', 'Type valid email address');
                 redirect('view/homeLogin', 'refresh');
             }
             if (preg_match("/^[a-z,0-9,A-Z]{5,35}$/", $_POST['u_pass'])) {
                 $pass = trim($_POST['u_pass']);
             } else {
-                $this->session->set_flashdata('message', 'password must be 5 to 35 character long');
+                $this->session->set_flashdata('register_message', 'password must be 5 to 35 character long');
                 redirect('view/homeLogin', 'refresh');
             }
-            
+
             $name = $this->input->post('u_name');
 
 
             $userName = $this->dbmodel->check_user_name($name);
 
             if (!empty($userName)) {
-                $this->session->set_flashdata('message', 'User Name already exsists');
+                $this->session->set_flashdata('register_message', 'User Name already exsists');
                 redirect('view/homeLogin', 'refresh');
             } else {
                 $user_name = $this->input->post('u_name');
@@ -463,22 +529,22 @@ class View extends CI_Controller {
             $userEmail = $this->dbmodel->check_user_email($email);
 
             if ($userEmail) {
-                $this->session->set_flashdata('message', 'User Email already exsists');
+                $this->session->set_flashdata('register_message', 'User Email already exsists');
                 redirect('view/homeLogin', 'refresh');
             } else {
                 $user_email = $this->input->post('u_email');
             }
-            
+
             if (isset($_POST['u_pass_re']))
                 ;
             $re_pass = $_POST['u_pass_re'];
             if ($pass !== $re_pass) {
-                $this->session->set_flashdata('message', 'Password did not match');
+                $this->session->set_flashdata('register_message', 'Password did not match');
                 redirect('view/homeLogin', 'refresh');
             } else {
 
                 $this->dbmodel->add_new_user_for($user_name, $user_email, $re_pass);
-                $this->session->set_flashdata('message', 'User Registered Successfully');
+                $this->session->set_flashdata('register_message', 'User Registered Successfully');
                 redirect('view/index');
             }
         }

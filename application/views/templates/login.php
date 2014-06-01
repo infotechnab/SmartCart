@@ -16,7 +16,7 @@
                 </tr>
 
                 <tr style="text-align: center">
-                    <td><input name="email" type="email" placeholder="Email" size="35" class="placeholder" required/></td>
+                    <td><input name="email" type="email" pattern="[\w-\.]+@([\w-]+\.)+[\w-]{2,4}" placeholder="Email" size="35" class="placeholder" required/></td>
                 </tr>
                 <tr style="text-align: center">
                     <td><input name="pass" type="password" placeholder="Password" size="35" class="placeholder" required/></td> 

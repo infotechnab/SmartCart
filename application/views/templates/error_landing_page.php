@@ -4,8 +4,12 @@
         <div class='contentHeader'>
             <h3>Error !</h3>
         </div>
+    <?php if(isset($token_error)){ ?>
         <div class='contentContainer'>
-             <h3>Error details</h3>
+             <h3><?php echo $token_error; ?></h3>
+    <?php }else{
+ echo '<h3>Sorry! </h3>';
+    } ?>
         </div>     
           
 

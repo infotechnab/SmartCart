@@ -238,10 +238,19 @@ if ($cart = $this->cart->contents()) {
         cursor: pointer;
     }
 </style>
+<script>
+    $(document).ready(function() {
+    <?php if (!empty($detail)) { ?>
+     document.getElementById('optionalRegister').style.display = 'none';
+    <?php }else { ?>
+        document.getElementById('optionalRegister').style.display = 'block'; 
+    <?php } ?>
+    });
+    </script>
 <?php
 if (!empty($detail)) {
 
-    foreach ($detail as $userdetail) {
+       foreach ($detail as $userdetail) {
         $username = $userdetail->user_name;
         $fname = $userdetail->user_fname;
         $lname = $userdetail->user_lname;
@@ -263,7 +272,7 @@ if (isset($error)) {
 }
 echo form_open('payment/do_payment');
 ?>
-<p id="sucessmsg">
+<p class="sucessmsg">
     <?php
     if ($this->session->flashdata('message')) {
         echo $this->session->flashdata('message');
@@ -273,7 +282,7 @@ echo form_open('payment/do_payment');
 <div id="login">
     <div id="leftRegister">
 
-        <div id="RegisterLeft">
+        <div class="RegisterLeft" id="optionalRegister">
             <h3 style="margin: 0px 0px 10px 0px; padding: 2px; float: left; width: 55%">User Registration (Optional)</h3>
             <!--<div class="onoffswitch" style="float: right;">
                             <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
@@ -334,7 +343,7 @@ echo form_open('payment/do_payment');
             </div>
         </div>
 
-        <div id="RegisterLeft">
+        <div class="RegisterLeft">
             <h3 style="margin: 0px 0px 10px 0px; padding: 2px;">Personal Details</h3>
             <hr>
             <table border="0" width="70%">

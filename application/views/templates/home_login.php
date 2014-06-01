@@ -3,8 +3,8 @@
     <div id="outerBorder">
         <div class="loginLeft">
             <p class="sucessmsg">
-                <?php if ($this->session->flashdata('message')) {
-                    echo $this->session->flashdata('message');
+                <?php if ($this->session->flashdata('login_message')) {
+                    echo $this->session->flashdata('login_message');
                 }
                 echo validation_errors();
                 ?> </p>
@@ -14,12 +14,18 @@
                 <tr style="text-align: center">
                     <td><h3>Existing Customer?</h3> </td>
                 </tr>
+                <tr >
+                        <td colspan="2"><p style="margin: 0px; padding: 2px;">Email</p></td>
+                    </tr>
 
                 <tr style="text-align: center">
-                    <td><input name="user_email" type="email" placeholder="Email" size="35" class="placeholder" required/></td>
+                    <td><input name="user_email" type="email" pattern="[\w-\.]+@([\w-]+\.)+[\w-]{2,4}" placeholder="Email" size="35" class="placeholder" required/></td>
                 </tr>
+                <tr>
+                        <td colspan="2"><p style="margin: 0px; padding: 2px;">Password</p></td>
+                    </tr>
                 <tr style="text-align: center">
-                    <td><input name="user_pass" type="password" placeholder="Password" size="35" class="placeholder" required/></td> 
+                    <td><input name="user_pass" type="password" pattern="[a-z0-9A-Z]{5,15}" placeholder="Password" size="35" class="placeholder" required/></td> 
                 </tr>
                 <tr><td></td></tr>
                 <tr><td></td></tr>
@@ -38,17 +44,17 @@
         <div class="loginLeft">
             <p class="sucessmsg">
     <?php
-    if ($this->session->flashdata('message')) {
-        echo $this->session->flashdata('message');
+    if ($this->session->flashdata('register_message')) {
+        echo $this->session->flashdata('register_message');
     }
     echo validation_errors();
     ?> </p>
         
         <?php echo form_open_multipart('view/addNewUser'); ?>
        
-        <table id="table_user" border="0" width="30%" >
+        <table id="table_user" border="0" width="40%" >
                     <tr style="text-align: center">
-                        <td><h3>User Registration</h3> </td>
+                        <td colspan="2"><h3>New User?</h3> </td>
                     </tr>
                     <tr >
                         <td colspan="2"><p style="margin: 0px; padding: 2px;">User Name</p></td>

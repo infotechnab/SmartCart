@@ -377,8 +377,9 @@ class Cartdetails extends CI_Controller {
         
          $this->load->library('form_validation');
         $this->form_validation->set_rules('email', 'Email', 'trim|required|xss_clean');
-        $this->form_validation->set_rules('pass', 'Password', 'trim|required|xss_clean|callback_check_database');
+        $this->form_validation->set_rules('pass', 'Password', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,35}$/]|required|xss_clean|callback_check_database');
         if ($this->form_validation->run() == FALSE) {
+            
             redirect('view/login');
         } else {
                      $this->load->model('dbmodel');

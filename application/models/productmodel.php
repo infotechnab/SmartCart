@@ -28,7 +28,7 @@ public function product_info(){
     }
     
     public function featured_item(){
-     //$this->db->order_by('id','DESC');
+     $this->db->order_by('id','DESC');
      $query = $this->db->get_where('product', array('category' => '13'));
        return $query->result();
     }
@@ -150,8 +150,7 @@ public function product_info(){
     }
     
     function validate() {
-       // $email = $this->input->post('email');
-           //     die($email);
+       
                 
         $this->db->where('user_email', $this->input->post('email'));
         $this->db->where('user_pass', md5($this->input->post('pass')));
@@ -160,7 +159,15 @@ public function product_info(){
         return $query->result();
        
     }
-    
+    function get_user($name, $email) {
+       
+                
+        $this->db->where('user_email', $email);
+        $this->db->where('user_name', $name);
+        $query = $this->db->get('user');
+        return $query->result();
+       
+    }
      function update_shipping_cost($charge) {
         $this->load->database();
         $data = array(

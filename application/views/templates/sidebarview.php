@@ -10,7 +10,15 @@
 		                       <img src="<?php echo base_url().'content/uploads/images/'.$product_list->image1; ?>" width="50" height="50"  /> 
 		                    </div>
 		                    <div class="cartImage" style="float: left; width: 40%; min-height: 40px; margin: 0px; padding: 0px;">
-		                        <p><b><?php echo $product_list->name;  ?></b></p>
+		                       <?php $a=  strlen($product_list->name);
+                                       if($a<=15){
+                                       ?>
+                                        <p><b><?php echo $product_list->name;  ?></b></p>
+                                       <?php } else { ?>
+                                           <p><b><?php echo mb_strimwidth($product_list->name, 0, 15, "..."); ?></b></p>
+                                     <?php  } ?>
+                                        
+                                        
 		                    </div> 
 		                    <div class="sidebarCart"> 
 		                    <div class='sidebarCartLeft'><h4><?php get_currency($product_list->price); ?></h4></div>

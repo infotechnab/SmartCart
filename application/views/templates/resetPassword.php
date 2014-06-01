@@ -20,7 +20,7 @@
                         <td ><p style="margin: 0px; padding: 2px;">Confirm Password</p></td>
                     </tr>
                     <tr>
-                        <td ><input type="password" name="user_confirm_pass" size="45" id="confirmPassword" pattern="[a-z0-9A-Z]{5,15}" placeholder="Confirm Password"  class="placeholder" required/></td>
+                        <td ><input type="password" name="user_confirm_pass" size="45" id="confirmPassword" pattern="[a-z0-9A-Z]{5,15}" placeholder="Confirm Password" class="placeholder" required/></td>
                     </tr> 
                     <tr>
                     <td >

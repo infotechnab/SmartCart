@@ -258,7 +258,7 @@ body
     padding: 1%;
     float: left;
 }
-#RegisterLeft, #RegisterRight, #RegisterLeftCart
+.RegisterLeft, #RegisterRight, #RegisterLeftCart
 {
     margin:0% 2% 0% 2%;
     padding: 1%;
@@ -365,7 +365,7 @@ body
     margin: 0px;
     padding: 2.5%;
     float: left;
-    height: 34px;
+    height: 36px;
     border-radius: 0px 0px 0px 5px;
     border: 1px solid #ccc;
     width: 38%;
@@ -669,7 +669,7 @@ div.vertical-line{
     width: 44%;
    
 }
-#RegisterLeft
+.RegisterLeft
 {
     width: 94%;
    

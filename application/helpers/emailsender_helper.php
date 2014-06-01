@@ -22,7 +22,7 @@ function send_email_password_reset($useremail,$subject,$message)
    }    
    }
 
-function register_email($to, $userName,$token, $imglink)
+function register_email($useremail, $userName,$token, $imglink)
 {
     $body = '<div style="width: 750px; margin: 0 auto 0 auto; padding: 0px;" >
         <div style="display:table-cell; vertical-align:middle; text-align:center; height: 70px; width: 1000px; alignment-adjust: central; background-color: #ccc; margin: 0 auto 0 auto;">
@@ -36,7 +36,7 @@ function register_email($to, $userName,$token, $imglink)
 
     <h3>Your request to reset password is confirmed.</h3>
     
-    <p>Click on the given link to reset your password <a href="' . $imglink . 'index.php/view/resetPassword?id=' .$to. '&&resetPassword=' . $token . '">Reset Password</a></p>
+    <p>Click on the given link to reset your password <a href="' . $imglink . 'index.php/view/resetPassword?id=' .$useremail. '&&resetPassword=' . $token . '">Reset Password</a></p>
 </div>
             
             <div style="display:table-cell; vertical-align:middle; text-align:center; height: 70px; width: 1000px; alignment-adjust: central; background-color: #ccc; margin: 0 auto 0 auto;">
