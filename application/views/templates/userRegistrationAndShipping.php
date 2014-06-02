@@ -33,13 +33,7 @@ if ($cart = $this->cart->contents()) {
             ship(shiping);
 
         });
-        $('.pick').click(function() {
-            var shiping = parseInt(" 0 ");
-            $('#cost').html(shiping);
-            //alert('pick');
-            ship(shiping);
-        });
-
+      
         $('#continueRegister').click(function() {
             //  alert('work');
             //$('#table_register').css("display","block");

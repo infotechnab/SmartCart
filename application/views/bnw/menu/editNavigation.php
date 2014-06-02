@@ -3,15 +3,17 @@
   {
      echo $error;
   }
-        if(isset($query)){
+        if(!empty($query)){
            
             foreach ($query as $navdata){
            
+                $id = $navdata->id;
+                $name = $navdata->navigation_name;
        }
-        }
+        
     ?>
 <div class="rightSide">
-    <h2>Edit Navigation/ <?php echo $navdata->navigation_name; ?></h2>
+    <h2>Edit Navigation/ <?php echo $name; ?></h2>
 <hr class="hr-gradient"/>
     <div id="forLeftPage"> 
  
@@ -23,8 +25,8 @@
     </p>
   <?php echo form_open_multipart('bnw/updatenavigation');?>
   <p>Title:<br />
-      <input type="hidden" name="id" value="<?php echo $navdata->id; ?>" >
-      <input type="text" name="navigation_name" value="<?php echo $navdata->navigation_name; ?>" />
+      <input type="hidden" name="id" value="<?php echo $id; ?>" >
+      <input type="text" name="navigation_name" value="<?php echo $name; ?>" />
   </p>
   
   <input type="submit" value="Submit" />
@@ -34,3 +36,7 @@
 </div></div>
 <div class="clear"></div>
 </div>
+<?php }
+else{
+    echo 'page not found';
+}?>
