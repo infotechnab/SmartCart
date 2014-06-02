@@ -28,7 +28,7 @@ class View extends CI_Controller {
         $data['headerlogo'] = $this->viewmodel->get_header_logo();
         $data['meta'] = $this->dbmodel->get_meta_data();
         $data['headerdescription'] = $this->viewmodel->get_header_description();
-        //$data['product_info'] = $this->productmodel->product_info();     
+         
         $data['featureItem'] = $this->productmodel->featured_item();
 
         $config = array();
@@ -40,12 +40,7 @@ class View extends CI_Controller {
         $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
 
         $data["product_info"] = $this->dbmodel->get_all_product($config["per_page"], $page);
-        //  $config['first_link'] = 'First';
-        //  $config['first_tag_open'] = '<div>';
-        // $config['first_tag_close'] = '</div>';
-        // $config['last_link'] = 'Last';
-        // $config['last_tag_open'] = '<div>';
-        // $config['last_tag_close'] = '</div>';
+       
         $config['display_pages'] = FALSE;
         $data["links"] = $this->pagination->create_links();
 
@@ -234,6 +229,7 @@ class View extends CI_Controller {
             $data['product'] = $this->productmodel->getProductById($id);
             foreach ($data['product'] as $page) {
                 $data['pageTitle'] = $page->name;
+                $data['pageDescription']= $page->description;
             }
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navigation');
@@ -360,7 +356,9 @@ class View extends CI_Controller {
             $data['pageTitle'] = $page->category_name;
         }
         $data['product'] = $this->productmodel->get_productList($id);
-
+        foreach ($data['product'] as $page) {  
+            $data['pageDescription']= $page->description;
+        }
         // $config = array();
         //   $config["base_url"] = base_url()."index.php/view/category/".$id ;
         //   $config["total_rows"] = $this->dbmodel->record_count_cat($id);

@@ -37,9 +37,19 @@
 
 
 
-        <meta name="title" content="Smart Access Services">
-        <meta name="description" content="Smart Access Services">
-        <meta name="keywords" content="Shopping cart, Cart, Jackek, Smart Access Services">
+        <meta name="title" content="<?php if (isset($pageTitle)) {
+                echo $pageTitle . "-" . $title;
+            } else {
+                echo $pageTitle = $title;
+            }
+            ?>">
+        <meta name="description=" content="<?php if (isset($pageDescription)) {
+                echo $title. "-" .$pageDescription;
+            } else {
+                echo $title;
+            }
+            ?>">
+        <meta name="keywords" content="Shopping cart, Cart, Jackek, Smart Access Services, tickets, etickets, nepali movie tickets, car on hire, vehicles on hire">
     </head>
 
     <body>
