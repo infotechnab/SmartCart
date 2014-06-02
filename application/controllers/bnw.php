@@ -284,11 +284,11 @@ class bnw extends CI_Controller {
                     $productImgThree = NULL;
                 }
 
-                $proID = $this->dbmodel->get_proID();
-                foreach ($proID as $pID) {
-                    $id = $pID->id;
-                }
-                $id = $id + 1;
+               // $proID = $this->dbmodel->get_proID();
+               // foreach ($proID as $pID) {
+               //     $id = $pID->id;
+               // }
+              //  $id = $id + 1;
                 $qty = $this->input->post('qty');
                 $productName = $this->input->post('pName');
                 $productPrice = $this->input->post('pPrice');

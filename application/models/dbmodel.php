@@ -411,7 +411,7 @@ public function check_user_email($email){
     }
     function delProduct($id){
        // die($id);
-         $resutl = $this->db->delete('product', array('id' => $id));
+         $result = $this->db->delete('product', array('id' => $id));
           if(!$result)
         {
             return false;
