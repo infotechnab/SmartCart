@@ -980,7 +980,10 @@ class bnw extends CI_Controller {
 
     public function editnavigation($id=0) {
         if ($this->session->userdata('logged_in')) {
-
+            
+          
+                
+            
             $data['query'] = $this->dbmodel->findnavigation($id);
 
             $data['meta'] = $this->dbmodel->get_meta_data();
@@ -988,7 +991,9 @@ class bnw extends CI_Controller {
             $this->load->view("bnw/templates/menu");
             $this->load->view('bnw/menu/editNavigation', $data);
             $this->load->view('bnw/templates/footer', $data);
-        } else {
+        }
+       
+        else {
             redirect('login', 'refresh');
         }
     }
