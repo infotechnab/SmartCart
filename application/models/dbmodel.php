@@ -61,12 +61,27 @@ function validate_user($email, $pass) {
          $this->db->insert('comment_store', $data);
     }
 
+    function get_file($id)
+    {
+        $this->db->where('category',$id);
+        $query = $this->db->get('product');
+        return $query->result();
+    }
     // ========================== Navigation ==================================//
     
     function get_parent_id($id)
     {
         $this->db->select('parent_id');
         $this->db->where('id',$id);
+       $result =  $this->db->get('navigation');
+       return $result->result();
+    }
+    
+    function get_parent_id_down($id)
+    {
+        $this->db->select('parent_id');
+        $this->db->where('id',$id);
+        $this->db->order_by('parent_id','DESC');
        $result =  $this->db->get('navigation');
        return $result->result();
     }
@@ -78,6 +93,80 @@ function validate_user($email, $pass) {
         $resut = $this->db->get('navigation');   
         return $resut->result();
     }
+    
+    function get_data_down($id)
+    {
+        $this->db->select('id');
+        $this->db->where('parent_id',$id);
+        $this->db->order_by('id','DESC');
+        $resut = $this->db->get('navigation');   
+        return $resut->result();
+    }
+    
+    function update_navID($id , $tempID)
+    {
+        $data = array(
+            'id'=>$tempID
+        );
+        $this->db->where('id',$id);
+        $this->db->update('navigation',$data);
+        
+    }
+    
+    function update_navParentID($id , $tempID)
+    {
+        $data = array(
+            'parent_id'=>$tempID
+        );
+        $this->db->where('parent_id',$id);
+        $this->db->update('navigation',$data);
+        
+    }
+    
+ function update_previousID($id,$previousID)
+    {
+        $data = array(
+            'id'=>$id
+        );
+        $this->db->where('id',$previousID);
+        $this->db->update('navigation',$data);
+        
+    }
+    
+    function update_Previous_ParentID($id,$previousID)
+    {
+        $data = array(
+            'parent_id'=>$id
+        );
+        
+        $this->db->where('parent_id',$previousID);
+        $this->db->update('navigation',$data);
+    }
+    
+    function update_up($tempID,$previousID)
+    {
+        $data = array(
+            'id'=>$previousID
+        );
+        $this->db->where('id',$tempID);
+        $this->db->update('navigation',$data); 
+    }
+
+    function update_parentID_UP($tempID,$previousID)
+    {
+         $data = array(
+            'parent_id'=>$previousID
+        );
+        
+        $this->db->where('parent_id',$tempID);
+        $this->db->update('navigation',$data);
+    }
+
+
+
+
+
+
 
 
     ////==============================//////
@@ -682,7 +771,9 @@ public function get_navigation_info($navigationName)
         $query = $this->db->get('category');
         return $query->result();
     } 
-     public function get_coupon()
+    
+
+    public function get_coupon()
  {
             
         //$this->db->where('type','page');
@@ -777,25 +868,17 @@ public function get_navigation_info($navigationName)
 
     public function delete_category($id) {
 //==== working ================= //
-       $result =  $this->db->delete('category', array('id' => $id));
-       //return $result->result();
-        //$this->db->_error_message();
-        if(!$result)
-        {
-            return false;
-                }
-        else
-        {
-            return true;
-           // die('its work');
-        }
+        //die($id);
+        $this->db->delete('category', array('id' => $id));
        
-        //======================
-       
-        
     }
     
-       
+       function delRelPro($id)
+    {
+       //die($id);
+       $this->db->where('category',$id);
+        $this->db->delete('product');
+    }
 //pages -----------------------------------------------
     public function record_count_page() {
         return $this->db->count_all("page");
@@ -902,20 +985,7 @@ public function get_navigation_info($navigationName)
         $query = $this->db->get('user');
         return $query->result();
     }
-    public function check_user_name($name){
-        $this->db->where('user_name', $name );
-        $query = $this->db->get('user');
-      
-        return $query->result();
-    }
-public function check_user_email($email){
-        $this->db->where('user_email', $email );
-        $query = $this->db->get('user');
-      
-        return $query->result();
-    }
     
-
     public function get_selected_user($useremail){
        $this->db->where('user_email', $useremail );
         $query = $this->db->get('user');
@@ -1665,13 +1735,12 @@ function delete_favicone($id) {
     }
     public function add_new_user_for($name,$email, $pass)
     {   
-         $user_type = 1; 
-         $password=md5($pass);
+         $user_type = 1;   
         $data = array(
             'user_name'=>$name,
             
             'user_email'=> $email,
-            'user_pass'=> $password,
+            'user_pass'=> $pass,
             
             'user_type'=> $user_type );
          $this->db->insert('user', $data); 

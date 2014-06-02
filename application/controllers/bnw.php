@@ -176,7 +176,7 @@ class bnw extends CI_Controller {
 
             $this->load->library('upload', $config);
             $data['meta'] = $this->dbmodel->get_meta_data();
-
+            $data['category'] = $this->dbmodel->get_category();
             $this->load->view('bnw/templates/header', $data);
             $this->load->view('bnw/templates/menu');
             $this->load->helper('form');
@@ -1027,32 +1027,130 @@ class bnw extends CI_Controller {
     function up($id=0)
     {
        if ($this->session->userdata('logged_in')) {
-         
+          
+         if($id == !0)
+         {
            $parent = $this->dbmodel->get_parent_id($id);
+         //  var_dump($parent);
+           if(!empty($parent))
+           {
            foreach ($parent as $pid)
            {
                $parentID = $pid->parent_id;
            }
            
            $getID = $this->dbmodel->get_data($parentID);
-            $ptID = json_encode($getID);
-            var_dump($ptID);
+           
+          $previousID = 0;
+          $tempID = 999;
+      foreach ($getID as $data)
+      {
+          if($id == $data->id )
+          {
+              break;
+          }
+          else
+          {
+             
+              $previousID = $data->id;
+          }
+      }
+           //die($previousID." ".$tempID);
+           if($previousID !==0)
+           {
+              // die('not work');
+           $updateID = $this->dbmodel->update_navID($id , $tempID);
+           $updateParentID = $this->dbmodel->update_navParentID($id , $tempID);
+           $updatePreviousID = $this->dbmodel->update_previousID($id,$previousID);
+           $updatePreviousParentID = $this->dbmodel->update_Previous_ParentID($id,$previousID);
+           $updateUP = $this->dbmodel->update_up($tempID,$previousID);
+           $updateParentID_UP = $this->dbmodel->update_parentID_UP($tempID,$previousID);
+           
+           redirect('bnw/manageNavigation/4');
+           }
+           else
+           {
+               echo 'Can not process';
+           }
+         } 
+         else {
+             echo ' Page not found ';
+         }
        }
+    else {
+           
+            echo ' Page not found ';
+     
+            }
+       }
+       
        else
        {
-           
+            redirect('login', 'refresh');
        } 
     }
 
-    function down()
+    function down($id)
     {
         if ($this->session->userdata('logged_in')) {
          
+            if($id ==!0)
+            {
+             $parent = $this->dbmodel->get_parent_id_down($id);
+         //  var_dump($parent);
+              if(!empty($parent))
+           {
+           foreach ($parent as $pid)
+           {
+               $parentID = $pid->parent_id;
+           }
            
+           $getID = $this->dbmodel->get_data_down($parentID);
+          $previousID = 0;
+          $tempID = 999;
+      foreach ($getID as $data)
+      {
+          if($id == $data->id )
+          {
+              break;
+          }
+          else
+          {
+             
+              $previousID = $data->id;
+          }
+      }
+          // die($previousID);
+           
+           if($previousID !==0)
+           {
+              // die('not work');
+           $updateID = $this->dbmodel->update_navID($id , $tempID);
+           $updateParentID = $this->dbmodel->update_navParentID($id , $tempID);
+           $updatePreviousID = $this->dbmodel->update_previousID($id,$previousID);
+           $updatePreviousParentID = $this->dbmodel->update_Previous_ParentID($id,$previousID);
+           $updateUP = $this->dbmodel->update_up($tempID,$previousID);
+           $updateParentID_UP = $this->dbmodel->update_parentID_UP($tempID,$previousID);
+           
+           redirect('bnw/manageNavigation/4');
+           }
+           else
+           {
+               echo 'Can not process';
+           }
+           }
+           else{
+           
+               echo ' page not found';
+           }
+           }
+       else{
+           echo 'page not found';
        }
+        }
        else
        {
-           
+          redirect('login', 'refresh');  
        } 
     }
 
@@ -1271,17 +1369,11 @@ class bnw extends CI_Controller {
 
     public function deletecategory($id=0) {
         if ($this->session->userdata('logged_in')) {
-           $result = $this->dbmodel->delete_category($id);
-            if($result == true)
-            {
-                $this->session->set_flashdata('message', 'Data Delete Sucessfully');
+          $this->dbmodel->delete_category($id);
+              $this->session->set_flashdata('message', 'Data Delete Sucessfully');
                  redirect('bnw/category');
                 
-            }
-           else {
-                 $this->session->set_flashdata('message', 'Cannot delete or update a parent row');
-                 redirect('bnw/category');
-                  }
+          
             
             //$this->dbmodel->delete_category($id);
            // $this->session->set_flashdata('message', 'Data Delete Sucessfully');
@@ -1290,7 +1382,38 @@ class bnw extends CI_Controller {
             redirect('login', 'refresh');
         }
     }
-
+    
+    function delete_category($id=0)
+    {
+        if ($this->session->userdata('logged_in')) {
+             $data['meta'] = $this->dbmodel->get_meta_data();
+             $data['category'] = $this->dbmodel->get_category_id($id);
+             
+            $this->load->view('bnw/templates/header', $data);
+            $this->load->view('bnw/templates/menu', $data);
+            $this->load->view('bnw/category/delcategory', $data);
+            $this->load->view('bnw/templates/footer', $data);
+        }
+        else
+        {
+             redirect('login', 'refresh');
+        }
+        
+    }
+    function delete_Product_cat()
+    {
+        if ($this->session->userdata('logged_in')) {
+        $id = $_POST['id'];
+        $this->dbmodel->delRelPro($id);
+        $this->dbmodel->delete_category($id);
+        $this->session->set_flashdata('message', 'Data Delete Sucessfully');
+       redirect('bnw/category');
+        }
+        else
+        {
+             redirect('login', 'refresh'); 
+        }
+    }
     //==========================================================================================================//
     //====================================POST==================================================================//
     //===========================================================================================================//

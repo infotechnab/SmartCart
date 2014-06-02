@@ -34,12 +34,28 @@
     
     <?php
             foreach ($query as $data){
-            ?>
+            
+               $catData =  $this->dbmodel->get_file($data->id);
+                                
+                ?>
           <tr>
             <td><?php echo $data->id; ?></td>
             <td><?php echo $data->category_name ?></td>
             <td><?php echo anchor('bnw/editcategory/'.$data->id,'Edit'); ?> / 
-            <?php echo anchor('bnw/deletecategory/'.$data->id,'Delete'); ?></td>
+            <?php
+            if(empty($catData))
+            {
+                echo anchor('bnw/deletecategory/'.$data->id,'Delete');
+                
+            }
+            else 
+                {
+                echo anchor('bnw/delete_category/'.$data->id,'Delete');
+                }            ?>
+            
+           
+            
+            </td>
         </tr>
             <?php    
             }

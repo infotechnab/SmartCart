@@ -353,3 +353,4 @@ $(document).ready(function() {
         <h3>Shopping Cart</h3>
     </div>
     <div class='cartItems' id="shopping_cart">
+       
