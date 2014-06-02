@@ -20,9 +20,7 @@ class View extends CI_Controller {
     }
 
     public function index() {     //fetching data from database of the product
-       if($this->session->userdata('logged_in')) {
-           die('me here'); 
-    }
+      
     $data['username']=$this->session->userdata ('username');
         $data['headertitle'] = $this->viewmodel->get_header_title();
         $data['headerlogo'] = $this->viewmodel->get_header_logo();
