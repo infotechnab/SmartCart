@@ -95,7 +95,7 @@ $(document).ready(function() {
 
     $(".addToCarts").live('click', function() {
 
-        $('.slide').css({opacity: 0.3});
+        //$('.slide').css({opacity: 0.3});
         var id = $(this).val();
         var dataString = 'itemid=' + id;
         $.ajax({

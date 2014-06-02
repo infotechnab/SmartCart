@@ -11,6 +11,7 @@
 		                    </div>
 		                    <div class="cartImage" style="float: left; width: 40%; min-height: 40px; margin: 0px; padding: 0px;">
 		                       <?php $a=  strlen($product_list->name);
+                                       
                                        if($a<=15){
                                        ?>
                                         <p><b><?php echo $product_list->name;  ?></b></p>
