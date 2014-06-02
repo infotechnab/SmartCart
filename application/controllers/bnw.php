@@ -17,7 +17,7 @@ class bnw extends CI_Controller {
         }
 
     public function index() {
-        // die("entered in bnw index!");
+       
         if ($this->session->userdata('logged_in')) {
             $data['username'] = Array($this->session->userdata('logged_in'));
             $data['meta'] = $this->dbmodel->get_meta_data();

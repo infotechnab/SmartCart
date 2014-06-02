@@ -149,8 +149,7 @@ class Login extends CI_Controller {
     public function resetPassword() {
         $id = $_GET['resetPassword'];
         $email = $_GET['id'];
-        //echo $email;
-        //die($id);
+       
         $data['meta'] = $this->dbmodel->get_meta_data();
         $keys = $this->dbmodel->get_userKey($id);
 
@@ -158,7 +157,7 @@ class Login extends CI_Controller {
             $userName = $uName->user_email;
         }
         $blank = $this->dbmodel->user_key($email);
-        //die($userName);
+       
         $this->load->view("bnw/templates/header", $data);
         if (isset($userName)) {
             if ($email == $userName) {
@@ -201,7 +200,7 @@ class Login extends CI_Controller {
 
     function userregister()
     {
-        //die('user');
+      
         $user = $_POST['name'];
         $email = $_POST['email'];
         $pass = $_POST['pass'];

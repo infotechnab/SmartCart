@@ -160,7 +160,7 @@ $(document).ready(function() {
 </script>
 <div id='content'>
         <div class='contentHeader'>
-            <h3><a href="<?php base_url();?>">home </a> >> <?php echo $pageTitle; ?></h3>
+            <h3><a href="<?php base_url();?>">home </a> >> <?php if(isset($pageTitle)){ echo $pageTitle; } else{ echo "Error !"; }?></h3>
         </div>
 
         

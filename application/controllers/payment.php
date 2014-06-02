@@ -46,10 +46,60 @@ class Payment extends CI_Controller {
         include_once("paypal_config.php");
         include_once("paypal.class.php");
         $paypalmode = ($PayPalMode == 'sandbox') ? '.sandbox' : '';
-        
-        
-        
-        
+        if (preg_match("/^[a-z,0-9,A-Z]{5,35}$/", $_POST['u_fname'])) {
+            $firstname = trim($_POST['u_fname']);
+        } else {
+            $this->session->set_flashdata('message', 'First name must be 5 to 35 character long');
+            redirect('view/forgotpassword', 'refresh');
+        }
+        if (preg_match("/^[a-z,0-9,A-Z]{5,35}$/", $_POST['u_lname'])) {
+            $lastname = trim($_POST['u_lname']);
+        } else {
+            $this->session->set_flashdata('message', 'Last name must be 5 to 35 character long');
+            redirect('view/forgotpassword', 'refresh');
+        }
+         if (preg_match("/^[a-z,0-9,A-Z]{5,200}$/", $_POST['street_address'])) {
+            $street = trim($_POST['street_address']);
+        } else {
+            $this->session->set_flashdata('message', 'Street address must be 5 to 200 character long');
+            redirect('view/forgotpassword', 'refresh');
+        }
+         if (preg_match("/^[a-z,0-9,A-Z]{5,200}$/", $_POST['Town_address'])) {
+            $town = trim($_POST['Town_address']);
+        } else {
+            $this->session->set_flashdata('message', 'Town address must be 5 to 200 character long');
+            redirect('view/forgotpassword', 'refresh');
+        }
+         if (preg_match("/^[a-z,0-9,A-Z]{5,200}$/", $_POST['District_address'])) {
+            $district = trim($_POST['District_address']);
+        } else {
+            $this->session->set_flashdata('message', 'District must be 5 to 200 character long');
+            redirect('view/forgotpassword', 'refresh');
+        }
+        if (preg_match("/^[a-z,0-9]{5,10}$/", $_POST['zip'])) {
+            $zip = trim($_POST['zip']);
+        } else {
+            $this->session->set_flashdata('message', 'Zip must be 5 to 10 character long');
+            redirect('view/forgotpassword', 'refresh');
+        }
+         if (preg_match("/^[a-z,0-9,A-Z]{5,200}$/", $_POST['country'])) {
+            $country = trim($_POST['country']);
+        } else {
+            $this->session->set_flashdata('message', 'Country name be 5 to 10 character long');
+            redirect('view/forgotpassword', 'refresh');
+        }
+        if (preg_match("/^[0-9]{5,15}$/", $_POST['u_contact'])) {
+            $contact = trim($_POST['u_contact']);
+        } else {
+            $this->session->set_flashdata('message', 'Contact No. name be 5 to 15 character long');
+            redirect('view/forgotpassword', 'refresh');
+        }
+         if (preg_match("/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/", $_POST['s_email'])) {
+            $email = trim($_POST['s_email']);
+        } else {
+            $this->session->set_flashdata('message', 'Type valid email address');
+            redirect('view/homeLogin', 'refresh');
+        }
         
         
         

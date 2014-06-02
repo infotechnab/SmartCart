@@ -67,10 +67,10 @@ class View extends CI_Controller {
         $data['category'] = $this->productmodel->category_list();
 
         //$data['product'] = $this->productmodel->getProductById($id);
-
+$data['token_error']="Sorry the item you are searching in not found";
         $this->load->view('templates/header', $data);
         $this->load->view('templates/navigation');
-        $this->load->view('templates/error_landing_page');
+        $this->load->view('templates/error_landing_page', $data);
         $this->load->view('templates/cart');
         $this->load->view('templates/sidebarview', $data);
         $this->load->view('templates/footer');
@@ -236,7 +236,13 @@ class View extends CI_Controller {
             $this->load->view('templates/sidebarview', $data);
             $this->load->view('templates/footer');
         } else {
-            redirect();
+            $data['token_error']="Sorry the item you are searching in not found";
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/navigation');
+            $this->load->view('templates/error_landing_page', $data);
+            $this->load->view('templates/cart');
+            $this->load->view('templates/sidebarview', $data);
+            $this->load->view('templates/footer');
         }
     }
 
@@ -357,17 +363,7 @@ class View extends CI_Controller {
         foreach ($data['product'] as $page) {  
             $data['pageDescription']= $page->description;
         }
-        // $config = array();
-        //   $config["base_url"] = base_url()."index.php/view/category/".$id ;
-        //   $config["total_rows"] = $this->dbmodel->record_count_cat($id);
-        // var_dump($config["total_rows"]);
-        //   $config["per_page"] = 6;
-        //   $this->pagination->initialize($config);
-        //  $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-        //   $data["product"] = $this->productmodel->get_productList($config["per_page"], $page,$id);
-        // $config['display_pages'] = FALSE; 
-        //  $data["links"] = $this->pagination->create_links();
-        //var_dump($data);
+       
         $data['slider_json'] = json_encode($data['featureItem']);
         $this->load->view('templates/header', $data);
         $this->load->view('templates/navigation');

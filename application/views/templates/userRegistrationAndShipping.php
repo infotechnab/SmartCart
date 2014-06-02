@@ -348,8 +348,6 @@ echo form_open('payment/do_payment');
             <table border="0" width="70%">
                 <tr>
                     <td colspan="2"></td>
-
-
                 </tr>
                 <tr>
                     <td colspan="2"><p style="margin: 0px; padding: 2px;">Full Name</p></td>
