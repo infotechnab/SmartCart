@@ -52,6 +52,7 @@ if ($cart = $this->cart->contents()) {
             var price = parseInt("<?php echo $this->cart->total(); ?>");
             if ($(this).is(':checked'))
             {
+                
                 var shiping = parseInt("<?php
 if (isset($shiping_cost) == TRUE) {
     echo $cost;
@@ -99,6 +100,7 @@ if (isset($shiping_cost) == TRUE) {
 
 
             $('#shippingInfoTable').toggle();
+            
 
         });
     });
@@ -275,6 +277,9 @@ if (isset($error)) {
 }
 echo form_open('payment/do_payment');
 ?>
+
+<div id="login">
+    <div id="leftRegister">
 <p class="sucessmsg">
     <?php
     if ($this->session->flashdata('message')) {
@@ -282,9 +287,6 @@ echo form_open('payment/do_payment');
     }
     echo validation_errors();
     ?> </p>
-<div id="login">
-    <div id="leftRegister">
-
         <div class="RegisterLeft" id="optionalRegister">
             <h3 style="margin: 0px 0px 10px 0px; padding: 2px; float: left; width: 55%">User Registration (Optional)</h3>
 
@@ -383,7 +385,7 @@ echo form_open('payment/do_payment');
                     <td colspan="2"><p style="margin: 0px; padding: 2px;">Email</p></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><input type="email" name="s_email" placeholder="Email" size="47" class="placeholder" id="register_email" /></td>
+                    <td colspan="2"><input type="email" name="user_email" placeholder="Email" size="47" class="placeholder" id="register_email" /></td>
                 </tr>
 
 
@@ -472,6 +474,7 @@ echo form_open('payment/do_payment');
                     <span class="onoffswitch-switch"></span>
                 </label>
             </div> 
+            <div id="shiponoff"></div>
 
 
             <div class="clear"></div>
@@ -508,7 +511,7 @@ echo form_open('payment/do_payment');
                     <td><input type="text" name="s_zip" placeholder="zip" size="20" class="placeholder" /></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><input type="text" name="country" placeholder="Country" size="47" class="placeholder" /></td>
+                    <td colspan="2"><input type="text" name="s_country" placeholder="Country" size="47" class="placeholder" /></td>
                 </tr>
                 <tr>
                     <td colspan="2"><p style="margin: 0px; padding: 2px;">Contact Number</p></td>
