@@ -60,6 +60,18 @@ function validate_user($email, $pass) {
             
          $this->db->insert('comment_store', $data);
     }
+    public function check_user_name($name){
+        $this->db->where('user_name', $name );
+        $query = $this->db->get('user');
+      
+        return $query->result();
+    }
+public function check_user_email($email){
+        $this->db->where('user_email', $email );
+        $query = $this->db->get('user');
+      
+        return $query->result();
+    }
 
     function get_file($id)
     {
@@ -1736,11 +1748,12 @@ function delete_favicone($id) {
     public function add_new_user_for($name,$email, $pass)
     {   
          $user_type = 1;   
+         $user_pass=md5($pass);
         $data = array(
             'user_name'=>$name,
             
             'user_email'=> $email,
-            'user_pass'=> $pass,
+            'user_pass'=> $user_pass,
             
             'user_type'=> $user_type );
          $this->db->insert('user', $data); 

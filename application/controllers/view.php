@@ -14,12 +14,16 @@ class View extends CI_Controller {
         $this->load->helper('url');
         $this->load->library('cart');
         $this->load->library('pagination');
+        $this->load->library('session');
 
         $this->load->helper(array('form', 'url', 'date'));
     }
 
     public function index() {     //fetching data from database of the product
-        $data['username'] = Array($this->session->userdata('logged_in'));
+       if($this->session->userdata('logged_in')) {
+           die('me here'); 
+    }
+    $data['username']=$this->session->userdata ('username');
         $data['headertitle'] = $this->viewmodel->get_header_title();
         $data['headerlogo'] = $this->viewmodel->get_header_logo();
         $data['meta'] = $this->dbmodel->get_meta_data();
@@ -447,8 +451,8 @@ class View extends CI_Controller {
         $data['headerdescription'] = $this->viewmodel->get_header_description();
 
         $this->load->library('form_validation');
-        $this->form_validation->set_rules('user_email', 'Email', 'trim|regex_match[/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/]|required|xss_clean');
-        $this->form_validation->set_rules('user_pass', 'Password', 'trim|required|regex_match[/^[a-z,0-9,A-Z]{5,35}$/]|xss_clean|md5|callback_check_database');
+        $this->form_validation->set_rules('user_email', 'Email', 'trim|required|xss_clean');
+        $this->form_validation->set_rules('user_pass', 'Password', 'trim|required|xss_clean|md5|callback_check_database');
         if ($this->form_validation->run() == FALSE) {
             redirect('view/homeLogin');
         } else {
@@ -466,7 +470,7 @@ class View extends CI_Controller {
             }
             $query = $this->dbmodel->validate_user($email, $pass);
 
-            if ($query) { // if the user's credentials validated...
+            if (!empty($query)) { // if the user's credentials validated...
                 foreach ($query as $users) {
                     $userName = $users->user_name;
                 }
@@ -474,6 +478,7 @@ class View extends CI_Controller {
                     'useremail' => $this->input->post('user_email'),
                     'username' => $userName,
                     'logged_in' => true);
+                
                 $this->session->set_userdata($data);
                 redirect('view/index');
             } else {

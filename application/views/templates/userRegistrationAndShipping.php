@@ -46,58 +46,60 @@ if ($cart = $this->cart->contents()) {
             $('#table_register').toggle();
             // alert('sdfdf');
         });
-        
+
         //Toggle for Shipping option
         $('#myonoffswitch').click(function() {
             var price = parseInt("<?php echo $this->cart->total(); ?>");
-            if($(this).is(':checked'))
+            if ($(this).is(':checked'))
             {
-                var shiping = parseInt("<?php if (isset($shiping_cost) == TRUE) {
+                var shiping = parseInt("<?php
+if (isset($shiping_cost) == TRUE) {
     echo $cost;
 } else {
     echo $cost = 0;
-} ?>");
-                if(rate>0){
-                    
-                    var dis = price * parceInt(rate)/100;
+}
+?>");
+                if (rate > 0) {
+
+                    var dis = price * parceInt(rate) / 100;
                     var total = price - dis;
                     var grandtotal = total + shiping;
                     $('#cost').html(shiping);
-                    $('#rate').html(rate+'%');
+                    $('#rate').html(rate + '%');
                     $('#test').html(grandtotal);
-                }else{
+                } else {
                     rate = 0;
                     var grandtotal = price + shiping;
                     $('#cost').html(shiping);
-                    $('#rate').html(rate+'%');
+                    $('#rate').html(rate + '%');
                     $('#test').html(grandtotal);
                 }
-                
-                
+
+
             }
             else
             {
                 var shiping = 0;
-                if(rate>0){
-                    
-                    var dis = price * parceInt(rate)/100;
+                if (rate > 0) {
+
+                    var dis = price * parceInt(rate) / 100;
                     var total = price - dis;
                     var grandtotal = total + shiping;
                     $('#cost').html(shiping);
-                    $('#rate').html(rate+'%');
+                    $('#rate').html(rate + '%');
                     $('#test').html(grandtotal);
-                }else{
+                } else {
                     rate = 0;
                     var grandtotal = price + shiping;
                     $('#cost').html(shiping);
-                    $('#rate').html(rate+'%');
+                    $('#rate').html(rate + '%');
                     $('#test').html(grandtotal);
                 }
             }
-           
-           
+
+
             $('#shippingInfoTable').toggle();
-            
+
         });
     });
     function ship(shiping) {
@@ -105,7 +107,7 @@ if ($cart = $this->cart->contents()) {
         var total = price + shiping;
         // alert(shiping);
         $('#test').html(total);
-        
+
     }
 
     //document.getElementById("test").innerHTML = total;
@@ -117,20 +119,20 @@ if ($cart = $this->cart->contents()) {
         $('.checkkey').click(function() {
             var key = $('#couponkey').val();
             var subtotal = parseInt("<?php echo $this->cart->total(); ?>");
-           
+
             $.ajax({
                 type: "POST",
                 url: base_url + 'index.php/bnw/checkcoupon',
                 data: {
-                    'coupon' : key,
-                    'subtotal' : subtotal
+                    'coupon': key,
+                    'subtotal': subtotal
                 },
                 success: function(msgs)
                 {
                     $("#nfcoupon").html(msgs);
                     disrate();
                 }
-                
+
             });
         });
 
@@ -140,61 +142,62 @@ if ($cart = $this->cart->contents()) {
 
     });
 
-    function disrate(){
-    
-    
-        var shiping = parseInt("<?php if (isset($shiping_cost) == true) {
+    function disrate() {
+
+
+        var shiping = parseInt("<?php
+if (isset($shiping_cost) == true) {
     echo $cost;
 } else {
     echo $cost = 0;
-} ?>");
+}
+?>");
         var price = parseInt("<?php echo $this->cart->total(); ?>");
         // var total = price + shiping;
-       
-        if(rate>0)
+
+        if (rate > 0)
         {
-            var dis = price * parseInt(rate)/100;
+            var dis = price * parseInt(rate) / 100;
             var total = price - dis;
             var grandtotal = total + shiping;
             // var price = rate+'%';
-            $('#rate').html(rate+'%');
+            $('#rate').html(rate + '%');
             $('#test').html(grandtotal);
         }
         else
         {
             rate = 0;
-            $('#rate').html(rate+'%');
+            $('#rate').html(rate + '%');
             $('#test').html(total);
         }
-           
-       
-          
+
+
+
     }
 
 
-    $(document).ready(function(){
+    $(document).ready(function() {
         var base_url = "<?php echo base_url(); ?>";
-        $('#userajaxBtn').click(function(){
+        $('#userajaxBtn').click(function() {
             var username = $('#u_name').val();
             var email = $('#email').val();
             var pass = $('#u_pass').val();
             var re_pass = $('#u_pass_re').val();
-            if(pass !=="" || pass==!null){
-                if(pass==re_pass ){
-                   
+            if (pass !== "" || pass == !null) {
+                if (pass == re_pass) {
+
                     $.ajax({
                         type: "POST",
                         url: base_url + 'index.php/login/userregister',
                         data: {
-                            'name' : username,
-                            'email' : email,
-                            'pass' : pass
+                            'name': username,
+                            'email': email,
+                            'pass': pass
                         },
-                
                         success: function(msgs)
                         {
-                            if(msgs == false){
-                               
+                            if (msgs == false) {
+
                                 var msg = "Email already registred!";
                                 $("#msg").html(msg);
                             }
@@ -203,9 +206,9 @@ if ($cart = $this->cart->contents()) {
                                 $('#table_user').css("display", "none");
                                 // var msg = email+" is now registred!";
                                 $("#msg").html(msgs);
-                               
+
                             }
-                   
+
                         }
                     });
                 }
@@ -215,16 +218,16 @@ if ($cart = $this->cart->contents()) {
                     $('#msg').html(msg);
                 }
             }
-            else{
+            else {
                 var msg = "Fill up password field!";
                 $('#msg').html(msg);
             }
-        }); 
+        });
     });
 
     function ajaxEmail()
     {
-       // alert('working');
+        // alert('working');
         // alert(email);
     }
 
@@ -240,17 +243,17 @@ if ($cart = $this->cart->contents()) {
 </style>
 <script>
     $(document).ready(function() {
-    <?php if (!empty($detail)) { ?>
-     document.getElementById('optionalRegister').style.display = 'none';
-    <?php }else { ?>
-        document.getElementById('optionalRegister').style.display = 'block'; 
-    <?php } ?>
+<?php if (!empty($detail)) { ?>
+            document.getElementById('optionalRegister').style.display = 'none';
+<?php } else { ?>
+            document.getElementById('optionalRegister').style.display = 'block';
+<?php } ?>
     });
-    </script>
+</script>
 <?php
 if (!empty($detail)) {
 
-       foreach ($detail as $userdetail) {
+    foreach ($detail as $userdetail) {
         $username = $userdetail->user_name;
         $fname = $userdetail->user_fname;
         $lname = $userdetail->user_lname;
@@ -284,13 +287,7 @@ echo form_open('payment/do_payment');
 
         <div class="RegisterLeft" id="optionalRegister">
             <h3 style="margin: 0px 0px 10px 0px; padding: 2px; float: left; width: 55%">User Registration (Optional)</h3>
-            <!--<div class="onoffswitch" style="float: right;">
-                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
-                            <label class="onoffswitch-label" for="myonoffswitch">
-                                <span class="onoffswitch-inner"></span>
-                                <span class="onoffswitch-switch"></span>
-                            </label>
-                            </div> -->
+
 
             <div class="clear"></div>
             <hr>
@@ -307,9 +304,11 @@ echo form_open('payment/do_payment');
                         <td colspan="2"><p style="margin: 0px; padding: 2px;">User Name</p></td>
                     </tr>
                     <tr>
-                        <td colspan="2" ><input type="text" id="u_name" name="u_name" placeholder="User Name" size="47" value="<?php if (isset($username)) {
+                        <td colspan="2" ><input type="text" id="u_name" name="u_name" placeholder="User Name" size="47" value="<?php
+    if (isset($username)) {
         echo $username;
-    } ?>" class="placeholder" /></td>
+    }
+    ?>" class="placeholder" /></td>
                     </tr>
                     <tr>
                         <td colspan="2"><p style="margin: 0px; padding: 2px;">Email</p></td>
@@ -460,8 +459,8 @@ echo form_open('payment/do_payment');
                     document.getElementById('registereslast').style.display = 'none';
                 }
             }
-    
-   
+
+
         </script>
 
 
@@ -545,49 +544,49 @@ echo form_open('payment/do_payment');
                 <tr>
                     <th class="hide" width='55px'>Product</th>
                     <th style="text-align: left; padding: 0px 0px 0px 15px;">Name</th>
-                     <th>Price</th>
-                      <th> </th>
+                    <th>Price</th>
+                    <th> </th>
                     <th>Qty</th>
                     <th>Total</th>                   
-                   
+
                 </tr>
-    <?php if ($cart = $this->cart->contents()) {
-         $cartInitialize = 0;
-         
-         foreach ($cart as $key=>$item) { ?>                               
+    <?php
+    if ($cart = $this->cart->contents()) {
+        $cartInitialize = 0;
+
+        foreach ($cart as $key => $item) {
+            ?>                               
                         <tr>
                             <td class="hide"><img class="hide" src="<?php echo base_url() . 'content/uploads//images/' . $item['image1']; ?>" height="50" width="50"> </td>
                             <td style="padding: 0px 0px 0px 10px;"><?php echo $item['name']; ?> </td>
-                             <td style="text-align: center;"><?php get_currency($item['price']); ?></td>
-                             <td>x</td>
+                            <td style="text-align: center;"><?php get_currency($item['price']); ?></td>
+                            <td>x</td>
                             <td style="text-align: center;"><?php echo $item['qty'] ?></td>                       
-                            <td style="text-align: center;"><?php echo $item['price']*$item['qty'];?> </td>
+                            <td style="text-align: center;"><?php echo $item['price'] * $item['qty']; ?> </td>
                         </tr>
-            <?php
-            
-            //Data for paypal 
-                           
-                            $product_code = $item["id"];
-                            $results = $this->productmodel->get_product_data_verify($product_code);
-                            foreach ($results as $obj){
-                   
-                           echo '<input type="hidden" name="item_name['.$cartInitialize.']" value="'.$obj->name.'" />';
-                           echo '<input type="hidden" name="item_code['.$cartInitialize.']" value="'.$product_code.'" />';
-                           echo '<input type="hidden" name="item_desc['.$cartInitialize.']" value="'.$obj->description.'" />';
-                           echo '<input type="hidden" name="item_qty['.$cartInitialize.']" value="'.$item["qty"].'" />';
-                      
-                            }
-                            
-                            $cartInitialize++;
-        }
-    }
-    ?>
+                        <?php
+                        //Data for paypal 
+
+                        $product_code = $item["id"];
+                        $results = $this->productmodel->get_product_data_verify($product_code);
+                        foreach ($results as $obj) {
+
+                            echo '<input type="hidden" name="item_name[' . $cartInitialize . ']" value="' . $obj->name . '" />';
+                            echo '<input type="hidden" name="item_code[' . $cartInitialize . ']" value="' . $product_code . '" />';
+                            echo '<input type="hidden" name="item_desc[' . $cartInitialize . ']" value="' . $obj->description . '" />';
+                            echo '<input type="hidden" name="item_qty[' . $cartInitialize . ']" value="' . $item["qty"] . '" />';
+                        }
+
+                        $cartInitialize++;
+                    }
+                }
+                ?>
                 <tr style="border-top: 1px solid #222;">
                     <td style="padding: 0px 0px 0px 15px; "><b>Total</b>:</td>
                     <td class="hide"></td>
                     <td></td>
                     <td></td>
-                     <td></td>
+                    <td></td>
                     <td style="text-align: center; border-top: 1px solid #222;"> <b><?php get_currency($this->cart->total()); ?></b></td>
 
                 </tr>

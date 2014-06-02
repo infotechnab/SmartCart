@@ -46,6 +46,14 @@ class Payment extends CI_Controller {
         include_once("paypal_config.php");
         include_once("paypal.class.php");
         $paypalmode = ($PayPalMode == 'sandbox') ? '.sandbox' : '';
+        
+        
+        
+        
+        
+        
+        
+        
         if ($_POST) { //Post Data received from product list page.
             //Other important variables like tax, shipping cost
             $TotalTaxAmount = 2.58;  //Sum of tax for all items in this order. 
