@@ -293,7 +293,7 @@ class bnw extends CI_Controller {
                 $productName = $this->input->post('pName');
                 $productPrice = $this->input->post('pPrice');
                 $productCategory = $this->input->post('pCategory');
-                $description = check_plain($this->input->post('pDescription'));
+                $description = quotes_to_entities($this->input->post('pDescription'));
                 $summary = substr("$description", 0, 100);
                 $shippingCost= $this->input->post('checkMe');
                 if($shippingCost==1){
