@@ -30,8 +30,8 @@
             <td><?php echo $data->navigation_link; ?>  </td>
             <td><?php echo $data->parent_id; ?>  </td>
           
-            <td><?php echo anchor('bnw/up/'.$data->id,'<img title="move up" src="'.base_url().'content/bnw/images/up.png" width="15" height="15" />'); ?> | 
-            <?php echo anchor('bnw/down/'.$data->id,'<img title="move down " src="'.base_url().'content/bnw/images/down.png" width="15" height="15" />'); ?></td>
+            <td><?php echo anchor('bnw/up/'.$data->id,'UP'); ?> | 
+            <?php echo anchor('bnw/down/'.$data->id,'Down'); ?></td>
         </tr>
             <?php    
             }
