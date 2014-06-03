@@ -59,7 +59,7 @@ function send_email($user_email,$subject,$message)
     if (mail($user_email, $subject, $message, $headers)) {
          redirect('view/index');
     } else {
-        echo '<h3>Sorry email could not be sent</h3>';
+        echo '<h3>Sorry email could not be sent.</h3>';
          
    }    
    }
@@ -72,8 +72,7 @@ function register_email($user_email, $user_name)
 
             </div>
 
-   <div style="padding: 10px 20px 10px 20px; background-color: #eee;">
-   
+   <div style="padding: 10px 20px 10px 20px; background-color: #eee;"> 
     
     <h4>Dear '.$user_name.'  !</h4>
 

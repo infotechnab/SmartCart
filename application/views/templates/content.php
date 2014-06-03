@@ -286,7 +286,7 @@ $(document).ready(function() {
     </div>
 
     <div class="loadingImg" style="display: none; position:relative;">
-        <img width="30" src="<?php echo base_url() . 'content/uploads/images/page-loader.gif'; ?>" alt="loading.."/>
+        <img  src="<?php echo base_url() . 'content/uploads/images/page-loader.gif'; ?>" alt="loading.."/>
         <br><b style="">Loading...</b>
     </div>
 

@@ -88,28 +88,29 @@ class View extends CI_Controller {
     }
 
     public function authenticate_user() {
-        if (preg_match("/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/", $_POST['email'])) {
-            $useremail = trim($_POST['email']);
-        } else {
+        if(isset($_POST['email'])){
+            if (preg_match("/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/", $_POST['email']));{
+                $email=trim($_POST['email']);
+                $username = $this->dbmodel->get_selected_user($email);
+                 if(!empty($username)){
+                     foreach ($username as $dbemail)
+                     {
+                        $to = $dbemail->user_email;
+                        $userName = $dbemail->user_name;
+                     }
+                    if ($to === $email) {
+                    $token = $this->getRandomString(10);
+                    $this->dbmodel->update_emailed_user($to, $token);
+
+
+                    $this->passwordresetemail($to, $userName, $token);
+                 }}
+            else { $this->session->set_flashdata('message', 'Type valid email address');
+            redirect('view/forgotPassword', 'refresh');}
+            }
+        }else {
             $this->session->set_flashdata('message', 'Type valid email address');
-            redirect('view/forgotPassword', 'refresh');
-        }
-        $username = $this->dbmodel->get_selected_user($useremail);
-
-        foreach ($username as $dbemail) {
-            $to = $dbemail->user_email;
-            $userName = $dbemail->user_name;
-        }
-        if ($to === $useremail) {
-            $token = $this->getRandomString(10);
-            $this->dbmodel->update_emailed_user($to, $token);
-//$this->test($token);
-
-            $this->passwordresetemail($to, $userName, $token);
-        } else {
-            $this->session->set_flashdata('message', 'Please type valid Email Address');
-            redirect("view/forgotPassword");
-        }
+            redirect('view/forgotPassword', 'refresh');}    
     }
 
     public function passwordresetemail($to, $userName, $token) {
@@ -573,7 +574,7 @@ class View extends CI_Controller {
             $this->load->view('templates/footer');
                 
             } else {
-                $this->registerEmail($email, $name);
+                
                 $this->dbmodel->add_new_user_for($name, $email, $pass);
                 $data = array(
                     'useremail' => $email,
@@ -581,6 +582,7 @@ class View extends CI_Controller {
                     'logged_in' => true);
 
                 $this->session->set_userdata($data);
+                $this->registerEmail($email, $name);
                 //$this->session->set_('register_message', 'User Registered Successfully');
                 redirect('view/index');
                
