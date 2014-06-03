@@ -501,37 +501,53 @@ class View extends CI_Controller {
         $validation_message = "";
 
         if (isset($_POST['u_name']))
-        { $name = trim($_POST['u_name']);}
-        if (isset($_POST['u_email']))
-        {$email = trim($_POST['u_email']);}
-        if (isset($_POST['u_pass']))
-        {$pass = trim($_POST['u_pass']);}
-        if (isset($_POST['u_pass_re']))
-        { $repass = trim($_POST['u_pass_re']);}
-
-        if (!preg_match("/^[a-z,0-9,A-Z]{5,15}$/", $name)) {
+        { 
+            
+            
+            $name = trim($_POST['u_name']);            
+            if (!preg_match("/^[a-z,0-9,A-Z]{5,15}$/", $name)) {
             $validation_message .= "<br/>" . "User name must be 5 to 15 character long";
             $validation = FALSE;
         }
-
-        if (!preg_match("/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/", $email)) {
-
+        }
+        if (isset($_POST['u_email']))
+        {$email = trim($_POST['u_email']);        
+         if (!preg_match("/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/", $email)) {
             $validation_message .= "<br/>" . "Type valid email address";
             $validation = FALSE;
         }
-
-        if (preg_match("/^[a-z,0-9,A-Z]{5,35}$/", $pass)) {
+        }
+        if (isset($_POST['u_pass']))
+        {$pass = trim($_POST['u_pass']);
+        if (!preg_match("/^[a-z,0-9,A-Z]{5,35}$/", $pass)) {
             $validation_message .= "<br/>" . "Password must be 5 to 35 character long";
             $validation = FALSE;
         }
+        
+        }
+        if (isset($_POST['u_pass_re']))
+        { $repass = trim($_POST['u_pass_re']);
+        
+        
+        }
 
+        
+        if(isset($_POST['u_pass']) && isset($_POST['u_pass_re']))
+        {
         if ($pass != $repass) {
             $validation_message .= "<br/>" . "Password did not matched";
             $validation = FALSE;
         }
+        }
+        else 
+        {
+            $validation_message .= "<br/>" . "Password is empty";
+            $validation = FALSE;
+            
+        }
 
         $data['validation_message']= $validation_message;
-        if ($this->form_validation->run() == FALSE && $validation) {
+        if ($this->form_validation->run() == FALSE  || $validation==FALSE) {
 
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navigation');
@@ -557,8 +573,8 @@ class View extends CI_Controller {
             $this->load->view('templates/footer');
                 
             } else {
-                $this->registerEmail($user_email, $user_name);
-                $this->dbmodel->add_new_user_for($user_name, $user_email, $re_pass);
+                $this->registerEmail($email, $name);
+                $this->dbmodel->add_new_user_for($name, $email, $pass);
                 $data = array(
                     'useremail' => $email,
                     'username' => $name,
