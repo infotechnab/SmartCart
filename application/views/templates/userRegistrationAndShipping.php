@@ -303,14 +303,14 @@ echo form_open('payment/do_payment');
                         <td colspan="2" ><input type="text" id="u_name" name="u_name" placeholder="User Name" size="47" value="<?php
     if (isset($username)) {
         echo $username;
-    }
+    } else{ echo set_value('u_name'); }
     ?>" class="placeholder" /></td>
                     </tr>
                     <tr>
                         <td colspan="2"><p style="margin: 0px; padding: 2px;">Email</p></td>
                     </tr>
                     <tr>
-                        <td colspan="2"><input type="email" id="email" name="u_email" placeholder="Email" size="47" class="placeholder" /></td>
+                        <td colspan="2"><input type="email" id="email" name="u_email" placeholder="Email" size="47" class="placeholder" value="<?php echo set_value('u_email'); ?>" /></td>
                     </tr>
                     <tr>
                         <td colspan="2"><p style="margin: 0px; padding: 2px;">Password</p></td>
@@ -349,37 +349,37 @@ echo form_open('payment/do_payment');
                     <td colspan="2"><p style="margin: 0px; padding: 2px;">Full Name</p></td>
                 </tr>
                 <tr >
-                    <td><input type="text" name="u_fname" placeholder="First Name" size="20" class="placeholder" required/></td>
-                    <td><input type="text" name="u_lname" placeholder="Last Name" size="20" class="placeholder" required/></td>
+                    <td><input type="text" name="u_fname" value="<?php echo set_value('u_fname'); ?>" placeholder="First Name" size="20" class="placeholder" required/></td>
+                    <td><input type="text" name="u_lname" value="<?php echo set_value('u_lname'); ?>" placeholder="Last Name" size="20" class="placeholder" required/></td>
                 </tr>
                 <tr>
                     <td colspan="2"><p style="margin: 0px; padding: 2px;">Address</p></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><input type="text" name="street_address" placeholder="Street Address" size="47" class="placeholder" required/></td>
+                    <td colspan="2"><input type="text" name="street_address" value="<?php echo set_value('street_address'); ?>" placeholder="Street Address" size="47" class="placeholder" required/></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><input type="text" name="Town_address" placeholder="Town/ City" size="47" class="placeholder" required/></td>
+                    <td colspan="2"><input type="text" name="Town_address" value="<?php echo set_value('Town_address'); ?>" placeholder="Town/ City" size="47" class="placeholder" required/></td>
                 </tr>
                 <tr>
-                    <td><input type="text" name="District_address" placeholder=" State" size="20" class="placeholder" required/></td>
-                    <td><input type="text" name="zip" placeholder="Post Code" size="20" class="placeholder" required/></td>
+                    <td><input type="text" name="District_address" value="<?php echo set_value('District_address'); ?>" placeholder=" State" size="20" class="placeholder" required/></td>
+                    <td><input type="text" name="zip" value="<?php echo set_value('zip'); ?>" placeholder="Post Code" size="20" class="placeholder" required/></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><input type="text" name="country" placeholder="Country" size="47" class="placeholder" required/></td>
+                    <td colspan="2"><input type="text" name="country" value="<?php echo set_value('country'); ?>" placeholder="Country" size="47" class="placeholder" required/></td>
                 </tr>
                 <tr>
                     <td colspan="2"><p style="margin: 0px; padding: 2px;">Contact Number</p></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><input type="text" name="u_contact" placeholder="Contact Number" size="47" class="placeholder" required/></td>
+                    <td colspan="2"><input type="text" name="u_contact" value="<?php echo set_value('u_contact'); ?>" placeholder="Contact Number" size="47" class="placeholder" required/></td>
                 </tr>
 
                 <tr>
                     <td colspan="2"><p style="margin: 0px; padding: 2px;">Email</p></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><input type="email" name="user_email" placeholder="Email" size="47" class="placeholder" id="register_email" /></td>
+                    <td colspan="2"><input type="email" name="user_email" value="<?php echo set_value('user_email'); ?>" placeholder="Email" size="47" class="placeholder" id="register_email" /></td>
                 </tr>
 
 
@@ -487,37 +487,37 @@ echo form_open('payment/do_payment');
 
                 </tr>
                 <tr>
-                    <td><input type="text" name="s_fname" placeholder="First Name" size="20" class="placeholder" /></td>
-                    <td><input type="text" name="s_lname" placeholder="Last Name" size="20" class="placeholder" /></td>
+                    <td><input type="text" name="s_fname" value="<?php echo set_value('s_fname'); ?>" placeholder="First Name" size="20" class="placeholder" /></td>
+                    <td><input type="text" name="s_lname" value="<?php echo set_value('s_lname'); ?>" placeholder="Last Name" size="20" class="placeholder" /></td>
                 </tr>
                 <tr>
                     <td colspan="2"><p style="margin: 0px; padding: 2px;">Address</p></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><input type="text" name="s_address" placeholder="Street Address" size="47" class="placeholder" /></td>
+                    <td colspan="2"><input type="text" name="s_address" value="<?php echo set_value('s_address'); ?>" placeholder="Street Address" size="47" class="placeholder" /></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><input type="text" name="c_city" placeholder="Town/ City" size="47" class="placeholder" /></td>
+                    <td colspan="2"><input type="text" name="c_city" value="<?php echo set_value('c_city'); ?>" placeholder="Town/ City" size="47" class="placeholder" /></td>
 
                 </tr>
                 <tr>
-                    <td><input type="text" name="s_state" placeholder="District/ State" size="20" class="placeholder" /></td>
-                    <td><input type="text" name="s_zip" placeholder="zip" size="20" class="placeholder" /></td>
+                    <td><input type="text" name="s_state" value="<?php echo set_value('s_state'); ?>" placeholder="District/ State" size="20" class="placeholder" /></td>
+                    <td><input type="text" name="s_zip" value="<?php echo set_value('s_zip'); ?>" placeholder="zip" size="20" class="placeholder" /></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><input type="text" name="s_country" placeholder="Country" size="47" class="placeholder" /></td>
+                    <td colspan="2"><input type="text" name="s_country" value="<?php echo set_value('s_country'); ?>" placeholder="Country" size="47" class="placeholder" /></td>
                 </tr>
                 <tr>
                     <td colspan="2"><p style="margin: 0px; padding: 2px;">Contact Number</p></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><input type="text" name="s_contact" placeholder="Contact Number" size="47" class="placeholder" /></td>
+                    <td colspan="2"><input type="text" name="s_contact" value="<?php echo set_value('s_contact'); ?>" placeholder="Contact Number" size="47" class="placeholder" /></td>
                 </tr>
                 <tr>
                     <td colspan="2"><p style="margin: 0px; padding: 2px;">Email</p></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><input type="email" name="s_email" placeholder="Email" size="47" class="placeholder" /></td>
+                    <td colspan="2"><input type="email" name="s_email" value="<?php echo set_value('s_email'); ?>" placeholder="Email" size="47" class="placeholder" /></td>
                 </tr>
 
             </table>
@@ -557,7 +557,7 @@ echo form_open('payment/do_payment');
                             <td style="text-align: center;"><?php get_currency($item['price']); ?></td>
                             <td>x</td>
                             <td style="text-align: center;"><?php echo $item['qty'] ?></td>                       
-                            <td style="text-align: center;"><?php echo $item['price'] * $item['qty']; ?> </td>
+                            <td style="text-align: center;"><?php echo '$'.$item['price'] * $item['qty']; ?> </td>
                         </tr>
                         <?php
                         //Data for paypal 

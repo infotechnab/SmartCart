@@ -8,7 +8,7 @@ class Payment extends CI_Controller {
     function __construct() {
         parent::__construct();
 
-       $this->load->model('productmodel');
+        $this->load->model('productmodel');
         $this->load->helper('url');
         $this->load->library('cart');
         $this->load->helper(array('form', 'url', 'date'));
@@ -22,8 +22,6 @@ class Payment extends CI_Controller {
         $this->load->view('templates/cartDetails');
         $this->load->view('templates/footer');
     }
-
-    
 
     function notify_payment() {
 
@@ -41,135 +39,162 @@ class Payment extends CI_Controller {
         var_dump($results);
     }
 
-   
     function do_payment() {
 
         include_once("paypal_config.php");
         include_once("paypal.class.php");
-        $paypalmode = ($PayPalMode == 'sandbox') ? '.sandbox' : '';        
-       if($_POST['onoffswitch']){
-           
-          if (preg_match("/^[a-z,0-9,A-Z]{5,35}$/", $_POST['s_fname'])) {
-            $shipfirstname = trim($_POST['s_fname']);
-        } else {
-            $this->session->set_flashdata('message', 'First name must be 5 to 35 character long');
-            redirect('view/registeruser', 'refresh');
-        }
-        if (preg_match("/^[a-z,0-9,A-Z]{5,35}$/", $_POST['s_lname'])) {
-            $shiplastname = trim($_POST['s_lname']);
-        } else {
-            $this->session->set_flashdata('message', 'Last name must be 5 to 35 character long');
-            redirect('view/registeruser', 'refresh');
-        }
-         if (preg_match("/^[a-z,0-9,A-Z]{5,200}$/", $_POST['s_address'])) {
-            $shipstreet = trim($_POST['s_address']);
-        } else {
-            $this->session->set_flashdata('message', 'Address must be 5 to 200 character long');
-            redirect('view/registeruser', 'refresh');
-        }
-         if (preg_match("/^[a-z,0-9,A-Z]{5,200}$/", $_POST['c_city'])) {
-            $shiptown = trim($_POST['c_city']);
-        } else {
-            $this->session->set_flashdata('message', 'Town address must be 5 to 200 character long');
-            redirect('view/registeruser', 'refresh');
-        }
-         if (preg_match("/^[a-z,0-9,A-Z]{5,200}$/", $_POST['s_state'])) {
-            $shipdistrict = trim($_POST['s_state']);
-        } else {
-            $this->session->set_flashdata('message', 'District must be 5 to 200 character long');
-            redirect('view/registeruser', 'refresh');
-        }
-        if (preg_match("/^[a-z,0-9]{5,10}$/", $_POST['s_zip'])) {
-            $shipzip = trim($_POST['s_zip']);
-        } else {
-            $this->session->set_flashdata('message', 'Zip must be 5 to 10 character long');
-            redirect('view/registeruser', 'refresh');
-        }
-         if (preg_match("/^[a-z,0-9,A-Z]{5,200}$/", $_POST['s_country'])) {
-            $shipcountry = trim($_POST['s_country']);
-        } else {
-            $this->session->set_flashdata('message', 'Country must be 5 to 2000 character long');
-            redirect('view/registeruser', 'refresh');
-        }
-        if (preg_match("/^[0-9]{5,15}$/", $_POST['s_contact'])) {
-            $shipcontact = trim($_POST['s_contact']);
-        } else {
-            $this->session->set_flashdata('message', 'Contact No. name be 5 to 15 character long');
-            redirect('view/registeruser', 'refresh');
-        }
-         if (preg_match("/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/", $_POST['s_email'])) {
-            $shipemail = trim($_POST['s_email']);
-        } else {
-            $this->session->set_flashdata('message', 'Type valid email address');
-            redirect('view/registeruser', 'refresh');
-        } 
-           
-       }
-       
-        if($this->session->userdata('logged_in')){
-            $userName=$this->session->userdata ('username');
-            $userEmail=$this->session->userdata ('useremail');
-        }
-        
-        
-        if (preg_match("/^[a-z,0-9,A-Z]{5,35}$/", $_POST['u_fname'])) {
-            $firstname = trim($_POST['u_fname']);
-        } else {
-            $this->session->set_flashdata('message', 'First name must be 5 to 35 character long');
-            redirect('view/registeruser', 'refresh');
-        }
-        if (preg_match("/^[a-z,0-9,A-Z]{5,35}$/", $_POST['u_lname'])) {
-            $lastname = trim($_POST['u_lname']);
-        } else {
-            $this->session->set_flashdata('message', 'Last name must be 5 to 35 character long');
-            redirect('view/registeruser', 'refresh');
-        }
-         if (preg_match("/^[a-z,0-9,A-Z]{5,200}$/", $_POST['street_address'])) {
-            $street = trim($_POST['street_address']);
-        } else {
-            $this->session->set_flashdata('message', 'Street address must be 5 to 200 character long');
-            redirect('view/registeruser', 'refresh');
-        }
-         if (preg_match("/^[a-z,0-9,A-Z]{5,200}$/", $_POST['Town_address'])) {
-            $town = trim($_POST['Town_address']);
-        } else {
-            $this->session->set_flashdata('message', 'Town address must be 5 to 200 character long');
-            redirect('view/registeruser', 'refresh');
-        }
-         if (preg_match("/^[a-z,0-9,A-Z]{5,200}$/", $_POST['District_address'])) {
-            $district = trim($_POST['District_address']);
-        } else {
-            $this->session->set_flashdata('message', 'District must be 5 to 200 character long');
-            redirect('view/registeruser', 'refresh');
-        }
-        if (preg_match("/^[a-z,0-9]{5,10}$/", $_POST['zip'])) {
-            $zip = trim($_POST['zip']);
-        } else {
-            $this->session->set_flashdata('message', 'Zip must be 5 to 10 character long');
-            redirect('view/registeruser', 'refresh');
-        }
-         if (preg_match("/^[a-z,0-9,A-Z]{5,200}$/", $_POST['country'])) {
-            $country = trim($_POST['country']);
-        } else {
-            $this->session->set_flashdata('message', 'Country must be 5 to 200 character long');
-            redirect('view/registeruser', 'refresh');
-        }
-        if (preg_match("/^[0-9]{5,15}$/", $_POST['u_contact'])) {
-            $contact = trim($_POST['u_contact']);
-        } else {
-            $this->session->set_flashdata('message', 'Contact No. name be 5 to 15 character long');
-            redirect('view/registeruser', 'refresh');
-        }
-         if (preg_match("/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/", $_POST['user_email'])) {
-            $email = trim($_POST['user_email']);
-        } else {
-            $this->session->set_flashdata('message', 'Type valid email address');
-            redirect('view/registeruser', 'refresh');
-        }
-        
-        
-        
-        
+        $paypalmode = ($PayPalMode == 'sandbox') ? '.sandbox' : '';
+        $this->load->library('form_validation');
+
+
+
+        if ($_POST['onoffswitch']) {
+
+        //    $this->form_validation->set_rules('s_fname', 'First name', 'trim|required|xss_clean');
+        //    $this->form_validation->set_rules('s_lname', 'Last name', 'trim|required|xss_clean');
+        //    $this->form_validation->set_rules('s_address', 'Address', 'trim|required|xss_clean');
+        //    $this->form_validation->set_rules('c_city', 'City', 'trim|required|xss_clean');
+        //   $this->form_validation->set_rules('s_state', 'State', 'trim|required|xss_clean');
+         //   $this->form_validation->set_rules('s_zip', 'Zip', 'trim|required|xss_clean');
+         //   $this->form_validation->set_rules('s_country', 'Country', 'trim|required|xss_clean');
+        //    $this->form_validation->set_rules('s_contact', 'Contact no.', 'trim|required|xss_clean');
+        //    $this->form_validation->set_rules('s_email', 'Email', 'trim|required|xss_clean');
+        //    if ($this->form_validation->run() == FALSE) {
+        //        redirect('view/registeruser');
+         //   } else {
+                if (preg_match("/^[a-z,0-9,A-Z]{5,35}$/", $_POST['s_fname'])) {
+                    $shipfirstname = trim($_POST['s_fname']);
+                } else {
+                    $this->session->set_flashdata('message', 'First name must be 5 to 35 character long');
+                    redirect('view/registeruser', 'refresh');
+                }
+                if (preg_match("/^[a-z,0-9,A-Z]{5,35}$/", $_POST['s_lname'])) {
+                    $shiplastname = trim($_POST['s_lname']);
+                } else {
+                    $this->session->set_flashdata('message', 'Last name must be 5 to 35 character long');
+                    redirect('view/registeruser', 'refresh');
+                }
+                if (preg_match("/^[a-z,0-9,A-Z]{5,200}$/", $_POST['s_address'])) {
+                    $shipstreet = trim($_POST['s_address']);
+                } else {
+                    $this->session->set_flashdata('message', 'Address must be 5 to 200 character long');
+                    redirect('view/registeruser', 'refresh');
+                }
+                if (preg_match("/^[a-z,0-9,A-Z]{5,200}$/", $_POST['c_city'])) {
+                    $shiptown = trim($_POST['c_city']);
+                } else {
+                    $this->session->set_flashdata('message', 'Town address must be 5 to 200 character long');
+                    redirect('view/registeruser', 'refresh');
+                }
+                if (preg_match("/^[a-z,0-9,A-Z]{5,200}$/", $_POST['s_state'])) {
+                    $shipdistrict = trim($_POST['s_state']);
+                } else {
+                    $this->session->set_flashdata('message', 'District must be 5 to 200 character long');
+                    redirect('view/registeruser', 'refresh');
+                }
+                if (preg_match("/^[a-z,0-9]{5,10}$/", $_POST['s_zip'])) {
+                    $shipzip = trim($_POST['s_zip']);
+                } else {
+                    $this->session->set_flashdata('message', 'Zip must be 5 to 10 character long');
+                    redirect('view/registeruser', 'refresh');
+                }
+                if (preg_match("/^[a-z,0-9,A-Z]{5,200}$/", $_POST['s_country'])) {
+                    $shipcountry = trim($_POST['s_country']);
+                } else {
+                    $this->session->set_flashdata('message', 'Country must be 5 to 2000 character long');
+                    redirect('view/registeruser', 'refresh');
+                }
+                if (preg_match("/^[0-9]{5,15}$/", $_POST['s_contact'])) {
+                    $shipcontact = trim($_POST['s_contact']);
+                } else {
+                    $this->session->set_flashdata('message', 'Contact No. name be 5 to 15 character long');
+                    redirect('view/registeruser', 'refresh');
+                }
+                if (preg_match("/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/", $_POST['s_email'])) {
+                    $shipemail = trim($_POST['s_email']);
+                } else {
+                    $this->session->set_flashdata('message', 'Type valid email address');
+                    redirect('view/registeruser', 'refresh');
+                }
+            }
+        //}
+
+        $this->form_validation->set_rules('u_fname', 'First name', 'trim|required|xss_clean');
+        $this->form_validation->set_rules('u_lname', 'Last name', 'trim|required|xss_clean');
+        $this->form_validation->set_rules('street_address', 'Address', 'trim|required|xss_clean');
+        $this->form_validation->set_rules('Town_city', 'City/Town', 'trim|required|xss_clean');
+        $this->form_validation->set_rules('District_state', 'State/District', 'trim|required|xss_clean');
+        $this->form_validation->set_rules('zip', 'Zip', 'trim|required|xss_clean');
+        $this->form_validation->set_rules('country', 'Country', 'trim|required|xss_clean');
+        $this->form_validation->set_rules('u_contact', 'Contact no.', 'trim|required|xss_clean');
+        $this->form_validation->set_rules('user_email', 'Email', 'trim|required|xss_clean');
+        //if ($this->form_validation->run() == FALSE) {
+         //   redirect('view/registeruser');
+        //} else {
+            if ($this->session->userdata('logged_in')) {
+                $userName = $this->session->userdata('username');
+                $userEmail = $this->session->userdata('useremail');
+            }
+
+
+            if (preg_match("/^[a-z,0-9,A-Z]{5,35}$/", $_POST['u_fname'])) {
+                $firstname = trim($_POST['u_fname']);
+            } else {
+                $this->session->set_flashdata('message', 'First name must be 5 to 35 character long');
+                redirect('view/registeruser', 'refresh');
+            }
+            if (preg_match("/^[a-z,0-9,A-Z]{5,35}$/", $_POST['u_lname'])) {
+                $lastname = trim($_POST['u_lname']);
+            } else {
+                $this->session->set_flashdata('message', 'Last name must be 5 to 35 character long');
+                redirect('view/registeruser', 'refresh');
+            }
+            if (preg_match("/^[a-z,0-9,A-Z]{5,200}$/", $_POST['street_address'])) {
+                $street = trim($_POST['street_address']);
+            } else {
+                $this->session->set_flashdata('message', 'Street address must be 5 to 200 character long');
+                redirect('view/registeruser', 'refresh');
+            }
+            if (preg_match("/^[a-z,0-9,A-Z]{5,200}$/", $_POST['Town_address'])) {
+                $town = trim($_POST['Town_address']);
+            } else {
+                $this->session->set_flashdata('message', 'Town address must be 5 to 200 character long');
+                redirect('view/registeruser', 'refresh');
+            }
+            if (preg_match("/^[a-z,0-9,A-Z]{5,200}$/", $_POST['District_address'])) {
+                $district = trim($_POST['District_address']);
+            } else {
+                $this->session->set_flashdata('message', 'District must be 5 to 200 character long');
+                redirect('view/registeruser', 'refresh');
+            }
+            if (preg_match("/^[a-z,0-9]{5,10}$/", $_POST['zip'])) {
+                $zip = trim($_POST['zip']);
+            } else {
+                $this->session->set_flashdata('message', 'Zip must be 5 to 10 character long');
+                redirect('view/registeruser', 'refresh');
+            }
+            if (preg_match("/^[a-z,0-9,A-Z]{5,200}$/", $_POST['country'])) {
+                $country = trim($_POST['country']);
+            } else {
+                $this->session->set_flashdata('message', 'Country must be 5 to 200 character long');
+                redirect('view/registeruser', 'refresh');
+            }
+            if (preg_match("/^[0-9]{5,15}$/", $_POST['u_contact'])) {
+                $contact = trim($_POST['u_contact']);
+            } else {
+                $this->session->set_flashdata('message', 'Contact No. name be 5 to 15 character long');
+                redirect('view/registeruser', 'refresh');
+            }
+            if (preg_match("/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/", $_POST['user_email'])) {
+                $email = trim($_POST['user_email']);
+            } else {
+                $this->session->set_flashdata('message', 'Type valid email address');
+                redirect('view/registeruser', 'refresh');
+            }
+      //  }
+
+
+
         if ($_POST) { //Post Data received from product list page.
             //Other important variables like tax, shipping cost
             $TotalTaxAmount = 2.58;  //Sum of tax for all items in this order. 
@@ -187,26 +212,26 @@ class Payment extends CI_Controller {
                 $product_code = filter_var($_POST['item_code'][$key], FILTER_SANITIZE_STRING);
                 $results = $this->productmodel->get_product_data_verify($product_code);
                 //$mysqli->query("SELECT name, description, price FROM product WHERE product_code='$product_code' LIMIT 1");
-                
-               
-                foreach($results as $obj){
-                $paypal_data .= '&L_PAYMENTREQUEST_0_NAME' . $key . '=' . urlencode($obj->name);
-                $paypal_data .= '&L_PAYMENTREQUEST_0_NUMBER' . $key . '=' . urlencode($_POST['item_code'][$key]);
-                $paypal_data .= '&L_PAYMENTREQUEST_0_AMT' . $key . '=' . urlencode($obj->price);
-                $paypal_data .= '&L_PAYMENTREQUEST_0_QTY' . $key . '=' . urlencode($_POST['item_qty'][$key]);
-                // item price X quantity
-                $subtotal = ($obj->price * $_POST['item_qty'][$key]);
-                //total price
-                $ItemTotalPrice = $ItemTotalPrice + $subtotal;
-                //create items for session
-                $paypal_product['items'][] = array('itm_name' => $obj->name,
-                    'itm_price' => $obj->price,
-                    'itm_code' => $_POST['item_code'][$key],
-                    'itm_qty' => $_POST['item_qty'][$key]
-                );
+
+
+                foreach ($results as $obj) {
+                    $paypal_data .= '&L_PAYMENTREQUEST_0_NAME' . $key . '=' . urlencode($obj->name);
+                    $paypal_data .= '&L_PAYMENTREQUEST_0_NUMBER' . $key . '=' . urlencode($_POST['item_code'][$key]);
+                    $paypal_data .= '&L_PAYMENTREQUEST_0_AMT' . $key . '=' . urlencode($obj->price);
+                    $paypal_data .= '&L_PAYMENTREQUEST_0_QTY' . $key . '=' . urlencode($_POST['item_qty'][$key]);
+                    // item price X quantity
+                    $subtotal = ($obj->price * $_POST['item_qty'][$key]);
+                    //total price
+                    $ItemTotalPrice = $ItemTotalPrice + $subtotal;
+                    //create items for session
+                    $paypal_product['items'][] = array('itm_name' => $obj->name,
+                        'itm_price' => $obj->price,
+                        'itm_code' => $_POST['item_code'][$key],
+                        'itm_qty' => $_POST['item_qty'][$key]
+                    );
                 }
             }
-            
+
 
             //Grand total including all tax, insurance, shipping cost and discount
             $GrandTotal = ($ItemTotalPrice + $TotalTaxAmount + $HandalingCost + $InsuranceCost + $ShippinCost + $ShippinDiscount);
@@ -222,8 +247,8 @@ class Payment extends CI_Controller {
             //create session array for later use
             $_SESSION["paypal_products"] = $paypal_product;
 
-          
-            
+
+
             //Parameters for SetExpressCheckout, which will be sent to PayPal
             $padata = '&METHOD=SetExpressCheckout' .
                     '&RETURNURL=' . urlencode($PayPalReturnURL) .

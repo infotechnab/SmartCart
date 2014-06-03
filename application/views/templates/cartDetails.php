@@ -15,15 +15,15 @@ $this->load->helper('currency');
         });
 
         $('.cart tr').each(function() {
+            var sign = '$';
             var qty = $(this).find('input.updateQuantity').val();
             var price = $(this).find('span.priceTag').text();
-            var sub_total = (qty * price);
+            var sub_total = sign+(qty * price);
+           
             $(this).find('.sub_total_price').html(sub_total);
         }); //END .each
 
     });
-
-
 </script>
 
 
