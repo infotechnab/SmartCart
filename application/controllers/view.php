@@ -20,13 +20,12 @@ class View extends CI_Controller {
     }
 
     public function index() {     //fetching data from database of the product
-      
-    $data['username']=$this->session->userdata ('username');
+        $data['username'] = $this->session->userdata('username');
         $data['headertitle'] = $this->viewmodel->get_header_title();
         $data['headerlogo'] = $this->viewmodel->get_header_logo();
         $data['meta'] = $this->dbmodel->get_meta_data();
         $data['headerdescription'] = $this->viewmodel->get_header_description();
-         
+
         $data['featureItem'] = $this->productmodel->featured_item();
 
         $config = array();
@@ -38,7 +37,7 @@ class View extends CI_Controller {
         $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
 
         $data["product_info"] = $this->dbmodel->get_all_product($config["per_page"], $page);
-       
+
         $config['display_pages'] = FALSE;
         $data["links"] = $this->pagination->create_links();
 
@@ -67,7 +66,7 @@ class View extends CI_Controller {
         $data['category'] = $this->productmodel->category_list();
 
         //$data['product'] = $this->productmodel->getProductById($id);
-$data['token_error']="Sorry the item you are searching in not found";
+        $data['token_error'] = "Sorry the item you are searching in not found";
         $this->load->view('templates/header', $data);
         $this->load->view('templates/navigation');
         $this->load->view('templates/error_landing_page', $data);
@@ -104,17 +103,27 @@ $data['token_error']="Sorry the item you are searching in not found";
         if ($to === $useremail) {
             $token = $this->getRandomString(10);
             $this->dbmodel->update_emailed_user($to, $token);
-            $this->test($token);
-            //$this->load->helper('emailsender_helper');
-            //$subject = "Password Reset Link";
-            //$imglink = base_url();
-            // $message = register_email($useremail, $userName, $token, $imglink);   
-            //send_email_password_reset($useremail,$subject,$message);
-        } else {
+            //$this->test($token);
+            
+            $this->passwordresetemail($to, $userName, $token);
+            } else {
             $this->session->set_flashdata('message', 'Please type valid Email Address');
             redirect("view/forgotPassword");
         }
     }
+            
+      
+
+    public function passwordresetemail($to, $userName, $token) {
+        $this->load->helper('emailsender_helper');
+        $subject = "Password Reset";
+        $link = base_url();
+        $message = password_reset_email($to, $userName, $token, $link);
+
+
+        send_password_reset_email($to, $subject, $message);
+    }
+        
 
     public function test($token) {
         $data['headertitle'] = $this->viewmodel->get_header_title();
@@ -125,7 +134,7 @@ $data['token_error']="Sorry the item you are searching in not found";
         $this->load->view('templates/header', $data);
         $this->load->view('templates/navigation');
         $this->load->view('templates/messageSent', $data);
-         $this->load->view('templates/footer');
+        $this->load->view('templates/footer');
     }
 
     function getRandomString($length) {
@@ -156,15 +165,14 @@ $data['token_error']="Sorry the item you are searching in not found";
                 $this->load->view('templates/navigation');
                 $this->load->view("templates/resetPassword", $data);
                 $this->load->view('templates/footer');
-            
-        } else {
+            } else {
 
-            $this->load->view('templates/header', $data);
-            $this->load->view('templates/navigation');
-            $this->load->view('templates/error_landing_page', $data);
-            $this->load->view('templates/footer');
+                $this->load->view('templates/header', $data);
+                $this->load->view('templates/navigation');
+                $this->load->view('templates/error_landing_page', $data);
+                $this->load->view('templates/footer');
+            }
         }
-    }
     }
 
     public function setpassword() {
@@ -172,7 +180,7 @@ $data['token_error']="Sorry the item you are searching in not found";
         $data['headerlogo'] = $this->viewmodel->get_header_logo();
         $data['meta'] = $this->dbmodel->get_meta_data();
         $data['headerdescription'] = $this->viewmodel->get_header_description();
-         $data['token_error'] = "Sorry! Your token has been expired. ";
+        $data['token_error'] = "Sorry! Your token has been expired. ";
         if (preg_match("/^[a-z,0-9,A-Z]{5,35}$/", $_POST['user_pass'])) {
             $password = trim($_POST['user_pass']);
         } else {
@@ -197,11 +205,9 @@ $data['token_error']="Sorry the item you are searching in not found";
 
                 $this->session->set_flashdata('message', 'Your password has been changed successfully');
                 redirect('view/index', 'refresh');
-            }
-            else
-            {
-                 $this->session->set_flashdata('message', 'Password didnot match');
-            redirect('view/setpassword', 'refresh');
+            } else {
+                $this->session->set_flashdata('message', 'Password didnot match');
+                redirect('view/setpassword', 'refresh');
             }
         } else {
 
@@ -227,7 +233,7 @@ $data['token_error']="Sorry the item you are searching in not found";
             $data['product'] = $this->productmodel->getProductById($id);
             foreach ($data['product'] as $page) {
                 $data['pageTitle'] = $page->name;
-                $data['pageDescription']= $page->description;
+                $data['pageDescription'] = $page->description;
             }
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navigation');
@@ -236,7 +242,7 @@ $data['token_error']="Sorry the item you are searching in not found";
             $this->load->view('templates/sidebarview', $data);
             $this->load->view('templates/footer');
         } else {
-            $data['token_error']="Sorry the item you are searching in not found";
+            $data['token_error'] = "Sorry the item you are searching in not found";
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navigation');
             $this->load->view('templates/error_landing_page', $data);
@@ -247,37 +253,35 @@ $data['token_error']="Sorry the item you are searching in not found";
     }
 
     public function login() {
-        
-        if ($this->session->userdata('logged_in')){
+
+        if ($this->session->userdata('logged_in')) {
             $data['headertitle'] = $this->viewmodel->get_header_title();
-        $data['headerlogo'] = $this->viewmodel->get_header_logo();
-        $data['meta'] = $this->dbmodel->get_meta_data();
-        $data['headerdescription'] = $this->viewmodel->get_header_description();
-            $name=$this->session->userdata ('username');
-            $email=  $this->session->userdata('useremail');
-            
+            $data['headerlogo'] = $this->viewmodel->get_header_logo();
+            $data['meta'] = $this->dbmodel->get_meta_data();
+            $data['headerdescription'] = $this->viewmodel->get_header_description();
+            $name = $this->session->userdata('username');
+            $email = $this->session->userdata('useremail');
+
             $this->load->model('dbmodel');
-                        $data['detail'] = $this->productmodel->get_user($name, $email);
-                      
-                             if(!empty($data['detail']))
-                         { 
-                                  $data['shiping']=$this->productmodel->getship();
-               $this->load->view('templates/header', $data);
-        $this->load->view('templates/navigation');
-        $this->load->view('templates/userRegistrationAndShipping',$data);       
-        $this->load->view('templates/footer');     
+            $data['detail'] = $this->productmodel->get_user($name, $email);
+
+            if (!empty($data['detail'])) {
+                $data['shiping'] = $this->productmodel->getship();
+                $this->load->view('templates/header', $data);
+                $this->load->view('templates/navigation');
+                $this->load->view('templates/userRegistrationAndShipping', $data);
+                $this->load->view('templates/footer');
             }
+        } else {
+            $data['headertitle'] = $this->viewmodel->get_header_title();
+            $data['headerlogo'] = $this->viewmodel->get_header_logo();
+            $data['meta'] = $this->dbmodel->get_meta_data();
+            $data['headerdescription'] = $this->viewmodel->get_header_description();
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/navigation');
+            $this->load->view('templates/login');
+            $this->load->view('templates/footer');
         }
- else {
-        $data['headertitle'] = $this->viewmodel->get_header_title();
-        $data['headerlogo'] = $this->viewmodel->get_header_logo();
-        $data['meta'] = $this->dbmodel->get_meta_data();
-        $data['headerdescription'] = $this->viewmodel->get_header_description();
-        $this->load->view('templates/header', $data);
-        $this->load->view('templates/navigation');
-        $this->load->view('templates/login');
-        $this->load->view('templates/footer');
-    }
     }
 
     function add() {   //function to add item to the cart
@@ -360,10 +364,10 @@ $data['token_error']="Sorry the item you are searching in not found";
             $data['pageTitle'] = $page->category_name;
         }
         $data['product'] = $this->productmodel->get_productList($id);
-        foreach ($data['product'] as $page) {  
-            $data['pageDescription']= $page->description;
+        foreach ($data['product'] as $page) {
+            $data['pageDescription'] = $page->description;
         }
-       
+
         $data['slider_json'] = json_encode($data['featureItem']);
         $this->load->view('templates/header', $data);
         $this->load->view('templates/navigation');
@@ -449,13 +453,13 @@ $data['token_error']="Sorry the item you are searching in not found";
             redirect('view/homeLogin');
         } else {
             if (preg_match("/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/", $_POST['user_email'])) {
-               $email = $this->input->post('user_email');
+                $email = $this->input->post('user_email');
             } else {
                 $this->session->set_flashdata('login_message', 'Type valid email address');
                 redirect('view/homeLogin', 'refresh');
             }
             if (preg_match("/^[a-z,0-9,A-Z]{5,35}$/", $_POST['user_pass'])) {
-                 $pass = $this->input->post('user_pass');
+                $pass = $this->input->post('user_pass');
             } else {
                 $this->session->set_flashdata('login_message', 'password must be 5 to 35 character long');
                 redirect('view/homeLogin', 'refresh');
@@ -470,7 +474,7 @@ $data['token_error']="Sorry the item you are searching in not found";
                     'useremail' => $this->input->post('user_email'),
                     'username' => $userName,
                     'logged_in' => true);
-                
+
                 $this->session->set_userdata($data);
                 redirect('view/index');
             } else {
@@ -539,12 +543,22 @@ $data['token_error']="Sorry the item you are searching in not found";
                 $this->session->set_flashdata('register_message', 'Password did not match');
                 redirect('view/homeLogin', 'refresh');
             } else {
-
-                $this->dbmodel->add_new_user_for($user_name, $user_email, $re_pass);
-                $this->session->set_flashdata('register_message', 'User Registered Successfully');
-                redirect('view/index');
+                $re_pass = $pass;
             }
+            $this->registerEmail($user_email, $user_name);
+            $this->dbmodel->add_new_user_for($user_name, $user_email, $re_pass);
+            $this->session->set_flashdata('register_message', 'User Registered Successfully');
+            redirect('view/index');
         }
+    }
+
+    public function registerEmail($user_email, $user_name) {
+        $this->load->helper('emailsender_helper');
+        $subject = "Registration Successful";
+        $message = register_email($user_email, $user_name);
+
+
+        send_email($user_email, $subject, $message);
     }
 
     public function shippingAddress() {
