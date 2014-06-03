@@ -796,7 +796,26 @@ class bnw extends CI_Controller {
                 redirect('bnw/navigation');
                 }
                 else{
-                   echo ' Select at least one menu list!'; 
+                   $data['token_error'] = ' Select at least one menu list!'; 
+                    $config["total_rows"] = $this->dbmodel->record_count_navigation();
+          
+            $config["per_navigation"] = 6;
+            $this->pagination->initialize($config);
+            $navigation = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+
+            $data["query"] = $this->dbmodel->get_navigation($config["per_navigation"], $navigation);
+            $data["links"] = $this->pagination->create_links();
+            $data['meta'] = $this->dbmodel->get_meta_data();
+            $data["listOfPage"] = $this->dbmodel->get_list_of_pages();
+            $data["listOfCategory"] = $this->dbmodel->get_list_of_category();
+            $data["listOfMenu"] = $this->dbmodel->get_list_of_menu();
+            $data["listOfNavigation"] = $this->dbmodel->get_list_of_navigation();
+            $data["listOfNavigationID"] = $this->dbmodel->get_list_of_navigationID();
+
+            $this->load->view('bnw/templates/header', $data);
+            $this->load->view('bnw/templates/menu');
+            $this->load->view('bnw/menu/listOfItems', $data);
+            $this->load->view('bnw/templates/footer', $data);
                 }
             } 
             
@@ -879,7 +898,28 @@ class bnw extends CI_Controller {
                 $this->load->view('bnw/templates/footer', $data);
                 }
                 else{
-                   echo ' Select at least one menu list!'; 
+                    
+                    $data['token_error'] = ' Select at least one menu list!'; 
+                    $config["total_rows"] = $this->dbmodel->record_count_navigation();
+          
+            $config["per_navigation"] = 6;
+            $this->pagination->initialize($config);
+            $navigation = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+
+            $data["query"] = $this->dbmodel->get_navigation($config["per_navigation"], $navigation);
+            $data["links"] = $this->pagination->create_links();
+            $data['meta'] = $this->dbmodel->get_meta_data();
+            $data["listOfPage"] = $this->dbmodel->get_list_of_pages();
+            $data["listOfCategory"] = $this->dbmodel->get_list_of_category();
+            $data["listOfMenu"] = $this->dbmodel->get_list_of_menu();
+            $data["listOfNavigation"] = $this->dbmodel->get_list_of_navigation();
+            $data["listOfNavigationID"] = $this->dbmodel->get_list_of_navigationID();
+
+            $this->load->view('bnw/templates/header', $data);
+            $this->load->view('bnw/templates/menu');
+            $this->load->view('bnw/menu/listOfItems', $data);
+            $this->load->view('bnw/templates/footer', $data);
+                  
                 }
             } else {
                 $data['meta'] = $this->dbmodel->get_meta_data();
@@ -1075,16 +1115,36 @@ class bnw extends CI_Controller {
            }
            else
            {
-               echo 'Can not process';
+           ///   echo " sdlfjsdajfsldjf";
+           $this->session->set_flashdata('message', 'Upper level not available');
+           redirect('bnw/manageNavigation/4');
+           
            }
          } 
          else {
-             echo ' Page not found ';
+            
+             $data['token_error'] = 'Page not found';
+               
+               $data['meta'] = $this->dbmodel->get_meta_data();
+
+            $data['query'] = $this->dbmodel->get_list_of_selected_menu_navigation($id);
+            $this->load->view("bnw/templates/header", $data);
+            $this->load->view("bnw/templates/menu");
+            $this->load->view('bnw/templetes/error_landing_page', $data);
+            $this->load->view('bnw/templates/footer', $data);
          }
        }
     else {
            
-            echo ' Page not found ';
+            $data['token_error'] = 'Page not found';
+               
+               $data['meta'] = $this->dbmodel->get_meta_data();
+
+            $data['query'] = $this->dbmodel->get_list_of_selected_menu_navigation($id);
+            $this->load->view("bnw/templates/header", $data);
+            $this->load->view("bnw/templates/menu");
+            $this->load->view('bnw/templetes/error_landing_page', $data);
+            $this->load->view('bnw/templates/footer', $data);
      
             }
        }
@@ -1141,16 +1201,34 @@ class bnw extends CI_Controller {
            }
            else
            {
-               echo 'Can not process';
+              // echo 'Can not process';
+              $this->session->set_flashdata('message', 'Lower level not available');
+           redirect('bnw/manageNavigation/4');
            }
            }
            else{
            
-               echo ' page not found';
+               $data['token_error'] = 'Page not found';
+               
+               $data['meta'] = $this->dbmodel->get_meta_data();
+
+            $data['query'] = $this->dbmodel->get_list_of_selected_menu_navigation($id);
+            $this->load->view("bnw/templates/header", $data);
+            $this->load->view("bnw/templates/menu");
+            $this->load->view('templates/error_landing_page', $data);
+            $this->load->view('bnw/templates/footer', $data);
            }
            }
        else{
-           echo 'page not found';
+          $data['token_error'] = 'Page not found';
+               
+               $data['meta'] = $this->dbmodel->get_meta_data();
+
+            $data['query'] = $this->dbmodel->get_list_of_selected_menu_navigation($id);
+            $this->load->view("bnw/templates/header", $data);
+            $this->load->view("bnw/templates/menu");
+            $this->load->view('templates/error_landing_page', $data);
+            $this->load->view('bnw/templates/footer', $data);
        }
         }
        else
@@ -2049,7 +2127,13 @@ class bnw extends CI_Controller {
                 $this->session->set_flashdata('message', 'Data Delete Sucessfully');
                 redirect('bnw/users');
             } else {
-                echo 'Sory you can not be delete this user because user is Login!';
+               // echo 'Sory you can not be delete this user because user is Login!';
+                $data['token_error'] = "Sory you can not be delete this user because user is Login!";
+                 $this->load->view("bnw/templates/header", $data);
+            $this->load->view("bnw/templates/menu");
+            $this->load->view('templates/error_landing_page', $data);
+            $this->load->view('bnw/templates/footer', $data);
+                
             }
         } else {
             redirect('login', 'refresh');

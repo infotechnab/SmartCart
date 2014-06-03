@@ -85,8 +85,12 @@ $(document).ready(function() {
      <h2>Navigation</h2>
 <hr class="hr-gradient"/>   
     </div>
+      <p style="color: red;">
+            <?php if(isset($token_error)){ echo $token_error;} ?>
+        </p>
     <div class="forLeft">
     <div class="left">
+       
         <div id="navigationLeftUp"> 
          
   <?php if($this->session->flashdata('message')){echo $this->session->flashdata('message');}?>
