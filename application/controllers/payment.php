@@ -46,7 +46,11 @@ class Payment extends CI_Controller {
         $paypalmode = ($PayPalMode == 'sandbox') ? '.sandbox' : '';
         $this->load->library('form_validation');
 
-
+        $cost = trim($_POST['cost']);
+        $rate = trim($_POST['rate']);
+        $grandTotal = trim($_POST['grandtotal']);
+        
+       // die("shipping cost =".$cost."<br/> discount rate =".$rate."<br/> grand total =".$grandTotal);
 
         if ($_POST['onoffswitch']) {
 
