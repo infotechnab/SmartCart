@@ -1,6 +1,6 @@
         
         <div class="rightSide">
-            <h2>Home</h2> 
+            <h2>Dashboard</h2> 
             <hr class="hr-gradient"/>
             <p>Welcome to dashboard of <b> B&W </b>. All the Pages, Posts, Activities, News, Albums, Download files and Results can be managed through this dashboard.
             User Actions like adding, editing and deleting contents are easy to do.

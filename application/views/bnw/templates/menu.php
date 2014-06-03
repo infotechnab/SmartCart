@@ -1,6 +1,15 @@
 <div class="leftSide">
             <div class="menuItems">
                 <ul class="menu">
+                        <li class="mainMenuItem"> <a href="#">Dashboard</a>
+                        <ul class="subMenu">                            
+                            <li><?php echo anchor('bnw', 'Home') ?></li>
+                            <li><?php echo anchor('bnw/addmenu', 'Add Menu') ?></li>
+                            <li><?php echo anchor('bnw/navigation', 'Navigation') ?></li>
+                            <li><?php echo anchor('bnw/category', 'Categories') ?></li>
+                        </ul>
+                    </li>
+                    
                     <li class="mainMenuItem"> <a href="#">Product</a>
                         <ul class="subMenu">
                             <li><?php echo anchor('bnw/product', 'Add New Product') ?></li>
@@ -11,15 +20,7 @@
                             
                         </ul>
                     </li>
-                    <li class="mainMenuItem"> <a href="#">Control Panel</a>
-                        <ul class="subMenu">
-                            
-                            <li><?php echo anchor('bnw', 'Home') ?></li>
-                            <li><?php echo anchor('bnw/addmenu', 'Add Menu') ?></li>
-                            <li><?php echo anchor('bnw/navigation', 'Navigation') ?></li>
-                            <li><?php echo anchor('bnw/category', 'Categories') ?></li>
-                        </ul>
-                    </li>
+                
 <!--                     <li class="mainMenuItem"><a href="#">Posts</a>
                         <ul class="subMenu">
                             <li><?php //echo anchor('bnw/posts', 'All Posts') ?></li>
