@@ -31,7 +31,7 @@ class View extends CI_Controller {
         $config = array();
         $config["base_url"] = base_url() . "index.php/view/index";
         $config["total_rows"] = $this->dbmodel->record_count_product();
-        // var_dump($config["total_rows"]);
+// var_dump($config["total_rows"]);
         $config["per_page"] = 15;
         $this->pagination->initialize($config);
         $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
@@ -42,7 +42,7 @@ class View extends CI_Controller {
         $data["links"] = $this->pagination->create_links();
 
         $data['category'] = $this->productmodel->category_list();
-        //var_dump($data);
+//var_dump($data);
         $data['slider_json'] = json_encode($data['featureItem']);
         $this->load->view('templates/header', $data);
         $this->load->view('templates/navigation');
@@ -65,7 +65,7 @@ class View extends CI_Controller {
         $data['featureItem'] = $this->productmodel->featured_item();
         $data['category'] = $this->productmodel->category_list();
 
-        //$data['product'] = $this->productmodel->getProductById($id);
+//$data['product'] = $this->productmodel->getProductById($id);
         $data['token_error'] = "Sorry the item you are searching in not found";
         $this->load->view('templates/header', $data);
         $this->load->view('templates/navigation');
@@ -92,7 +92,7 @@ class View extends CI_Controller {
             $useremail = trim($_POST['email']);
         } else {
             $this->session->set_flashdata('message', 'Type valid email address');
-            redirect('view/homeLogin', 'refresh');
+            redirect('view/forgotPassword', 'refresh');
         }
         $username = $this->dbmodel->get_selected_user($useremail);
 
@@ -103,16 +103,14 @@ class View extends CI_Controller {
         if ($to === $useremail) {
             $token = $this->getRandomString(10);
             $this->dbmodel->update_emailed_user($to, $token);
-            //$this->test($token);
-            
+//$this->test($token);
+
             $this->passwordresetemail($to, $userName, $token);
-            } else {
+        } else {
             $this->session->set_flashdata('message', 'Please type valid Email Address');
             redirect("view/forgotPassword");
         }
     }
-            
-      
 
     public function passwordresetemail($to, $userName, $token) {
         $this->load->helper('emailsender_helper');
@@ -123,7 +121,6 @@ class View extends CI_Controller {
 
         send_password_reset_email($to, $subject, $message);
     }
-        
 
     public function test($token) {
         $data['headertitle'] = $this->viewmodel->get_header_title();
@@ -390,9 +387,9 @@ class View extends CI_Controller {
 
         $data['featureItem'] = $this->productmodel->featured_item();
         $data['category'] = $this->productmodel->category_list();
-        // $data['categoryId'] = $this->productmodel->category_list_id($id);
-        //  $data['category'] = $this->productmodel->category_list_id();
-        //var_dump($data);
+// $data['categoryId'] = $this->productmodel->category_list_id($id);
+//  $data['category'] = $this->productmodel->category_list_id();
+//var_dump($data);
         $data['get_page'] = $this->productmodel->get_page($id);
         foreach ($data['get_page'] as $page) {
             $data['pageTitle'] = $page->page_name;
@@ -485,70 +482,93 @@ class View extends CI_Controller {
     }
 
     public function addNewUser() {
-        $this->load->library('form_validation');
-        $users = $this->dbmodel->get_all_user();
 
+
+
+        $data['headertitle'] = $this->viewmodel->get_header_title();
+        $data['headerlogo'] = $this->viewmodel->get_header_logo();
+        $data['meta'] = $this->dbmodel->get_meta_data();
+        $data['headerdescription'] = $this->viewmodel->get_header_description();
+        $data['shiping'] = $this->productmodel->getship();
+
+        $this->load->library('form_validation');
         $this->form_validation->set_rules('u_name', 'Username', 'trim|required|xss_clean');
         $this->form_validation->set_rules('u_email', 'Email', 'trim|required|xss_clean');
         $this->form_validation->set_rules('u_pass', 'Password', 'trim|required|xss_clean|callback_check_database');
         $this->form_validation->set_rules('u_pass_re', 'Password', 'trim|required|xss_clean|callback_check_database');
-        if ($this->form_validation->run() == FALSE) {
-            $this->homeLogin();
+
+        $validation = TRUE;
+        $validation_message = "";
+
+        if (isset($_POST['u_name']))
+        { $name = trim($_POST['u_name']);}
+        if (isset($_POST['u_email']))
+        {$email = trim($_POST['u_email']);}
+        if (isset($_POST['u_pass']))
+        {$pass = trim($_POST['u_pass']);}
+        if (isset($_POST['u_pass_re']))
+        { $repass = trim($_POST['u_pass_re']);}
+
+        if (!preg_match("/^[a-z,0-9,A-Z]{5,15}$/", $name)) {
+            $validation_message .= "<br/>" . "User name must be 5 to 15 character long";
+            $validation = FALSE;
+        }
+
+        if (!preg_match("/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/", $email)) {
+
+            $validation_message .= "<br/>" . "Type valid email address";
+            $validation = FALSE;
+        }
+
+        if (preg_match("/^[a-z,0-9,A-Z]{5,35}$/", $pass)) {
+            $validation_message .= "<br/>" . "Password must be 5 to 35 character long";
+            $validation = FALSE;
+        }
+
+        if ($pass != $repass) {
+            $validation_message .= "<br/>" . "Password did not matched";
+            $validation = FALSE;
+        }
+
+        $data['validation_message']= $validation_message;
+        if ($this->form_validation->run() == FALSE && $validation) {
+
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/navigation');
+            $this->load->view('templates/home_login');
+            $this->load->view('templates/footer');
         } else {
 
-            if (preg_match("/^[a-z,0-9,A-Z]{5,15}$/", $_POST['u_name'])) {
-                $name = trim($_POST['u_name']);
-            } else {
-
-                $this->session->set_flashdata('register_message', 'User name must be 5 to 15 character long');
-                redirect('view/homeLogin', 'refresh');
-            }
-            if (preg_match("/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/", $_POST['u_email'])) {
-                $email = trim($_POST['u_email']);
-            } else {
-                $this->session->set_flashdata('register_message', 'Type valid email address');
-                redirect('view/homeLogin', 'refresh');
-            }
-            if (preg_match("/^[a-z,0-9,A-Z]{5,35}$/", $_POST['u_pass'])) {
-                $pass = trim($_POST['u_pass']);
-            } else {
-                $this->session->set_flashdata('register_message', 'password must be 5 to 35 character long');
-                redirect('view/homeLogin', 'refresh');
-            }
-
-            $name = $this->input->post('u_name');
+            $name = trim($_POST['u_name']);
+            $email = trim($_POST['u_email']);
+            $pass = trim($_POST['u_pass']);
 
 
             $userName = $this->dbmodel->check_user_name($name);
-
-            if (!empty($userName)) {
-                $this->session->set_flashdata('register_message', 'User Name already exsists');
-                redirect('view/homeLogin', 'refresh');
-            } else {
-                $user_name = $this->input->post('u_name');
-            }
             $userEmail = $this->dbmodel->check_user_email($email);
 
-            if ($userEmail) {
-                $this->session->set_flashdata('register_message', 'User Email already exsists');
-                redirect('view/homeLogin', 'refresh');
+            if (!empty($userName) || !empty($userEmail)) {
+                $validation = FALSE;
+                $data['validation_message']="Username or Email already exsists";
+                
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/navigation');
+            $this->load->view('templates/home_login');
+            $this->load->view('templates/footer');
+                
             } else {
-                $user_email = $this->input->post('u_email');
-            }
+                $this->registerEmail($user_email, $user_name);
+                $this->dbmodel->add_new_user_for($user_name, $user_email, $re_pass);
+                $data = array(
+                    'useremail' => $email,
+                    'username' => $name,
+                    'logged_in' => true);
 
-            if (isset($_POST['u_pass_re']))
-                ;
-            $re_pass = $_POST['u_pass_re'];
-            if ($pass !== $re_pass) {
-                $this->session->set_flashdata('register_message', 'Password did not match');
-                redirect('view/homeLogin', 'refresh');
-            } else {
-                $re_pass = $pass;
+                $this->session->set_userdata($data);
+                //$this->session->set_('register_message', 'User Registered Successfully');
+                redirect('view/index');
+               
             }
-            $this->registerEmail($user_email, $user_name);
-            $this->dbmodel->add_new_user_for($user_name, $user_email, $re_pass);
-            $this->session->set_flashdata('register_message', 'User Registered Successfully');
-            redirect('view/index');
         }
     }
 
@@ -585,7 +605,7 @@ class View extends CI_Controller {
             redirect('view/registeruser');
         } else {
 
-            //if valid
+//if valid
 
             $name = $this->input->post('u_name');
             $fname = $this->input->post('u_fname');
@@ -610,7 +630,7 @@ class View extends CI_Controller {
                     echo " User registerd <br/> You may contineu shopping ";
 
 //$this->session->set_flashdata('message', 'User registerd <br/> You may contineu shopping');
-                    //  redirect('view/registeruser');               
+//  redirect('view/registeruser');               
 // redirect('paypal');
                 }
             } else {

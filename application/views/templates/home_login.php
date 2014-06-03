@@ -7,6 +7,10 @@
                     echo $this->session->flashdata('login_message');
                 }
                 echo validation_errors();
+                if(isset($error))
+  {
+      echo $error;
+  }
                 ?> </p>
 <?php echo form_open('view/validate_login'); ?>
             <table border="0" width="30%">
@@ -44,10 +48,15 @@
         <div class="loginLeft">
             <p class="sucessmsg">
     <?php
-    if ($this->session->flashdata('register_message')) {
-        echo $this->session->flashdata('register_message');
-    }
-    echo validation_errors();
+ if (strlen($validation_message)>2) {
+                    echo $validation_message;
+                }
+                echo validation_errors();
+                
+    if(isset($error))
+  {
+      echo $error;
+  }
     ?> </p>
         
         <?php echo form_open_multipart('view/addNewUser'); ?>
@@ -60,13 +69,13 @@
                         <td colspan="2"><p style="margin: 0px; padding: 2px;">User Name</p></td>
                     </tr>
                     <tr >
-                        <td colspan="2" ><input type="text" pattern="[a-z0-9A-Z]{5,15}" id="u_name" name="u_name" placeholder="User Name" size="47" class="placeholder" required/></td>
+                        <td colspan="2" ><input type="text" pattern="[a-z0-9A-Z]{5,15}" id="u_name" name="u_name" value="<?php echo set_value('u_name'); ?>" placeholder="User Name" size="47" class="placeholder" required/></td>
                     </tr>
                     <tr >
                         <td colspan="2"><p style="margin: 0px; padding: 2px;">Email</p></td>
                     </tr>
                     <tr>
-                        <td colspan="2"><input type="email" pattern="[\w-\.]+@([\w-]+\.)+[\w-]{2,4}" id="email" name="u_email" placeholder="Email" size="47" class="placeholder" required/></td>
+                        <td colspan="2"><input type="email" pattern="[\w-\.]+@([\w-]+\.)+[\w-]{2,4}" id="email" name="u_email" value="<?php echo set_value('u_email'); ?>" placeholder="Email" size="47" class="placeholder" required/></td>
                     </tr>
                     <tr>
                         <td colspan="2"><p style="margin: 0px; padding: 2px;">Password</p></td>

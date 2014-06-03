@@ -51,7 +51,7 @@ $this->load->helper('currency');
                     <th class="hide">Product</th>
                     <th style="margin: 0px; padding: 0px;">Title</th>
                     <th>Qty</th>
-                    <th>Price</th>
+                    <th id="price" style="margin: 0px; padding: 0px;">Price</th>
                     <th>Sub-Total</th>
                     <th>Remove</th>
                 </tr>
@@ -84,23 +84,23 @@ $this->load->helper('currency');
                 }
                 ?>
                 <tr class='forTopBorder'>
-                    <td colspan="2">
-                        <a style="text-align: right; width: 20%;" href="<?php echo base_url() . 'index.php/view' ?>" id="continue_shop">Continue Shopping</a>
+                    <td colspan="6">
+                <div style="margin: 0px; padding: 0px; min-width: 145px; width: 25%; float: left;">
+                        <a style="text-align: right;  width: 20%;" href="<?php echo base_url() . 'index.php/view' ?>" id="continue_shop">Continue Shopping</a>
+                </div>
+                    
+                   <div style="margin: 0px; padding: 0px; min-width: 90px; width: 25%; float: left;">
+                       <input type="submit" class="updateBtnStyle" value="Update Cart"></div>
 
-                    </td>
-                    <td>
-                        <input type="submit" class="updateBtnStyle" value="Update Cart"></td>
-
-                    <td><b>Total</b>:</td>
-                    <td> <b><?php get_currency($this->cart->total()); ?></b></td>
-                    <td>
-                    </td>
+                <div style="margin: 0px; padding: 0px; min-width: 45px; width: 7%; float: left;"><b>Total</b>:</div>
+                    <div style="margin: 0px; padding: 0px; min-width: 45px; width: 7%; float: left;"> <b><?php get_currency($this->cart->total()); ?></b></div>
+                    </td>  
                 </tr>
 
                 <tr class='forTopBorder'>
-                    <td colspan="2"><b><?php echo anchor('cartdetails/clear', 'Empty Your Cart', array('title' => 'Empty cart','id'=>'makeEmptyCart')) ?></b></td>
-                    <td></td>
-                    <td colspan="3"><div id="order_checkout"  class="updateBtnStyle">
+                    <td colspan="3"><b><?php echo anchor('cartdetails/clear', 'Empty Your Cart', array('title' => 'Empty cart','id'=>'makeEmptyCart')) ?></b></td>
+                   
+                    <td colspan="2"><div id="order_checkout"  class="updateBtnStyle">
                             <?php echo anchor('view/login', 'Proceed Payment') ?></div></td>
                     <td></td>
 

@@ -378,10 +378,25 @@ class Cartdetails extends CI_Controller {
          $this->load->library('form_validation');
         $this->form_validation->set_rules('email', 'Email', 'trim|required|xss_clean');
         $this->form_validation->set_rules('pass', 'Password', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,35}$/]|required|xss_clean|callback_check_database');
-        if ($this->form_validation->run() == FALSE) {
+       
+        if (preg_match("/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/", $_POST['email'])) {
+                $email = $this->input->post('email');
+            } else {
+                $this->session->set_flashdata('message', 'Type valid email address');
+                redirect('view/login', 'refresh');
+            }
+            if (preg_match("/^[a-z,0-9,A-Z]{5,35}$/", $_POST['pass'])) {
+                $pass = $this->input->post('pass');
+            } else {
+                $this->session->set_flashdata('message', 'password must be 5 to 35 character long');
+                redirect('view/login', 'refresh');
+            }
             
+            if ($this->form_validation->run() == FALSE) {   
             redirect('view/login');
-        } else {
+            }        
+        
+               else {
                      $this->load->model('dbmodel');
                         $data['detail'] = $this->productmodel->validate();
                       

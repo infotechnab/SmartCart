@@ -3,8 +3,8 @@
     <div id="outerBorder">
         <div class="loginLeft">
             <p class="sucessmsg">
-                <?php if ($this->session->flashdata('message')) {
-                    echo $this->session->flashdata('message');
+                <?php if (strlen($validation_message)>2) {
+                    echo $validation_message;
                 }
                 echo validation_errors();
                 ?> </p>
