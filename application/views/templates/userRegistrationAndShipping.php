@@ -62,6 +62,9 @@ if (isset($shiping_cost) == TRUE) {
                 $('#cost').html(shiping);
                 $('#rate').html(rate + '%');
                 $('#test').html(grandtotal);
+                $('.cost').val(shiping);
+                $('.rate').val(rate);
+                $('.test').val(grandtotal);
             } else {
                 rate = 0;
                // alert(shiping);
@@ -70,6 +73,9 @@ if (isset($shiping_cost) == TRUE) {
                 $('#cost').html(shiping);
                 $('#rate').html(rate + '%');
                 $('#test').html(grandtotal);
+                $('.cost').val(shiping);
+                $('.rate').val(rate);
+                $('.test').val(grandtotal);
             }
             $('#shippingInfoTable').show();
         }
@@ -83,12 +89,18 @@ if (isset($shiping_cost) == TRUE) {
                 $('#cost').html(shiping);
                 $('#rate').html(rate + '%');
                 $('#test').html(grandtotal);
+                $('.cost').val(shiping);
+                $('.rate').val(rate);
+                $('.test').val(grandtotal);
             } else {
                 rate = 0;
                 var grandtotal = price + shiping;
               $('#cost').html(shiping);
                 $('#rate').html(rate + '%');
                 $('#test').html(grandtotal);
+                $('.cost').val(shiping);
+                $('.rate').val(rate);
+                $('.test').val(grandtotal);
             }
             $('#shippingInfoTable').hide();
         }
@@ -116,12 +128,18 @@ if (isset($shiping_cost) == TRUE) {
                     $('#cost').html(shiping);
                     $('#rate').html(rate + '%');
                     $('#test').html(grandtotal);
+                    $('.cost').val(shiping);
+                $('.rate').val(rate);
+                $('.test').val(grandtotal);
                 } else {
                     rate = 0;
                     var grandtotal = price + shiping;
                     $('#cost').html(shiping);
                     $('#rate').html(rate + '%');
                     $('#test').html(grandtotal);
+                    $('.cost').val(shiping);
+                $('.rate').val(rate);
+                $('.test').val(grandtotal);
                 }
 
 
@@ -137,12 +155,18 @@ if (isset($shiping_cost) == TRUE) {
                     $('#cost').html(shiping);
                     $('#rate').html(rate + '%');
                     $('#test').html(grandtotal);
+                    $('.cost').val(shiping);
+                $('.rate').val(rate);
+                $('.test').val(grandtotal);
                 } else {
                     rate = 0;
                     var grandtotal = price + shiping;
                     $('#cost').html(shiping);
                     $('#rate').html(rate + '%');
                     $('#test').html(grandtotal);
+                    $('.cost').val(shiping);
+                $('.rate').val(rate);
+                $('.test').val(grandtotal);
                 }
             }
                 
@@ -183,6 +207,8 @@ if (isset($shiping_cost) == TRUE) {
         var price = parseInt("<?php echo $this->cart->total(); ?>");
         var total = price + shiping;
         // alert(shiping);
+      
+                $('.test').val(total);
         $('#test').html(total);
 
     }
@@ -242,12 +268,18 @@ if (isset($shiping_cost) == true) {
             // var price = rate+'%';
             $('#rate').html(rate + '%');
             $('#test').html(grandtotal);
+            //$('.cost').val(shiping);
+                $('.rate').val(rate);
+                $('.test').val(grandtotal);
         }
         else
         {
             rate = 0;
             $('#rate').html(rate + '%');
             $('#test').html(total);
+          //  $('.cost').val(shiping);
+                $('.rate').val(rate);
+                $('.test').val(total);
         }
 
 
@@ -705,8 +737,7 @@ echo form_open('payment/do_payment');
                 </tr>
                 <tr class='amt_summary'>
                     <td class='txtright'>Shipping Cost:</td>
-                    <td id="cost">
-        </td>
+                    <td id="cost">       </td>
                 </tr>
                 <tr class='amt_summary'>
                     <td class='txtright'>Discount:</td>
@@ -717,6 +748,10 @@ echo form_open('payment/do_payment');
                     <td id="test">   </td>
                 </tr>
             </table>
+            
+            <input type="hidden" class="cost" name="cost" value="" />
+            <input type="hidden" class="rate" name="rate" value="" />
+            <input type="hidden" class="test" name="grandtotal" value="" />
         </div>
         <input type="button" id="cancelBtn"  value="Cancel" />
         <input type="submit" id="payNowBtn"  value="Pay Now" />
