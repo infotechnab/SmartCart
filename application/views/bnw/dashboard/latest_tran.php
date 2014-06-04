@@ -1,9 +1,11 @@
-   <div id="short_tran">
+<div class="sale_product">
+    <div class="sale">
+
     <p id="sucessmsg">
   <?php echo $this->session->flashdata('message'); ?>
     </p>
-    <h2>Latest sales product </h2>
-     <hr class="hr-gradient"/>
+    <h4>Latest sales product </h4>
+     <hr >
     
     
     <?php
@@ -74,3 +76,4 @@
    
 </div>
 
+   

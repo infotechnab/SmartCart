@@ -825,9 +825,10 @@ public function get_navigation_info($navigationName)
     } 
     public function get_categorys($id) {
             //$id = "<>".$id;
-      //  die($id);
-        $this->db->where_not_in('category',$id);
+      //  die($id);(array('pt_id !='=> $id))
+        $this->db->where(array('id !='=> $id));
         $query = $this->db->get('category');
+        //var_dump($query);
         return $query->result();
     }
 

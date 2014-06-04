@@ -1,9 +1,9 @@
-<div id="latest_product">
+<div class="product">
     <p id="sucessmsg">
   <?php echo $this->session->flashdata('message'); ?>
     </p>
-    <h2>Latest Product</h2>
-     <hr class="hr-gradient"/>
+    <h4>Latest Product</h4>
+     <hr />
         <?php 
      $category = $this->dbmodel->get_category();
         
@@ -45,7 +45,9 @@
             
     ?>
     </table>
-   
+</div>
+</div>
+
 </div>
  </div>
 <div class="clear"></div>

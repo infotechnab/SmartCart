@@ -24,7 +24,8 @@ if(isset($category))
     <input type="submit" value="Yes" />
     <?php echo anchor('bnw/category', 'No');  ?>
   
-
+ <?php 
+    echo form_close(); ?>
 
 <div>
     <h4>Related Product</h4>
@@ -53,6 +54,7 @@ if(isset($category))
          <?php 
      $category = $this->dbmodel->get_categorys($id);
     echo form_open('bnw/change_category'); ?>
+        <input type="hidden" name="id" value="<?php echo $id; ?>" />
      <select name="categoryProduct" id="categoryList">
      <?php          foreach ($category as $cName)
               { ?>

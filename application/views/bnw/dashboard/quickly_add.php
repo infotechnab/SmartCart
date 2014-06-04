@@ -1,6 +1,6 @@
-<div class="quick_add">
-<h2>Quickly Add new Product</h2>
- <hr class="hr-gradient"/>
+<div class="quick">
+<h4>Quickly Add new Product</h4>
+ <hr />
 
   <?php echo validation_errors(); ?>
 <p id="sucessmsg">

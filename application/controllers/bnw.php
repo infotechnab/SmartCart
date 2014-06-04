@@ -1570,9 +1570,10 @@ class bnw extends CI_Controller {
          if ($this->session->userdata('logged_in')) {
              $id = $_POST['id'];
              $cat_id = $_POST['categoryProduct'];
-             
+            // die($cat_id);
              $this->dbmodel->change_category($id,$cat_id);
-             redirect('bnw/category');
+             $this->deletecategory($id);
+            
          }
          else{
              redirect('login', 'refresh');
