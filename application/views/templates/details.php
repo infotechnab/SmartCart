@@ -86,8 +86,7 @@ var base_url = '<?php echo base_url(); ?>';
 $(document).ready(function() {
     //adding item to the cart...
     $(".addToCart").click(function() {
-        $(this).parent().parent().parent().css("opacity","0.3");
-        $(this).parent().parent().prev().css("display","block");
+       $(this).parent().parent().parent().prev().css("display","block");
         var id = $(this).val();
         var dataString = 'itemid=' + id;
         $.ajax({
@@ -99,8 +98,6 @@ $(document).ready(function() {
                 $("#shopping_cart").html(msgs);
             },
             complete: function() {
-                $(".contentContainerBox").css("opacity","1.0");
-                $(".contentContainerBottom").css("opacity","1.0")
                 $(".loadingImg").css("display","none");
             }
         });
@@ -203,7 +200,10 @@ $(document).ready(function() {
                                 <p> <?php echo $productDet->description; ?> </p> 
 
                             </div>
-                           
+                        <div class="loadingImg" style="display: none; position: relative; margin:-123px 129px 17px 93px;; padding: 0px;">
+                    <img width="30" style="margin:0px; padding: 0px;" src="<?php echo base_url() . 'content/uploads/images/page-loader.gif'; ?>" alt="loading.."/>
+                    <br><b style="margin:0px; padding: 0px;">Loading...</b>
+                </div>   
                             <div class="detailsBottom"> 
                     <div class='contentContainerFooterLeft'><h4><?php get_currency($productDet->price); ?></h4></div>
                     <div class="redColouredDiv" class='contentContainerFooterRight'>

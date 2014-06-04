@@ -297,21 +297,21 @@ $(document).ready(function() {
 
                 <div class='contentContainerHeader'><a href='<?php echo base_url() . "index.php/view/details/".$product->id ?>'>
                         <?php if ($product->like == "enabled") { ?>
-                            <div class="fb-like" data-href="<?php echo base_url() . "/index.php/view/details/".$product->id; ?>" data-layout="button_count" data-action="like" data-show-faces="false" data-share="false"></div>
+                            <div class="fb-like" style="float: left; margin-right: 3px;" data-href="<?php echo base_url() . "/index.php/view/details/".$product->id; ?>" data-layout="button_count" data-action="like" data-show-faces="false" data-share="false"></div>
                             <?php
                         } else {
                             
                         }
                         ?> 
                         <?php if ($product->share == "enabled") { ?>
-                            <div class="fb-share-button" data-href="<?php echo base_url() . "/index.php/view/details/".$product->id; ?>" data-type="button_count"></div>
+                            <div class="fb-share-button" style="float:left;" data-href="<?php echo base_url() . "/index.php/view/details/".$product->id; ?>" data-type="button_count"></div>
                             <script src="//connect.facebook.net/en_US/all.js"></script>
                             <?php
                         } else {
                             
                         }
                         ?>
-                        
+                            <div class="clear"></div>
                         <h3><?php echo $product->name; ?></h3>
                          
                 </div>
@@ -319,9 +319,9 @@ $(document).ready(function() {
                     <img src="<?php echo base_url() . "content/uploads/images/" . $product->image1; ?>" alt="No images" height="150" width="130"/>   
                 </div></a>
                  
-                <div class="loadingImg" style="display: none; position: relative; margin:-137px auto 83px 79px;">
-                    <img width="30" src="<?php echo base_url() . 'content/uploads/images/page-loader.gif'; ?>" alt="loading.."/>
-                    <br><b style="">Loading...</b>
+                <div class="loadingImg" style="display: none; position: relative; margin:-137px auto 83px 79px; padding: 0px;">
+                    <img width="30" style="margin:0px; padding: 0px;" src="<?php echo base_url() . 'content/uploads/images/page-loader.gif'; ?>" alt="loading.."/>
+                    <br><b style="margin:0px; padding: 0px;">Loading...</b>
                 </div>
 
                 <div class="contentContainerBottom"> 
@@ -340,7 +340,8 @@ $(document).ready(function() {
         <?php } ?>
     </div >
     <div style="clear:both;"></div>
-   <div style="margin-top: 10px; background-color: #999; color: #3399ff; ">
+    
+   <div style="margin-top: 10px; background-color: #999; color: #3399ff;padding:5px; border-radius:5px; width:95%; ">
     <?php echo $links; ?>
     </div>
 </div>

@@ -37,7 +37,30 @@ class View extends CI_Controller {
         $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
 
         $data["product_info"] = $this->dbmodel->get_all_product($config["per_page"], $page);
-
+/*from here*/
+    $choice = $config["total_rows"] / $config["per_page"];
+    $config["num_links"] = round($choice);
+    $config['full_tag_open'] = '<ul class="tsc_pagination tsc_paginationA tsc_paginationA01">';
+$config['full_tag_close'] = '</ul>';
+$config['prev_link'] = 'First';
+$config['prev_tag_open'] = '<li>';
+$config['prev_tag_close'] = '</li>';
+$config['next_link'] = 'Next';
+$config['next_tag_open'] = '<li>';
+$config['next_tag_close'] = '</li>';
+$config['cur_tag_open'] = '<li class="current"><a href="#">';
+$config['cur_tag_close'] = '</a></li>';
+$config['num_tag_open'] = '<li>';
+$config['num_tag_close'] = '</li>'; 
+$config['first_tag_open'] = '<li>';
+$config['first_tag_close'] = '</li>';
+$config['last_tag_open'] = '<li>';
+$config['last_tag_close'] = '</li>';
+$config['first_link'] = '&lt;&lt;';
+$config['last_link'] = '&gt;&gt;';
+$this->pagination->initialize($config);
+   
+    /* to here */
         $config['display_pages'] = FALSE;
         $data["links"] = $this->pagination->create_links();
 
@@ -277,7 +300,9 @@ class View extends CI_Controller {
             $data['headerdescription'] = $this->viewmodel->get_header_description();
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navigation');
+             $this->load->view('templates/home_login');
             $this->load->view('templates/login');
+            
             $this->load->view('templates/footer');
         }
     }
@@ -448,7 +473,12 @@ class View extends CI_Controller {
         $this->form_validation->set_rules('user_email', 'Email', 'trim|required|xss_clean');
         $this->form_validation->set_rules('user_pass', 'Password', 'trim|required|xss_clean|md5|callback_check_database');
         if ($this->form_validation->run() == FALSE) {
-            redirect('view/homeLogin');
+            $validation_message=""; 
+             $data['login_validation_error']= $validation_message.validation_errors();
+               $this->load->view('templates/header', $data);
+            $this->load->view('templates/navigation');
+            $this->load->view('templates/home_login',$data);
+            $this->load->view('templates/footer');
         } else {
             if (preg_match("/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/", $_POST['user_email'])) {
                 $email = $this->input->post('user_email');
@@ -507,27 +537,28 @@ class View extends CI_Controller {
             
             $name = trim($_POST['u_name']);            
             if (!preg_match("/^[a-z,0-9,A-Z]{5,15}$/", $name)) {
-            $validation_message .= "<br/>" . "User name must be 5 to 15 character long";
+            $validation_message .= "<p>User name must be 5 to 15 character long</p>";
             $validation = FALSE;
         }
         }
         if (isset($_POST['u_email']))
         {$email = trim($_POST['u_email']);        
          if (!preg_match("/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/", $email)) {
-            $validation_message .= "<br/>" . "Type valid email address";
+            $validation_message .= "<p>Type valid email address</p>";
             $validation = FALSE;
         }
         }
         if (isset($_POST['u_pass']))
         {$pass = trim($_POST['u_pass']);
         if (!preg_match("/^[a-z,0-9,A-Z]{5,35}$/", $pass)) {
-            $validation_message .= "<br/>" . "Password must be 5 to 35 character long";
+            $validation_message .= "<p>Password must be 5 to 35 character long</p>";
             $validation = FALSE;
         }
         
         }
         if (isset($_POST['u_pass_re']))
-        { $repass = trim($_POST['u_pass_re']);
+        { 
+            $repass = trim($_POST['u_pass_re']);
         
         
         }
@@ -536,20 +567,22 @@ class View extends CI_Controller {
         if(isset($_POST['u_pass']) && isset($_POST['u_pass_re']))
         {
         if ($pass != $repass) {
-            $validation_message .= "<br/>" . "Password did not matched";
+            $validation_message .= "<p>Password did not matched</p>";
             $validation = FALSE;
         }
         }
         else 
         {
-            $validation_message .= "<br/>" . "Password is empty";
+            $validation_message .= "<p>Password is empty</p>";
             $validation = FALSE;
             
         }
 
-        $data['validation_message']= $validation_message;
+        
         if ($this->form_validation->run() == FALSE  || $validation==FALSE) {
-
+            $data['validation_message']= $validation_message.validation_errors();
+            
+            
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navigation');
             $this->load->view('templates/home_login');

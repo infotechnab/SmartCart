@@ -2,16 +2,13 @@
 <div id="login">
     <div id="outerBorder">
         <div class="loginLeft">
-            <p class="sucessmsg">
-                <?php if ($this->session->flashdata('login_message')) {
-                    echo $this->session->flashdata('login_message');
+            <div class="sucessmsg">
+                <?php if (isset($login_validation_error) && strlen($login_validation_error)>2) {
+                    echo $login_validation_error;
                 }
-                echo validation_errors();
-                if(isset($error))
-  {
-      echo $error;
-  }
-                ?> </p>
+               // echo validation_errors();
+                
+                ?> </div>
 <?php echo form_open('view/validate_login'); ?>
             <table border="0" width="30%">
 
@@ -46,22 +43,17 @@
             <div class="number" id='verticalOr'>OR</div>  
         </div>
         <div class="loginLeft">
-            <p class="sucessmsg">
+            <div class="sucessmsg">
     <?php
  if (isset($validation_message))
                  
                 {
      if(strlen($validation_message)>2)  echo $validation_message;
                 
-      echo validation_errors();
+     
                 }
                
-                
-    if(isset($error))
-  {
-      echo $error;
-  }
-    ?> </p>
+                ?> </div>
         
         <?php echo form_open_multipart('view/addNewUser'); ?>
        
