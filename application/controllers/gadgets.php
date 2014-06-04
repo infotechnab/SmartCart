@@ -29,7 +29,7 @@ class Gadgets extends CI_Controller {
             
             $dataa['gadget']= $this->model1->get_gaget_display($display);
            $this->load->view('bnw/gadget/gadgetsListing', $data,$dataa);
-            $this->load->view('bnw/templates/footer', $data);
+         
         } else {
             redirect('login', 'refresh');
         }          

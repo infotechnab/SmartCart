@@ -9,8 +9,8 @@ body
 {
     margin: 0 auto 0 auto;
     padding: 0px;
-    background-color: white;
-    min-height: 400px;
+    background-color:#000;
+    min-height: 200px;
 }
 #top
 {
@@ -63,13 +63,13 @@ hr.hr-gradient
 }
 .leftSide
 {
-    width: 200px;
+    
     float: left;
 }
 .rightSide
 {
     float: right;
-    padding: 5px;
+    padding: 2%;
 }
 
 .logo
@@ -94,7 +94,7 @@ h3
     width: 100%;
     padding: 0px;
     margin: 0px;
-    min-height: 540px;
+    min-height: 200px;
     float: left;
     background-color: #000;
 }
@@ -250,7 +250,7 @@ ul.menu li.mainMenuItem:hover
     width:250px;
     float: left;
     margin-left: 45px;
-    min-height: 400px;
+    min-height: 200px;
 }
 
 
@@ -268,11 +268,12 @@ ul.menu li.mainMenuItem:hover
     }
     .rightSide
     {
-        width: 79%;
+        width: 80%;
     }
     .leftSide
     {
         display: block;
+        width: 16%;
     }
     ul.menu, li.mainMenuItem
     {
@@ -288,7 +289,7 @@ ul.menu li.mainMenuItem:hover
     .full
     {
         width: 100%;
-        min-height: 400px;
+        height: 200px;
     }
     #topLeft
     {
@@ -296,11 +297,12 @@ ul.menu li.mainMenuItem:hover
     }
     .rightSide
     {
-        width: 73%;
+        width: 74.5%;
     }
     .leftSide
     {
         display: block;
+        width: 21.5%;
     }
     
 }
@@ -311,7 +313,7 @@ ul.menu li.mainMenuItem:hover
     .full
     {
         width: 100%;
-        min-height: 400px;
+        min-height: 200px;
     }
     #topLeft
     {
@@ -324,6 +326,7 @@ ul.menu li.mainMenuItem:hover
     .leftSide
     {
         display: block;
+        width: 30%;
     }
     
 }
@@ -334,7 +337,7 @@ ul.menu li.mainMenuItem:hover
     .full
     {
         width: 100%;
-        min-height: 565px;
+        min-height: 200px;
     }
     #topLeft
     {
@@ -378,7 +381,7 @@ ul.menu li.mainMenuItem:hover
     .full
     {
         width: 100%;
-        min-height: 565px;
+        min-height: 200px;
     }
     #topLeft
     {
@@ -412,7 +415,7 @@ ul.menu li.mainMenuItem:hover
     .full
     {
         width: 100%;
-        min-height: 565px;
+        min-height: 200px;
     }
     #topLeft
     {

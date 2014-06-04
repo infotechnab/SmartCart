@@ -30,7 +30,7 @@ class bnw extends CI_Controller {
             $this->load->view('bnw/dashboard/quickly_add');
             $this->load->view('bnw/dashboard/latest_tran', $data);
             $this->load->view('bnw/dashboard/latest_product',$data);
-            $this->load->view('bnw/templates/footer', $data);
+           
         } else {
             redirect('login', 'refresh');
         }
@@ -107,8 +107,7 @@ class bnw extends CI_Controller {
             $this->load->view('bnw/templates/header', $data);
             $this->load->view('bnw/templates/menu');
             $this->load->view('product/listcoupon',$data);                    
-            //$this->load->view('product/coupon',$data);
-            $this->load->view('bnw/templates/footer', $data);
+           
          }
          else{
              redirect('login', 'refresh');
@@ -147,7 +146,7 @@ class bnw extends CI_Controller {
                 $this->session->set_flashdata('message', 'One Coupon Created sucessfully');
                 redirect('bnw/coupon');
             }
-            $this->load->view('bnw/templates/footer', $data);
+           
          }
          else
          {
@@ -166,7 +165,7 @@ class bnw extends CI_Controller {
             $this->load->view('bnw/templates/header', $data);
             $this->load->view('bnw/templates/menu');
             $this->load->view('product/addProduct',$data);
-            $this->load->view('bnw/templates/footer', $data);
+            
         } else {
             redirect('login', 'refresh');
         }
@@ -330,7 +329,7 @@ class bnw extends CI_Controller {
                 $this->session->set_flashdata('message', 'One Product added sucessfully');
                 redirect('bnw/product');
             }
-            $this->load->view('bnw/templates/footer', $data);
+           
         } else {
             redirect('login', 'refresh');
         }
@@ -424,7 +423,7 @@ class bnw extends CI_Controller {
                 $this->session->set_flashdata('message', 'One Product added sucessfully');
                 redirect('bnw/index');
             }
-            $this->load->view('bnw/templates/footer', $data);
+           
         } else {
             redirect('login', 'refresh');
         }
@@ -451,7 +450,7 @@ class bnw extends CI_Controller {
             $this->load->view('bnw/templates/header', $data);
             $this->load->view('bnw/templates/menu');
             $this->load->view('product/listProduct');
-            $this->load->view('bnw/templates/footer', $data);
+           
         } else {
             redirect('login', 'refresh');
         }
@@ -469,7 +468,7 @@ class bnw extends CI_Controller {
             $this->load->view("bnw/templates/menu");
             $this->load->view('product/editProduct', $data);
 
-            $this->load->view('bnw/templates/footer', $data);
+           
         } else {
             redirect('login', 'refresh');
         }
@@ -570,7 +569,7 @@ class bnw extends CI_Controller {
                 $this->load->view('bnw/product/editProduct', $data);
             }
 
-            $this->load->view('bnw/templates/footer', $data);
+           
         } else {
             redirect('login', 'refresh');
         }
@@ -679,7 +678,7 @@ class bnw extends CI_Controller {
             $this->load->view('bnw/templates/header', $data);
             $this->load->view('bnw/templates/menu');
             $this->load->view('product/test',$data);
-            $this->load->view('bnw/templates/footer', $data);
+           
         } else {
             redirect('login', 'refresh');
         }
@@ -702,7 +701,7 @@ class bnw extends CI_Controller {
             $this->load->view('bnw/templates/header', $data);
             $this->load->view('bnw/templates/menu');
             $this->load->view('product/listProductOrder');
-            $this->load->view('bnw/templates/footer', $data);
+          
         } else {
             redirect('login', 'refresh');
         }
@@ -748,7 +747,7 @@ class bnw extends CI_Controller {
             $this->load->view("bnw/templates/menu");
             $this->load->view('product/detailview', $data);
 
-            $this->load->view('bnw/templates/footer', $data);
+           
         } else {
             redirect('login', 'refresh');
         }
@@ -799,7 +798,7 @@ class bnw extends CI_Controller {
             $this->load->view('bnw/templates/header', $data);
             $this->load->view('bnw/templates/menu');
             $this->load->view('product/shipping',$data);
-            $this->load->view('bnw/templates/footer', $data);
+            
         } else {
             redirect('login', 'refresh');
         }
@@ -834,7 +833,7 @@ class bnw extends CI_Controller {
                 $this->session->set_flashdata('message', 'Shipping updated sucessfully');
                 redirect('bnw/shippingupdate');
             }
-            $this->load->view('bnw/templates/footer', $data);
+           
         } else {
 
            redirect('login', 'refresh');
@@ -925,7 +924,7 @@ class bnw extends CI_Controller {
             $this->load->view('bnw/templates/header', $data);
             $this->load->view('bnw/templates/menu');
             $this->load->view('bnw/menu/listOfItems', $data);
-            $this->load->view('bnw/templates/footer', $data);
+            
                 }
             } 
             
@@ -937,7 +936,7 @@ class bnw extends CI_Controller {
                 $this->load->view('bnw/templates/header', $data);
                 $this->load->view('bnw/templates/menu', $data);
                 $this->load->view('bnw/menu/listOfItems', $data);
-                $this->load->view('bnw/templates/footer', $data);
+                
             }
         } else {
             redirect('login', 'refresh');
@@ -1005,7 +1004,7 @@ class bnw extends CI_Controller {
                 $this->load->view('bnw/templates/header', $data);
                 $this->load->view('bnw/templates/menu', $data);
                 $this->load->view('bnw/menu/listOfItems', $data);
-                $this->load->view('bnw/templates/footer', $data);
+                
                 }
                 else{
                     
@@ -1028,7 +1027,7 @@ class bnw extends CI_Controller {
             $this->load->view('bnw/templates/header', $data);
             $this->load->view('bnw/templates/menu');
             $this->load->view('bnw/menu/listOfItems', $data);
-            $this->load->view('bnw/templates/footer', $data);
+            
                   
                 }
             } else {
@@ -1039,7 +1038,7 @@ class bnw extends CI_Controller {
                 $this->load->view('bnw/templates/header', $data);
                 $this->load->view('bnw/templates/menu', $data);
                 $this->load->view('bnw/menu/listOfItems', $data);
-                $this->load->view('bnw/templates/footer', $data);
+                
             }
         } else {
             redirect('login', 'refresh');
@@ -1086,7 +1085,7 @@ class bnw extends CI_Controller {
                 $this->session->set_flashdata('message', 'One Navigation item added sucessfully');
                 redirect('bnw/navigation');
             }
-            $this->load->view('bnw/templates/footer', $data);
+            
         } else {
 
             redirect('login', 'refresh');
@@ -1118,7 +1117,7 @@ class bnw extends CI_Controller {
             $this->load->view('bnw/templates/header', $data);
             $this->load->view('bnw/templates/menu');
             $this->load->view('bnw/menu/listOfItems', $data);
-            $this->load->view('bnw/templates/footer', $data);
+           
         } else {
             redirect('login', 'refresh');
         }
@@ -1140,7 +1139,7 @@ class bnw extends CI_Controller {
             $this->load->view("bnw/templates/header", $data);
             $this->load->view("bnw/templates/menu");
             $this->load->view('bnw/menu/editNavigation', $data);
-            $this->load->view('bnw/templates/footer', $data);
+            
         }
        
         else {
@@ -1156,7 +1155,7 @@ class bnw extends CI_Controller {
             $this->load->view("bnw/templates/header", $data);
             $this->load->view("bnw/templates/menu");
             $this->load->view('bnw/menu/navigationListing', $data);
-            $this->load->view('bnw/templates/footer', $data);
+           
         } else {
             redirect('login', 'refresh');
         }
@@ -1171,7 +1170,7 @@ class bnw extends CI_Controller {
             $this->load->view("bnw/templates/header", $data);
             $this->load->view("bnw/templates/menu");
             $this->load->view('bnw/menu/manageNavigation', $data);
-            $this->load->view('bnw/templates/footer', $data);
+            
              
              } else {
             redirect('login', 'refresh');
@@ -1241,7 +1240,7 @@ class bnw extends CI_Controller {
             $this->load->view("bnw/templates/header", $data);
             $this->load->view("bnw/templates/menu");
             $this->load->view('bnw/templetes/error_landing_page', $data);
-            $this->load->view('bnw/templates/footer', $data);
+            
          }
        }
     else {
@@ -1254,7 +1253,7 @@ class bnw extends CI_Controller {
             $this->load->view("bnw/templates/header", $data);
             $this->load->view("bnw/templates/menu");
             $this->load->view('bnw/templetes/error_landing_page', $data);
-            $this->load->view('bnw/templates/footer', $data);
+            
      
             }
        }
@@ -1326,7 +1325,7 @@ class bnw extends CI_Controller {
             $this->load->view("bnw/templates/header", $data);
             $this->load->view("bnw/templates/menu");
             $this->load->view('templates/error_landing_page', $data);
-            $this->load->view('bnw/templates/footer', $data);
+            
            }
            }
        else{
@@ -1338,7 +1337,7 @@ class bnw extends CI_Controller {
             $this->load->view("bnw/templates/header", $data);
             $this->load->view("bnw/templates/menu");
             $this->load->view('templates/error_landing_page', $data);
-            $this->load->view('bnw/templates/footer', $data);
+            
        }
         }
        else
@@ -1376,7 +1375,7 @@ class bnw extends CI_Controller {
 
                 redirect('bnw/navigation');
             }
-            $this->load->view('bnw/templates/footer', $data);
+            
         } else {
             redirect('login', 'refresh');
         }
@@ -1416,7 +1415,7 @@ class bnw extends CI_Controller {
             $this->load->view("bnw/templates/header", $data);
             $this->load->view("bnw/templates/menu");
             $this->load->view('bnw/category/addCategory', $data);
-            $this->load->view('bnw/templates/footer', $data);
+            
         } else {
             redirect('login', 'refresh');
         }
@@ -1476,7 +1475,7 @@ class bnw extends CI_Controller {
                 $this->load->view('bnw/category/addCategory', $data);
             }
 
-            $this->load->view('bnw/templates/footer', $data);
+           
         } else {
             redirect('login', 'refresh');
         }
@@ -1494,7 +1493,7 @@ class bnw extends CI_Controller {
             $this->load->view("bnw/templates/menu");
             $this->load->view('bnw/category/edit', $data);
 
-            $this->load->view('bnw/templates/footer', $data);
+          
         } else {
             redirect('login', 'refresh');
         }
@@ -1551,7 +1550,7 @@ class bnw extends CI_Controller {
                 $this->load->view('bnw/category/edit', $data);
             }
 
-            $this->load->view('bnw/templates/footer', $data);
+           
         } else {
             redirect('login', 'refresh');
         }
@@ -1598,7 +1597,7 @@ class bnw extends CI_Controller {
             $this->load->view('bnw/templates/header', $data);
             $this->load->view('bnw/templates/menu', $data);
             $this->load->view('bnw/category/delcategory', $data);
-            $this->load->view('bnw/templates/footer', $data);
+           
         }
         else
         {
@@ -1874,7 +1873,7 @@ class bnw extends CI_Controller {
             $this->load->view("bnw/templates/header", $data);
             $this->load->view("bnw/templates/menu");
             $this->load->view('bnw/pages/pageListing', $pagedata);
-            $this->load->view('bnw/templates/footer', $data);
+          
         } else {
             redirect('login', 'refresh');
         }
@@ -1963,7 +1962,7 @@ class bnw extends CI_Controller {
                 $this->load->view('bnw/pages/addnew', $data);
             }
 
-            $this->load->view('bnw/templates/footer', $data);
+           
         } else {
             redirect('login', 'refresh');
         }
@@ -1983,7 +1982,7 @@ class bnw extends CI_Controller {
             $this->load->view("bnw/templates/menu");
             $this->load->view('bnw/pages/edit', $data);
 
-            $this->load->view('bnw/templates/footer', $data);
+           
         } else {
             redirect('login', 'refresh');
         }
@@ -2084,7 +2083,7 @@ class bnw extends CI_Controller {
                 $this->load->view('bnw/pages/edit', $data);
             }
 
-            $this->load->view('bnw/templates/footer', $data);
+            
         } else {
             redirect('login', 'refresh');
         }
@@ -2124,7 +2123,7 @@ class bnw extends CI_Controller {
             $this->load->view("bnw/templates/header", $data);
             $this->load->view("bnw/templates/menu");
             $this->load->view('bnw/users/userListing', $data);
-            $this->load->view('bnw/templates/footer', $data);
+            
         } else {
             redirect('login', 'refresh');
         }
@@ -2164,7 +2163,7 @@ class bnw extends CI_Controller {
                 $this->session->set_flashdata('message', 'One user added sucessfully');
                 redirect('bnw/users/userListing');
             }
-            $this->load->view('bnw/templates/footer', $data);
+           
         } else {
 
             redirect('login', 'refresh');
@@ -2182,7 +2181,7 @@ class bnw extends CI_Controller {
             $this->load->view("bnw/templates/header", $data);
             $this->load->view("bnw/templates/menu");
             $this->load->view('bnw/users/editUser', $data);
-            $this->load->view('bnw/templates/footer', $data);
+           
         } else {
             redirect('login', 'refresh');
         }
@@ -2225,7 +2224,7 @@ class bnw extends CI_Controller {
 
                 redirect('bnw/users/userListing');
             }
-            $this->load->view('bnw/templates/footer', $data);
+            
         } else {
             redirect('login', 'refresh');
         }
@@ -2255,7 +2254,7 @@ class bnw extends CI_Controller {
                  $this->load->view("bnw/templates/header", $data);
             $this->load->view("bnw/templates/menu");
             $this->load->view('templates/error_landing_page', $data);
-            $this->load->view('bnw/templates/footer', $data);
+            
                 
             }
         } else {
@@ -2284,7 +2283,7 @@ class bnw extends CI_Controller {
             $this->load->view("bnw/templates/header", $data);
             $this->load->view("bnw/templates/menu");
             $this->load->view('bnw/users/userProfiler', $data);
-            $this->load->view('bnw/templates/footer', $data);
+            
         } else {
             redirect('login', 'refresh');
         }
@@ -2805,7 +2804,7 @@ class bnw extends CI_Controller {
             $this->load->view($header . 'header', $data);
             $this->load->view($header . 'menu');
             $this->load->view('bnw/setup/index', $data);
-            $this->load->view('bnw/templates/footer', $data);
+            
         } else {
             redirect('login', 'refresh');
         }
@@ -2845,7 +2844,7 @@ class bnw extends CI_Controller {
                 $this->load->view($header . 'header', $data);
                 $this->load->view($header . 'menu');
                 $this->load->view('bnw/setup/index', $data);
-                $this->load->view('bnw/templates/footer', $data);
+               
             } else {
                 if (!$this->upload->do_upload('file_name')) {
 
@@ -2883,7 +2882,7 @@ class bnw extends CI_Controller {
             $this->load->view("bnw/templates/header", $data);
             $this->load->view("bnw/templates/menu");
             $this->load->view('bnw/setup/addHeader', $set);
-            $this->load->view('bnw/templates/footer', $data);
+            
         } else {
             redirect('login', 'refresh');
         }
@@ -2927,7 +2926,7 @@ class bnw extends CI_Controller {
                 $this->session->set_flashdata('message', 'Header setting done sucessfully');
                 redirect('bnw');
             }
-            $this->load->view('bnw/templates/footer', $data);
+            
         } else {
 
             redirect('login', 'refresh');
@@ -2941,7 +2940,7 @@ class bnw extends CI_Controller {
             $this->load->view("bnw/templates/header", $data);
             $this->load->view("bnw/templates/menu");
             $this->load->view('bnw/setup/addSidebar', $set);
-            $this->load->view('bnw/templates/footer', $data);
+           
         } else {
             redirect('login', 'refresh');
         }
@@ -2961,7 +2960,7 @@ class bnw extends CI_Controller {
                 $this->load->view("bnw/templates/header", $data);
                 $this->load->view("bnw/templates/menu");
                 $this->load->view('bnw/setup/addSidebar');
-                $this->load->view('bnw/templates/footer', $data);
+               
             } else {
                 $sideBarTitle = $this->input->post('sidebar_title');
                 $sideBarDescription = $this->input->post('sidebar_description');
@@ -2983,7 +2982,7 @@ class bnw extends CI_Controller {
             $this->load->view("bnw/templates/header", $data);
             $this->load->view("bnw/templates/menu");
             $this->load->view('bnw/setup/miscSetting');
-            $this->load->view('bnw/templates/footer', $data);
+           
         } else {
             redirect('login', 'refresh');
         }
@@ -3048,7 +3047,7 @@ class bnw extends CI_Controller {
                 $this->session->set_flashdata('message', 'One Album added sucessfully');
                 redirect('bnw/album/index');
             }
-            $this->load->view('bnw/templates/footer', $data);
+           
         } else {
 
             redirect('login', 'refresh');
@@ -3172,7 +3171,7 @@ class bnw extends CI_Controller {
                 $this->session->set_flashdata('message', 'One menu added sucessfully');
                 redirect('bnw/menu/addnew');
             }
-            $this->load->view('bnw/templates/footer', $data);
+            
         } else {
 
             redirect('login', 'refresh');
