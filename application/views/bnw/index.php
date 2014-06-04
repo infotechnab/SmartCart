@@ -9,14 +9,8 @@
                 This dashboard has been maintained by <a href="http://www.salyani.com.np">Salyani Technologies (P) Ltd.</a>.<br/>
                 For more details and support please contact <a href="http://www.salyani.com.np" target="_blank">Salyani Technologies</a>. 
             </p>
-        </div>
-        <div class="clear"></div>
+       
         
-    
-        
-        
-        
-    </div>
     
     
     

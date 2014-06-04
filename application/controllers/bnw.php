@@ -21,9 +21,15 @@ class bnw extends CI_Controller {
         if ($this->session->userdata('logged_in')) {
             $data['username'] = Array($this->session->userdata('logged_in'));
             $data['meta'] = $this->dbmodel->get_meta_data();
+            $data['category'] = $this->dbmodel->get_category();
+            $data['query'] = $this->dbmodel->get_all_product_orderDis();
+            $data['pList'] = $this->dbmodel->get_product();
             $this->load->view('bnw/templates/header', $data);
             $this->load->view('bnw/templates/menu', $data);
             $this->load->view('bnw/index', $data);
+            $this->load->view('bnw/dashboard/quickly_add');
+            $this->load->view('bnw/dashboard/latest_tran', $data);
+            $this->load->view('bnw/dashboard/latest_product',$data);
             $this->load->view('bnw/templates/footer', $data);
         } else {
             redirect('login', 'refresh');
@@ -323,6 +329,100 @@ class bnw extends CI_Controller {
                 // $this->dbmodel->add_images($id,$productImg);
                 $this->session->set_flashdata('message', 'One Product added sucessfully');
                 redirect('bnw/product');
+            }
+            $this->load->view('bnw/templates/footer', $data);
+        } else {
+            redirect('login', 'refresh');
+        }
+    }
+    
+    function quckly_addproduct()
+    {
+         if ($this->session->userdata('logged_in')) {
+            $config['upload_path'] = './content/uploads/images/';
+            $config['allowed_types'] = 'gif|jpg|png';
+            $config['max_size'] = '2000';
+            $config['max_width'] = '2000';
+            $config['max_height'] = '2000';
+
+            $this->load->library('upload', $config);
+            $data['meta'] = $this->dbmodel->get_meta_data();
+            $data['category'] = $this->dbmodel->get_category();
+            $this->load->view('bnw/templates/header', $data);
+            $this->load->view('bnw/templates/menu');
+            $this->load->helper('form');
+            $this->load->library(array('form_validation', 'session'));
+            $this->form_validation->set_rules('pName', 'Name', 'required|xss_clean|max_length[200]');
+            $this->form_validation->set_rules('pPrice', 'Price', 'required|xss_clean|max_length[200]');
+
+            if (($this->form_validation->run() == FALSE)) {
+                $data['error'] = $this->upload->display_errors();
+
+                $this->load->view('product/addProduct', $data);
+            } else {
+
+                //if valid
+                if ($this->upload->do_upload('myfile')) {
+                    $data = array('upload_data' => $this->upload->data('myfile'));
+                    $productImg = $data['upload_data']['file_name'];
+                    
+                     //if valid
+                $data = array('upload_data' => $this->upload->data('file'));
+                $slidename = $this->input->post('slide_name');
+                $slideimage = $data['upload_data']['file_name'];
+                $slidecontent = $this->input->post('slide_content');
+
+                //for cropper
+                //require_once(APPPATH.'Imagemanipulator.php');
+                include_once 'imagemanipulator.php';
+
+                $manipulator = new ImageManipulator($_FILES['myfile']['tmp_name']);
+                $width = $manipulator->getWidth();
+                $height = $manipulator->getHeight();
+
+                $centreX = round($width / 2);
+
+                $centreY = round($height / 2);
+
+                // our dimensions will be 200x130
+                $x1 = $centreX - 300; // 200 / 2
+                $y1 = $centreY - 400; // 130 / 2
+
+                $x2 = $centreX + 300; // 200 / 2
+                $y2 = $centreY + 400; // 130 / 2
+                // center cropping to 200x130
+                $newImage = $manipulator->crop($x1, $y1, $x2, $y2);
+                // saving file to uploads folder
+                $manipulator->save('./content/uploads/images/' . $_FILES['myfile']['name']);
+                //cropper closed               
+               } else {
+                    $productImg = NULL;
+                }
+              
+               
+               // $proID = $this->dbmodel->get_proID();
+               // foreach ($proID as $pID) {
+               //     $id = $pID->id;
+               // }
+              //  $id = $id + 1;
+               // $qty = $this->input->post('qty');
+                $productName = $this->input->post('pName');
+                $productPrice = $this->input->post('pPrice');
+                $productCategory = $this->input->post('pCategory');
+                $description = quotes_to_entities($this->input->post('pDescription'));
+                $summary = substr("$description", 0, 100);
+                $shippingCost= $this->input->post('checkMe');
+                if($shippingCost==1){
+                    $shipping="enabled";
+                }
+                else
+                {
+                    $shipping="disabled";
+                }
+                $this->dbmodel->quick_add_new_product($productCategory,$description, $summary, $productName, $productPrice, $productImg,  $shipping);
+                // $this->dbmodel->add_images($id,$productImg);
+                $this->session->set_flashdata('message', 'One Product added sucessfully');
+                redirect('bnw/index');
             }
             $this->load->view('bnw/templates/footer', $data);
         } else {
@@ -1465,13 +1565,25 @@ class bnw extends CI_Controller {
             redirect('login', 'refresh');
         }
     }
-    
+    function change_category()
+    {
+         if ($this->session->userdata('logged_in')) {
+             $id = $_POST['id'];
+             $cat_id = $_POST['categoryProduct'];
+             
+             $this->dbmodel->change_category($id,$cat_id);
+             redirect('bnw/category');
+         }
+         else{
+             redirect('login', 'refresh');
+         }
+    }
     function delete_category($id=0)
     {
         if ($this->session->userdata('logged_in')) {
              $data['meta'] = $this->dbmodel->get_meta_data();
              $data['category'] = $this->dbmodel->get_category_id($id);
-             
+            // $data['category_list'] = $this->dbmodel->get_category();
             $this->load->view('bnw/templates/header', $data);
             $this->load->view('bnw/templates/menu', $data);
             $this->load->view('bnw/category/delcategory', $data);

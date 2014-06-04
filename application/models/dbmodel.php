@@ -252,7 +252,22 @@ public function check_user_email($email){
         
         $this->db->insert('product', $data);
     }
-
+    
+    function quick_add_new_product($productCategory,$description, $summary, $productName, $productPrice, $productImg,  $shipping)
+    {
+         $data = array(
+            'category'=>$productCategory,
+            'description'=>$description,
+            'summary'=>$summary,
+            
+            'price'=>$productPrice,
+            'name'=>$productName,
+            'image1'=>$productImg,
+            'shiping'=>$shipping
+            );
+        
+        $this->db->insert('product', $data);
+    }
     function get_proID()
     {
         $this->db->select('id');
@@ -293,7 +308,7 @@ public function check_user_email($email){
         $this->db->distinct();
         $this->db->select("trans_id");
         $this->db->order_by('trans_id','DESC');
-        $query = $this->db->get('product_oder_detail');
+        $query = $this->db->get('product_oder_detail',3);
         return $query->result();
     }
     
@@ -339,7 +354,32 @@ public function check_user_email($email){
         $query = $this->db->get('product');
         return $query->result();
     }
+    function get_related_product($id)
+    {//die($id);
+       // $this->db->order_by('id','DESC');
+       $this->db->where('category',$id);
+        $query = $this->db->get('product');
+        return $query->result();
+    }
     
+    function change_category($id,$catid)
+    {
+        $data = array(
+            'category'=>$catid
+        );
+        $this->db->where('category', $id);
+     
+        $this->db->update('product', $data);
+    }
+
+    function get_product()
+    {
+        $this->db->order_by('id','DESC');
+        $query = $this->db->get('product',3);
+        return $query->result();
+    }
+
+
     function findproduct($id)
     {
        // $this->db->select();
@@ -783,7 +823,13 @@ public function get_navigation_info($navigationName)
         $query = $this->db->get('category');
         return $query->result();
     } 
-    
+    public function get_categorys($id) {
+            //$id = "<>".$id;
+      //  die($id);
+        $this->db->where_not_in('category',$id);
+        $query = $this->db->get('category');
+        return $query->result();
+    }
 
     public function get_coupon()
  {
