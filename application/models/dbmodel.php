@@ -236,6 +236,7 @@ public function check_user_email($email){
 
     function add_new_product($cat,$des,$sum,$qty,$name,$price,$img1,$img2,$img3, $shipping, $allowLike, $allowShare)
     {
+        $status = 0;
         $data = array(
             'category'=>$cat,
             'description'=>$des,
@@ -248,13 +249,15 @@ public function check_user_email($email){
             'image3'=>$img3,
             'shiping'=>$shipping,
             'like'=>$allowLike,
-            'share'=>$allowShare);
+            'share'=>$allowShare,
+            'status'=>$status);
         
         $this->db->insert('product', $data);
     }
     
     function quick_add_new_product($productCategory,$description, $summary, $productName, $productPrice, $productImg,  $shipping)
     {
+        $status = 0;
          $data = array(
             'category'=>$productCategory,
             'description'=>$description,
@@ -263,7 +266,8 @@ public function check_user_email($email){
             'price'=>$productPrice,
             'name'=>$productName,
             'image1'=>$productImg,
-            'shiping'=>$shipping
+            'shiping'=>$shipping,
+             'status'=>$status
             );
         
         $this->db->insert('product', $data);
@@ -280,6 +284,7 @@ public function check_user_email($email){
     
     function record_count_product()
     {
+        $this->db->where('status = 0');
         return $this->db->count_all("product");
     }
     
@@ -287,6 +292,7 @@ public function check_user_email($email){
     {
         
         $this->db->where('category',$id);
+        $this->db->where('status = 0');
         return $this->db->count_all("product");
     }
     
@@ -330,6 +336,7 @@ public function check_user_email($email){
     function get_product_id($id)
     {
         $this->db->where('id',$id);
+       // $this->db->where('status = 0');
         $query = $this->db->get('product');
         return $query->result();
         
@@ -349,8 +356,11 @@ public function check_user_email($email){
 
     function get_all_product($limit, $start)
     {
+        
         $this->db->limit($limit, $start);
+        $this->db->where('status = 0');
         $this->db->order_by('id','DESC');
+        
         $query = $this->db->get('product');
         return $query->result();
     }
@@ -358,6 +368,8 @@ public function check_user_email($email){
     {//die($id);
        // $this->db->order_by('id','DESC');
        $this->db->where('category',$id);
+       $this->db->where('status = 0');
+       $this->db->where('status = 0');
         $query = $this->db->get('product');
         return $query->result();
     }
@@ -375,6 +387,7 @@ public function check_user_email($email){
     function get_product()
     {
         $this->db->order_by('id','DESC');
+        $this->db->where('status = 0');
         $query = $this->db->get('product',3);
         return $query->result();
     }
@@ -451,7 +464,12 @@ public function check_user_email($email){
     }
     function delProduct($id){
        // die($id);
-         $result = $this->db->delete('product', array('id' => $id));
+        $status = 1;
+        $data = array(
+            'status'=>$status
+        );
+        $this->db->where('id',$id);
+         $result = $this->db->update('product',$data);
           if(!$result)
         {
             return false;
@@ -483,6 +501,7 @@ public function check_user_email($email){
         $this->db->limit($limit, $start);
         $this->db->where('category',$cid);
         $this->db->order_by('id','DESC');
+        $this->db->where('status = 0');
         $query = $this->db->get('product');
         return $query->result();
     }
@@ -492,6 +511,7 @@ public function check_user_email($email){
     {
         //$this->db->limit($limit, $start);
         $this->db->order_by('id','DESC');
+        $this->db->where('status = 0');
         $query = $this->db->get('product');
         return $query->result();
     }

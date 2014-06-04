@@ -605,44 +605,54 @@ class bnw extends CI_Controller {
     function delProduct($id=0) {
         if ($this->session->userdata('logged_in')) {
             
-            $delimages = $this->dbmodel->findproduct($id);
-            foreach ($delimages as $images)
+//            $delimages = $this->dbmodel->findproduct($id);
+//            foreach ($delimages as $images)
+//            {
+//                $imgOne = $images->image1;
+//                $imgTwo = $images->image2;
+//                $imgThree = $images->image3;
+//            }
+//            
+//            if(isset($imgOne)==!NULL)
+//            {
+//                unlink('./content/uploads/images/' . $imgOne);
+//            }
+//          //  else{}
+//            if(isset($imgTwo)==!NULL)
+//            {
+//                unlink('./content/uploads/images/' . $imgTwo);
+//           }
+//          //  else{}
+//            if(isset($imgThree)==!NULL)
+//           {
+//                unlink('./content/uploads/images/' . $imgThree);
+//           }
+//          //  else{}
+//            
+//            
+//            $result =$this->dbmodel->delProduct($id);
+//             if($result == true)
+//            {
+//                $this->session->set_flashdata('message', 'Data Delete Sucessfully');
+//                 redirect('bnw/productList');
+//                
+//            }
+//           else {
+//                 $this->session->set_flashdata('message', 'Cannot delete or update a parent row');
+//                 redirect('bnw/productList');
+//                  }
+//            
+          $result =$this->dbmodel->delProduct($id);
+           if($result == true)
             {
-                $imgOne = $images->image1;
-                $imgTwo = $images->image2;
-                $imgThree = $images->image3;
-            }
-            
-            if(isset($imgOne)==!NULL)
-            {
-                unlink('./content/uploads/images/' . $imgOne);
-            }
-          //  else{}
-            if(isset($imgTwo)==!NULL)
-            {
-                unlink('./content/uploads/images/' . $imgTwo);
-           }
-          //  else{}
-            if(isset($imgThree)==!NULL)
-           {
-                unlink('./content/uploads/images/' . $imgThree);
-           }
-          //  else{}
-            
-            
-            $result =$this->dbmodel->delProduct($id);
-             if($result == true)
-            {
-                $this->session->set_flashdata('message', 'Data Delete Sucessfully');
+               $this->session->set_flashdata('message', 'Data Delete Sucessfully');
                  redirect('bnw/productList');
                 
             }
-           else {
-                 $this->session->set_flashdata('message', 'Cannot delete or update a parent row');
+          else {
+                 $this->session->set_flashdata('message', 'Cannot delete product');
                  redirect('bnw/productList');
                   }
-            
-           
         } else {
             redirect('login', 'refresh');
         }
