@@ -47,14 +47,10 @@ class Payment extends CI_Controller {
 
     function do_payment() {
         
-        $cost = trim($_POST['cost']);
-        $rate = trim($_POST['rate']);
-        $grandTotal = trim($_POST['grandtotal']);
-               
+       
         include_once("paypal_config.php");
         include_once("paypal.class.php");
         $paypalmode = ($PayPalMode == 'sandbox') ? '.sandbox' : '';
-        
         
         $data['headertitle'] = $this->viewmodel->get_header_title();
         $data['headerlogo'] = $this->viewmodel->get_header_logo();
@@ -67,13 +63,13 @@ class Payment extends CI_Controller {
         $rate = trim($_POST['rate']);
         $grandTotal = trim($_POST['grandtotal']);
         
-        $this->form_validation->set_rules('u_fname', 'First name', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,15}$/]|required|xss_clean|max_length[15]');
-        $this->form_validation->set_rules('u_lname', 'Last name', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,15}$/]|required|xss_clean|max_length[15]');
-        $this->form_validation->set_rules('street_address', 'Address', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,35}$/]|required|xss_clean|max_length[35]');
-        $this->form_validation->set_rules('Town_address', 'City/Town', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,35}$/]|required|xss_clean|max_length[35]');
+        $this->form_validation->set_rules('u_fname', 'First name', 'trim|regex_match[/^[a-z,0-9,A-Z]{3,15}$/]|required|xss_clean|max_length[15]');
+        $this->form_validation->set_rules('u_lname', 'Last name', 'trim|regex_match[/^[a-z,0-9,A-Z]{3,15}$/]|required|xss_clean|max_length[15]');
+        $this->form_validation->set_rules('street_address', 'Address', 'trim|regex_match[/^[a-z,0-9,A-Z]{2,35}$/]|required|xss_clean|max_length[35]');
+        $this->form_validation->set_rules('Town_address', 'City/Town', 'trim|regex_match[/^[a-z,0-9,A-Z]{2,35}$/]|required|xss_clean|max_length[35]');
         $this->form_validation->set_rules('District_address', 'State/District', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,35}$/]|required|xss_clean|max_length[35]');
-        $this->form_validation->set_rules('zip', 'Zip', 'trim|regex_match[/^[0-9]{5,15}$/]|required|xss_clean|max_length[15]');
-        $this->form_validation->set_rules('country', 'Country', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,35}$/]|required|xss_clean|max_length[35]');
+        $this->form_validation->set_rules('zip', 'Zip', 'trim|regex_match[/^[0-9]{2,15}$/]|required|xss_clean|max_length[15]');
+        $this->form_validation->set_rules('country', 'Country', 'trim|regex_match[/^[a-z,0-9,A-Z]{2,35}$/]|required|xss_clean|max_length[35]');
         $this->form_validation->set_rules('u_contact', 'Contact no.', 'trim|regex_match[/^[0-9]{5,15}$/]|required|xss_clean|max_length[15]');
         $this->form_validation->set_rules('user_email', 'Email', 'trim|regex_match[/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/]|required|xss_clean|max_length[200]');
          if ($this->form_validation->run() == FALSE ) {
@@ -82,6 +78,7 @@ class Payment extends CI_Controller {
             $this->load->view('templates/navigation');
             $this->load->view('templates/userRegistrationAndShipping', $data);
             $this->load->view('templates/footer');
+            // die("");
         } else {
             
             /* here are all inputed fields*/
@@ -95,6 +92,8 @@ class Payment extends CI_Controller {
         $contact = $this->input->post('u_contact');
         $email = $this->input->post('user_email');
                 
+              // die("iam in else");
+
         
         if(isset($_POST['onoffswitch']))
         {
@@ -113,9 +112,10 @@ class Payment extends CI_Controller {
             $radio=NULL;
         }
         /* if shipping enabled */
-        
-        if (($switch==1) && ($radio=="shipDifferent") ) {
-
+       // die($switch);
+      //  die($radio);
+        if (($switch==1) && ($radio==="shipDifferent")) {
+           // die("sdfdjsflkjdslfjdslkfjsdlkfjdslkfj");
             $this->form_validation->set_rules('s_fname', 'First name', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,15}$/]|required|xss_clean|max_length[15]');
             $this->form_validation->set_rules('s_lname', 'Last name', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,15}$/]|required|xss_clean|max_length[15]');
             $this->form_validation->set_rules('s_address', 'Address', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,35}$/]|required|xss_clean|max_length[35]');
@@ -132,6 +132,7 @@ class Payment extends CI_Controller {
             $this->load->view('templates/navigation');
             $this->load->view('templates/userRegistrationAndShipping', $data);
             $this->load->view('templates/footer');
+            die("false");
         } else {
             $shipfname = $this->input->post('s_fname');                        
                 $shiplname = $this->input->post('s_lname');                         
@@ -143,10 +144,7 @@ class Payment extends CI_Controller {
                 $shipcontact = $this->input->post('s_contact');                         
                 $shipemail = $this->input->post('s_email');
             
-        }
-            
-            
-                
+        }         
         } else if (($switch==1) && ($radio=="pickup") ) {
             $shipfname = $fname;
             $shiplname = $lname;
@@ -169,14 +167,19 @@ class Payment extends CI_Controller {
             $shipcontact = NULL;
             $shipemail = NULL;
         }
-    }
+   
        
+   
 
         if ($_POST) { //Post Data received from product list page.
+            die($cost);
+        
+         //die($cost);
             //Other important variables like tax, shipping cost
             $TotalTaxAmount = 2.58;  //Sum of tax for all items in this order. 
             $HandalingCost = 2.00;  //Handling cost for this order.
             $InsuranceCost = 1.00;  //shipping insurance cost for this order.
+            //$ShippinDiscount = $cost;
             $ShippinDiscount = -3.00; //Shipping discount for this order. Specify this as negative number.
             $ShippinCost = 3.00; //Although you may change the value later, try to pass in a shipping amount that is reasonably accurate.
             //we need 4 variables from product page Item Name, Item Price, Item Number and Item Quantity.
@@ -264,6 +267,7 @@ class Payment extends CI_Controller {
                 echo '</pre>';
             }
         }
+         }
 
 //Paypal redirects back to this page using ReturnURL, We should receive TOKEN and Payer ID
         if (isset($_GET["token"]) && isset($_GET["PayerID"])) {

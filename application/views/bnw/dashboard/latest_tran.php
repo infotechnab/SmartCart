@@ -68,7 +68,7 @@
             }
         }
         else{
-            echo '<h3>Sorry product are not available</h3>';
+            echo '<h3>Sorry transaction are not available</h3>';
         }
             
     ?>

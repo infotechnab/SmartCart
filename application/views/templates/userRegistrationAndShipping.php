@@ -406,15 +406,7 @@ if (isset($shiping_cost) == true) {
         cursor: pointer;
     }
 </style>
-<script>
-    $(document).ready(function() {
-<?php if (!empty($detail)) { ?>
-            document.getElementById('optionalRegister').style.display = 'none';
-<?php } else { ?>
-            document.getElementById('optionalRegister').style.display = 'block';
-<?php } ?>
-    });
-</script>
+
 <?php if ($this->session->userdata('logged_in')) {
             $userEmail = $this->session->userdata('useremail');
             $detail = $this->dbmodel->get_logged_in_user($userEmail);
@@ -449,6 +441,7 @@ if clicked in continue the following view works -->
                
                 
                 ?> </div>
+        <?php if(!$this->session->userdata('logged_in')){?>
         <div class="RegisterLeft" id="optionalRegister">
             <h3 style="margin: 0px 0px 10px 0px; padding: 2px; float: left; width: 55%">User Registration (Optional)</h3>
 
@@ -501,7 +494,7 @@ if clicked in continue the following view works -->
 
             </div>
         </div>
-
+<?php } ?>
         <div class="RegisterLeft">
             <h3 style="margin: 0px 0px 10px 0px; padding: 2px;">Personal Details</h3>
             <hr>
