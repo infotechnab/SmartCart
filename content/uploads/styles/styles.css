@@ -713,7 +713,7 @@ div.vertical-line{
 {
     display:none;
 }
-.checkkey, #cancelBtn
+.checkkey, #cancelBtn, #printBtn
 {
     background: #000;
     padding:10px;
@@ -721,7 +721,18 @@ div.vertical-line{
     border-radius: 5px;
     color: white;
 }
-
+#goToHomeBtn
+{
+    background: #000;
+    padding:10px;
+    border: none;
+    border-radius: 5px;
+    max-width: 100px;
+}
+#goToHomeBtn a:link
+{
+    color: #fff;
+}
 
 #payNowBtn
 {

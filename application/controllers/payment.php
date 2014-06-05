@@ -398,10 +398,9 @@ class Payment extends CI_Controller {
         $data['meta'] = $this->dbmodel->get_meta_data();
         $data['headerdescription'] = $this->viewmodel->get_header_description();
        // var_dump($data['user']);
-        $this->load->view('templates/header', $data);
-        $this->load->view('templates/navigation');
+       
         $this->load->view('templates/emailTemplate', $data);
-        $this->load->view('templates/footer');
+        
     }
 
 }
