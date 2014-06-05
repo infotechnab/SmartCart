@@ -626,7 +626,7 @@ if clicked in continue the following view works -->
             <h3 style="width:40%; margin: 0px 0px 10px 0px; padding: 2px; float: left;">Shipping Options
             </h3>
             <div class="onoffswitch" style="float: right; margin-right: 20%">
-                <input type="checkbox" name="onoffswitch" onclick="myOnOffSwitch();" class="onoffswitch-checkbox" id="myonoffswitch" >
+                <input type="checkbox" name="onoffswitch" value="1" onclick="myOnOffSwitch();" class="onoffswitch-checkbox" id="myonoffswitch" >
                 <label class="onoffswitch-label" for="myonoffswitch">
                     <span class="onoffswitch-inner"></span>
                     <span class="onoffswitch-switch"></span>

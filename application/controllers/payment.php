@@ -76,36 +76,7 @@ class Payment extends CI_Controller {
         $this->form_validation->set_rules('country', 'Country', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,35}$/]|required|xss_clean|max_length[35]');
         $this->form_validation->set_rules('u_contact', 'Contact no.', 'trim|regex_match[/^[0-9]{5,15}$/]|required|xss_clean|max_length[15]');
         $this->form_validation->set_rules('user_email', 'Email', 'trim|regex_match[/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/]|required|xss_clean|max_length[200]');
-
-        
-
-        /* if shipping enabled */
-        if (shipenabled and different) {
-
-            $this->form_validation->set_rules('s_fname', 'First name', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,15}$/]|required|xss_clean|max_length[15]');
-            $this->form_validation->set_rules('s_lname', 'Last name', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,15}$/]|required|xss_clean|max_length[15]');
-            $this->form_validation->set_rules('s_address', 'Address', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,35}$/]|required|xss_clean|max_length[35]');
-            $this->form_validation->set_rules('c_city', 'City', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,35}$/]|required|xss_clean|max_length[35]');
-            $this->form_validation->set_rules('s_state', 'State', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,35}$/]|required|xss_clean|max_length[35]');
-            $this->form_validation->set_rules('s_zip', 'Zip', 'trim|regex_match[/^[0-9]{5,15}$/]|required|xss_clean|max_length[15]');
-            $this->form_validation->set_rules('s_country', 'Country', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,35}$/]|required|xss_clean|max_length[35]');
-            $this->form_validation->set_rules('s_contact', 'Contact no.', 'trim|regex_match[/^[0-9]{5,15}$/]|required|xss_clean|max_length[15]');
-            $this->form_validation->set_rules('s_email', 'Email', 'trim|regex_match[/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/]|required|xss_clean|max_length[50]');
-         
-                
-        } else {
-            $shipfname = $fname;
-            $shiplname = $lname;
-            $shipstreet = $street;
-            $shiptown = $town;
-            $shipdistrict = $district;
-            $shipzip = $zip;
-            $shipcountry = $country;
-            $shipcontact = $contact;
-            $shipemail = $email;
-        }
-
-        if ($this->form_validation->run() == FALSE ) {
+         if ($this->form_validation->run() == FALSE ) {
             $data['user_validation_message'] = validation_errors();
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navigation');
@@ -123,7 +94,46 @@ class Payment extends CI_Controller {
         $country = $this->input->post('country');
         $contact = $this->input->post('u_contact');
         $email = $this->input->post('user_email');
-                $shipfname = $this->input->post('s_fname');                        
+                
+        
+        if(isset($_POST['onoffswitch']))
+        {
+        $switch = $_POST['onoffswitch'];
+        }
+        else
+        {
+            $switch = 0;
+        }
+        
+        if(isset($_POST['pickup']))
+        {
+        $radio = $_POST['pickup'];
+        }
+        else{
+            $radio=NULL;
+        }
+        /* if shipping enabled */
+        
+        if (($switch==1) && ($radio=="shipDifferent") ) {
+
+            $this->form_validation->set_rules('s_fname', 'First name', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,15}$/]|required|xss_clean|max_length[15]');
+            $this->form_validation->set_rules('s_lname', 'Last name', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,15}$/]|required|xss_clean|max_length[15]');
+            $this->form_validation->set_rules('s_address', 'Address', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,35}$/]|required|xss_clean|max_length[35]');
+            $this->form_validation->set_rules('c_city', 'City', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,35}$/]|required|xss_clean|max_length[35]');
+            $this->form_validation->set_rules('s_state', 'State', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,35}$/]|required|xss_clean|max_length[35]');
+            $this->form_validation->set_rules('s_zip', 'Zip', 'trim|regex_match[/^[0-9]{5,15}$/]|required|xss_clean|max_length[15]');
+            $this->form_validation->set_rules('s_country', 'Country', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,35}$/]|required|xss_clean|max_length[35]');
+            $this->form_validation->set_rules('s_contact', 'Contact no.', 'trim|regex_match[/^[0-9]{5,15}$/]|required|xss_clean|max_length[15]');
+            $this->form_validation->set_rules('s_email', 'Email', 'trim|regex_match[/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/]|required|xss_clean|max_length[50]');
+         
+            if ($this->form_validation->run() == FALSE ) {
+            $data['user_validation_message'] = validation_errors();
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/navigation');
+            $this->load->view('templates/userRegistrationAndShipping', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $shipfname = $this->input->post('s_fname');                        
                 $shiplname = $this->input->post('s_lname');                         
                 $shipstreet = $this->input->post('s_address');                        
                 $shiptown = $this->input->post('c_city');                         
@@ -132,7 +142,35 @@ class Payment extends CI_Controller {
                 $shipcountry = $this->input->post('s_country');                       
                 $shipcontact = $this->input->post('s_contact');                         
                 $shipemail = $this->input->post('s_email');
+            
         }
+            
+            
+                
+        } else if (($switch==1) && ($radio=="pickup") ) {
+            $shipfname = $fname;
+            $shiplname = $lname;
+            $shipstreet = $street;
+            $shiptown = $town;
+            $shipdistrict = $district;
+            $shipzip = $zip;
+            $shipcountry = $country;
+            $shipcontact = $contact;
+            $shipemail = $email;
+        }
+        else{
+            $shipfname = NULL;
+            $shiplname = NULL;
+            $shipstreet = NULL;
+            $shiptown = NULL;
+            $shipdistrict = NULL;
+            $shipzip = NULL;
+            $shipcountry = NULL;
+            $shipcontact = NULL;
+            $shipemail = NULL;
+        }
+    }
+       
 
         if ($_POST) { //Post Data received from product list page.
             //Other important variables like tax, shipping cost
