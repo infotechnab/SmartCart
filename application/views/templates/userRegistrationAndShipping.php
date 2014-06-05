@@ -249,7 +249,6 @@ if (isset($shiping_cost) == TRUE) {
 
     function disrate() {
 
-
         var shiping = parseInt("<?php
 if (isset($shiping_cost) == true) {
     echo $cost;
@@ -259,15 +258,27 @@ if (isset($shiping_cost) == true) {
 ?>");
         var price = parseInt("<?php echo $this->cart->total(); ?>");
         // var total = price + shiping;
-
+         if($('#myonoffswitch').is(':checked'))
+             {
+              $('#shippingInfoTable').show();
+                if($('.ship').is(':checked'))
+            {
+                $('#shippingInfoTableList').show();
+                
+            }    
+             
         if (rate > 0)
         {
             var dis = price * parseInt(rate) / 100;
             var total = price - dis;
             var grandtotal = total + shiping;
+            if(grandtotal < 1)
+                {
+                    grandtotal = 0;
+                }
             // var price = rate+'%';
             $('#rate').html(rate + '%');
-            $('#test').html(grandtotal);
+           $('#test').html(grandtotal);
             //$('.cost').val(shiping);
                 $('.rate').val(rate);
                 $('.test').val(grandtotal);
@@ -281,6 +292,49 @@ if (isset($shiping_cost) == true) {
                 $('.rate').val(rate);
                 $('.test').val(total);
         }
+        }
+        else{
+             $('#shippingInfoTable').hide();
+                $('#shippingInfoTableList').hide();
+            if (rate > 0)
+        {
+            shiping = 0;
+            var dis = price * parseInt(rate) / 100;
+            var total = price - dis;
+            var grandtotal = total + shiping;
+            if(grandtotal < 1)
+                {
+                    grandtotal = 0;
+                }
+            // var price = rate+'%';
+            $('#rate').html(rate + '%');
+           $('#test').html(grandtotal);
+            //$('.cost').val(shiping);
+                $('.rate').val(rate);
+                $('.test').val(grandtotal);
+        }
+        else
+        {
+            rate = 0;
+            $('#rate').html(rate + '%');
+            $('#test').html(total);
+          //  $('.cost').val(shiping);
+                $('.rate').val(rate);
+                $('.test').val(total);
+        }
+        }
+            
+         if($('.ship').is(':checked'))
+            {
+                $('#shippingInfoTableList').show();
+                
+            }
+         $('.ship').click(function() {
+         $('#shippingInfoTableList').show();
+         });
+         $('.pick').click(function() {
+         $('#shippingInfoTableList').hide();
+         });
 
 
 

@@ -432,7 +432,10 @@ $this->pagination->initialize($config);
     }
 
     public function registeruser() {
-
+        
+        $cart = $this->cart->contents();
+        if(!empty($cart))
+        {
         $data['headertitle'] = $this->viewmodel->get_header_title();
         $data['headerlogo'] = $this->viewmodel->get_header_logo();
         $data['meta'] = $this->dbmodel->get_meta_data();
@@ -443,6 +446,10 @@ $this->pagination->initialize($config);
         $this->load->view('templates/userRegistrationAndShipping', $data);
         $this->load->view('templates/cartLogin');
         $this->load->view('templates/footer');
+    }
+    else{
+        redirect('view/index', 'refresh');
+    }
     }
 
     function logout() {
