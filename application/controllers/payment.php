@@ -52,7 +52,7 @@ class Payment extends CI_Controller {
         
        // die("shipping cost =".$cost."<br/> discount rate =".$rate."<br/> grand total =".$grandTotal);
 
-        if ($_POST['onoffswitch']) {
+        //if ($_POST['onoffswitch']) {
 
         //    $this->form_validation->set_rules('s_fname', 'First name', 'trim|required|xss_clean');
         //    $this->form_validation->set_rules('s_lname', 'Last name', 'trim|required|xss_clean');
@@ -120,7 +120,7 @@ class Payment extends CI_Controller {
                     $this->session->set_flashdata('message', 'Type valid email address');
                     redirect('view/registeruser', 'refresh');
                 }
-            }
+          //  }
         //}
 
         $this->form_validation->set_rules('u_fname', 'First name', 'trim|required|xss_clean');

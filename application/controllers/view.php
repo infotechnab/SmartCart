@@ -514,8 +514,6 @@ $this->pagination->initialize($config);
 
     public function addNewUser() {
 
-
-
         $data['headertitle'] = $this->viewmodel->get_header_title();
         $data['headerlogo'] = $this->viewmodel->get_header_logo();
         $data['meta'] = $this->dbmodel->get_meta_data();
