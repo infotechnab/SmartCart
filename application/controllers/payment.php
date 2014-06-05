@@ -40,7 +40,19 @@ class Payment extends CI_Controller {
     }
 
     function do_payment() {
-
+        
+        $cost = trim($_POST['cost']);
+        $rate = trim($_POST['rate']);
+        $grandTotal = trim($_POST['grandtotal']);
+        
+        if(isset($grandTotal)==0 || $grandTotal==NULL)
+        {
+            redirect('view/index', 'refresh');
+        }
+        else{
+            
+        }
+        
         include_once("paypal_config.php");
         include_once("paypal.class.php");
         $paypalmode = ($PayPalMode == 'sandbox') ? '.sandbox' : '';
