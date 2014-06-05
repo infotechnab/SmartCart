@@ -387,15 +387,16 @@ class Payment extends CI_Controller {
     
     
     
-    public function email($trnId, $name, $date, $email, $productname){
+    public function email(){
+        $data['user']=array("tranId"=>'5337',"date"=>'2014/06/05',"email"=>'info@salyani.com.np',"name"=>'Ramji',"productId"=>'1',"productName"=>'Chhadke', "productImage"=>'',"qty"=>'5',"price"=>'$45',"discount"=>'5%',"ship"=>'');
         $data['headertitle'] = $this->viewmodel->get_header_title();
         $data['headerlogo'] = $this->viewmodel->get_header_logo();
         $data['meta'] = $this->dbmodel->get_meta_data();
         $data['headerdescription'] = $this->viewmodel->get_header_description();
-        
+       // var_dump($data['user']);
         $this->load->view('templates/header', $data);
         $this->load->view('templates/navigation');
-        $this->load->view('templates/emailTemplate');
+        $this->load->view('templates/emailTemplate', $data);
         $this->load->view('templates/footer');
     }
 
