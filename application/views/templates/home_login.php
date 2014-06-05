@@ -6,7 +6,7 @@
                 <?php if (isset($login_validation_error) && strlen($login_validation_error)>2) {
                     echo $login_validation_error;
                 }
-               // echo validation_errors();
+               if($this->session->flashdata('message')){echo $this->session->flashdata('message');}
                 
                 ?> </div>
 <?php echo form_open('view/validate_login'); ?>

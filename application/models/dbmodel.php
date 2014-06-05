@@ -20,15 +20,21 @@ class Dbmodel extends CI_Model {
         }
     }
 function validate_user($email, $pass) {
-    
+    $password=md5($pass);
         $this->db->where('user_email',$email );
-        $this->db->where('user_pass', $pass);
+        $this->db->where('user_pass', $password);
         $this->db->where('user_type',1);
         $query = $this->db->get('user');
         return $query->result();
     }
-    
-    
+    public function get_logged_in_user($userEmail){
+        $this->db->where('user_email', $userEmail );
+        $this->db->where('user_type',1);
+        $query = $this->db->get('user');
+        return $query->result();
+    }
+
+
     // this is another method to get user verified 
     function login($name, $pass) {
         $this->db->select('id, user_name, user_pass');

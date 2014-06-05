@@ -469,29 +469,24 @@ $this->pagination->initialize($config);
         $data['meta'] = $this->dbmodel->get_meta_data();
         $data['headerdescription'] = $this->viewmodel->get_header_description();
 
-        $this->load->library('form_validation');
-        $this->form_validation->set_rules('user_email', 'Email', 'trim|required|xss_clean');
-        $this->form_validation->set_rules('user_pass', 'Password', 'trim|required|xss_clean|md5|callback_check_database');
-        if ($this->form_validation->run() == FALSE) {
-            $validation_message=""; 
-             $data['login_validation_error']= $validation_message.validation_errors();
-               $this->load->view('templates/header', $data);
+         $this->load->library('form_validation');
+        $this->form_validation->set_rules('user_email', 'Email', 'trim|regex_match[/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/]|required|xss_clean');
+        $this->form_validation->set_rules('user_pass', 'Password', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,35}$/]|required|xss_clean|callback_check_database');
+       
+        
+        if ($this->form_validation->run() == FALSE  ) {
+            $data['login_validation_error']= validation_errors();
+            
+            
+            $this->load->view('templates/header', $data);
             $this->load->view('templates/navigation');
-            $this->load->view('templates/home_login',$data);
+            $this->load->view('templates/home_login', $data);
+            $this->load->view('templates/login');
             $this->load->view('templates/footer');
+            
         } else {
-            if (preg_match("/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/", $_POST['user_email'])) {
-                $email = $this->input->post('user_email');
-            } else {
-                $this->session->set_flashdata('login_message', 'Type valid email address');
-                redirect('view/homeLogin', 'refresh');
-            }
-            if (preg_match("/^[a-z,0-9,A-Z]{5,35}$/", $_POST['user_pass'])) {
-                $pass = $this->input->post('user_pass');
-            } else {
-                $this->session->set_flashdata('login_message', 'password must be 5 to 35 character long');
-                redirect('view/homeLogin', 'refresh');
-            }
+            $email = trim($_POST['user_email']); 
+            $pass = trim($_POST['user_pass']); 
             $query = $this->dbmodel->validate_user($email, $pass);
 
             if (!empty($query)) { // if the user's credentials validated...
@@ -506,7 +501,7 @@ $this->pagination->initialize($config);
                 $this->session->set_userdata($data);
                 redirect('view/index');
             } else {
-                $this->session->set_flashdata('login_message', 'Username or password incorrect');
+                $this->session->set_flashdata('message', 'Username or password incorrect');
                 redirect('view/homeLogin');
             }
         }
