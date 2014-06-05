@@ -107,7 +107,7 @@ if (!empty($product)) {
         ?>
                 <div class='contentContainerBox'>
 
-                    <div class='contentContainerHeader'><a href='<?php echo base_url() . "index.php/view/details/" . $product_list->id ?>'><h3><?php echo $product_list->name; ?></h3>
+                    <div class='contentContainerHeader'><a href='<?php echo base_url() . "index.php/view/details/" . $product_list->id ?>'>
                             <?php if ($product_list->like == "enabled") { ?>
                                 <div class="fb-like" data-href="<?php echo base_url() . "/index.php/view/details/" . $product_list->id; ?>" data-layout="button_count" data-action="like" data-show-faces="false" data-share="false"></div>
                                 <?php
@@ -123,6 +123,7 @@ if (!empty($product)) {
             
         }
         ?>
+                       <h3><?php echo $product_list->name; ?></h3>         
                     </div>
                     <div class='contentContainerImage'>
                         <img src="<?php echo base_url() . "content/uploads/images/" . $product_list->image1; ?>" alt="No images" height="150" width="130"/>   

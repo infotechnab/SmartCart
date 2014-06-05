@@ -25,13 +25,10 @@ class View extends CI_Controller {
         $data['headerlogo'] = $this->viewmodel->get_header_logo();
         $data['meta'] = $this->dbmodel->get_meta_data();
         $data['headerdescription'] = $this->viewmodel->get_header_description();
-
         $data['featureItem'] = $this->productmodel->featured_item();
-
         $config = array();
         $config["base_url"] = base_url() . "index.php/view/index";
         $config["total_rows"] = $this->dbmodel->record_count_product();
-// var_dump($config["total_rows"]);
         $config["per_page"] = 15;
         $this->pagination->initialize($config);
         $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
@@ -65,7 +62,7 @@ $this->pagination->initialize($config);
         $data["links"] = $this->pagination->create_links();
 
         $data['category'] = $this->productmodel->category_list();
-//var_dump($data);
+
         $data['slider_json'] = json_encode($data['featureItem']);
         $this->load->view('templates/header', $data);
         $this->load->view('templates/navigation');
@@ -88,7 +85,7 @@ $this->pagination->initialize($config);
         $data['featureItem'] = $this->productmodel->featured_item();
         $data['category'] = $this->productmodel->category_list();
 
-//$data['product'] = $this->productmodel->getProductById($id);
+
         $data['token_error'] = "Sorry the item you are searching in not found";
         $this->load->view('templates/header', $data);
         $this->load->view('templates/navigation');
