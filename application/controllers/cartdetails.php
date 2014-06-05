@@ -88,30 +88,6 @@ class Cartdetails extends CI_Controller {
         $data['meta'] = $this->dbmodel->get_meta_data();
         $data['headerdescription'] = $this->viewmodel->get_header_description();
 
-
-        $this->load->helper('form');
-        $this->load->library(array('form_validation', 'session'));
-        $this->form_validation->set_rules('u_name', 'User Name', 'required|xss_clean|max_length[200]');
-        $this->form_validation->set_rules('u_fname', 'First Name', 'required|xss_clean|max_length[200]');
-        $this->form_validation->set_rules('u_lname', 'Last Name', 'required|xss_clean|max_length[200]');
-        $this->form_validation->set_rules('street_address', 'Address', 'required|xss_clean|max_length[200]');
-        $this->form_validation->set_rules('Town_address', 'City', 'required|xss_clean|max_length[200]');
-        $this->form_validation->set_rules('District_address', 'State', 'required|xss_clean|max_length[200]');
-        // $this->form_validation->set_rules('country', 'Country', 'required|xss_clean|max_length[200]');           
-        $this->form_validation->set_rules('u_email', 'User email', 'required|xss_clean|max_length[200]');
-        $this->form_validation->set_rules('u_contact', 'Contact', 'required|xss_clean|max_length[200]');
-
-        // $this->form_validation->set_rules('u_pass', 'Password', 'required|xss_clean|md5|max_length[200]');
-        //  $this->form_validation->set_rules('u_repass', 'Password', 'required|xss_clean|md5|max_length[200]');
-
-        if ($this->form_validation->run() == FALSE) {
-
-            $this->load->view('templates/header', $data);
-            $this->load->view('templates/navigation');
-            $this->load->view('templates/userRegistrationAndShipping');
-            $this->load->view('templates/footer');
-        } else {
-
             $username = $this->input->post('u_name');
             $fname = $this->input->post('u_fname');
             $lname = $this->input->post('u_lname');
@@ -192,9 +168,7 @@ class Cartdetails extends CI_Controller {
        VALUES ('" . $oId . "','" . $item['id'] . "', '" . $item['qty'] . "', '$tid', '$tr')");
                 }
             }
-            $this->email($tid, $username, $s_username);
-            $this->load->view('templates/inserted');
-        }
+            
     }
 
     public function email() {

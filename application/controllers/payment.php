@@ -206,6 +206,7 @@ class Payment extends CI_Controller {
                         'itm_code' => $_POST['item_code'][$key],
                         'itm_qty' => $_POST['item_qty'][$key]
                     );
+                    
                 }
             }
 
@@ -380,6 +381,22 @@ class Payment extends CI_Controller {
                 echo '</pre>';
             }
         }
+    }
+    
+    
+    
+    
+    
+    public function email($trnId, $name, $date, $email, $productname){
+        $data['headertitle'] = $this->viewmodel->get_header_title();
+        $data['headerlogo'] = $this->viewmodel->get_header_logo();
+        $data['meta'] = $this->dbmodel->get_meta_data();
+        $data['headerdescription'] = $this->viewmodel->get_header_description();
+        
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/navigation');
+        $this->load->view('templates/emailTemplate');
+        $this->load->view('templates/footer');
     }
 
 }
