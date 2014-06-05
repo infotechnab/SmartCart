@@ -56,7 +56,7 @@ class Payment extends CI_Controller {
             redirect('view/index', 'refresh');
         }
         else{
-            
+            echo "do payment";
         }
         
         include_once("paypal_config.php");

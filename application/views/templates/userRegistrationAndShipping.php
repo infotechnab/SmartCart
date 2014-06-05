@@ -437,7 +437,7 @@ if (isset($shiping_cost) == true) {
 <!-- if logged in the above view works but 
 if clicked in continue the following view works -->
 <?php
-echo form_open('payment/do_payment');
+    echo form_open('payment/do_payment');
 ?>
 
 <div id="login">
