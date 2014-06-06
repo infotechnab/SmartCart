@@ -341,7 +341,7 @@ $(document).ready(function() {
     </div >
     <div style="clear:both;"></div>
     
-   <div style="margin-top: 10px; background-color: #999; color: #3399ff;padding:5px; border-radius:5px; width:95%; ">
+   <div style="margin: 10px 0px 5px 0px; background-color: #999; color: #3399ff; border-radius:5px; width:95%; ">
     <?php echo $links; ?>
     </div>
 </div>

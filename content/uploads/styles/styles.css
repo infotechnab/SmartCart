@@ -1459,7 +1459,8 @@ div.vertical-line{
     #cssmenu ul li.has-sub ul li.has-sub
     {
         width: 170%;
-        z-index:1000;
+        text-overflow: ellipsis;
+    overflow: hidden;
     }
     #cssmenu .has-sub {
   #verticalline
@@ -1689,7 +1690,12 @@ a
     text-decoration: none;
     color: white;
 }
-
+#cssmenu ul li.has-sub ul li.has-sub
+    {
+       
+        text-overflow: ellipsis;
+    overflow: hidden;
+    }
 #updateCartBtn
 {
     border: none;
