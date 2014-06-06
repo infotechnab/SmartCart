@@ -393,7 +393,7 @@ public function check_user_email($email){
     function get_product()
     {
         $this->db->order_by('id','DESC');
-        $this->db->where('status = 0');
+        //$this->db->where('status = 0');
         $query = $this->db->get('product',3);
         return $query->result();
     }

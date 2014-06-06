@@ -636,6 +636,52 @@ if ($this->form_validation->run())
 
         send_email($user_email, $subject, $message);
     }
+    
+    public function userdetails(){
+        $data['headertitle'] = $this->viewmodel->get_header_title();
+        $data['headerlogo'] = $this->viewmodel->get_header_logo();
+        $data['meta'] = $this->dbmodel->get_meta_data();
+        $data['headerdescription'] = $this->viewmodel->get_header_description();
+        $data['featureItem'] = $this->productmodel->featured_item();
+        $data['product_info'] = $this->productmodel->product_info();
+        $data['category'] = $this->productmodel->category_list();
+        $this->load->view('templates/header', $data);
+            $this->load->view('templates/navigation');
+            $this->load->view('templates/user_details');
+            $this->load->view('templates/sidebarview', $data);
+            $this->load->view('templates/footer');
+        
+        
+        
+        
+        
+    }
+    
+    public function updateUser(){
+
+    $this->form_validation->set_rules('u_fname', 'First name', 'trim|regex_match[/^[a-z,0-9,A-Z]{3,15}$/]|required|xss_clean|max_length[15]');
+        $this->form_validation->set_rules('u_lname', 'Last name', 'trim|regex_match[/^[a-z,0-9,A-Z]{3,15}$/]|required|xss_clean|max_length[15]');
+        $this->form_validation->set_rules('street_address', 'Address', 'trim|regex_match[/^[a-z,0-9,A-Z]{2,35}$/]|required|xss_clean|max_length[35]');
+        $this->form_validation->set_rules('Town_address', 'City/Town', 'trim|regex_match[/^[a-z,0-9,A-Z]{2,35}$/]|required|xss_clean|max_length[35]');
+        $this->form_validation->set_rules('District_address', 'State/District', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,35}$/]|required|xss_clean|max_length[35]');
+        $this->form_validation->set_rules('zip', 'Zip', 'trim|regex_match[/^[0-9]{2,15}$/]|required|xss_clean|max_length[15]');
+        $this->form_validation->set_rules('country', 'Country', 'trim|regex_match[/^[a-z,0-9,A-Z]{2,35}$/]|required|xss_clean|max_length[35]');
+        $this->form_validation->set_rules('u_contact', 'Contact no.', 'trim|regex_match[/^[0-9]{5,15}$/]|required|xss_clean|max_length[15]');
+        $this->form_validation->set_rules('user_email', 'Email', 'trim|regex_match[/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/]|required|xss_clean|max_length[200]');
+         if ($this->form_validation->run() == FALSE ) {
+            $data['user_validation_message'] = validation_errors();
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/navigation');
+            $this->load->view('templates/userRegistrationAndShipping', $data);
+            $this->load->view('templates/footer');
+            
+        } else {
+            
+        }
+    }
+
+    
+
 
     public function shippingAddress() {
         $this->load->view('templates/header');

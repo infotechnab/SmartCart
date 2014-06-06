@@ -43,12 +43,7 @@
                 echo $pageTitle = $title;
             }
             ?>">
-        <meta name="description=" content="<?php if (isset($pageDescription)) {
-                echo $title. "-" .$pageDescription;
-            } else {
-                echo $title;
-            }
-            ?>">
+        
         <meta name="keywords" content="Shopping cart, Cart, Jackek, Smart Access Services, tickets, etickets, nepali movie tickets, car on hire, vehicles on hire">
     </head>
 
@@ -181,7 +176,7 @@ $(function() {
             <?php }
             else{ ?>
                 <div id="signupHeader" style="min-width: 30%; float: right;">
-                            <div style="border-radius: 3px; padding: 5px; min-width:40%; text-align: center; margin: 15% 1% 0% 1.5%; float: left; background-color: #6fa5e2; color: #000;"><?php echo $this->session->userdata ('username'); ?></div>
+                            <div style="border-radius: 3px; padding: 5px; min-width:40%; text-align: center; margin: 15% 1% 0% 1.5%; float: left; background-color: #6fa5e2; color: #000;"><?php echo anchor('view/userdetails',$this->session->userdata ('username')); ?></div>
                             <div style="border-radius: 3px; padding: 5px; min-width:40%; text-align: center; margin: 15% 1% 0% 1.5%; float: left; background-color: #f61938; color: #000;"><?php echo anchor('view/logout','Log Out') ?></div>
                         </div>
          <?php   }
