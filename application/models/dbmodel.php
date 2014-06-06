@@ -456,7 +456,20 @@ public function check_user_email($email){
         $this->db->where('id',$id);
         $this->db->update('product',$data);
     }
-    function updateDetails($status,$pid,$trn)
+    public function update_user_data($fname,$lname,$street,$town,$district,$zip,$country,$contact,$email)
+    {
+        $data=array(
+            'user_fname'=>$fname,
+            'user_lname'=>$lname,
+            'city'=>$town,
+        'state'=>$district,
+                'zip'=>$zip,
+            'country'=>$country,
+            'contact'=>$contact);
+        $this->db->where('user_email',$email);
+        $this->db->update('user',$data);
+    }
+            function updateDetails($status,$pid,$trn)
     {
         //die($status.$pid.$trn);
        // die($pid);

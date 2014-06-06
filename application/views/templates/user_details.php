@@ -24,7 +24,7 @@
                 <?php if (isset($user_validation_message) && strlen($user_validation_message)>2) {
                     echo $user_validation_message;
                 }
-               
+               if($this->session->flashdata('message')){echo $this->session->flashdata('message');}
                 
                 ?> </div>
         <?php echo form_open_multipart('view/updateUser'); ?>

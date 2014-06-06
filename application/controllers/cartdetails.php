@@ -83,56 +83,11 @@ class Cartdetails extends CI_Controller {
     }
 
     function login_insert_cart_item() {
-        $data['headertitle'] = $this->viewmodel->get_header_title();
-        $data['headerlogo'] = $this->viewmodel->get_header_logo();
-        $data['meta'] = $this->dbmodel->get_meta_data();
-        $data['headerdescription'] = $this->viewmodel->get_header_description();
+        
 
-            $username = $this->input->post('u_name');
-            $fname = $this->input->post('u_fname');
-            $lname = $this->input->post('u_lname');
-            $address = $this->input->post('street_address');
-            $city = $this->input->post('Town_address');
-            $state = $this->input->post('District_address');
-            $country = $this->input->post('country');
-            $contact = $this->input->post('u_contact');
-            $email = $this->input->post('u_email');
-            $pass = $this->input->post('u_pass');
-            $zip = $this->input->post('zip');
+            
 
-            if ($this->input->post('pickup') == "pickup") {
-
-                $s_username = " ";
-                $s_address = " ";
-                $s_city = " ";
-                $s_state = " ";
-                $s_zip = " ";
-                $s_country = " ";
-                $s_email = " ";
-                $s_contact = " ";
-            } elseif ($this->input->post('pickup') == "shipSame") {
-                $s_username = $username;
-                $s_address = $address;
-                $s_city = $city;
-                $s_state = $state;
-                $s_zip = $zip;
-                $s_country = $country;
-                $s_email = $email;
-                $s_contact = $contact;
-            } else {
-                $s_fname = $this->input->post('s_fname');
-                $s_lname = $this->input->post('s_lname');
-                $name = $s_fname . " " . $s_lname;
-
-                $s_username = $name;
-                $s_address = $this->input->post('s_address');
-                $s_city = $this->input->post('s_city');
-                $s_state = $this->input->post('s_state');
-                $s_zip = $this->input->post('s_zip');
-                $s_country = $this->input->post('s_country');
-                $s_email = $this->input->post('s_email');
-                $s_contact = $this->input->post('s_contact');
-            }
+            
 
 
             // $this->productmodel->add_new_user($username, $fname, $lname, $email, $pass, $contact,$address,$city,$state,$country,$zip);
