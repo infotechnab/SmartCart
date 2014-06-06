@@ -164,8 +164,8 @@ if (!empty($product)) {
 <!-- left side content closed here -->
 
 <div id='sidebar'>
-    <div class="redColouredDiv" id='sidebarContent'>
-        <div id="sideBarImage"><img src="<?php echo base_url() . "content/uploads/images/addtocart.png"; ?>"/> </div>   
-        <h3>Shopping Cart</h3>
-    </div>
-    <div class='cartItems' id="shopping_cart">
+            <div class="redColouredDiv" id='sidebarContent'>
+                <div id="sideBarImage"><img src="<?php echo base_url() . "content/uploads/images/addtocart.png"; ?>"/> </div>   
+                <h3>Shopping Cart</h3>
+            </div>
+            <div class='sidebarContentNext' id="shopping_cart">

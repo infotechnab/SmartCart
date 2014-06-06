@@ -258,7 +258,7 @@ $(document).ready(function() {
 
         <!-- left side details content closed here -->
 
-        <div id='sidebar'>
+       <div id='sidebar'>
             <div class="redColouredDiv" id='sidebarContent'>
                 <div id="sideBarImage"><img src="<?php echo base_url() . "content/uploads/images/addtocart.png"; ?>"/> </div>   
                 <h3>Shopping Cart</h3>

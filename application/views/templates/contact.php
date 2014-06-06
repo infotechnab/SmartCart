@@ -86,58 +86,11 @@ $this->load->helper('currency');
     <!-- the slider ends here-->
 
     <div class='contentHeader'>
-        <h3>Contact Us</h3>
+         
+            
+        <iframe src="https://docs.google.com/forms/d/1-ZM5HiNXe4mzqN6W2tvifoogVkfiWT3tTfTeE3llRfY/viewform?embedded=true" width="700" height="600" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>
 
     </div>
-    <div class="contentContainer">
-                <h3> Smart Access Services </h3>
-                <h4> 35 Tarana Ave ,Glenroy VIC 3046 </h4> 
-                
-        
-<?php   echo form_open('view/comment');
-
-
- include_once('recaptchalib.php');
-
-// Get a key from https://www.google.com/recaptcha/admin/create
-$publickey = "6LfbzPQSAAAAAG5p6RmShqg3Y_vLUe5ApMl9DtiO";
-$privatekey = "6LfbzPQSAAAAAJn3pPA066E1Mgr-6R8L7lQfRI7V";
-
-# the response from reCAPTCHA
-$resp = null;
-# the error code from reCAPTCHA, if any
-$error = null;
-
-# was there a reCAPTCHA response?
-if (isset($_POST["recaptcha_response_field"])) {
-        $resp = recaptcha_check_answer ($privatekey,
-                                        $_SERVER["REMOTE_ADDR"],
-                                        $_POST["recaptcha_challenge_field"],
-                                        $_POST["recaptcha_response_field"]);
-
-        if ($resp->is_valid) {
-                echo "You got it!";
-           
-        } else {
-                # set the error code so that we can display it
-                $error = $resp->error;
-        }
-}
-?>
-                <div>
-     <input type="email" name="email" class="placeholder" placeholder="type your email" /> <br/>
-    <textarea class="placeholder" name="message" placeholder="type your comment!"></textarea>
-<?php
-echo recaptcha_get_html($publickey, $error);
-?>
-    <br/>
-    <input type="submit" value="submit" />
-    </div>
-  <?php echo form_close(); ?>
-                
-                
-    </div>
-
 
    
       <div style="clear:both;"></div>
@@ -145,8 +98,8 @@ echo recaptcha_get_html($publickey, $error);
     
     </div>
 </div>
+</div>
 <!-- left side content closed here -->
-
 <div id='sidebar'>
     <div class="redColouredDiv" id='sidebarContent'>
         <div id="sideBarImage"><img src="<?php echo base_url() . "content/uploads/images/addtocart.png"; ?>"/> </div>   

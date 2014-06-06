@@ -38,6 +38,7 @@ var base_url = '<?php echo base_url(); ?>';
     
 
 </script>
+ 
 <div class='cartItems' id="shopping_cart">
     
 		<?php foreach ($category as $catList) {
