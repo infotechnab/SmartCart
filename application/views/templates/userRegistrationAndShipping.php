@@ -429,6 +429,18 @@ function myFunction() {
         $country = $userdetail->country;
     }
 }
+ else {
+     $username="";
+     $fname="";
+     $lname="";
+     $email="";
+     $contact="";
+     $address="";
+     $city="";
+     $state="";
+     $zip="";
+     $country="";
+}
 ?>
 <!-- if logged in the above view works but 
 if clicked in continue the following view works -->
