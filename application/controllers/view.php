@@ -671,20 +671,16 @@ class View extends CI_Controller {
             $town=  trim($_POST['Town_address']);
             $district=  trim($_POST['District_address']);
             $zip=  trim($_POST['zip']);
-            $country=  trim($_POST['country']);
+            $country=  trim($_POST['countrye']);
             $contact=  trim($_POST['u_contact']);
             $email=  trim($_POST['user_email']);
-            $userEmail=  $this->session->userdata('useremail');
-            if($userEmail===$email)
-            {
             $this->dbmodel->update_user_data($fname,$lname,$street,$town,$district,$zip,$country,$contact,$email); 
-            }else{
-            $this->session->set_flashdata('message', 'Your email did not match');
-                redirect('view/userdetails');
-            }  
+            
+            
+            
+            
+            
         }
-        $this->session->set_flashdata('message', 'Your details has been updatedsuccessfully');
-                redirect('view/index');
     }
 
     public function shippingAddress() {
@@ -800,9 +796,11 @@ class View extends CI_Controller {
     {
         if($_POST)
         {
+            
             $email = $_POST['email'];
             $message = $_POST['message'];
             die($email.$message);
+            
         }
         else{
             $this->contact();
