@@ -68,7 +68,7 @@ $(document).ready(function() {
                 <img src="<?php echo base_url()."content/bnw/images/menu.png"; ?>"/>
             </div>
             <img src="<?php echo base_url()."content/bnw/images/bnw.png"; ?>"/>
-            <?php  if ($this->session->userdata('logged_in')){ ?>
+            <?php  if ($this->session->userdata('admin_logged_in')){ ?>
             <div id="topRight">
                 <p>
                     <?php echo $this->session->userdata ('username'); ?>

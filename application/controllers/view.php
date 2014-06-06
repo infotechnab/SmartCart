@@ -606,7 +606,7 @@ class View extends CI_Controller {
 
                 $this->session->set_userdata($data);
                 $this->registerEmail($email, $name);
-                //$this->session->set_('register_message', 'User Registered Successfully');
+                $this->session->set_flashdata('message', 'User Registered Successfully');
 
                 redirect('view/index');
             }
@@ -649,11 +649,11 @@ class View extends CI_Controller {
         
         $this->form_validation->set_rules('u_fname', 'First name', 'trim|regex_match[/^[a-z,0-9,A-Z]{2,15}$/]|xss_clean|max_length[15]');
         $this->form_validation->set_rules('u_lname', 'Last name', 'trim|regex_match[/^[a-z,0-9,A-Z]{2,15}$/]|xss_clean|max_length[15]');
-        $this->form_validation->set_rules('street_address', 'Address', 'trim|required|xss_clean|max_length[35]');
-        $this->form_validation->set_rules('Town_address', 'suburb/city', 'trim|regex_match[/^[a-z,0-9,A-Z]{2,35}$/]|xss_clean|max_length[35]');
-        $this->form_validation->set_rules('District_address', 'State', 'trim|regex_match[/^[a-z,0-9,A-Z]{2,35}$/]|required|xss_clean|max_length[35]');
+        $this->form_validation->set_rules('street_address', 'Address', 'trim|regex_match[/^[A-Za-z0-9\-\\,.]{2,35}$/]|required|xss_clean|max_length[35]');
+        $this->form_validation->set_rules('Town_address', 'suburb/city', 'trim|regex_match[/^[A-Za-z0-9\-\\,.]{2,35}$/]|xss_clean|max_length[35]');
+        $this->form_validation->set_rules('District_address', 'State', 'trim|regex_match[/^[A-Za-z0-9\-\\,.]{2,35}$/]|required|xss_clean|max_length[35]');
         $this->form_validation->set_rules('zip', 'Post Code', 'trim|regex_match[/^[0-9]{4,15}$/]|required|xss_clean|max_length[15]');
-        $this->form_validation->set_rules('country', 'Country', 'trim|regex_match[/^[a-z,0-9,A-Z]{2,35}$/]|required|xss_clean|max_length[35]');
+        $this->form_validation->set_rules('country', 'Country', 'trim|regex_match[/^[A-Za-z0-9\-\\,.]{2,35}$/]|required|xss_clean|max_length[35]');
         $this->form_validation->set_rules('u_contact', 'Contact no.', 'trim|regex_match[/^[0-9]{5,15}$/]|xss_clean|max_length[15]');
         $this->form_validation->set_rules('user_email', 'Email', 'trim|regex_match[/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/]|required|xss_clean|max_length[200]');
         if ($this->form_validation->run() == FALSE) {
@@ -674,19 +674,40 @@ class View extends CI_Controller {
             $country=  trim($_POST['country']);
             $contact=  trim($_POST['u_contact']);
             $email=  trim($_POST['user_email']);
+            $userEmail= $this->session->userdata('useremail');
+                        if($userEmail===$email)
+            {
             $this->dbmodel->update_user_data($fname,$lname,$street,$town,$district,$zip,$country,$contact,$email); 
-             $this->load->view('templates/header', $data);
-	        $this->load->view('templates/navigation');
-	        $this->load->view('templates/user_details');
-	        $this->load->view('templates/cart');
-	        $this->load->view('templates/sidebarview', $data);
-	        $this->load->view('templates/footer');
             
             
             
             
+            
+            }else{
+            $this->session->set_flashdata('message', 'Your email did not match');
+                redirect('view/userdetails');
+            }  
         }
+        $this->session->set_flashdata('message', 'Your details has been updatedsuccessfully');
+                redirect('view/index');
     }
+
+            
+            
+   //         $this->dbmodel->update_user_data($fname,$lname,$street,$town,$district,$zip,$country,$contact,$email); 
+   //          $this->session->set_flashdata('message', 'Your data has been successfully updated');
+   //          $this->load->view('templates/header', $data);
+//	        $this->load->view('templates/navigation');
+//	        $this->load->view('templates/user_details');
+//	        $this->load->view('templates/cart');
+//	        $this->load->view('templates/sidebarview', $data);
+//	        $this->load->view('templates/footer');
+            
+            
+            
+            
+  //      }
+ //   }
 
     public function shippingAddress() {
         $this->load->view('templates/header');
@@ -734,7 +755,7 @@ class View extends CI_Controller {
                 } else {
                     $this->dbmodel->add_new_user($name, $fname, $lname, $email, $pass, $status, $user_type, $contact, $address);
 
-                    echo " User registerd <br/> You may contineu shopping ";
+                    
 
 //$this->session->set_flashdata('message', 'User registerd <br/> You may contineu shopping');
 //  redirect('view/registeruser');               

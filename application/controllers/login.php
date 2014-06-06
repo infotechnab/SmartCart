@@ -15,12 +15,12 @@ class Login extends CI_Controller {
     }
 
     function index() {
-        //echo ("login controler!");
-        //$this->load->library('session');
+
+       
         if ($this->session->userdata('admin_logged_in')&& $this->session->userdata('admin')) {
              redirect('bnw', 'refresh');
         } else {
-           
+            $this->session->sess_destroy();
             $data['meta'] = $this->dbmodel->get_meta_data();
             $this->load->view('bnw/templates/loginTemplate', $data);
             $this->load->view('bnw/templates/footer', $data);
@@ -28,6 +28,7 @@ class Login extends CI_Controller {
     }
 
     function validate_credentials() {
+          
         $this->load->library('session');
         if (isset($_POST['checkMe'])) {
 
@@ -46,10 +47,13 @@ class Login extends CI_Controller {
         } else {
             $this->load->model('dbmodel');
             $query = $this->dbmodel->validate();
-            if ($query) { // if the user's credentials validated...
+            if ($query) {
+                // if the user's credentials validated...
+              
                 $data = array(
                     'username' => $this->input->post('username'),
                     'admin_logged_in' => true,
+                    'logged_in' =>true
                    
                 );
                 $this->session->set_userdata($data);

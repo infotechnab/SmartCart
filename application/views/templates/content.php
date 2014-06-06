@@ -262,7 +262,11 @@ $(document).ready(function() {
 
 <div id='content'>
     <!-- from slider starts-->
-
+<div class="sucessmsg">
+                <?php 
+               if($this->session->flashdata('message')){echo $this->session->flashdata('message');}
+                
+                ?> </div>
     <div class="slider_main">
         <div class='contentHeader'>
             <h3>Featured products</h3>

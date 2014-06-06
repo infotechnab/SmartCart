@@ -461,6 +461,7 @@ public function check_user_email($email){
         $data=array(
             'user_fname'=>$fname,
             'user_lname'=>$lname,
+            'address'=>$street,
             'city'=>$town,
         'state'=>$district,
                 'zip'=>$zip,
