@@ -28,6 +28,8 @@ public function product_info(){
     }
     
     public function featured_item(){
+        $status = 0;
+        $this->db->where('status',$status);
      $this->db->order_by('id','DESC');
      $query = $this->db->get_where('product', array('category' => '13'));
        return $query->result();
