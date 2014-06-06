@@ -64,6 +64,43 @@ function send_email($user_email,$subject,$message)
    }    
    }
 
+function query_email($user_email, $msg)
+{
+    $body = '<div style="width: 750px; margin: 0 auto 0 auto; padding: 0px;" >
+        
+
+   <div style="padding: 10px 20px 10px 20px; background-color: #eee;"> 
+    
+    <h4>Dear Sir/Madam,</h4>
+    
+
+    <p>'.$msg.'</p>
+    
+
+<h5>Regards</h5>
+<p>'.$user_email.'</p>
+</div>
+
+</div>';
+    return $body;
+    
+} 
+
+function send_query_email($user_email,$subject,$message)
+                {
+     $headers = 'From: '.$user_email.'' ."\r\n" ;
+             $headers .="CC: info@salyani.com.np";
+    $headers .="MIME-Version: 1.0" . "\r\n";
+            $headers .="Content-type:text/html;charset=UTF-8" . "\r\n";
+
+    if (mail($user_email, $subject, $message, $headers)) {
+         redirect('view/index');
+    } else {
+        echo '<h3>Sorry email could not be sent.</h3>';
+         
+   }    
+   }
+
 function register_email($user_email, $user_name)
 {
     $body = '<div style="width: 750px; margin: 0 auto 0 auto; padding: 0px;" >
@@ -91,9 +128,4 @@ function register_email($user_email, $user_name)
     return $body;
     
 } 
-
-function comment_email()
-{
-    
-}
  

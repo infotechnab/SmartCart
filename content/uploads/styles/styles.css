@@ -1143,11 +1143,11 @@ div.vertical-line{
     }
 #cssmenu ul li.has-sub
     {
-        width: 48.5%;
+        width: 49.5%;
     }
 #cssmenu ul li.has-sub a
     {
-        width: 99%;
+        width: 96%;
         margin: 0 auto 0 auto;
         text-align: center;
     }
@@ -1459,6 +1459,7 @@ div.vertical-line{
     #cssmenu ul li.has-sub ul li.has-sub
     {
         width: 170%;
+        z-index:1000;
     }
     #cssmenu .has-sub {
   #verticalline
