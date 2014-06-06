@@ -73,6 +73,11 @@ $this->pagination->initialize($config);
         $this->load->view('templates/sidebarview', $data);
         $this->load->view('templates/footer');
     }
+    
+    public function user_detail()
+    {
+        
+    }
 
     public function error() {
         $data['headertitle'] = $this->viewmodel->get_header_title();
@@ -520,28 +525,29 @@ $this->pagination->initialize($config);
         $data['shiping'] = $this->productmodel->getship();
 
         $this->load->library('form_validation');
-        $this->form_validation->set_rules('u_name', 'Username', 'trim|required|xss_clean');
+        $this->form_validation->set_rules('u_name', 'Name', 'trim|required|xss_clean');
         $this->form_validation->set_rules('u_email', 'Email', 'trim|required|xss_clean');
-        $this->form_validation->set_rules('u_pass', 'Password', 'trim|required|xss_clean|callback_check_database');
-        $this->form_validation->set_rules('u_pass_re', 'Password', 'trim|required|xss_clean|callback_check_database');
+        $this->form_validation->set_rules('u_pass', 'Password', 'trim|xss_clean|required|callback_check_database');
+        $this->form_validation->set_rules('u_pass_re', 'Confirm Password', 'trim|xss_clean|required|callback_check_database');
 
         $validation = TRUE;
         $validation_message = "";
-
+if ($this->form_validation->run())
+{
         if (isset($_POST['u_name']))
         { 
             
             
             $name = trim($_POST['u_name']);            
-            if (!preg_match("/^[a-z,0-9,A-Z]{5,15}$/", $name)) {
-            $validation_message .= "<p>User name must be 5 to 15 character long</p>";
+            if (!preg_match("/^[a-z,0-9,A-Z]{2,15}$/", $name)) {
+            $validation_message .= "<p>Enter valid name</p>";
             $validation = FALSE;
         }
         }
         if (isset($_POST['u_email']))
         {$email = trim($_POST['u_email']);        
          if (!preg_match("/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/", $email)) {
-            $validation_message .= "<p>Type valid email address</p>";
+            $validation_message .= "<p>Enter valid email address</p>";
             $validation = FALSE;
         }
         }
@@ -575,9 +581,9 @@ $this->pagination->initialize($config);
             
         }
 
-        
+}
         if ($this->form_validation->run() == FALSE  || $validation==FALSE) {
-            $data['validation_message']= $validation_message.validation_errors();
+            $data['validation_message']= validation_errors().$validation_message;
             
             
             $this->load->view('templates/header', $data);
@@ -591,12 +597,12 @@ $this->pagination->initialize($config);
             $pass = trim($_POST['u_pass']);
 
 
-            $userName = $this->dbmodel->check_user_name($name);
+            //$userName = $this->dbmodel->check_user_name($name);
             $userEmail = $this->dbmodel->check_user_email($email);
 
-            if (!empty($userName) || !empty($userEmail)) {
+            if (!empty($userEmail)) {
                 $validation = FALSE;
-                $data['validation_message']="Username or Email already exsists";
+                $data['validation_message']="Email already exsists. Reset you password.";
                 
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navigation');
@@ -605,15 +611,17 @@ $this->pagination->initialize($config);
                 
             } else {
                 
-                $this->dbmodel->add_new_user_for($name, $email, $pass);
+                if($this->dbmodel->add_new_user_for($name, $email, $pass))
+             
                 $data = array(
                     'useremail' => $email,
                     'username' => $name,
                     'logged_in' => true);
-
+                
                 $this->session->set_userdata($data);
                 $this->registerEmail($email, $name);
                 //$this->session->set_('register_message', 'User Registered Successfully');
+              
                 redirect('view/index');
                
             }

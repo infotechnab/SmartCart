@@ -361,7 +361,7 @@ if (isset($shiping_cost) == true) {
                         },
                         success: function(msgs)
                         {
-                            if (msgs == false) {
+                            if (msgs == "FALSE") {
 
                                 var msg = "Email already registred!";
                                 $("#msg").html(msg);
@@ -370,7 +370,8 @@ if (isset($shiping_cost) == true) {
                             {
                                 $('#table_user').css("display", "none");
                                 // var msg = email+" is now registred!";
-                                $("#msg").html(msgs);
+                                //$("#msg").html(msgs);
+                                myFunction();
 
                             }
 
@@ -379,7 +380,7 @@ if (isset($shiping_cost) == true) {
                 }
                 else
                 {
-                    var msg = "Password not matched!";
+                    var msg = "Password did not matched!";
                     $('#msg').html(msg);
                 }
             }
@@ -390,6 +391,9 @@ if (isset($shiping_cost) == true) {
         });
     });
 
+function myFunction() {
+    location.reload();
+}
     function ajaxEmail()
     {
         // alert('working');
@@ -448,8 +452,7 @@ if clicked in continue the following view works -->
 
             <div class="clear"></div>
             <hr>
-            <p>Register yourself you are returning user. </p>
-
+            
             <div id="table_register" >
                 <strong id="msg" style="color:#990000 ;"></strong>
                 <table id="table_user" border="0" width="70%" >
@@ -458,10 +461,10 @@ if clicked in continue the following view works -->
 
                     </tr>
                     <tr>
-                        <td colspan="2"><p style="margin: 0px; padding: 2px;">User Name</p></td>
+                        <td colspan="2"><p style="margin: 0px; padding: 2px;">Full Name</p></td>
                     </tr>
                     <tr>
-                        <td colspan="2" ><input type="text" id="u_name" name="u_name" placeholder="User Name" size="47" value="<?php if (isset($username)) { echo $username; } ?>" class="placeholder" /></td>
+                        <td colspan="2" ><input type="text" id="u_name" name="u_name" placeholder="Full Name" size="47" value="<?php if (isset($username)) { echo $username; } ?>" class="placeholder" /></td>
                     </tr>
                     <tr>
                         <td colspan="2"><p style="margin: 0px; padding: 2px;">Email</p></td>

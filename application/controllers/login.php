@@ -17,12 +17,13 @@ class Login extends CI_Controller {
     function index() {
         //echo ("login controler!");
         //$this->load->library('session');
-        if (!$this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')&& $this->session->userdata('admin')) {
+             redirect('bnw', 'refresh');
+        } else {
+           
             $data['meta'] = $this->dbmodel->get_meta_data();
             $this->load->view('bnw/templates/loginTemplate', $data);
             $this->load->view('bnw/templates/footer', $data);
-        } else {
-            redirect('bnw', 'refresh');
         }
     }
 
@@ -48,7 +49,8 @@ class Login extends CI_Controller {
             if ($query) { // if the user's credentials validated...
                 $data = array(
                     'username' => $this->input->post('username'),
-                    'logged_in' => true
+                    'admin_logged_in' => true,
+                   
                 );
                 $this->session->set_userdata($data);
                 redirect('bnw/index');
@@ -61,7 +63,7 @@ class Login extends CI_Controller {
 
     public function forgotPassword() {
         $this->load->library('session');
-        if (!$this->session->userdata('logged_in')) {
+        if (!$this->session->userdata('admin_logged_in')) {
             $data['meta'] = $this->dbmodel->get_meta_data();
             $this->load->view('bnw/templates/forgotPassword', $data);
             $this->load->view('bnw/templates/footer', $data);
@@ -205,16 +207,23 @@ class Login extends CI_Controller {
         $email = $_POST['email'];
         $pass = $_POST['pass'];
         $check = $this->dbmodel->check_data($email);
-         if ($check > 0) { //if the data exists show error message
-            
-             return FALSE;
-           // echo "Email already registerd";         
+         if (!empty($check)) { //if the data exists show error message
+            echo 'FALSE';     
                            
          }
       else {
+          
           $registred = $this->dbmodel->add_ajax_user($user,$email, $pass);
-          echo '<script > var email = '.$email.' ; </script> <p style="color:"> '.$email.' is now registred </p>';
-              // echo $email." is now registred  ";     
+         $data = array(
+                    'useremail' => $email,
+                    'username' => $user,
+                    'logged_in' => true);
+                
+                $this->session->set_userdata($data);
+                $this->registerEmail($email, $name);
+         
+          echo 'TRUE';
+          
         }
     }
 }

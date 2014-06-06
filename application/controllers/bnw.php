@@ -18,8 +18,8 @@ class bnw extends CI_Controller {
 
     public function index() {
        
-        if ($this->session->userdata('logged_in')) {
-            $data['username'] = Array($this->session->userdata('logged_in'));
+        if ($this->session->userdata('admin_logged_in')) {
+            $data['username'] = Array($this->session->userdata('admin_logged_in'));
             $data['meta'] = $this->dbmodel->get_meta_data();
             $data['category'] = $this->dbmodel->get_category();
             $data['query'] = $this->dbmodel->get_all_product_orderDis();
@@ -99,8 +99,8 @@ class bnw extends CI_Controller {
     }
     function coupon()
     {
-         if ($this->session->userdata('logged_in')) {
-              $data['username'] = Array($this->session->userdata('logged_in'));
+         if ($this->session->userdata('admin_logged_in')) {
+              $data['username'] = Array($this->session->userdata('admin_logged_in'));
             $data['meta'] = $this->dbmodel->get_meta_data();
             $data['category'] = $this->dbmodel->get_category();
             $data['coupon'] = $this->dbmodel->get_coupon();
@@ -116,8 +116,8 @@ class bnw extends CI_Controller {
     
     function addcoupon()
     {
-         if ($this->session->userdata('logged_in')) {
-              $data['username'] = Array($this->session->userdata('logged_in'));
+         if ($this->session->userdata('admin_logged_in')) {
+              $data['username'] = Array($this->session->userdata('admin_logged_in'));
             $data['meta'] = $this->dbmodel->get_meta_data();
             $data['category'] = $this->dbmodel->get_category();
 
@@ -157,8 +157,8 @@ class bnw extends CI_Controller {
     //========================== Add Product ======================================================//
 
     function product() {
-        if ($this->session->userdata('logged_in')) {
-            $data['username'] = Array($this->session->userdata('logged_in'));
+        if ($this->session->userdata('admin_logged_in')) {
+            $data['username'] = Array($this->session->userdata('admin_logged_in'));
             $data['meta'] = $this->dbmodel->get_meta_data();
             $data['category'] = $this->dbmodel->get_category();
 
@@ -172,7 +172,7 @@ class bnw extends CI_Controller {
     }
 
     function addproduct() {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
             $config['upload_path'] = './content/uploads/images/';
             $config['allowed_types'] = 'gif|jpg|png';
             $config['max_size'] = '2000';
@@ -337,7 +337,7 @@ class bnw extends CI_Controller {
     
     function quckly_addproduct()
     {
-         if ($this->session->userdata('logged_in')) {
+         if ($this->session->userdata('admin_logged_in')) {
             $config['upload_path'] = './content/uploads/images/';
             $config['allowed_types'] = 'gif|jpg|png';
             $config['max_size'] = '2000';
@@ -433,8 +433,8 @@ class bnw extends CI_Controller {
     //============================ Product Listing =================================================//
     function productList() {
 
-        if ($this->session->userdata('logged_in')) {
-            $data['username'] = Array($this->session->userdata('logged_in'));
+        if ($this->session->userdata('admin_logged_in')) {
+            $data['username'] = Array($this->session->userdata('admin_logged_in'));
             $config = array();
             $config["base_url"] = base_url() . "index.php/bnw/productList";
             $config["total_rows"] = $this->dbmodel->record_count_product();
@@ -458,7 +458,7 @@ class bnw extends CI_Controller {
 
     //================================ Product Editing ===================================================//
     function editproduct($id=0) {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
             $data['query'] = $this->dbmodel->findproduct($id);
             $data['meta'] = $this->dbmodel->get_meta_data();
             $data['category'] = $this->dbmodel->get_category();
@@ -475,7 +475,7 @@ class bnw extends CI_Controller {
     }
 
     function updateproduct() {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
 
             $config['upload_path'] = './content/uploads/images/';
             $config['allowed_types'] = 'gif|jpg|png';
@@ -576,7 +576,7 @@ class bnw extends CI_Controller {
     }
 
     public function productImgdelete() {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
             $image = $_GET['image'];
             $id = $_GET['id'];
             // die($image);
@@ -602,7 +602,7 @@ class bnw extends CI_Controller {
     }
 
     function delProduct($id=0) {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
             
 //            $delimages = $this->dbmodel->findproduct($id);
 //            foreach ($delimages as $images)
@@ -658,8 +658,8 @@ class bnw extends CI_Controller {
     }
         function disproduct()
         {
-            if ($this->session->userdata('logged_in')) {
-            $data['username'] = Array($this->session->userdata('logged_in'));
+            if ($this->session->userdata('admin_logged_in')) {
+            $data['username'] = Array($this->session->userdata('admin_logged_in'));
             $config = array();
             $config["base_url"] = base_url() . "index.php/bnw/disproduct";
             $config["total_rows"] = count($this->dbmodel->get_record_all_product_orderDis());
@@ -684,8 +684,8 @@ class bnw extends CI_Controller {
         }
         }
     function productOrderList(){
-        if ($this->session->userdata('logged_in')) {
-            $data['username'] = Array($this->session->userdata('logged_in'));
+        if ($this->session->userdata('admin_logged_in')) {
+            $data['username'] = Array($this->session->userdata('admin_logged_in'));
             //$config = array();
            // $config["base_url"] = base_url() . "index.php/bnw/productOrderList";
             //$config["total_rows"] = $this->dbmodel->record_count_product_order();
@@ -710,8 +710,8 @@ class bnw extends CI_Controller {
     
         function catproduct()
     {
-       if ($this->session->userdata('logged_in')) {
-            $data['username'] = Array($this->session->userdata('logged_in'));
+       if ($this->session->userdata('admin_logged_in')) {
+            $data['username'] = Array($this->session->userdata('admin_logged_in'));
             $categoryValue = $this->input->post('categoryProduct');
              $config = array();
             $config["base_url"] = base_url() . "index.php/bnw/catproduct";
@@ -736,7 +736,7 @@ class bnw extends CI_Controller {
     
     function viewdetail()
     {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
             //$data['query'] = $this->dbmodel->findproduct($id);
             $data['meta'] = $this->dbmodel->get_meta_data();
            // $data['category'] = $this->dbmodel->get_category();
@@ -755,7 +755,7 @@ class bnw extends CI_Controller {
 
     function updateTrn()
     {
-         if ($this->session->userdata('logged_in')) {
+         if ($this->session->userdata('admin_logged_in')) {
         $id = $_POST['trnID'];
         
         $query = $this->dbmodel->TransDetail($id);
@@ -791,8 +791,8 @@ class bnw extends CI_Controller {
     
      function productShipping()
         {
-            if ($this->session->userdata('logged_in')) {
-            $data['username'] = Array($this->session->userdata('logged_in'));
+            if ($this->session->userdata('admin_logged_in')) {
+            $data['username'] = Array($this->session->userdata('admin_logged_in'));
             $data['meta'] = $this->dbmodel->get_meta_data();
             $data['getship'] = $this->productmodel->getship();
             $this->load->view('bnw/templates/header', $data);
@@ -805,7 +805,7 @@ class bnw extends CI_Controller {
         }
         
         public function shippingupdate() {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
 
             $data['meta'] = $this->dbmodel->get_meta_data();
             $data['getship'] = $this->productmodel->getship();
@@ -857,7 +857,7 @@ class bnw extends CI_Controller {
     }
 
     public function addPageForNavigation() {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
             $data['meta'] = $this->dbmodel->get_meta_data();
             $listOfPage = $this->dbmodel->get_list_of_pages();
             $listOfMenu = $this->dbmodel->get_list_of_menu();
@@ -944,7 +944,7 @@ class bnw extends CI_Controller {
     }
 
     public function addCategoryForNavigation() {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
             $data['meta'] = $this->dbmodel->get_meta_data();
             $listOfPage = $this->dbmodel->get_list_of_pages();
             $listOfMenu = $this->dbmodel->get_list_of_menu();
@@ -1046,7 +1046,7 @@ class bnw extends CI_Controller {
     }
 
     public function addCustomLink() {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
             $data['meta'] = $this->dbmodel->get_meta_data();
             $listOfMenu = $this->dbmodel->get_list_of_menu();
             $data["listOfMenu"] = $this->dbmodel->get_list_of_menu();
@@ -1097,7 +1097,7 @@ class bnw extends CI_Controller {
     //=====================================================================================================
 
     public function navigation() {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
 
             $config["total_rows"] = $this->dbmodel->record_count_navigation();
           
@@ -1128,7 +1128,7 @@ class bnw extends CI_Controller {
 
 
     public function editnavigation($id=0) {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
             
           
                 
@@ -1148,7 +1148,7 @@ class bnw extends CI_Controller {
     }
 
     public function showNavigation($id=0) {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
             $data['meta'] = $this->dbmodel->get_meta_data();
 
             $data['query'] = $this->dbmodel->get_list_of_selected_menu_navigation($id);
@@ -1163,7 +1163,7 @@ class bnw extends CI_Controller {
     
     function manageNavigation($id=0)
     {
-         if ($this->session->userdata('logged_in')) {
+         if ($this->session->userdata('admin_logged_in')) {
          $data['meta'] = $this->dbmodel->get_meta_data();
 
             $data['query'] = $this->dbmodel->get_list_of_selected_menu_navigation($id);
@@ -1180,7 +1180,7 @@ class bnw extends CI_Controller {
     
     function up($id=0)
     {
-       if ($this->session->userdata('logged_in')) {
+       if ($this->session->userdata('admin_logged_in')) {
           
          if($id == !0)
          {
@@ -1266,7 +1266,7 @@ class bnw extends CI_Controller {
 
     function down($id)
     {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
          
             if($id ==!0)
             {
@@ -1347,7 +1347,7 @@ class bnw extends CI_Controller {
     }
 
     public function updatenavigation() {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
             $data['meta'] = $this->dbmodel->get_meta_data();
             $this->load->view("bnw/templates/header", $data);
             $this->load->view('bnw/templates/menu');
@@ -1382,7 +1382,7 @@ class bnw extends CI_Controller {
     }
 
     function deletenavigation($id=0) {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
             $this->dbmodel->delnavigation($id);
             //die($id);
             $this->session->set_flashdata('message', 'Data Delete Sucessfully');
@@ -1398,7 +1398,7 @@ class bnw extends CI_Controller {
     //======================================================================================================
 
     public function category() {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
 
             $config = array();
             $config["base_url"] = base_url() . "index.php/bnw/category";
@@ -1424,7 +1424,7 @@ class bnw extends CI_Controller {
 //========================================to add category===================================================
 
     public function addcategory() {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
 
             $config['upload_path'] = './content/uploads/images/';
             $config['allowed_types'] = 'gif|jpg|png';
@@ -1483,7 +1483,7 @@ class bnw extends CI_Controller {
 
     //==================================To edit category=======================================================
     public function editcategory($id=0) {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
             $data['query'] = $this->dbmodel->findcategory($id);
             $data['meta'] = $this->dbmodel->get_meta_data();
             $data["links"] = $this->pagination->create_links();
@@ -1500,7 +1500,7 @@ class bnw extends CI_Controller {
     }
 
     public function updatecategory() {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
 
             $config['upload_path'] = './content/uploads/images/';
             $config['allowed_types'] = 'gif|jpg|png';
@@ -1560,7 +1560,7 @@ class bnw extends CI_Controller {
 
 
     public function deletecategory($id=0) {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
           $this->dbmodel->delete_category($id);
               $this->session->set_flashdata('message', 'Data Delete Sucessfully');
                  redirect('bnw/category');
@@ -1576,7 +1576,7 @@ class bnw extends CI_Controller {
     }
     function change_category()
     {
-         if ($this->session->userdata('logged_in')) {
+         if ($this->session->userdata('admin_logged_in')) {
              $id = $_POST['id'];
              $cat_id = $_POST['categoryProduct'];
             // die($cat_id);
@@ -1590,7 +1590,7 @@ class bnw extends CI_Controller {
     }
     function delete_category($id=0)
     {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
              $data['meta'] = $this->dbmodel->get_meta_data();
              $data['category'] = $this->dbmodel->get_category_id($id);
             // $data['category_list'] = $this->dbmodel->get_category();
@@ -1607,7 +1607,7 @@ class bnw extends CI_Controller {
     }
     function delete_Product_cat()
     {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
         $id = $_POST['id'];
         $this->dbmodel->delRelPro($id);
         $this->dbmodel->delete_category($id);
@@ -1624,7 +1624,7 @@ class bnw extends CI_Controller {
     //===========================================================================================================//
 
     public function posts() {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
 
             $config = array();
             $config["base_url"] = base_url() . "index.php/bnw/posts";
@@ -1649,9 +1649,9 @@ class bnw extends CI_Controller {
     //============================To Add New Post=======================================//
 
     public function addpost() {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
             $username = $this->session->userdata('username');
-            $data['username'] = ($this->session->userdata('logged_in'));
+            $data['username'] = ($this->session->userdata('admin_logged_in'));
             $config['upload_path'] = './content/uploads/images/';
             $config['allowed_types'] = 'gif|jpg|png';
             $config['max_size'] = '500';
@@ -1731,7 +1731,7 @@ class bnw extends CI_Controller {
     //======================================To Edit Post===========================================================//
 
     function editpost($id=0) {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
             $data['query'] = $this->dbmodel->findpost($id);
             $data['meta'] = $this->dbmodel->get_meta_data();
             $data['miscSetting'] = $this->dbmodel->get_misc_setting();
@@ -1748,7 +1748,7 @@ class bnw extends CI_Controller {
 
     //=========================================To Delete Post======================================================//
     public function deletepost($id=0) {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
             $this->dbmodel->deletepost($id);
             $this->session->set_flashdata('message', 'Data Deleted Sucessfully');
             redirect('bnw/posts');
@@ -1759,7 +1759,7 @@ class bnw extends CI_Controller {
 
     //===================================To Update Edited Post======================================================//
     public function updatepost() {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
 
             $config['upload_path'] = './content/uploads/images/';
             $config['allowed_types'] = 'gif|jpg|png';
@@ -1856,7 +1856,7 @@ class bnw extends CI_Controller {
     //==================================== Page ============================//
 
     public function pages() {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
 
             $config = array();
             $config["base_url"] = base_url() . "index.php/bnw/pages";
@@ -1881,9 +1881,9 @@ class bnw extends CI_Controller {
 
     //============== ADD PAGE ==============//
     public function addpage() {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
             $username = $this->session->userdata('username');
-            $data['username'] = ($this->session->userdata('logged_in'));
+            $data['username'] = ($this->session->userdata('admin_logged_in'));
             $config['upload_path'] = './content/uploads/images/';
             $config['allowed_types'] = 'gif|jpg|png';
             $config['max_size'] = '500';
@@ -1971,7 +1971,7 @@ class bnw extends CI_Controller {
     //======================EDIT PAGE===============================//
 
     function editpage($id=0) {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
             $data['query'] = $this->dbmodel->findpage($id);
 
             $data['meta'] = $this->dbmodel->get_meta_data();
@@ -1992,7 +1992,7 @@ class bnw extends CI_Controller {
 
 
     public function updatepage() {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
 
             $config['upload_path'] = './content/uploads/images/';
             $config['allowed_types'] = 'gif|jpg|png';
@@ -2090,7 +2090,7 @@ class bnw extends CI_Controller {
     }
 
     public function deletepage($id) {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
             $this->dbmodel->delete_page($id);
             $this->dbmodel->delete_navigation_related_to_page($id);
             $this->session->set_flashdata('message', 'Data Delete Sucessfully');
@@ -2104,7 +2104,7 @@ class bnw extends CI_Controller {
     //=============================USER===========================================//
     //============================================================================//
     public function users() {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
 
             $config = array();
             $config["base_url"] = base_url() . "index.php/bnw/users";
@@ -2130,7 +2130,7 @@ class bnw extends CI_Controller {
     }
 
     public function adduser() {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
 
             $data['meta'] = $this->dbmodel->get_meta_data();
             $this->load->view('bnw/templates/header', $data);
@@ -2171,7 +2171,7 @@ class bnw extends CI_Controller {
     }
 
     public function edituser($id=0) {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
            // $this->load->helper('form');
            // $this->load->library(array('form_validation', 'session'));
            // $this->form_validation->set_rules('user_pass', 'Password', 'required|md5|xss_clean|max_length[200]');
@@ -2188,7 +2188,7 @@ class bnw extends CI_Controller {
     }
 
     public function updateuser() {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
 
             $data['meta'] = $this->dbmodel->get_meta_data();
             $this->load->view("bnw/templates/header", $data);
@@ -2233,7 +2233,7 @@ class bnw extends CI_Controller {
     
 
     public function deleteuser($id=0) {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
             $uNAme = $this->session->userdata('username');
             //die($uNAme);
             $uNAme = "admin";
@@ -2263,7 +2263,7 @@ class bnw extends CI_Controller {
     }
 
     public function profile() {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
 
             $config = array();
             $config["base_url"] = base_url() . "index.php/bnw/users";
@@ -2294,7 +2294,7 @@ class bnw extends CI_Controller {
     //=========================================================================================================
 
     public function media() {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
 
             $config = array();
             $config["base_url"] = base_url() . "index.php/bnw/media";
@@ -2317,7 +2317,7 @@ class bnw extends CI_Controller {
 
     //===============================to add media=================================================
     public function addmedia() {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
 
             $config['upload_path'] = './content/uploads/images/';
             $config['allowed_types'] = 'jpg|jpeg|png|gif|pdf|doc|ppt|odt|pptx|docx|xls|xlsx|key';
@@ -2370,7 +2370,7 @@ class bnw extends CI_Controller {
     //==================================To edit media==================================================
 
     public function editmedia($id=0) {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
             $data['query'] = $this->dbmodel->findmedia($id);
             $data['meta'] = $this->dbmodel->get_meta_data();
 
@@ -2386,7 +2386,7 @@ class bnw extends CI_Controller {
     //======================================To update edited media=========================================
 
     function updatemedia() {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
 
             $config['upload_path'] = './content/uploads/images/';
             $config['allowed_types'] = 'jpg|jpeg|png|gif|pdf|doc|ppt|odt|pptx|docx|xls|xlsx|key.';
@@ -2440,7 +2440,7 @@ class bnw extends CI_Controller {
     }
 
     public function delmedia($id=0) {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
             $data['query'] = $this->dbmodel->findmedia($id);
             $data['meta'] = $this->dbmodel->get_meta_data();
             $this->load->view("bnw/templates/header", $data);
@@ -2453,7 +2453,7 @@ class bnw extends CI_Controller {
     }
 
     public function deletemedia($id) {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
             $id = $_GET['image'];
             unlink('./content/uploads/images/' . $id);
 
@@ -2470,7 +2470,7 @@ class bnw extends CI_Controller {
     //==========================================================================================================//
 
     public function album() {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
 
             $config = array();
             $config["base_url"] = base_url() . "index.php/bnw/album";
@@ -2491,7 +2491,7 @@ class bnw extends CI_Controller {
     }
 
     public function addalbum() {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
 
             $config['upload_path'] = './content/uploads/images/';
             $config['allowed_types'] = 'gif|jpg|png';
@@ -2533,7 +2533,7 @@ class bnw extends CI_Controller {
 
     //===============================To Add Photo================================================================//
     public function addphoto() {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
             $data['meta'] = $this->dbmodel->get_meta_data();
             $config['upload_path'] = './content/uploads/images/';
             $config['allowed_types'] = 'gif|jpg|png';
@@ -2577,7 +2577,7 @@ class bnw extends CI_Controller {
     }
 
     public function delphoto($photoid=0) {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
             $data['query'] = $this->dbmodel->get_photo_media_id($photoid);
 
             $data['meta'] = $this->dbmodel->get_meta_data();
@@ -2592,7 +2592,7 @@ class bnw extends CI_Controller {
 
     public function deletephoto($a=0) {
 
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
             $a = $_GET['image'];
 
             unlink('./content/uploads/images/' . $a);
@@ -2609,7 +2609,7 @@ class bnw extends CI_Controller {
     //============================================================================================================/
 
     public function slider() {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
             $config = array();
             $config["base_url"] = base_url() . "index.php/bnw/slider";
             $config["total_rows"] = $this->dbmodel->record_count_slider();
@@ -2632,7 +2632,7 @@ class bnw extends CI_Controller {
     }
 
     public function addslider() {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
 
             $config['upload_path'] = './content/uploads/images/';
             $config['allowed_types'] = 'gif|jpg|png';
@@ -2708,7 +2708,7 @@ class bnw extends CI_Controller {
     }
 
     public function editslider($id=0) {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
             $data['query'] = $this->dbmodel->findslider($id);
             $data['meta'] = $this->dbmodel->get_meta_data();
             $this->load->view("bnw/templates/header", $data);
@@ -2721,7 +2721,7 @@ class bnw extends CI_Controller {
     }
 
     public function delslider($id=0) {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
             $data['query'] = $this->dbmodel->findslider($id);
             $data['meta'] = $this->dbmodel->get_meta_data();
             $this->load->view("bnw/templates/header", $data);
@@ -2734,7 +2734,7 @@ class bnw extends CI_Controller {
     }
 
     public function updateslider() {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
 
             $config['upload_path'] = './content/uploads/images/';
             $config['allowed_types'] = 'gif|jpg|png';
@@ -2779,7 +2779,7 @@ class bnw extends CI_Controller {
     }
 
     public function deleteslider($a=0) {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
             $a = $_GET['image'];
 
             unlink('./content/uploads/images/' . $a);
@@ -2798,7 +2798,7 @@ class bnw extends CI_Controller {
     //============================================================================================================//
 
     public function setup() {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
             $data['meta'] = $this->dbmodel->get_meta_data();
             $header = "bnw/templates/";
             $this->load->view($header . 'header', $data);
@@ -2812,7 +2812,7 @@ class bnw extends CI_Controller {
 
     public function deletefavicone($id=0) {
 
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
 
             $this->dbmodel->delete_favicone($id);
             $this->session->set_flashdata('message', 'Data Delete Sucessfully');
@@ -2823,7 +2823,7 @@ class bnw extends CI_Controller {
     }
 
     public function setupupdate() {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
 
             $config['upload_path'] = './content/uploads/images/';
             $config['allowed_types'] = 'gif|jpg|png|ico';
@@ -2875,7 +2875,7 @@ class bnw extends CI_Controller {
     }
 
     public function header() {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
             $data['meta'] = $this->dbmodel->get_meta_data();
             $set['query'] = $this->dbmodel->get_design_setup();
             // var_dump($set);
@@ -2889,7 +2889,7 @@ class bnw extends CI_Controller {
     }
 
     public function headerupdate() {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
 
             $config['upload_path'] = './content/uploads/images/';
             $config['allowed_types'] = 'gif|jpg|png';
@@ -2934,7 +2934,7 @@ class bnw extends CI_Controller {
     }
 
     public function sidebar() {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
             $data['meta'] = $this->dbmodel->get_meta_data();
             $set['query'] = $this->dbmodel->get_design_setup();
             $this->load->view("bnw/templates/header", $data);
@@ -2947,7 +2947,7 @@ class bnw extends CI_Controller {
     }
 
     public function sidebarupdate() {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
 
             $this->load->library(array('form_validation', 'session'));
             $this->form_validation->set_rules('sidebar_title', 'Title', 'required|xss_clean|max_length[200]');
@@ -2976,7 +2976,7 @@ class bnw extends CI_Controller {
 
     //=====================================Miscellaneous Setting===============================================/
     public function miscsetting() {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
             $data['meta'] = $this->dbmodel->get_meta_data();
             $data['query'] = $this->dbmodel->get_misc_setting();
             $this->load->view("bnw/templates/header", $data);
@@ -2989,7 +2989,7 @@ class bnw extends CI_Controller {
     }
 
     public function miscsettingupdate() {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
 
             $this->load->library('session');
             $data['query'] = $this->dbmodel->get_misc_setting();
@@ -3015,7 +3015,7 @@ class bnw extends CI_Controller {
 
 
     public function add_new_album() {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
 
             $config['upload_path'] = './content/uploads/images/';
             $config['allowed_types'] = 'gif|jpg|png';
@@ -3055,7 +3055,7 @@ class bnw extends CI_Controller {
     }
 
     public function delalbum($id=0) {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
             $data['photoquery'] = $this->dbmodel->get_all_photos($id);
             $data['albumquery'] = $this->dbmodel->get_selected_album($id);
             $data['meta'] = $this->dbmodel->get_meta_data();
@@ -3069,7 +3069,7 @@ class bnw extends CI_Controller {
     }
 
     function delete_album($id) {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
 
             $data['photoquery'] = $this->dbmodel->get_all_photos($id);
             foreach ($data['photoquery'] as $photo) {
@@ -3087,7 +3087,7 @@ class bnw extends CI_Controller {
     }
 
     function editalbum($aid=0) {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
             $this->dbmodel->edit_album($aid);
             redirect('bnw/album');
         } else {
@@ -3109,7 +3109,7 @@ class bnw extends CI_Controller {
     //--------------------------------gallery---------------
 
     public function gallery() {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
             $data['query'] = $this->dbmodel->get_all_photos();
             $data['meta'] = $this->dbmodel->get_meta_data();
             $this->load->view("bnw/templates/header", $data);
@@ -3125,7 +3125,7 @@ class bnw extends CI_Controller {
 
     public function menu() {
 
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
             $config = array();
             $config["base_url"] = base_url() . "index.php/bnw/menu";
             $config["total_rows"] = $this->dbmodel->record_count_menu();
@@ -3149,7 +3149,7 @@ class bnw extends CI_Controller {
     }
 
     public function addmenu() {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
             $data['meta'] = $this->dbmodel->get_meta_data();
             $data["links"] = $this->pagination->create_links();
             $data["query"] = $this->dbmodel->get_menu();
@@ -3179,7 +3179,7 @@ class bnw extends CI_Controller {
     }
 
     public function editmenu($mid=0) {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
             $data['query'] = $this->dbmodel->findmenu($mid);
             $data['meta'] = $this->dbmodel->get_meta_data();
             $this->load->view("bnw/templates/header", $data);
@@ -3192,7 +3192,7 @@ class bnw extends CI_Controller {
     }
 
     public function updatemenu() {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
             $data['meta'] = $this->dbmodel->get_meta_data();
 
             $this->load->view("bnw/templates/header", $data);
@@ -3227,7 +3227,7 @@ class bnw extends CI_Controller {
     }
 
     public function deletemenu($id=0) {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
             $this->dbmodel->delete_menu($id);
             $this->session->set_flashdata('message', 'Data Delete Sucessfully');
             redirect('bnw/menu/addnew');
@@ -3240,7 +3240,7 @@ class bnw extends CI_Controller {
 
     /* public function notice() {
 
-      if ($this->session->userdata('logged_in')) {
+      if ($this->session->userdata('admin_logged_in')) {
 
       $config = array();
       $config["base_url"] = base_url() . "index.php/bnw/notice";
@@ -3268,7 +3268,7 @@ class bnw extends CI_Controller {
       }
 
       public function addnotice() {
-      if ($this->session->userdata('logged_in')) {
+      if ($this->session->userdata('admin_logged_in')) {
       $data['meta'] = $this->dbmodel->get_meta_data();
       $header = "bnw/templates/header";
       $this->load->view($header, $data);
@@ -3300,7 +3300,7 @@ class bnw extends CI_Controller {
       }
 
       public function editnotice($nid) {
-      if ($this->session->userdata('logged_in')) {
+      if ($this->session->userdata('admin_logged_in')) {
       $data['query'] = $this->dbmodel->findnotice($nid);
       $data['meta'] = $this->dbmodel->get_meta_data();
       //$data['id'] = $pid;
@@ -3315,7 +3315,7 @@ class bnw extends CI_Controller {
       }
 
       public function updatenotice() {
-      if ($this->session->userdata('logged_in')) {
+      if ($this->session->userdata('admin_logged_in')) {
       $data['meta'] = $this->dbmodel->get_meta_data();
       $header = "bnw/templates/header";
       $this->load->view($header, $data);
@@ -3346,7 +3346,7 @@ class bnw extends CI_Controller {
       }
 
       public function deletenotice($nid) {
-      if ($this->session->userdata('logged_in')) {
+      if ($this->session->userdata('admin_logged_in')) {
       $this->dbmodel->delete_notice($nid);
       redirect('bnw/notice');
       } else {
@@ -3360,7 +3360,7 @@ class bnw extends CI_Controller {
       //=======================Activities controler=========================//
       public function activities() {
 
-      if ($this->session->userdata('logged_in')) {
+      if ($this->session->userdata('admin_logged_in')) {
       $config = array();
       $config["base_url"] = base_url() . "index.php/bnw/activities";
       $config["total_rows"] = $this->dbmodel->record_count_activities();
@@ -3387,7 +3387,7 @@ class bnw extends CI_Controller {
       }
 
       public function addactivity() {
-      if ($this->session->userdata('logged_in')) {
+      if ($this->session->userdata('admin_logged_in')) {
 
       $config['upload_path'] = './uploads/';
       $config['allowed_types'] = 'gif|jpg|png';
@@ -3444,7 +3444,7 @@ class bnw extends CI_Controller {
       }
 
       function editactivities($id) {
-      if ($this->session->userdata('logged_in')) {
+      if ($this->session->userdata('admin_logged_in')) {
       $data['query'] = $this->dbmodel->findactivities($id);
       $data['meta'] = $this->dbmodel->get_meta_data();
       //$data['id'] = $pid;
@@ -3460,7 +3460,7 @@ class bnw extends CI_Controller {
       }
 
       public function updateactivities() {
-      if ($this->session->userdata('logged_in')) {
+      if ($this->session->userdata('admin_logged_in')) {
 
       $config['upload_path'] = './uploads/';
       $config['allowed_types'] = 'gif|jpg|png';
@@ -3519,7 +3519,7 @@ class bnw extends CI_Controller {
       }
 
       function deleteactivities($aid) {
-      if ($this->session->userdata('logged_in')) {
+      if ($this->session->userdata('admin_logged_in')) {
 
       $this->dbmodel->deleteactivities($aid);
       $this->session->set_flashdata('message', 'One Acticity deleted sucessfully');
@@ -3534,7 +3534,7 @@ class bnw extends CI_Controller {
 
 
       public function upload() {
-      if ($this->session->userdata('logged_in')) {
+      if ($this->session->userdata('admin_logged_in')) {
 
       $config['upload_path'] = './downloads/';
       $config['allowed_types'] = 'gif|jpg|png|pdf';
@@ -3578,7 +3578,7 @@ class bnw extends CI_Controller {
       }
 
       public function deletedocument($id) {
-      if ($this->session->userdata('logged_in')) {
+      if ($this->session->userdata('admin_logged_in')) {
       $this->dbmodel->delete_document($id);
       $this->session->set_flashdata('message', 'One Document deleted sucessfully');
       redirect('bnw/download');
@@ -3592,8 +3592,8 @@ class bnw extends CI_Controller {
 
 
       public function blog() {
-      if ($this->session->userdata('logged_in')) {
-      $data['username'] = Array($this->session->userdata('logged_in'));
+      if ($this->session->userdata('admin_logged_in')) {
+      $data['username'] = Array($this->session->userdata('admin_logged_in'));
       $data['query'] = $this->dbmodel->get_blog();
       $data['meta'] = $this->dbmodel->get_meta_data();
       $this->load->view("bnw/templates/header", $data);
@@ -3606,7 +3606,7 @@ class bnw extends CI_Controller {
       }
 
       public function uploads() {
-      if ($this->session->userdata('logged_in')) {
+      if ($this->session->userdata('admin_logged_in')) {
 
       $config['upload_path'] = './downloads/';
       $config['allowed_types'] = 'gif|jpg|png|pdf';
@@ -3650,7 +3650,7 @@ class bnw extends CI_Controller {
       }
 
       public function deleteblog($id) {
-      if ($this->session->userdata('logged_in')) {
+      if ($this->session->userdata('admin_logged_in')) {
       $this->dbmodel->deleteblog($id);
       $this->session->set_flashdata('message', 'Data Delete Sucessfully');
       redirect('bnw/blog');

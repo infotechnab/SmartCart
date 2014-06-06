@@ -62,7 +62,8 @@
                             <li><?php echo anchor('bnw/setup', 'Setup') ?></li>
                         </ul>
                     </li>
-                    <li><p style="color: #fff; font-size: 12px; padding: 5px; margin: 5px;">Powered by BnW.</p></li>
+                    
+                   
 <!--                    <li class="mainMenuItem"><a href="#">Album</a>
                         <ul class="subMenu">
                             <li><?php //echo anchor('bnw/addalbum', 'Add New') ?></li>
@@ -78,7 +79,13 @@
                     </li>                    -->
                    
                </ul>   
+                
             </div>
+    <div id="bnwcredit">
+        <p>&COPY; Copy right to Smart Access Service.</p><p> Powered by BnW CMS.</p>
+    </div>
+    
+    
         </div>
         
         

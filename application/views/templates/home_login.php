@@ -2,18 +2,23 @@
 <div id="login">
     <div id="outerBorder">
         <div class="loginLeft">
-            <div class="sucessmsg">
+          
+<?php echo form_open('view/validate_login'); ?>
+            <table border="0" width="30%">
+
+                <tr style="text-align: center">
+                    <td><h3>Existing Customer? Log In</h3> </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                     <div class="sucessmsg">
                 <?php if (isset($login_validation_error) && strlen($login_validation_error)>2) {
                     echo $login_validation_error;
                 }
                if($this->session->flashdata('message')){echo $this->session->flashdata('message');}
                 
                 ?> </div>
-<?php echo form_open('view/validate_login'); ?>
-            <table border="0" width="30%">
-
-                <tr style="text-align: center">
-                    <td><h3>Existing Customer?</h3> </td>
+                    </td>
                 </tr>
                 <tr >
                         <td colspan="2"><p style="margin: 0px; padding: 2px;">Email</p></td>
@@ -43,7 +48,18 @@
             <div class="number" id='verticalOr'>OR</div>  
         </div>
         <div class="loginLeft">
-            <div class="sucessmsg">
+                    
+        <?php echo form_open_multipart('view/addNewUser'); ?>
+       
+        <table id="table_user" border="0" width="40%" >
+                    <tr style="text-align: center">
+                        <td colspan="2"><h3>New User? Register</h3> </td>
+                    </tr>
+                    <tr>
+                        
+                    </tr>
+                    <td colspan="2">
+                        <div class="sucessmsg">
     <?php
  if (isset($validation_message))
                  
@@ -54,18 +70,12 @@
                 }
                
                 ?> </div>
-        
-        <?php echo form_open_multipart('view/addNewUser'); ?>
-       
-        <table id="table_user" border="0" width="40%" >
-                    <tr style="text-align: center">
-                        <td colspan="2"><h3>New User?</h3> </td>
+                    </td>
+                    <tr >
+                        <td colspan="2"><p style="margin: 0px; padding: 2px;">Full Name</p></td>
                     </tr>
                     <tr >
-                        <td colspan="2"><p style="margin: 0px; padding: 2px;">User Name</p></td>
-                    </tr>
-                    <tr >
-                        <td colspan="2" ><input type="text"  id="u_name" name="u_name" value="<?php echo set_value('u_name'); ?>" placeholder="User Name" size="47" class="placeholder" /></td>
+                        <td colspan="2" ><input type="text"  id="u_name" name="u_name" value="<?php echo set_value('u_name'); ?>" placeholder="Full Name" size="47" class="placeholder" /></td>
                     </tr>
                     <tr >
                         <td colspan="2"><p style="margin: 0px; padding: 2px;">Email</p></td>

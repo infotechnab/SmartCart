@@ -19,6 +19,7 @@ body
     padding: 5px 5px 0px 5px;
     height: 51px;
     background-color: #222;
+    border-bottom: 2px solid #fff;
 }
 
 hr.hr-gradient
@@ -69,7 +70,7 @@ hr.hr-gradient
 .rightSide
 {
     float: right;
-    padding: 2%;
+    padding: 0 2% 2% 2%;
 }
 
 .logo
@@ -93,8 +94,8 @@ h3
 {
     width: 100%;
     padding: 0px;
-    margin: 0px;
-    min-height: 200px;
+    margin: 0 0 20px 0;
+    min-height:200px;
     float: left;
     background-color: #000;
 }
@@ -128,13 +129,13 @@ ul.menu li.mainMenuItem > ul.subMenu
 ul.subMenu
 {
      background-color: #444;
-     width: 200px;
+     width: 218px;
      display:none;
      
 }
 ul.subMenu li
 {
-    width: 190px;
+    width: 208px;
     padding-left: 10px;
 }
 ul.subMenu li:hover
@@ -269,11 +270,25 @@ ul.menu li.mainMenuItem:hover
     .rightSide
     {
         width: 80%;
+        min-height: 521px;
     }
     .leftSide
     {
         display: block;
         width: 16%;
+        min-height: 500px;
+        background-color: #000;
+    }
+    
+    #bnwcredit
+    {
+        color: #ccc;
+        margin-top: 30px;
+    }
+    #bnwcredit p
+    {
+        font-size: 10px;
+        text-align: center;
     }
     ul.menu, li.mainMenuItem
     {
@@ -456,7 +471,7 @@ ul.menu li.mainMenuItem:hover
 th{background-color: #444;
 color: #fff;}
 tr:nth-child(even) {background: #fff}
-tr:nth-child(odd) {background: #ccc}
+tr:nth-child(odd) {background: #f7f6f6}
 table,th,td
 {
 border:0px solid black;
