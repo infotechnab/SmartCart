@@ -35,7 +35,10 @@ if ($query)
   <p>Body:<br />
       <textarea name="post_content" id="area1" cols="50" rows="5" ><?php echo set_value('post_content'); ?></textarea>
   
-  </p>   
+  </p> 
+  <p>Image:<br />
+      <input type="file" name="offreImage">  
+  </p> 
     </div>
     
     <div id="forRightPage"> 

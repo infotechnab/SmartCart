@@ -747,24 +747,39 @@ public function get_navigation_info($navigationName)
         $this->db->delete('post', array('id' => $id));
     }
     
-    public function add_new_post($post_title, $post_content, $post_author_id, $post_summary, $post_status, $post_comment_status, $post_tags, $post_category_id, $allow_comment, $allow_like, $allow_share)
-        {
-        $this->load->database();        
+    function add_new_post($post_title, $post_content, $post_summary, $post_status,$image)
+    {
+        $category = 14;
         $data = array(
-            
-            'post_title' => $post_title,
-            'post_content'=> $post_content,
-            'post_author_id'=> $post_author_id,
-            'post_summary'=> $post_summary,
-            'post_status'=> $post_status,
-            'comment_status'=> $post_comment_status,
-            'post_tags'=>$post_tags,
-            'post_category'=>$post_category_id,
-            'allow_comment'=>$allow_comment,
-            'allow_like'=>$allow_like,
-            'allow_share'=>$allow_share);
-         $this->db->insert('post', $data);
+            'post_category'=>$category,
+            'post_title'=>$post_title,
+            'post_content'=>$post_content,
+            'post_summary'=>$post_summary,
+            'post_status'=>$post_status,
+            'image'=>$image
+        );
+        $this->db->insert('post', $data);
     }
+
+
+//    public function add_new_post($post_title, $post_content, $post_author_id, $post_summary, $post_status, $post_comment_status, $post_tags, $post_category_id, $allow_comment, $allow_like, $allow_share)
+//        {
+//        $this->load->database();        
+//        $data = array(
+//            
+//            'post_title' => $post_title,
+//            'post_content'=> $post_content,
+//            'post_author_id'=> $post_author_id,
+//            'post_summary'=> $post_summary,
+//            'post_status'=> $post_status,
+//            'comment_status'=> $post_comment_status,
+//            'post_tags'=>$post_tags,
+//            'post_category'=>$post_category_id,
+//            'allow_comment'=>$allow_comment,
+//            'allow_like'=>$allow_like,
+//            'allow_share'=>$allow_share);
+//         $this->db->insert('post', $data);
+//    }
    
     public function update_post($id, $post_title, $post_content, $post_author_id, $post_summary, $post_status, $post_comment_status, $post_tags, $post_category_id, $allow_comment, $allow_like, $allow_share)
     {
