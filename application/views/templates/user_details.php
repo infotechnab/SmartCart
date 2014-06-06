@@ -43,23 +43,23 @@
                     <td colspan="2"><p style="margin: 0px; padding: 2px;">Address</p></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><input type="text" name="street_address" value="<?php if (strlen($address)>0) { echo $address; } else { echo set_value('street_address');} ?>" placeholder="Street Address (min 2 characters)" size="47" class="placeholder" required/></td>
+                    <td colspan="2"><input type="text" name="street_address" value="<?php if (strlen($address)>0) { echo $address; } else { echo set_value('street_address');} ?>" placeholder="Street Address" size="47" class="placeholder" required/></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><input type="text" name="Town_address" value="<?php if (strlen($city)>0) { echo $city; } else { echo set_value('Town_address');} ?>" placeholder="Town/ City (min 2 characters)" size="47" class="placeholder" required/></td>
+                    <td colspan="2"><input type="text" name="Town_address" value="<?php if (strlen($city)>0) { echo $city; } else { echo set_value('Town_address');} ?>" placeholder="Town/ City" size="47" class="placeholder" required/></td>
                 </tr>
                 <tr>
-                    <td><input type="text" name="District_address" value="<?php if (strlen($state)>0) { echo $state; } else { echo set_value('District_address');} ?>" placeholder=" State (min 2 characters)" size="20" class="placeholder" required/></td>
-                    <td><input type="text" name="zip" value="<?php if (strlen($zip)>0) { echo $zip; } else { echo set_value('zip');} ?>" placeholder="zip code (min 5 digits)" size="20" class="placeholder" required/></td>
+                    <td><input type="text" name="District_address" value="<?php if (strlen($state)>0) { echo $state; } else { echo set_value('District_address');} ?>" placeholder=" State" size="20" class="placeholder" required/></td>
+                    <td><input type="text" name="zip" value="<?php if (strlen($zip)>0) { echo $zip; } else { echo set_value('zip');} ?>" placeholder="Post Code" size="20" class="placeholder" required/></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><input type="text" name="country" value="<?php if (strlen($country)>0) { echo $country; } else { echo set_value('country');} ?>" placeholder="Country (min 2 numbers)" size="47" class="placeholder" required/></td>
+                    <td colspan="2"><input type="text" name="country" value="<?php if (strlen($country)>0) { echo $country; } else { echo set_value('country');} ?>" placeholder="Country " size="47" class="placeholder" required/></td>
                 </tr>
                 <tr>
                     <td colspan="2"><p style="margin: 0px; padding: 2px;">Contact Number</p></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><input type="text" name="u_contact" value="<?php if (strlen($contact)>0) { echo $contact; } else { echo set_value('u_contact');} ?>" placeholder="Contact Number(min 9 digits)" size="47" class="placeholder" required/></td>
+                    <td colspan="2"><input type="text" name="u_contact" value="<?php if (strlen($contact)>0) { echo $contact; } else { echo set_value('u_contact');} ?>" placeholder="Contact Number" size="47" class="placeholder" /></td>
                 </tr>
 
                 <tr>

@@ -647,14 +647,14 @@ class View extends CI_Controller {
         $data['product_info'] = $this->productmodel->product_info();
         $data['category'] = $this->productmodel->category_list();
         
-        $this->form_validation->set_rules('u_fname', 'First name', 'trim|regex_match[/^[a-z,0-9,A-Z]{3,15}$/]|required|xss_clean|max_length[15]');
-        $this->form_validation->set_rules('u_lname', 'Last name', 'trim|regex_match[/^[a-z,0-9,A-Z]{3,15}$/]|required|xss_clean|max_length[15]');
-        $this->form_validation->set_rules('street_address', 'Address', 'trim|regex_match[/^[a-z,0-9,A-Z]{2,35}$/]|required|xss_clean|max_length[35]');
-        $this->form_validation->set_rules('Town_address', 'City/Town', 'trim|regex_match[/^[a-z,0-9,A-Z]{2,35}$/]|required|xss_clean|max_length[35]');
-        $this->form_validation->set_rules('District_address', 'State/District', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,35}$/]|required|xss_clean|max_length[35]');
-        $this->form_validation->set_rules('zip', 'Zip', 'trim|regex_match[/^[0-9]{2,15}$/]|required|xss_clean|max_length[15]');
+        $this->form_validation->set_rules('u_fname', 'First name', 'trim|regex_match[/^[a-z,0-9,A-Z]{2,15}$/]|xss_clean|max_length[15]');
+        $this->form_validation->set_rules('u_lname', 'Last name', 'trim|regex_match[/^[a-z,0-9,A-Z]{2,15}$/]|xss_clean|max_length[15]');
+        $this->form_validation->set_rules('street_address', 'Address', 'trim|required|xss_clean|max_length[35]');
+        $this->form_validation->set_rules('Town_address', 'suburb/city', 'trim|regex_match[/^[a-z,0-9,A-Z]{2,35}$/]|xss_clean|max_length[35]');
+        $this->form_validation->set_rules('District_address', 'State', 'trim|regex_match[/^[a-z,0-9,A-Z]{2,35}$/]|required|xss_clean|max_length[35]');
+        $this->form_validation->set_rules('zip', 'Post Code', 'trim|regex_match[/^[0-9]{4,15}$/]|required|xss_clean|max_length[15]');
         $this->form_validation->set_rules('country', 'Country', 'trim|regex_match[/^[a-z,0-9,A-Z]{2,35}$/]|required|xss_clean|max_length[35]');
-        $this->form_validation->set_rules('u_contact', 'Contact no.', 'trim|regex_match[/^[0-9]{5,15}$/]|required|xss_clean|max_length[15]');
+        $this->form_validation->set_rules('u_contact', 'Contact no.', 'trim|regex_match[/^[0-9]{5,15}$/]|xss_clean|max_length[15]');
         $this->form_validation->set_rules('user_email', 'Email', 'trim|regex_match[/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/]|required|xss_clean|max_length[200]');
         if ($this->form_validation->run() == FALSE) {
             $data['user_validation_message'] = validation_errors();
@@ -671,11 +671,16 @@ class View extends CI_Controller {
             $town=  trim($_POST['Town_address']);
             $district=  trim($_POST['District_address']);
             $zip=  trim($_POST['zip']);
-            $country=  trim($_POST['countrye']);
+            $country=  trim($_POST['country']);
             $contact=  trim($_POST['u_contact']);
             $email=  trim($_POST['user_email']);
             $this->dbmodel->update_user_data($fname,$lname,$street,$town,$district,$zip,$country,$contact,$email); 
-            
+             $this->load->view('templates/header', $data);
+	        $this->load->view('templates/navigation');
+	        $this->load->view('templates/user_details');
+	        $this->load->view('templates/cart');
+	        $this->load->view('templates/sidebarview', $data);
+	        $this->load->view('templates/footer');
             
             
             
