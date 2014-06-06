@@ -55,7 +55,7 @@
             
             
             
- <div id="contentBackground" style>
+ <div id="contentBackground">
     <div id='contentWrapper'>
         
             

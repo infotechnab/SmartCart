@@ -34,30 +34,30 @@ class View extends CI_Controller {
         $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
 
         $data["product_info"] = $this->dbmodel->get_all_product($config["per_page"], $page);
-/*from here*/
-    $choice = $config["total_rows"] / $config["per_page"];
-    $config["num_links"] = round($choice);
-    $config['full_tag_open'] = '<ul class="tsc_pagination tsc_paginationA tsc_paginationA01">';
-$config['full_tag_close'] = '</ul>';
-$config['prev_link'] = 'First';
-$config['prev_tag_open'] = '<li>';
-$config['prev_tag_close'] = '</li>';
-$config['next_link'] = 'Next';
-$config['next_tag_open'] = '<li>';
-$config['next_tag_close'] = '</li>';
-$config['cur_tag_open'] = '<li class="current"><a href="#">';
-$config['cur_tag_close'] = '</a></li>';
-$config['num_tag_open'] = '<li>';
-$config['num_tag_close'] = '</li>'; 
-$config['first_tag_open'] = '<li>';
-$config['first_tag_close'] = '</li>';
-$config['last_tag_open'] = '<li>';
-$config['last_tag_close'] = '</li>';
-$config['first_link'] = '&lt;&lt;';
-$config['last_link'] = '&gt;&gt;';
-$this->pagination->initialize($config);
-   
-    /* to here */
+        /* from here */
+        $choice = $config["total_rows"] / $config["per_page"];
+        $config["num_links"] = round($choice);
+        $config['full_tag_open'] = '<ul class="tsc_pagination tsc_paginationA tsc_paginationA01">';
+        $config['full_tag_close'] = '</ul>';
+        $config['prev_link'] = 'First';
+        $config['prev_tag_open'] = '<li>';
+        $config['prev_tag_close'] = '</li>';
+        $config['next_link'] = 'Next';
+        $config['next_tag_open'] = '<li>';
+        $config['next_tag_close'] = '</li>';
+        $config['cur_tag_open'] = '<li class="current"><a href="#">';
+        $config['cur_tag_close'] = '</a></li>';
+        $config['num_tag_open'] = '<li>';
+        $config['num_tag_close'] = '</li>';
+        $config['first_tag_open'] = '<li>';
+        $config['first_tag_close'] = '</li>';
+        $config['last_tag_open'] = '<li>';
+        $config['last_tag_close'] = '</li>';
+        $config['first_link'] = '&lt;&lt;';
+        $config['last_link'] = '&gt;&gt;';
+        $this->pagination->initialize($config);
+
+        /* to here */
         $config['display_pages'] = FALSE;
         $data["links"] = $this->pagination->create_links();
 
@@ -73,9 +73,8 @@ $this->pagination->initialize($config);
         $this->load->view('templates/sidebarview', $data);
         $this->load->view('templates/footer');
     }
-    
-    public function user_detail()
-    {
+
+    public function user_detail() {
         
     }
 
@@ -113,29 +112,32 @@ $this->pagination->initialize($config);
     }
 
     public function authenticate_user() {
-        if(isset($_POST['email'])){
-            if (preg_match("/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/", $_POST['email']));{
-                $email=trim($_POST['email']);
+        if (isset($_POST['email'])) {
+            if (preg_match("/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/", $_POST['email']))
+                ; {
+                $email = trim($_POST['email']);
                 $username = $this->dbmodel->get_selected_user($email);
-                 if(!empty($username)){
-                     foreach ($username as $dbemail)
-                     {
+                if (!empty($username)) {
+                    foreach ($username as $dbemail) {
                         $to = $dbemail->user_email;
                         $userName = $dbemail->user_name;
-                     }
+                    }
                     if ($to === $email) {
-                    $token = $this->getRandomString(10);
-                    $this->dbmodel->update_emailed_user($to, $token);
+                        $token = $this->getRandomString(10);
+                        $this->dbmodel->update_emailed_user($to, $token);
 
 
-                    $this->passwordresetemail($to, $userName, $token);
-                 }}
-            else { $this->session->set_flashdata('message', 'Type valid email address');
-            redirect('view/forgotPassword', 'refresh');}
+                        $this->passwordresetemail($to, $userName, $token);
+                    }
+                } else {
+                    $this->session->set_flashdata('message', 'Type valid email address');
+                    redirect('view/forgotPassword', 'refresh');
+                }
             }
-        }else {
+        } else {
             $this->session->set_flashdata('message', 'Type valid email address');
-            redirect('view/forgotPassword', 'refresh');}    
+            redirect('view/forgotPassword', 'refresh');
+        }
     }
 
     public function passwordresetemail($to, $userName, $token) {
@@ -302,9 +304,9 @@ $this->pagination->initialize($config);
             $data['headerdescription'] = $this->viewmodel->get_header_description();
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navigation');
-             $this->load->view('templates/home_login');
+            $this->load->view('templates/home_login');
             $this->load->view('templates/login');
-            
+
             $this->load->view('templates/footer');
         }
     }
@@ -434,24 +436,22 @@ $this->pagination->initialize($config);
     }
 
     public function registeruser() {
-        
+
         $cart = $this->cart->contents();
-        if(!empty($cart))
-        {
-        $data['headertitle'] = $this->viewmodel->get_header_title();
-        $data['headerlogo'] = $this->viewmodel->get_header_logo();
-        $data['meta'] = $this->dbmodel->get_meta_data();
-        $data['headerdescription'] = $this->viewmodel->get_header_description();
-        $data['shiping'] = $this->productmodel->getship();
-        $this->load->view('templates/header', $data);
-        $this->load->view('templates/navigation');
-        $this->load->view('templates/userRegistrationAndShipping', $data);
-        $this->load->view('templates/cartLogin');
-        $this->load->view('templates/footer');
-    }
-    else{
-        redirect('view/index', 'refresh');
-    }
+        if (!empty($cart)) {
+            $data['headertitle'] = $this->viewmodel->get_header_title();
+            $data['headerlogo'] = $this->viewmodel->get_header_logo();
+            $data['meta'] = $this->dbmodel->get_meta_data();
+            $data['headerdescription'] = $this->viewmodel->get_header_description();
+            $data['shiping'] = $this->productmodel->getship();
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/navigation');
+            $this->load->view('templates/userRegistrationAndShipping', $data);
+            $this->load->view('templates/cartLogin');
+            $this->load->view('templates/footer');
+        } else {
+            redirect('view/index', 'refresh');
+        }
     }
 
     function logout() {
@@ -478,24 +478,23 @@ $this->pagination->initialize($config);
         $data['meta'] = $this->dbmodel->get_meta_data();
         $data['headerdescription'] = $this->viewmodel->get_header_description();
 
-         $this->load->library('form_validation');
+        $this->load->library('form_validation');
         $this->form_validation->set_rules('user_email', 'Email', 'trim|regex_match[/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/]|required|xss_clean');
         $this->form_validation->set_rules('user_pass', 'Password', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,35}$/]|required|xss_clean|callback_check_database');
-       
-        
-        if ($this->form_validation->run() == FALSE  ) {
-            $data['login_validation_error']= validation_errors();
-            
-            
+
+
+        if ($this->form_validation->run() == FALSE) {
+            $data['login_validation_error'] = validation_errors();
+
+
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navigation');
             $this->load->view('templates/home_login', $data);
             $this->load->view('templates/login');
             $this->load->view('templates/footer');
-            
         } else {
-            $email = trim($_POST['user_email']); 
-            $pass = trim($_POST['user_pass']); 
+            $email = trim($_POST['user_email']);
+            $pass = trim($_POST['user_pass']);
             $query = $this->dbmodel->validate_user($email, $pass);
 
             if (!empty($query)) { // if the user's credentials validated...
@@ -532,60 +531,49 @@ $this->pagination->initialize($config);
 
         $validation = TRUE;
         $validation_message = "";
-if ($this->form_validation->run())
-{
-        if (isset($_POST['u_name']))
-        { 
-            
-            
-            $name = trim($_POST['u_name']);            
-            if (!preg_match("/^[a-z,0-9,A-Z]{2,15}$/", $name)) {
-            $validation_message .= "<p>Enter valid name</p>";
-            $validation = FALSE;
-        }
-        }
-        if (isset($_POST['u_email']))
-        {$email = trim($_POST['u_email']);        
-         if (!preg_match("/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/", $email)) {
-            $validation_message .= "<p>Enter valid email address</p>";
-            $validation = FALSE;
-        }
-        }
-        if (isset($_POST['u_pass']))
-        {$pass = trim($_POST['u_pass']);
-        if (!preg_match("/^[a-z,0-9,A-Z]{5,35}$/", $pass)) {
-            $validation_message .= "<p>Password must be 5 to 35 character long</p>";
-            $validation = FALSE;
-        }
-        
-        }
-        if (isset($_POST['u_pass_re']))
-        { 
-            $repass = trim($_POST['u_pass_re']);
-        
-        
-        }
+        if ($this->form_validation->run()) {
+            if (isset($_POST['u_name'])) {
 
-        
-        if(isset($_POST['u_pass']) && isset($_POST['u_pass_re']))
-        {
-        if ($pass != $repass) {
-            $validation_message .= "<p>Password did not matched</p>";
-            $validation = FALSE;
-        }
-        }
-        else 
-        {
-            $validation_message .= "<p>Password is empty</p>";
-            $validation = FALSE;
-            
-        }
 
-}
-        if ($this->form_validation->run() == FALSE  || $validation==FALSE) {
-            $data['validation_message']= validation_errors().$validation_message;
-            
-            
+                $name = trim($_POST['u_name']);
+                if (!preg_match("/^[a-z,0-9,A-Z]{2,15}$/", $name)) {
+                    $validation_message .= "<p>Enter valid name</p>";
+                    $validation = FALSE;
+                }
+            }
+            if (isset($_POST['u_email'])) {
+                $email = trim($_POST['u_email']);
+                if (!preg_match("/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/", $email)) {
+                    $validation_message .= "<p>Enter valid email address</p>";
+                    $validation = FALSE;
+                }
+            }
+            if (isset($_POST['u_pass'])) {
+                $pass = trim($_POST['u_pass']);
+                if (!preg_match("/^[a-z,0-9,A-Z]{5,35}$/", $pass)) {
+                    $validation_message .= "<p>Password must be 5 to 35 character long</p>";
+                    $validation = FALSE;
+                }
+            }
+            if (isset($_POST['u_pass_re'])) {
+                $repass = trim($_POST['u_pass_re']);
+            }
+
+
+            if (isset($_POST['u_pass']) && isset($_POST['u_pass_re'])) {
+                if ($pass != $repass) {
+                    $validation_message .= "<p>Password did not matched</p>";
+                    $validation = FALSE;
+                }
+            } else {
+                $validation_message .= "<p>Password is empty</p>";
+                $validation = FALSE;
+            }
+        }
+        if ($this->form_validation->run() == FALSE || $validation == FALSE) {
+            $data['validation_message'] = validation_errors() . $validation_message;
+
+
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navigation');
             $this->load->view('templates/home_login');
@@ -602,28 +590,25 @@ if ($this->form_validation->run())
 
             if (!empty($userEmail)) {
                 $validation = FALSE;
-                $data['validation_message']="Email already exsists. Reset you password.";
-                
-            $this->load->view('templates/header', $data);
-            $this->load->view('templates/navigation');
-            $this->load->view('templates/home_login');
-            $this->load->view('templates/footer');
-                
+                $data['validation_message'] = "Email already exsists. Reset you password.";
+
+                $this->load->view('templates/header', $data);
+                $this->load->view('templates/navigation');
+                $this->load->view('templates/home_login');
+                $this->load->view('templates/footer');
             } else {
-                
-                if($this->dbmodel->add_new_user_for($name, $email, $pass))
-             
-                $data = array(
-                    'useremail' => $email,
-                    'username' => $name,
-                    'logged_in' => true);
-                
+
+                if ($this->dbmodel->add_new_user_for($name, $email, $pass))
+                    $data = array(
+                        'useremail' => $email,
+                        'username' => $name,
+                        'logged_in' => true);
+
                 $this->session->set_userdata($data);
                 $this->registerEmail($email, $name);
                 //$this->session->set_('register_message', 'User Registered Successfully');
-              
+
                 redirect('view/index');
-               
             }
         }
     }
@@ -636,8 +621,8 @@ if ($this->form_validation->run())
 
         send_email($user_email, $subject, $message);
     }
-    
-    public function userdetails(){
+
+    public function userdetails() {
         $data['headertitle'] = $this->viewmodel->get_header_title();
         $data['headerlogo'] = $this->viewmodel->get_header_logo();
         $data['meta'] = $this->dbmodel->get_meta_data();
@@ -646,20 +631,23 @@ if ($this->form_validation->run())
         $data['product_info'] = $this->productmodel->product_info();
         $data['category'] = $this->productmodel->category_list();
         $this->load->view('templates/header', $data);
-            $this->load->view('templates/navigation');
-            $this->load->view('templates/user_details');
-            $this->load->view('templates/sidebarview', $data);
-            $this->load->view('templates/footer');
-        
-        
-        
-        
-        
+        $this->load->view('templates/navigation');
+        $this->load->view('templates/user_details');
+        $this->load->view('templates/cart');
+        $this->load->view('templates/sidebarview', $data);
+        $this->load->view('templates/footer');
     }
-    
-    public function updateUser(){
 
-    $this->form_validation->set_rules('u_fname', 'First name', 'trim|regex_match[/^[a-z,0-9,A-Z]{3,15}$/]|required|xss_clean|max_length[15]');
+    public function updateUser() {
+        $data['headertitle'] = $this->viewmodel->get_header_title();
+        $data['headerlogo'] = $this->viewmodel->get_header_logo();
+        $data['meta'] = $this->dbmodel->get_meta_data();
+        $data['headerdescription'] = $this->viewmodel->get_header_description();
+        $data['featureItem'] = $this->productmodel->featured_item();
+        $data['product_info'] = $this->productmodel->product_info();
+        $data['category'] = $this->productmodel->category_list();
+        
+        $this->form_validation->set_rules('u_fname', 'First name', 'trim|regex_match[/^[a-z,0-9,A-Z]{3,15}$/]|required|xss_clean|max_length[15]');
         $this->form_validation->set_rules('u_lname', 'Last name', 'trim|regex_match[/^[a-z,0-9,A-Z]{3,15}$/]|required|xss_clean|max_length[15]');
         $this->form_validation->set_rules('street_address', 'Address', 'trim|regex_match[/^[a-z,0-9,A-Z]{2,35}$/]|required|xss_clean|max_length[35]');
         $this->form_validation->set_rules('Town_address', 'City/Town', 'trim|regex_match[/^[a-z,0-9,A-Z]{2,35}$/]|required|xss_clean|max_length[35]');
@@ -668,20 +656,32 @@ if ($this->form_validation->run())
         $this->form_validation->set_rules('country', 'Country', 'trim|regex_match[/^[a-z,0-9,A-Z]{2,35}$/]|required|xss_clean|max_length[35]');
         $this->form_validation->set_rules('u_contact', 'Contact no.', 'trim|regex_match[/^[0-9]{5,15}$/]|required|xss_clean|max_length[15]');
         $this->form_validation->set_rules('user_email', 'Email', 'trim|regex_match[/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/]|required|xss_clean|max_length[200]');
-         if ($this->form_validation->run() == FALSE ) {
+        if ($this->form_validation->run() == FALSE) {
             $data['user_validation_message'] = validation_errors();
             $this->load->view('templates/header', $data);
-            $this->load->view('templates/navigation');
-            $this->load->view('templates/userRegistrationAndShipping', $data);
-            $this->load->view('templates/footer');
-            
+        $this->load->view('templates/navigation');
+        $this->load->view('templates/user_details');
+        $this->load->view('templates/cart');
+        $this->load->view('templates/sidebarview', $data);
+        $this->load->view('templates/footer');
         } else {
+            $fname=  trim($_POST['u_fname']);
+            $lname=  trim($_POST['u_lname']);
+            $street=  trim($_POST['street_address']);
+            $town=  trim($_POST['Town_address']);
+            $district=  trim($_POST['District_address']);
+            $zip=  trim($_POST['zip']);
+            $country=  trim($_POST['countrye']);
+            $contact=  trim($_POST['u_contact']);
+            $email=  trim($_POST['user_email']);
+            $this->dbmodel->update_user_data($fname,$lname,$street,$town,$district,$zip,$country,$contact,$email); 
+            
+            
+            
+            
             
         }
     }
-
-    
-
 
     public function shippingAddress() {
         $this->load->view('templates/header');

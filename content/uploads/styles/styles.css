@@ -69,9 +69,14 @@ body
 }
 #loading
 {
-  
-    z-index: 9999;
-    
+    z-index: 9999;   
+}
+#userDetail
+{
+    background-color: #fff;
+    padding: 10px;
+    margin: 0px;
+    min-height: 500px;
 }
 #leftRegister
 {
@@ -187,7 +192,7 @@ body
 #contentBackground
 {
     margin: 0;
-    padding: 0px 0px 15px 0px;
+    padding: 0px;
     background: url('../images/ContentBackGround.png'); 
     background-repeat: repeat;
     width: 100%;
