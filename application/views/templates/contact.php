@@ -94,7 +94,8 @@ $this->load->helper('currency');
                 <h4> 35 Tarana Ave ,Glenroy VIC 3046 </h4> 
                 
         
-<?php 
+<?php   echo form_open('view/comment');
+
 
  include_once('recaptchalib.php');
 
@@ -108,7 +109,7 @@ $resp = null;
 $error = null;
 
 # was there a reCAPTCHA response?
-if ($_POST["recaptcha_response_field"]) {
+if (isset($_POST["recaptcha_response_field"])) {
         $resp = recaptcha_check_answer ($privatekey,
                                         $_SERVER["REMOTE_ADDR"],
                                         $_POST["recaptcha_challenge_field"],
@@ -116,11 +117,7 @@ if ($_POST["recaptcha_response_field"]) {
 
         if ($resp->is_valid) {
                 echo "You got it!";
-            echo form_open('view/comment');
-            ?>
-                <input type="email" name="email" class="placeholder" placeholder="type your email" /> <br/>
-    <textarea class="placeholder" name="message" placeholder="type your comment!"></textarea>
-                <?php
+           
         } else {
                 # set the error code so that we can display it
                 $error = $resp->error;
@@ -128,7 +125,8 @@ if ($_POST["recaptcha_response_field"]) {
 }
 ?>
                 <div>
-    
+     <input type="email" name="email" class="placeholder" placeholder="type your email" /> <br/>
+    <textarea class="placeholder" name="message" placeholder="type your comment!"></textarea>
 <?php
 echo recaptcha_get_html($publickey, $error);
 ?>

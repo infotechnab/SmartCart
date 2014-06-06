@@ -91,4 +91,9 @@ function register_email($user_email, $user_name)
     return $body;
     
 } 
+
+function comment_email()
+{
+    
+}
  
