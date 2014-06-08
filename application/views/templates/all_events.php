@@ -1,3 +1,13 @@
+<?php
+$upcommingEvent= TRUE;
+$todayEvent=TRUE;
+$earlierEvent=TRUE;
+foreach($events as $allEvents){
+    
+}
+
+?>
+
 <div id='content'>
     <!-- from slider starts-->
 
@@ -10,6 +20,19 @@
     </div>
     
     <div class="eventContainer">
+       <?php if(strlen($allEvents->image)>2){
+            echo $allEvents->image; ?>
+                        <div class='detailsImage'>
+                            <img class="srcimage" src="<?php echo base_url() . "content/uploads/images/" . $productDet->image1; ?>" alt="<?php echo $productDet->name; ?>"/>   
+                        </div>
+                        
+                        <?php }
+                        else {echo 'this is it'; }?> 
+        
+        <div class="detailsImageLargeLeft">
+            <h3></h3>
+        </div>
+        
         
     </div>
 

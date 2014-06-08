@@ -828,16 +828,35 @@ class View extends CI_Controller {
         $data['featureItem'] = $this->productmodel->featured_item();
         $data['category'] = $this->productmodel->category_list();
         $data['slider_json'] = json_encode($data['featureItem']);
+        $data['events']= $this->productmodel->get_all_events();
         $this->load->view('templates/header', $data);
         $this->load->view('templates/navigation');
 
-        $this->load->view('templates/all_events');
+        $this->load->view('templates/all_events', $data);
 
         $this->load->view('templates/cart');
         $this->load->view('templates/sidebarview', $data);
         $this->load->view('templates/footer');
     }
-    
+     public function eventDetails($id=0)
+        {
+         $data['username'] = $this->session->userdata('username');
+        $data['headertitle'] = $this->viewmodel->get_header_title();
+        $data['headerlogo'] = $this->viewmodel->get_header_logo();
+        $data['meta'] = $this->dbmodel->get_meta_data();
+        $data['headerdescription'] = $this->viewmodel->get_header_description();
+        $data['featureItem'] = $this->productmodel->featured_item();
+        $data['category'] = $this->productmodel->category_list();
+        $data['slider_json'] = json_encode($data['featureItem']);
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/navigation');
+
+        $this->load->view('templates/single_event');
+
+        $this->load->view('templates/cart');
+        $this->load->view('templates/sidebarview', $data);
+        $this->load->view('templates/footer');
+    }
             
     function comment()
     {

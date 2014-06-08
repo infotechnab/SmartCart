@@ -63,7 +63,11 @@ public function product_info(){
          $query = $this->db->get('category');
         return $query->result();
     }
-    function get_product($id)
+    public function get_all_events(){
+         $query = $this->db->get('events');
+        return $query->result();
+    }
+            function get_product($id)
     {
          $this->db->where('category',$id);
          $query = $this->db->get('product',3);
