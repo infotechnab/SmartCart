@@ -236,7 +236,18 @@ body
     border-radius: 5px;
 
 }
-.contentHeader h3, .contentContainerDetails h2
+.eventHeader
+{
+    margin: 0 auto 0 auto;
+    padding:4px;
+    background-color: #fff;
+    min-height: 25px;
+    border-radius: 5px;
+    float: left;
+    width: 99%;
+
+}
+.eventHeader h3, .contentHeader h3, .contentContainerDetails h2
 {
     margin: 0px;
     padding: 5px 0px 5px 20px;
@@ -1860,7 +1871,7 @@ input:-moz-placeholder { color:#999; }
 {
     float: left;
     width: 100%;
-    margin: 10px 0px 0px 0px;
+    margin: 10px 0px 10px 0px;
     padding: 0px;
     min-height: 100px;
     background-color: #fff;

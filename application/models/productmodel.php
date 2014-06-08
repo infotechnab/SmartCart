@@ -64,6 +64,7 @@ public function product_info(){
         return $query->result();
     }
     public function get_all_events(){
+        $this->db->order_by('date','DESC');
          $query = $this->db->get('events');
         return $query->result();
     }
