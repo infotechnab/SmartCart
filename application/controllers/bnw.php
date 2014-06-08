@@ -3740,7 +3740,7 @@ class bnw extends CI_Controller {
                     }else{
                         include_once 'imagemanipulator.php';
 
-                $manipulator = new ImageManipulator($_FILES['myfile']['tmp_name']);
+                $manipulator = new ImageManipulator($_FILES['file']['tmp_name']);
                 $width = $manipulator->getWidth();
                 $height = $manipulator->getHeight();
 
@@ -3757,7 +3757,7 @@ class bnw extends CI_Controller {
                 // center cropping to 200x130
                 $newImage = $manipulator->crop($x1, $y1, $x2, $y2);
                 // saving file to uploads folder
-                $manipulator->save('./content/uploads/images/' . $_FILES['myfile']['name']);
+                $manipulator->save('./content/uploads/images/' . $_FILES['file']['name']);
                          $data = array('upload_data' => $this->upload->data('file'));
                         $image = $data['upload_data']['file_name'];
                         $name = $this->input->post('event_name');
@@ -3773,6 +3773,7 @@ class bnw extends CI_Controller {
                 redirect('bnw/addevent');
                     }
                     }
+                    else{
 
                 //if valid
                       $image = NULL; 
@@ -3791,7 +3792,8 @@ class bnw extends CI_Controller {
             
         
            
-        }else
+            }
+       }else
         {
             redirect('login', 'refresh');
         }  
