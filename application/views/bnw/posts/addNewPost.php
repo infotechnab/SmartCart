@@ -12,7 +12,7 @@ if ($query)
  }
  ?>
     <div class="titleArea">
-     <h2>Add new post</h2>
+     <h2>Add new offer</h2>
 <hr class="hr-gradient"/>   
     </div>
     
@@ -29,7 +29,7 @@ if ($query)
 </p>
   <?php echo form_open_multipart('bnw/addpost');?>
   
-  <p>Post Title:<br />
+  <p>Offer Title:<br />
   <input type="text" name="post_title" value="<?php echo set_value('post_title'); ?>" />
   </p>
   <p>Body:<br />
@@ -39,13 +39,31 @@ if ($query)
   <p>Image:<br />
       <input type="file" name="offreImage">  
   </p> 
+   <input type="submit" value="Submit" />
+  <?php echo form_close();?>
     </div>
     
     <div id="forRightPage"> 
     
-   <p>Post Status:<br />
+ 
+   
+ <!--   <input type="checkbox" name="allow_comment" value="1" <?php //if($set_data[0]==1) echo 'checked' ;?> >Allow people to post comment</input>
+<br/>
+<input type="checkbox" name="allow_like" value="1" <?php // if($set_data[1]==1) echo 'checked' ;?> >Allow people to like </input>
+<br/>
+<input type="checkbox" name="allow_share" value="1" <?php //if($set_data[2]==1) echo 'checked' ;?> >Allow people to share</input>
+<br/> -->
+  
+ 
+  </div>
+</div>
+<div class="clear"></div>
+</div>
+
+<!--
+  <p>Post Status:<br />
   <?php 
-  $options = array(
+ /* $options = array(
                   '1'  => 'publish',
                   '0'    => 'draft');
   echo form_dropdown('post_status',$options,'1')
@@ -74,22 +92,8 @@ if ($query)
                 </option>
                     <?php
                 }
-                ?>
+                ?> 
           
             </select>
        
-   </p>
-   
-   <input type="checkbox" name="allow_comment" value="1" <?php if($set_data[0]==1) echo 'checked' ;?> >Allow people to post comment</input>
-<br/>
-<input type="checkbox" name="allow_like" value="1" <?php if($set_data[1]==1) echo 'checked' ;?> >Allow people to like </input>
-<br/>
-<input type="checkbox" name="allow_share" value="1" <?php if($set_data[2]==1) echo 'checked' ;?> >Allow people to share</input>
-<br/>
-  
-  <input type="submit" value="Submit" />
-  <?php echo form_close();?>
-  </div>
-</div>
-<div class="clear"></div>
-</div>
+   </p>--> */ ?>

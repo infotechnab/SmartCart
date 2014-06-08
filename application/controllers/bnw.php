@@ -1787,13 +1787,13 @@ class bnw extends CI_Controller {
             $id = $this->input->post('id');
             $data['query'] = $this->dbmodel->findpost($id);
 
-            if (($_SERVER['REQUEST_METHOD'] == 'POST')) {
-                $categoryName = $_POST['selectCategory'];
-                $post_category_info = $this->dbmodel->get_post_category_info($categoryName);
-                foreach ($post_category_info as $pid) {
-                    $post_category_id = $pid->id;
-                }
-            }
+//            if (($_SERVER['REQUEST_METHOD'] == 'POST')) {
+//                $categoryName = $_POST['selectCategory'];
+//                $post_category_info = $this->dbmodel->get_post_category_info($categoryName);
+//                foreach ($post_category_info as $pid) {
+//                    $post_category_id = $pid->id;
+//                }
+//            }
             //set validation rules
             $this->form_validation->set_rules('post_title', 'Page Name', 'required|xss_clean|max_length[200]');
             $this->form_validation->set_rules('post_content', 'Body', 'required|xss_clean');
@@ -1801,7 +1801,8 @@ class bnw extends CI_Controller {
 
             if (($this->form_validation->run() == TRUE)) {
                 if ($_FILES && $_FILES['file']['name'] !== "") {
-                    if (!$this->upload->do_upload('slide_image')) {
+                    if (!$this->upload->do_upload('file')) {
+                       // die('i am here');
                         $data['error'] = $this->upload->display_errors('file');
                         $id = $this->input->post('id');
                         $data['query'] = $this->dbmodel->findpost($id);
@@ -1811,19 +1812,21 @@ class bnw extends CI_Controller {
                         $id = $this->input->post('id');
                         $post_title = $this->input->post('post_title');
                         $post_content = $this->input->post('post_content');
-                        $post_author_info = $this->dbmodel->get_post_author_id($username);
-                        foreach ($post_author_info as $pid) {
-                            $post_author_id = $pid->id;
-                        }
+                        $data = array('upload_data' => $this->upload->data('file'));
+                        $image = $data['upload_data']['file_name'];
+//                        $post_author_info = $this->dbmodel->get_post_author_id($username);
+//                        foreach ($post_author_info as $pid) {
+//                            $post_author_id = $pid->id;
+//                        }
                         $string = $this->input->post('post_content');
                         $post_summary = substr("$string", 0, 100);
-                        $post_status = $this->input->post('page_status');
-                        $post_comment_status = $this->input->post('comment_status');
-                        $post_tags = $this->input->post('post_tags');
-                        $allowComment = $this->input->post('allow_comment');
-                        $allowLike = $this->input->post('allow_like');
-                        $allowShare = $this->input->post('allow_share');
-                        $this->dbmodel->update_post($id, $post_title, $post_content, $post_author_id, $post_summary, $post_status, $post_comment_status, $post_tags, $post_category_id, $allowComment, $allowLike, $allowShare);
+//                        $post_status = $this->input->post('page_status');
+//                        $post_comment_status = $this->input->post('comment_status');
+//                        $post_tags = $this->input->post('post_tags');
+//                        $allowComment = $this->input->post('allow_comment');
+//                        $allowLike = $this->input->post('allow_like');
+//                        $allowShare = $this->input->post('allow_share');
+                        $this->dbmodel->update_post($id, $post_title, $post_content, $post_summary, $image);
                         $this->session->set_flashdata('message', 'Data Modified Sucessfully');
                         redirect('bnw/posts/postListing');
                     }
@@ -1831,19 +1834,20 @@ class bnw extends CI_Controller {
                     $id = $this->input->post('id');
                     $post_title = $this->input->post('post_title');
                     $post_content = $this->input->post('post_content');
-                    $post_author_info = $this->dbmodel->get_post_author_id($username);
-                    foreach ($post_author_info as $pid) {
-                        $post_author_id = $pid->id;
-                    }
+//                    $post_author_info = $this->dbmodel->get_post_author_id($username);
+//                    foreach ($post_author_info as $pid) {
+//                        $post_author_id = $pid->id;
+//                    }
                     $string = $this->input->post('post_content');
                     $post_summary = substr("$string", 0, 100);
-                    $post_status = $this->input->post('page_status');
-                    $post_comment_status = $this->input->post('comment_status');
-                    $post_tags = $this->input->post('post_tags');
-                    $allowComment = $this->input->post('allow_comment');
-                    $allowLike = $this->input->post('allow_like');
-                    $allowShare = $this->input->post('allow_share');
-                    $this->dbmodel->update_post($id, $post_title, $post_content, $post_author_id, $post_summary, $post_status, $post_comment_status, $post_tags, $post_category_id, $allowComment, $allowLike, $allowShare);
+                    $post_image = $this->input->post('hidden_image');
+//                    $post_status = $this->input->post('page_status');
+//                    $post_comment_status = $this->input->post('comment_status');
+//                    $post_tags = $this->input->post('post_tags');
+//                    $allowComment = $this->input->post('allow_comment');
+//                    $allowLike = $this->input->post('allow_like');
+//                    $allowShare = $this->input->post('allow_share');
+                    $this->dbmodel->update_post($id, $post_title, $post_content, $post_summary, $post_image);
                     $this->session->set_flashdata('message', 'Data Modified Sucessfully');
                     redirect('bnw/posts/postListing');
                 }
