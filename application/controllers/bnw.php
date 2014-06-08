@@ -3764,10 +3764,10 @@ class bnw extends CI_Controller {
                 $centreY = round($height / 2);
 
                 // our dimensions will be 200x130
-                $x1 = $centreX - 150; // 200 / 2
+                $x1 = $centreX - 374; // 200 / 2
                 $y1 = $centreY - 150; // 130 / 2
 
-                $x2 = $centreX + 150; // 200 / 2
+                $x2 = $centreX + 374; // 200 / 2
                 $y2 = $centreY + 150; // 130 / 2
                 // center cropping to 200x130
                 $newImage = $manipulator->crop($x1, $y1, $x2, $y2);
@@ -3865,10 +3865,10 @@ class bnw extends CI_Controller {
                 $centreY = round($height / 2);
 
                 // our dimensions will be 200x130
-                $x1 = $centreX - 150; // 200 / 2
+                $x1 = $centreX - 374; // 200 / 2
                 $y1 = $centreY - 150; // 130 / 2
 
-                $x2 = $centreX + 150; // 200 / 2
+                $x2 = $centreX + 374; // 200 / 2
                 $y2 = $centreY + 150; // 130 / 2
                 // center cropping to 200x130
                 $newImage = $manipulator->crop($x1, $y1, $x2, $y2);
@@ -3932,6 +3932,16 @@ class bnw extends CI_Controller {
          if ($this->session->userdata('admin_logged_in')) {
              
              $id = $_GET['id'];
+             $data['query'] = $this->dbmodel->findpost($id);
+              foreach ($data['query'] as $a)
+             {
+                 $img = $a->image;
+             }
+            // die($img);
+             if($img==!NULL)
+             {
+             unlink('./content/uploads/images/'. $img);
+             }
              $this->dbmodel->offerImgdelete($id);
              
              $this->editpost($id);
@@ -3948,7 +3958,16 @@ class bnw extends CI_Controller {
        if ($this->session->userdata('admin_logged_in')) {
              
              $id = $_GET['id'];
-            // unlink('./content/uploads/images/'. $image);
+             $data['event'] = $this->dbmodel->get_event_id($id);
+             foreach ($data['event'] as $a)
+             {
+                 $img = $a->image;
+             }
+            // die($img);
+             if($img==!NULL)
+             {
+             unlink('./content/uploads/images/'. $img);
+             }
              $this->dbmodel->Imgdelete($id);
              
              $this->editevent($id);
@@ -3963,7 +3982,16 @@ class bnw extends CI_Controller {
     function delevent($id=0)
     {
         if ($this->session->userdata('admin_logged_in')) {
-            
+            $data['event'] = $this->dbmodel->get_event_id($id);
+             foreach ($data['event'] as $a)
+             {
+                 $img = $a->image;
+             }
+            // die($img);
+             if($img==!NULL)
+             {
+             unlink('./content/uploads/images/'. $img);
+             }
             $this->dbmodel->delete($id);
       $this->session->set_flashdata('message', 'Data Delete Sucessfully');
       redirect('bnw/event');
