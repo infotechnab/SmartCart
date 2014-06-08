@@ -145,7 +145,7 @@ body
 {
     width: 40%;
     float: right;
-    margin: 0px;
+    margin:0 0 5px 0;
     padding: 0px;
     border: 2px solid #c0021c;
     border-radius: 10px;
@@ -675,7 +675,7 @@ div.vertical-line{
 }
 #total_item h4
 {
-    margin: 5px auto 0 auto;
+    margin: 0px auto 0 auto;
     text-align: center;
     
 }
