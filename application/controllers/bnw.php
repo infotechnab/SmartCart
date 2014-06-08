@@ -1685,18 +1685,24 @@ class bnw extends CI_Controller {
 
             if (($this->form_validation->run() == TRUE)) {
                 if ($_FILES && $_FILES['file']['name'] !== "") {
-                    if (!$this->upload->do_upload('file')) {
-                        $error = array('error' => $this->upload->display_errors('file'));
+                    if (!$this->upload->do_upload('offreImage')) {
+                        $error = array('error' => $this->upload->display_errors('offreImage'));
                         $this->load->view('bnw/posts/addNewPost', $error);
                     } else {
-                        $data = array('upload_data' => $this->upload->data('file'));
+                        $data = array('upload_data' => $this->upload->data('offreImage'));
                         $image = $data['upload_data']['file_name'];
-
-                        $this->dbmodel->add_new_post($post_title, $post_content, $post_author_id, $post_summary, $post_status, $post_comment_status, $post_tags, $post_category_id);
-                        $this->session->set_flashdata('message', 'One pages added sucessfully');
+                        $post_title = $this->input->post('post_title');
+                        $post_content = $this->input->post('post_content');
+                        $string = $this->input->post('post_content');
+                    $post_summary = substr("$string", 0, 100);
+                    $post_status = $this->input->post('post_status');
+                    
+                        $this->dbmodel->add_new_post($post_title, $post_content, $post_summary, $post_status,$image);
+                        $this->session->set_flashdata('message', 'One offer added sucessfully');
                         redirect('bnw/posts/postListing');
                     }
                 } else {
+                    $image = NULL;
                     $post_title = $this->input->post('post_title');
                     $post_content = $this->input->post('post_content');
                     $post_author_info = $this->dbmodel->get_post_author_id($username);
@@ -1712,9 +1718,9 @@ class bnw extends CI_Controller {
                     $allowComment = $this->input->post('allow_comment');
                     $allowLike = $this->input->post('allow_like');
                     $allowShare = $this->input->post('allow_share');
-
-                    $this->dbmodel->add_new_post($post_title, $post_content, $post_author_id, $post_summary, $post_status, $post_comment_status, $post_tags, $post_category_id, $allowComment, $allowLike, $allowShare);
-                    $this->session->set_flashdata('message', 'One post added sucessfully');
+                    $this->dbmodel->add_new_post($post_title, $post_content, $post_summary, $post_status,$image);
+                   // $this->dbmodel->add_new_post($post_title, $post_content, $post_author_id, $post_summary, $post_status, $post_comment_status, $post_tags, $post_category_id, $allowComment, $allowLike, $allowShare);
+                    $this->session->set_flashdata('message', 'One Offer added sucessfully');
                     redirect('bnw/posts/postListing');
                 }
             } else {

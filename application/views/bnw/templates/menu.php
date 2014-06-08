@@ -21,12 +21,12 @@
                         </ul>
                     </li>
                 
-<!--                     <li class="mainMenuItem"><a href="#">Posts</a>
+                    <li class="mainMenuItem"><a href="#">Offers</a>
                         <ul class="subMenu">
-                            <li><?php //echo anchor('bnw/posts', 'All Posts') ?></li>
-                            <li><?php //echo anchor('bnw/addpost', 'Add New Post') ?></li>
+                            <li><?php echo anchor('bnw/posts', 'All Offers') ?></li>
+                            <li><?php echo anchor('bnw/addpost', 'Add New Offer') ?></li>
                         </ul>
-                    </li>-->
+                    </li>
                     <li class="mainMenuItem"><a href="#">Pages</a>
                         <ul class="subMenu">
                             <li><?php echo anchor('bnw/pages', 'All Pages') ?></li>

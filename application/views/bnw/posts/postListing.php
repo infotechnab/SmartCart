@@ -20,7 +20,7 @@
             <th>Post Summary</th>
             
            
-            <th>Status</th>
+            <th>Image</th>
             <th>Action</th>
         </tr>
         <?php
@@ -33,16 +33,7 @@
             
             
             
-            <td><?php if($data->post_status=="Active")
-            {
-                echo "Draft";
-            }
-                else
-            {
-                    echo "Published";
-                    
-            }
-            ?></td>
+            <td><?php if(isset($data->image)== !NULL){?> <img src="<?php echo base_url().'content/uploads/images/'.$data->image ?>" width="50" height="50" />  <?php  }else{ echo  "Image not set";}          ?></td>
             <td><?php echo anchor('bnw/editpost/'.$data->id,'Edit'); ?> / 
             <?php echo anchor('bnw/deletepost/'.$data->id,'Delete'); ?></td>
         </tr>
@@ -50,7 +41,7 @@
             }
         }
         else{
-            echo '<h3>Sorry posts are not available</h3>';
+            echo '<h3>Sorry offer are not available</h3>';
         }
             
     ?>

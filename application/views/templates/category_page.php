@@ -164,6 +164,16 @@ if (!empty($product)) {
 <!-- left side content closed here -->
 
 <div id='sidebar'>
+    <?php if(!empty($offer)){ ?>
+     <div class="redColouredDiv" id='sidebarContent'>
+                
+                <h3>Special Offers</h3>
+            </div>
+     <div class='sidebarContentNext'>
+     <?php foreach ($offer as $data)
+     {}?>
+     </div>
+     <?php } ?>
             <div class="redColouredDiv" id='sidebarContent'>
                 <div id="sideBarImage"><img src="<?php echo base_url() . "content/uploads/images/addtocart.png"; ?>"/> </div>   
                 <h3>Shopping Cart</h3>
