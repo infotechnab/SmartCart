@@ -1878,3 +1878,16 @@ input:-moz-placeholder { color:#999; }
     border-radius: 5px;
     
 }
+.eventImage
+{
+    float: left;
+    width: 40%;
+    min-height: 225px;
+    padding: 10px 0px 0px 0px;
+}
+.eventDetails
+{
+    padding: 10px;
+    float: left;
+    width: 55%;
+}

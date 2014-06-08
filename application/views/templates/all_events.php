@@ -22,14 +22,19 @@ $currentDate = date("Y/m/d");
             $upcommingEvent = FALSE; ?>
             
             <div class="eventContainer">
-<?php if (strlen($allEvents->image) > 2) {
+<?php if (isset($allEvents->image)) {
     ?>
-            <div class='detailsImage'>
-                <img class="srcimage" src="<?php echo base_url() . "content/uploads/images/" . $productDet->image1; ?>" alt="<?php echo $productDet->name; ?>"/>   
+                <div class='eventImage' style="outline: 1px solid black;">
+                <img class="srcimage" src="<?php echo base_url() . "content/uploads/images/" . $allEvents->image; ?>" alt=""/>   
             </div>
 
 <?php } ?>
-
+                <div class='eventDetails'>
+                    <h4 style="margin: 0px; padding: 0px;"><?php echo $allEvents->title; ?></h4>
+                    <h4 style="color: #5D5D5D;"><?php echo $allEvents->date; ?></h4>
+                    <h4><?php echo $allEvents->location; ?></h4>
+                    <p><?php echo $allEvents->details; ?></p>
+                </div>
 
 
 
@@ -52,15 +57,19 @@ $currentDate = date("Y/m/d");
             $todayEvent = FALSE; ?>
             
             <div class="eventContainer">
-<?php if (strlen($allEvents->image) > 2) {
-    echo $allEvents->image;
+<?php if (isset($allEvents->image)) {
     ?>
-            <div class='detailsImage'>
-                <img class="srcimage" src="<?php echo base_url() . "content/uploads/images/" . $productDet->image1; ?>" alt="<?php echo $productDet->name; ?>"/>   
+                <div class='eventImage' style="outline: 1px solid black;">
+                <img class="srcimage" src="<?php echo base_url() . "content/uploads/images/" . $allEvents->image; ?>" alt=""/>   
             </div>
 
 <?php } ?>
-
+                <div class='eventDetails'>
+                    <h4 style="margin: 0px; padding: 0px;"><?php echo $allEvents->title; ?></h4>
+                    <h4 style="color: #5D5D5D;"><?php echo $allEvents->date; ?></h4>
+                    <h4><?php echo $allEvents->location; ?></h4>
+                    <p><?php echo $allEvents->details; ?></p>
+                </div>
 
 
 
@@ -83,15 +92,19 @@ $currentDate = date("Y/m/d");
             $earlierEvent = FALSE; ?>
             
             <div class="eventContainer">
-<?php if (strlen($allEvents->image) > 2) {
-    echo $allEvents->image;
+<?php if (isset($allEvents->image)) {
     ?>
-            <div class='detailsImage'>
-                <img class="srcimage" src="<?php echo base_url() . "content/uploads/images/" . $productDet->image1; ?>" alt="<?php echo $productDet->name; ?>"/>   
+                <div class='eventImage' style="outline: 1px solid black;">
+                <img class="srcimage" src="<?php echo base_url() . "content/uploads/images/" . $allEvents->image; ?>" alt=""/>   
             </div>
 
 <?php } ?>
-
+                <div class='eventDetails'>
+                    <h4 style="margin: 0px; padding: 0px;"><?php echo $allEvents->title; ?></h4>
+                    <h4 style="color: #5D5D5D;"><?php echo $allEvents->date; ?></h4>
+                    <h4><?php echo $allEvents->location; ?></h4>
+                    <p><?php echo $allEvents->details; ?></p>
+                </div>
 
 
 
