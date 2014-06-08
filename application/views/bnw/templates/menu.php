@@ -20,7 +20,12 @@
                             
                         </ul>
                     </li>
-                
+                    <li class="mainMenuItem"><a href="#">Events</a>
+                        <ul class="subMenu">
+                            <li><?php echo anchor('bnw/event', 'All Event') ?></li>
+                            <li><?php echo anchor('bnw/addevent', 'Add New Event') ?></li>
+                        </ul>
+                    </li>
                     <li class="mainMenuItem"><a href="#">Offers</a>
                         <ul class="subMenu">
                             <li><?php echo anchor('bnw/posts', 'All Offers') ?></li>

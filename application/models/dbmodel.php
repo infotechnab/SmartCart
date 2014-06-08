@@ -1856,4 +1856,23 @@ function delete_favicone($id) {
          
     }
     
+    function get_event()
+    {
+        $query = $this->db->get('events');
+        return $query->result();
+    }
+
+
+    function add_event($name,$detail,$location,$dateTime,$image)
+    {
+        $data = array(
+            'title'=>$name,
+            'details'=>$detail,
+            'location'=>$location,
+            'date'=>$dateTime,
+            'image'=>$image
+        );
+        $this->db->insert('events', $data); 
+    }
+    
        }

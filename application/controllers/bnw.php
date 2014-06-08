@@ -3693,5 +3693,108 @@ class bnw extends CI_Controller {
         $this->dbmodel->addaanbieding($image_data);
         // redirect("bnw/aanbiedingen");
     }
+    
+    function event()
+    {
+        if ($this->session->userdata('admin_logged_in')) {
+            $data['meta'] = $this->dbmodel->get_meta_data();
+           // $data["links"] = $this->pagination->create_links();
+            $data["query"] = $this->dbmodel->get_menu();
+            $data["query"] = $this->dbmodel->get_event();
+            $this->load->view('bnw/templates/header', $data);
+            $this->load->view('bnw/templates/menu');
+            $this->load->view('bnw/event/eventList',$data);
+        }else
+        {
+            redirect('login', 'refresh');
+        }
+        
+    }
+    function addevent()
+    {
+       if ($this->session->userdata('admin_logged_in')) {
+            $config['upload_path'] = './content/uploads/images/';
+            $config['allowed_types'] = 'gif|jpg|png';
+            $config['max_size'] = '500';
+            $config['max_width'] = '1024';
+            $config['max_height'] = '768';
+            $this->load->library('upload', $config);
+            $data['meta'] = $this->dbmodel->get_meta_data();
+            $data["links"] = $this->pagination->create_links();
+            $data["query"] = $this->dbmodel->get_menu();
+            $this->load->view('bnw/templates/header', $data);
+            $this->load->view('bnw/templates/menu');
+            $this->load->helper('form');
+            $this->load->library(array('form_validation', 'session'));
+            $this->form_validation->set_rules('event_name', 'Name', 'required|xss_clean|max_length[200]');
 
+            if ($this->form_validation->run() == FALSE) {
+
+                $this->load->view('bnw/event/addEvent');
+            } else {
+                
+                if ($_FILES && $_FILES['file']['name'] !== "") {
+                    if (!$this->upload->do_upload('file')) {
+                        $error = array('error' => $this->upload->display_errors('file'));
+                        $this->load->view('bnw/event/addEvent', $error);
+                    }else{
+                        include_once 'imagemanipulator.php';
+
+                $manipulator = new ImageManipulator($_FILES['myfile']['tmp_name']);
+                $width = $manipulator->getWidth();
+                $height = $manipulator->getHeight();
+
+                $centreX = round($width / 2);
+
+                $centreY = round($height / 2);
+
+                // our dimensions will be 200x130
+                $x1 = $centreX - 150; // 200 / 2
+                $y1 = $centreY - 150; // 130 / 2
+
+                $x2 = $centreX + 150; // 200 / 2
+                $y2 = $centreY + 150; // 130 / 2
+                // center cropping to 200x130
+                $newImage = $manipulator->crop($x1, $y1, $x2, $y2);
+                // saving file to uploads folder
+                $manipulator->save('./content/uploads/images/' . $_FILES['myfile']['name']);
+                         $data = array('upload_data' => $this->upload->data('file'));
+                        $image = $data['upload_data']['file_name'];
+                        $name = $this->input->post('event_name');
+                $detail = $this->input->post('detail');
+                $location = $this->input->post('location');
+                $date = $this->input->post('date');
+                $hour = $this->input->post('hour');
+                $min = $this->input->post('min');
+                $sec = 0;
+                $dateTime = $date.' '.$hour.':'.$min.':'.$sec;
+                $this->dbmodel->add_event($name,$detail,$location,$dateTime,$image);
+                $this->session->set_flashdata('message', 'One event added sucessfully');
+                redirect('bnw/addevent');
+                    }
+                    }
+
+                //if valid
+                      $image = NULL; 
+                $name = $this->input->post('event_name');
+                $detail = $this->input->post('detail');
+                $location = $this->input->post('location');
+                $date = $this->input->post('date');
+                $hour = $this->input->post('hour');
+                $min = $this->input->post('min');
+                $sec = 0;
+                $dateTime = $date.' '.$hour.':'.$min.':'.$sec;
+                $this->dbmodel->add_event($name,$detail,$location,$dateTime,$image);
+                $this->session->set_flashdata('message', 'One event added sucessfully');
+                redirect('bnw/addevent');
+            }
+            
+        
+           
+        }else
+        {
+            redirect('login', 'refresh');
+        }  
+    }
+    
 }
