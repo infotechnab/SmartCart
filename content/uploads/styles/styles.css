@@ -1855,3 +1855,15 @@ input:-moz-placeholder { color:#999; }
 #cssmenu .has-sub .has-sub ul li a:hover {
     background: #a80017;
 }
+/* for events*/
+.eventContainer
+{
+    float: left;
+    width: 100%;
+    margin: 10px 0px 0px 0px;
+    padding: 0px;
+    min-height: 100px;
+    background-color: #fff;
+    border-radius: 5px;
+    
+}
