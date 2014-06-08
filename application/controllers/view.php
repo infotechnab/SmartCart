@@ -26,6 +26,7 @@ class View extends CI_Controller {
         $data['meta'] = $this->dbmodel->get_meta_data();
         $data['headerdescription'] = $this->viewmodel->get_header_description();
         $data['featureItem'] = $this->productmodel->featured_item();
+        $data['event']= $this->productmodel->get_max_events();
         $config = array();
         $config["base_url"] = base_url() . "index.php/view/index";
         $config["total_rows"] = $this->dbmodel->record_count_product();
@@ -827,6 +828,7 @@ class View extends CI_Controller {
         $data['headerdescription'] = $this->viewmodel->get_header_description();
         $data['featureItem'] = $this->productmodel->featured_item();
         $data['category'] = $this->productmodel->category_list();
+        $data['event']= $this->productmodel->get_max_events();
         $data['slider_json'] = json_encode($data['featureItem']);
         $config = array();
         $config["base_url"] = base_url() . "index.php/view/events";
