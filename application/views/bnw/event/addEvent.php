@@ -28,7 +28,7 @@ $( "#datepicker" ).datepicker();
      <input type="file" name="file" />
  </p>
  <p>When: <br/>
-      <input type="text" id="datepicker" name="date" placeholder="event date" /> 
+      <input type="text" id="datepicker" name="date" placeholder="event date" value="<?php echo date('20y-m-d'); ?>" /> 
  </p>
  <p>Time: <br/>
      <select name="hour">
