@@ -58,7 +58,7 @@ if ($miscSetting)
   </p>
    <?php if($post_image==!NULL) { ?> <div  >
     <div style="width:85px; height: 85px;">
-    <img src="<?php echo base_url()."content/uploads/images/".$post_image; ?>" width="80" height="80" alt="Image not set!" />
+    <img src="<?php echo base_url()."content/uploads/images/".$post_image; ?>" width="80" height="80" alt="<?php echo $post_image; ?>" />
     </div>
              <a href="<?php echo base_url();?>index.php/bnw/offerImgdelete/?id=<?php echo $id; ?> " id="<?php echo $id; ?>" class="delbutton">
         <img src="<?php echo base_url();?>content/uploads/images/delete.png" id="close"/></a>

@@ -33,7 +33,7 @@ $( "#datepicker" ).datepicker();
        
        ?>
         <div class="titleArea">
-     <h2>Edit Product</h2>
+     <h2>Edit Event</h2>
 <hr class="hr-gradient"/>   
     </div> 
 <!--    <div id="forLeftPage">-->
@@ -59,7 +59,7 @@ $( "#datepicker" ).datepicker();
    
   <?php if($image==!NULL) { ?> <div  >
     <div style="width:85px; height: 85px;">
-    <img src="<?php echo base_url()."content/uploads/images/".$image; ?>" width="80" height="80" alt="Image not set!" />
+    <img src="<?php echo base_url()."content/uploads/images/".$image; ?>" width="80" height="80" alt="<?php echo $image; ?>"/>
     </div>
              <a href="<?php echo base_url();?>index.php/bnw/Imgdelete/?id=<?php echo $id; ?> " id="<?php echo $id; ?>" class="delbutton">
         <img src="<?php echo base_url();?>content/uploads/images/delete.png" id="close"/></a>

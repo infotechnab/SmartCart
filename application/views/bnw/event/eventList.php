@@ -28,7 +28,7 @@
             <td><?php echo $data->details; ?></td>
             <td><?php echo $data->location ?></td>
             <td><?php  echo $data->date;?></td>
-            <td><?php if(isset($data->image)) { ?><img src="<?php echo base_url()."content/uploads/images/".$data->image; ?>" width="50" height="50" alt="Image not set!" /><?php } else { echo 'image not set' ;} ?></td>
+            <td><?php if(isset($data->image)) { ?><img src="<?php echo base_url()."content/uploads/images/".$data->image; ?>" width="50" height="50" ale="<?php echo $data->image; ?>" /><?php } else { echo 'image not set' ;} ?></td>
             
              
             <td><?php echo anchor('bnw/editevent/'.$data->id,'Edit'); ?> / 

@@ -750,9 +750,9 @@ public function get_navigation_info($navigationName)
     
     function add_new_post($post_title, $post_content, $post_summary, $post_status,$image)
     {
-        $category = 14;
+      //  $category = 14;
         $data = array(
-            'post_category'=>$category,
+            
             'post_title'=>$post_title,
             'post_content'=>$post_content,
             'post_summary'=>$post_summary,
@@ -1875,9 +1875,9 @@ function delete_favicone($id) {
         );
         $this->db->insert('events', $data); 
     }
-    function get_event_data()
+    function get_event_data($limit , $start)
     {
-        //$this->db->limit($limit, $start);
+        $this->db->limit($limit, $start);
         $this->db->order_by('date','DESC');
         $query = $this->db->get("events");
         return $query->result();
@@ -1921,5 +1921,11 @@ function delete_favicone($id) {
         
         $this->db->where('id',$id);
         $this->db->update('events',$data);
+    }
+    
+    function delete($id)
+    {
+        $this->db->where('id',$id);
+        $this->db->delete('events');
     }
        }

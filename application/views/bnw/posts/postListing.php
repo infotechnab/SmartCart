@@ -33,7 +33,7 @@
             
             
             
-            <td><?php if(isset($data->image)== !NULL){?> <img src="<?php echo base_url().'content/uploads/images/'.$data->image ?>" width="50" height="50" />  <?php  }else{ echo  "Image not set";}          ?></td>
+            <td><?php if(isset($data->image)== !NULL){?> <img src="<?php echo base_url().'content/uploads/images/'.$data->image ?>" width="50" height="50" alt="<?php echo $data->image; ?>" />  <?php  }else{ echo  "Image not set";}          ?></td>
             <td><?php echo anchor('bnw/editpost/'.$data->id,'Edit'); ?> / 
             <?php echo anchor('bnw/deletepost/'.$data->id,'Delete'); ?></td>
         </tr>

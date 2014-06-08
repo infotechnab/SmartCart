@@ -1654,9 +1654,9 @@ class bnw extends CI_Controller {
             $data['username'] = ($this->session->userdata('admin_logged_in'));
             $config['upload_path'] = './content/uploads/images/';
             $config['allowed_types'] = 'gif|jpg|png';
-            $config['max_size'] = '500';
-            $config['max_width'] = '1024';
-            $config['max_height'] = '768';
+           // $config['max_size'] = '500';
+           // $config['max_width'] = '1024';
+           // $config['max_height'] = '768';
             $this->load->library('upload', $config);
             $data['meta'] = $this->dbmodel->get_meta_data();
             $data['query'] = $this->dbmodel->get_posts();
@@ -1669,13 +1669,13 @@ class bnw extends CI_Controller {
             $listOfCategory = $this->dbmodel->get_list_of_category();
             $data["listOfCategory"] = $this->dbmodel->get_list_of_category();
 
-            if (($_SERVER['REQUEST_METHOD'] == 'POST')) {
-                $categoryName = $_POST['selectCategory'];
-                $post_category_info = $this->dbmodel->get_post_category_info($categoryName);
-                foreach ($post_category_info as $pid) {
-                    $post_category_id = $pid->id;
-                }
-            }
+//            if (($_SERVER['REQUEST_METHOD'] == 'POST')) {
+//                $categoryName = $_POST['selectCategory'];
+//                $post_category_info = $this->dbmodel->get_post_category_info($categoryName);
+//                foreach ($post_category_info as $pid) {
+//                    $post_category_id = $pid->id;
+//                }
+//            }
 
             //set validation rules
             $this->form_validation->set_rules('post_title', 'Page Name', 'required|xss_clean|max_length[200]');
@@ -1684,11 +1684,12 @@ class bnw extends CI_Controller {
 
 
             if (($this->form_validation->run() == TRUE)) {
-                if ($_FILES && $_FILES['file']['name'] !== "") {
+                if ($_FILES && $_FILES['offreImage']['name'] !== "") {
                     if (!$this->upload->do_upload('offreImage')) {
                         $error = array('error' => $this->upload->display_errors('offreImage'));
                         $this->load->view('bnw/posts/addNewPost', $error);
                     } else {
+                       // die('img');
                         $data = array('upload_data' => $this->upload->data('offreImage'));
                         $image = $data['upload_data']['file_name'];
                         $post_title = $this->input->post('post_title');
@@ -1702,6 +1703,7 @@ class bnw extends CI_Controller {
                         redirect('bnw/posts/postListing');
                     }
                 } else {
+                    //die('not');
                     $image = NULL;
                     $post_title = $this->input->post('post_title');
                     $post_content = $this->input->post('post_content');
@@ -1714,7 +1716,7 @@ class bnw extends CI_Controller {
                     $post_status = $this->input->post('post_status');
                     $post_comment_status = $this->input->post('comment_status');
                     $post_tags = $this->input->post('post_tags');
-                    $post_category_info = $this->dbmodel->get_post_category_info($categoryName);
+                   // $post_category_info = $this->dbmodel->get_post_category_info($categoryName);
                     $allowComment = $this->input->post('allow_comment');
                     $allowLike = $this->input->post('allow_like');
                     $allowShare = $this->input->post('allow_share');
@@ -3698,18 +3700,18 @@ class bnw extends CI_Controller {
     {
         if ($this->session->userdata('admin_logged_in')) {
             $data['meta'] = $this->dbmodel->get_meta_data();
-           // $config = array();
-           // $config["base_url"] = base_url() . "index.php/bnw/event";
-           // $config["total_rows"] = $this->dbmodel->get_event();
+            $config = array();
+            $config["base_url"] = base_url() . "index.php/bnw/event";
+            $config["total_rows"] = $this->dbmodel->get_event();
             
-          // / $config["per_page"] = 6;
-           // $this->pagination->initialize($config);
-          //  $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+           $config["per_page"] = 6;
+            $this->pagination->initialize($config);
+            $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
 
-          //  $data["event"] = $this->dbmodel->get_event_data($config["per_page"], $page);
+            $data["event"] = $this->dbmodel->get_event_data($config["per_page"], $page);
             $data["links"] = $this->pagination->create_links();
             $data["query"] = $this->dbmodel->get_menu();
-            $data["event"] = $this->dbmodel->get_event_data();
+          //  $data["event"] = $this->dbmodel->get_event_data();
             $this->load->view('bnw/templates/header', $data);
             $this->load->view('bnw/templates/menu');
             $this->load->view('bnw/event/eventList',$data);
@@ -3892,7 +3894,7 @@ class bnw extends CI_Controller {
                     }
                 } else {
                    // die('not');
-                    $id = $this->input->post('id');
+                        $id = $this->input->post('id');
                         $title = $this->input->post('Name');
                         $content = $this->input->post('description');
                         
@@ -3946,6 +3948,7 @@ class bnw extends CI_Controller {
        if ($this->session->userdata('admin_logged_in')) {
              
              $id = $_GET['id'];
+            // unlink('./content/uploads/images/'. $image);
              $this->dbmodel->Imgdelete($id);
              
              $this->editevent($id);
@@ -3956,4 +3959,22 @@ class bnw extends CI_Controller {
              redirect('login', 'refresh');
          }
     }
+    
+    function delevent($id=0)
+    {
+        if ($this->session->userdata('admin_logged_in')) {
+            
+            $this->dbmodel->delete($id);
+      $this->session->set_flashdata('message', 'Data Delete Sucessfully');
+      redirect('bnw/event');
+        
+            
+        }  else {
+            
+        
+            redirect('login', 'refresh');
+        }
+        
+    }
+    
 }
