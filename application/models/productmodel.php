@@ -63,7 +63,8 @@ public function product_info(){
          $query = $this->db->get('category');
         return $query->result();
     }
-    public function get_all_events(){
+    public function get_all_events($limit, $start){
+        $this->db->limit($limit, $start);
         $this->db->order_by('date','DESC');
          $query = $this->db->get('events');
         return $query->result();
@@ -72,6 +73,10 @@ public function product_info(){
         $this->db->where('id',$id);
          $query = $this->db->get('events');
         return $query->result();
+    }
+    function record_count_events()
+    {  
+        return $this->db->count_all("events");
     }
             function get_product($id)
     {

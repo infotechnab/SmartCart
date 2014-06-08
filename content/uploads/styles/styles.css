@@ -1899,7 +1899,7 @@ input:-moz-placeholder { color:#999; }
     float: left;
     width: auto;
 }
-.eventDetails h4, .eventDetails p
+.eventDetails h4, .eventDetails p, .eventDetails h5
 {
     margin: 5px;
     padding:0px;

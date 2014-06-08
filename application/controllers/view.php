@@ -828,7 +828,38 @@ class View extends CI_Controller {
         $data['featureItem'] = $this->productmodel->featured_item();
         $data['category'] = $this->productmodel->category_list();
         $data['slider_json'] = json_encode($data['featureItem']);
-        $data['events']= $this->productmodel->get_all_events();
+        $config = array();
+        $config["base_url"] = base_url() . "index.php/view/events";
+        $config["total_rows"] = $this->productmodel->record_count_events();
+        $config["per_page"] = 10;
+        
+        $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;        
+        $data['events']= $this->productmodel->get_all_events($config["per_page"], $page);
+        $choice = $config["total_rows"] / $config["per_page"];
+        $config["num_links"] = round($choice);
+        $config['full_tag_open'] = '<ul class="tsc_pagination tsc_paginationA tsc_paginationA01">';
+        $config['full_tag_close'] = '</ul>';
+        $config['prev_link'] = 'First';
+        $config['prev_tag_open'] = '<li>';
+        $config['prev_tag_close'] = '</li>';
+        $config['next_link'] = 'Next';
+        $config['next_tag_open'] = '<li>';
+        $config['next_tag_close'] = '</li>';
+        $config['cur_tag_open'] = '<li class="current"><a href="#">';
+        $config['cur_tag_close'] = '</a></li>';
+        $config['num_tag_open'] = '<li>';
+        $config['num_tag_close'] = '</li>';
+        $config['first_tag_open'] = '<li>';
+        $config['first_tag_close'] = '</li>';
+        $config['last_tag_open'] = '<li>';
+        $config['last_tag_close'] = '</li>';
+        $config['first_link'] = '&lt;&lt;';
+        $config['last_link'] = '&gt;&gt;';
+        $this->pagination->initialize($config);
+
+        /* to here */
+        $config['display_pages'] = FALSE;
+        $data["links"] = $this->pagination->create_links();
         $this->load->view('templates/header', $data);
         $this->load->view('templates/navigation');
 
