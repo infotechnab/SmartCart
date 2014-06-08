@@ -8,16 +8,10 @@ if(!empty($events)){
         $location= $event->location;
         $details= $event->details;
         $image= $event->image;
-        $year=date_parse($time);  
-        $date='Date:'.$year['year'].'-'.$year['month'].'-'.$year['day']; 
-        if ($year['hour']>=12){
-            $time=$year['hour']-12;
-            $fullTime='Time:'.$time.':'.$year['minute'].'pm';
-            } else{
-                $time=$year['hour'];
-                $fullTime='Time:'.$time.':'.$year['minute'].'am';
-                
-            } 
+        
+         $date=date("Y-m-d", strtotime($time));
+        $fullTime=date("h:i A", strtotime($time));
+         
 }}
  else {
     $title="Sorry !";
@@ -41,7 +35,7 @@ if(!empty($events)){
     <div class="eventContainer">
        <?php if (strlen($image)>2) {
     ?>
-                <div class='eventImage' style="outline: 1px solid black;">
+                <div class='eventSingleImage' style="outline: 1px solid black;">
                 <img class="srcimage" src="<?php echo base_url() . "content/uploads/images/" .$image; ?>" alt=""/>   
             </div>
 

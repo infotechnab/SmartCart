@@ -1886,6 +1886,13 @@ input:-moz-placeholder { color:#999; }
     min-height: 225px;
     padding: 10px 0px 0px 0px;
 }
+.eventSingleImage
+{
+    float: left;
+    width: 100%;
+    min-height: 400px;
+    padding: 10px 0px 0px 0px;
+}
 .eventDetails
 {
     padding: 10px;

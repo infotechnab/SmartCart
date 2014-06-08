@@ -2,17 +2,18 @@
 $upcommingEvent = TRUE;
 $todayEvent = TRUE;
 $earlierEvent = TRUE;
-$currentDate = date("Y-n-j");
-
+$currentDate = date("Y-m-d");
 ?>
 
 <div id='content'>
     <!-- from slider starts-->
     <?php foreach ($events as $allEvents) {
         
-        $year=date_parse($allEvents->date);
-        $date=$year['year'].'-'.$year['month'].'-'.$year['day'];
+        //$year=date_parse($allEvents->date);
         
+        $date=date("Y-m-d", strtotime($allEvents->date));
+        $time=date("h:i A", strtotime($allEvents->date));
+       
         if ($date > $currentDate)
         {
             if($upcommingEvent == TRUE)
@@ -36,7 +37,7 @@ $currentDate = date("Y-n-j");
 <?php } ?>
                 <div class='eventDetails'>
                     <h4 style="margin: 0px; padding: 0px;"><?php echo $allEvents->title; ?></h4>
-                    <h4 style="color: #5D5D5D;">Date:<?php $year=date_parse($allEvents->date); echo $year['year'].'-'.$year['month'].'-'.$year['day']; ?> Time:<?php if ($year['hour']>=12){$time=$year['hour']-12;echo $time.':'.$year['minute'].'pm'; } else{$time=$year['hour'];echo $time.':'.$year['minute'].'am';} ?></h4>
+                    <h4 style="color: #5D5D5D;">Date:<?php echo $date ?> Time:<?php echo $time; ?></h4>
                     <h4><?php echo $allEvents->location; ?></h4>
                     <p><?php echo $allEvents->details; ?></p>
                     <a style="color: blue;" href='<?php echo base_url()."index.php/view/eventDetails/".$allEvents->id;?>'>see more</a>
@@ -72,7 +73,7 @@ $currentDate = date("Y-n-j");
 <?php } ?>
                 <div class='eventDetails'>
                     <h4 style="margin: 0px; padding: 0px;"><?php echo $allEvents->title; ?></h4>
-                   <h4 style="color: #5D5D5D;">Date:<?php $year=date_parse($allEvents->date); echo $year['year'].'-'.$year['month'].'-'.$year['day']; ?> Time:<?php if ($year['hour']>=12){$time=$year['hour']-12;echo $time.':'.$year['minute'].'pm'; } else{$time=$year['hour'];echo $time.':'.$year['minute'].'am';} ?></h4>
+                   <h4 style="color: #5D5D5D;">Date:<?php echo $date ?> Time:<?php echo $time; ?></h4>
                     <h4><?php echo $allEvents->location; ?></h4>
                     <p><?php echo $allEvents->details; ?></p>
                     <a style="color: blue;" href='<?php echo base_url()."index.php/view/eventDetails/".$allEvents->id;?>'>see more</a>
@@ -108,7 +109,7 @@ $currentDate = date("Y-n-j");
 <?php } ?>
                 <div class='eventDetails'>
                     <h4 style="margin: 0px; padding: 0px;"><?php echo $allEvents->title; ?></h4>
-                    <h4 style="color: #5D5D5D;">Date:<?php $year=date_parse($allEvents->date); echo $year['year'].'-'.$year['month'].'-'.$year['day']; ?> Time:<?php if ($year['hour']>=12){$time=$year['hour']-12;echo $time.':'.$year['minute'].'pm'; } else{$time=$year['hour'];echo $time.':'.$year['minute'].'am';} ?></h4>
+                    <h4 style="color: #5D5D5D;">Date:<?php echo $date ?> Time:<?php echo $time; ?></h4>
                     <h4><?php echo $allEvents->location; ?></h4>
                     <p><?php echo $allEvents->details; ?></p>
                     <a style="color: blue;" href='<?php echo base_url()."index.php/view/eventDetails/".$allEvents->id;?>'>see more</a>
