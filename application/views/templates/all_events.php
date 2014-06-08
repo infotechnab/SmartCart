@@ -2,13 +2,18 @@
 $upcommingEvent = TRUE;
 $todayEvent = TRUE;
 $earlierEvent = TRUE;
-$currentDate = date("Y/m/d");
+$currentDate = date("Y-n-j");
+
 ?>
 
 <div id='content'>
     <!-- from slider starts-->
     <?php foreach ($events as $allEvents) {
-        if ($allEvents->date > $currentDate)
+        
+        $year=date_parse($allEvents->date);
+        $date=$year['year'].'-'.$year['month'].'-'.$year['day'];
+        
+        if ($date > $currentDate)
         {
             if($upcommingEvent == TRUE)
             {
@@ -22,7 +27,7 @@ $currentDate = date("Y/m/d");
             $upcommingEvent = FALSE; ?>
             
             <div class="eventContainer">
-<?php if (isset($allEvents->image)) {
+<?php if (strlen($allEvents->image)>2) {
     ?>
                 <div class='eventImage' style="outline: 1px solid black;">
                 <img class="srcimage" src="<?php echo base_url() . "content/uploads/images/" . $allEvents->image; ?>" alt=""/>   
@@ -31,9 +36,10 @@ $currentDate = date("Y/m/d");
 <?php } ?>
                 <div class='eventDetails'>
                     <h4 style="margin: 0px; padding: 0px;"><?php echo $allEvents->title; ?></h4>
-                    <h4 style="color: #5D5D5D;"><?php echo $allEvents->date; ?></h4>
+                    <h4 style="color: #5D5D5D;">Date:<?php $year=date_parse($allEvents->date); echo $year['year'].'-'.$year['month'].'-'.$year['day']; ?> Time:<?php if ($year['hour']>=12){$time=$year['hour']-12;echo $time.':'.$year['minute'].'pm'; } else{$time=$year['hour'];echo $time.':'.$year['minute'].'am';} ?></h4>
                     <h4><?php echo $allEvents->location; ?></h4>
                     <p><?php echo $allEvents->details; ?></p>
+                    <a style="color: blue;" href='<?php echo base_url()."index.php/view/eventDetails/".$allEvents->id;?>'>see more</a>
                 </div>
 
 
@@ -44,7 +50,7 @@ $currentDate = date("Y/m/d");
    <?php     }
            
      /* for today event*/  
-       if ($allEvents->date == $currentDate)
+       if ($date == $currentDate)
         {
             if($todayEvent == TRUE)
             {
@@ -57,7 +63,7 @@ $currentDate = date("Y/m/d");
             $todayEvent = FALSE; ?>
             
             <div class="eventContainer">
-<?php if (isset($allEvents->image)) {
+<?php if (strlen($allEvents->image)>2) {
     ?>
                 <div class='eventImage' style="outline: 1px solid black;">
                 <img class="srcimage" src="<?php echo base_url() . "content/uploads/images/" . $allEvents->image; ?>" alt=""/>   
@@ -66,9 +72,10 @@ $currentDate = date("Y/m/d");
 <?php } ?>
                 <div class='eventDetails'>
                     <h4 style="margin: 0px; padding: 0px;"><?php echo $allEvents->title; ?></h4>
-                    <h4 style="color: #5D5D5D;"><?php echo $allEvents->date; ?></h4>
+                   <h4 style="color: #5D5D5D;">Date:<?php $year=date_parse($allEvents->date); echo $year['year'].'-'.$year['month'].'-'.$year['day']; ?> Time:<?php if ($year['hour']>=12){$time=$year['hour']-12;echo $time.':'.$year['minute'].'pm'; } else{$time=$year['hour'];echo $time.':'.$year['minute'].'am';} ?></h4>
                     <h4><?php echo $allEvents->location; ?></h4>
                     <p><?php echo $allEvents->details; ?></p>
+                    <a style="color: blue;" href='<?php echo base_url()."index.php/view/eventDetails/".$allEvents->id;?>'>see more</a>
                 </div>
 
 
@@ -79,7 +86,7 @@ $currentDate = date("Y/m/d");
    <?php     }
         
         /* for earlier events */
-   if ($allEvents->date < $currentDate)
+   if ( $date < $currentDate)
         {
             if($earlierEvent == TRUE)
             {
@@ -92,7 +99,7 @@ $currentDate = date("Y/m/d");
             $earlierEvent = FALSE; ?>
             
             <div class="eventContainer">
-<?php if (isset($allEvents->image)) {
+<?php if (strlen($allEvents->image)>2) {
     ?>
                 <div class='eventImage' style="outline: 1px solid black;">
                 <img class="srcimage" src="<?php echo base_url() . "content/uploads/images/" . $allEvents->image; ?>" alt=""/>   
@@ -101,9 +108,10 @@ $currentDate = date("Y/m/d");
 <?php } ?>
                 <div class='eventDetails'>
                     <h4 style="margin: 0px; padding: 0px;"><?php echo $allEvents->title; ?></h4>
-                    <h4 style="color: #5D5D5D;"><?php echo $allEvents->date; ?></h4>
+                    <h4 style="color: #5D5D5D;">Date:<?php $year=date_parse($allEvents->date); echo $year['year'].'-'.$year['month'].'-'.$year['day']; ?> Time:<?php if ($year['hour']>=12){$time=$year['hour']-12;echo $time.':'.$year['minute'].'pm'; } else{$time=$year['hour'];echo $time.':'.$year['minute'].'am';} ?></h4>
                     <h4><?php echo $allEvents->location; ?></h4>
                     <p><?php echo $allEvents->details; ?></p>
+                    <a style="color: blue;" href='<?php echo base_url()."index.php/view/eventDetails/".$allEvents->id;?>'>see more</a>
                 </div>
 
 

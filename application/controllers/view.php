@@ -848,10 +848,11 @@ class View extends CI_Controller {
         $data['featureItem'] = $this->productmodel->featured_item();
         $data['category'] = $this->productmodel->category_list();
         $data['slider_json'] = json_encode($data['featureItem']);
+        $data['events']= $this->productmodel->get_events_by_id($id);
         $this->load->view('templates/header', $data);
         $this->load->view('templates/navigation');
 
-        $this->load->view('templates/single_event');
+        $this->load->view('templates/single_event', $data);
 
         $this->load->view('templates/cart');
         $this->load->view('templates/sidebarview', $data);

@@ -411,7 +411,7 @@ body
     margin: 0px;
     padding: 2.5%;
     float: left;
-    height: 36px;
+    height: 34px;
     border-radius: 0px 0px 0px 5px;
     border: 1px solid #ccc;
     width: 38%;
@@ -1890,5 +1890,11 @@ input:-moz-placeholder { color:#999; }
 {
     padding: 10px;
     float: left;
-    width: 55%;
+    width: auto;
+}
+.eventDetails h4, .eventDetails p
+{
+    margin: 5px;
+    padding:0px;
+    
 }

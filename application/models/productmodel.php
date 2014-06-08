@@ -68,6 +68,11 @@ public function product_info(){
          $query = $this->db->get('events');
         return $query->result();
     }
+     public function get_events_by_id($id){
+        $this->db->where('id',$id);
+         $query = $this->db->get('events');
+        return $query->result();
+    }
             function get_product($id)
     {
          $this->db->where('category',$id);
