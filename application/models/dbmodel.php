@@ -1858,8 +1858,9 @@ function delete_favicone($id) {
     
     function get_event()
     {
-        $query = $this->db->get('events');
-        return $query->result();
+       // $this->db->order_by('id','DESE');
+        return $this->db->count_all('events');
+      
     }
 
 
@@ -1874,5 +1875,51 @@ function delete_favicone($id) {
         );
         $this->db->insert('events', $data); 
     }
+    function get_event_data()
+    {
+        //$this->db->limit($limit, $start);
+        $this->db->order_by('date','DESC');
+        $query = $this->db->get("events");
+        return $query->result();
+        
+    }
+    function get_event_id($id)
+    {
+        $this->db->where('id',$id);
+        $query = $this->db->get('events');
+        return $query->result();
+    }
     
+    function update_event($id, $title, $content, $summary,$location,$image,$dateTime)
+    {
+       // die($id);
+        $data = array(
+            'title'=>$title,
+            'details'=>$content,
+            'location'=>$location,
+            'image'=>$image,
+            'date'=>$dateTime);
+        $this->db->where('id',$id);
+        $this->db->update('events',$data);
+    }
+     function offerImgdelete($id=0)
+    {
+        $image=NULL;
+        $data = array(
+            'image'=>$image
+        );
+        
+        $this->db->where('id',$id);
+        $this->db->update('post',$data);
+    }
+    function Imgdelete($id=0)
+    {
+        $image=NULL;
+        $data = array(
+            'image'=>$image
+        );
+        
+        $this->db->where('id',$id);
+        $this->db->update('events',$data);
+    }
        }

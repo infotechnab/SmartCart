@@ -39,7 +39,7 @@ $( "#datepicker" ).datepicker();
      </select>
      <select name="min">
          <option value="0">Minutes</option>
-         <?php for($i=0; $i<=60 ; $i++){ ?>
+         <?php for($i=1; $i<=60 ; $i++){ ?>
          <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
          <?php } ?>
      </select>

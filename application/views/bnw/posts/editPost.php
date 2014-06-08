@@ -56,8 +56,13 @@ if ($miscSetting)
   <textarea name="post_content" id="area1" rows="5" cols="50" style="resize:none;">
       <?php echo $post_content; ?></textarea>
   </p>
-  <?php if($post_image==!NULL)
-      {?> <img src="<?php echo base_url().'content/uploads/images/'.$post_image; ?>" width="150" height="150" />  <?php } ?>
+   <?php if($post_image==!NULL) { ?> <div  >
+    <div style="width:85px; height: 85px;">
+    <img src="<?php echo base_url()."content/uploads/images/".$post_image; ?>" width="80" height="80" alt="Image not set!" />
+    </div>
+             <a href="<?php echo base_url();?>index.php/bnw/offerImgdelete/?id=<?php echo $id; ?> " id="<?php echo $id; ?>" class="delbutton">
+        <img src="<?php echo base_url();?>content/uploads/images/delete.png" id="close"/></a>
+    </div> <?php }?>
   <p>
       Image:<br/> 
       <input type="file" name="file" />

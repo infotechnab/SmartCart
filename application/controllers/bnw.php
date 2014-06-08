@@ -3698,9 +3698,18 @@ class bnw extends CI_Controller {
     {
         if ($this->session->userdata('admin_logged_in')) {
             $data['meta'] = $this->dbmodel->get_meta_data();
-           // $data["links"] = $this->pagination->create_links();
+           // $config = array();
+           // $config["base_url"] = base_url() . "index.php/bnw/event";
+           // $config["total_rows"] = $this->dbmodel->get_event();
+            
+          // / $config["per_page"] = 6;
+           // $this->pagination->initialize($config);
+          //  $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+
+          //  $data["event"] = $this->dbmodel->get_event_data($config["per_page"], $page);
+            $data["links"] = $this->pagination->create_links();
             $data["query"] = $this->dbmodel->get_menu();
-            $data["query"] = $this->dbmodel->get_event();
+            $data["event"] = $this->dbmodel->get_event_data();
             $this->load->view('bnw/templates/header', $data);
             $this->load->view('bnw/templates/menu');
             $this->load->view('bnw/event/eventList',$data);
@@ -3719,6 +3728,10 @@ class bnw extends CI_Controller {
             $config['max_width'] = '1024';
             $config['max_height'] = '768';
             $this->load->library('upload', $config);
+            
+            
+           
+            $data["links"] = $this->pagination->create_links();
             $data['meta'] = $this->dbmodel->get_meta_data();
             $data["links"] = $this->pagination->create_links();
             $data["query"] = $this->dbmodel->get_menu();
@@ -3799,4 +3812,148 @@ class bnw extends CI_Controller {
         }  
     }
     
+    function editevent($id=0)
+    {
+       if ($this->session->userdata('admin_logged_in')) {
+            ;
+            $data['meta'] = $this->dbmodel->get_meta_data();
+            $data['event'] = $this->dbmodel->get_event_id($id);
+           
+           // $data['id'] = $id;
+            $this->load->view("bnw/templates/header", $data);
+            $this->load->view("bnw/templates/menu");
+            $this->load->view('bnw/event/editEvent', $data);
+
+           
+        } else {
+            redirect('login', 'refresh');
+        }
+    }
+    
+    function update_event()
+    {
+        if ($this->session->userdata('admin_logged_in')) {
+             $config['upload_path'] = './content/uploads/images/';
+            $config['allowed_types'] = 'gif|jpg|png';
+           // $config['max_size'] = '500';
+           // $config['max_width'] = '1024';
+           // $config['max_height'] = '768';
+            $this->load->library('upload', $config);
+             $this->load->library(array('form_validation', 'session'));
+            $this->form_validation->set_rules('Name', 'Name', 'required|xss_clean|max_length[200]');
+            
+            if (($this->form_validation->run() == TRUE)) {
+                if ($_FILES && $_FILES['file']['name'] !== "") {
+                    if (!$this->upload->do_upload('file')) {
+                     
+                        $data['error'] = $this->upload->display_errors('file');
+                        $id = $this->input->post('id');
+                        $data['query'] = $this->dbmodel->get_event_id($id);
+                        $this->load->view('bnw/event/editEvent', $data);
+                    } else {
+                      //  die('image');
+                        include_once 'imagemanipulator.php';
+
+                $manipulator = new ImageManipulator($_FILES['file']['tmp_name']);
+                $width = $manipulator->getWidth();
+                $height = $manipulator->getHeight();
+
+                $centreX = round($width / 2);
+
+                $centreY = round($height / 2);
+
+                // our dimensions will be 200x130
+                $x1 = $centreX - 150; // 200 / 2
+                $y1 = $centreY - 150; // 130 / 2
+
+                $x2 = $centreX + 150; // 200 / 2
+                $y2 = $centreY + 150; // 130 / 2
+                // center cropping to 200x130
+                $newImage = $manipulator->crop($x1, $y1, $x2, $y2);
+                // saving file to uploads folder
+                $manipulator->save('./content/uploads/images/' . $_FILES['file']['name']);
+                        $id = $this->input->post('id');
+                        $title = $this->input->post('Name');
+                        $content = $this->input->post('description');
+                        $data = array('upload_data' => $this->upload->data('file'));
+                        $image = $data['upload_data']['file_name'];
+
+                        $string = $this->input->post('description');
+                        $summary = substr("$string", 0, 100);
+                        $location = $this->input->post('location');
+                         $date = $this->input->post('date');
+                          $hour = $this->input->post('hour');
+                         $min = $this->input->post('min');
+                          $sec = 0;
+                          $dateTime = $date.' '.$hour.':'.$min.':'.$sec;
+                        $this->dbmodel->update_event($id, $title, $content, $summary,$location,$image,$dateTime);
+                        $this->session->set_flashdata('message', 'Data Modified Sucessfully');
+                        redirect('bnw/event');
+                    }
+                } else {
+                   // die('not');
+                    $id = $this->input->post('id');
+                        $title = $this->input->post('Name');
+                        $content = $this->input->post('description');
+                        
+                         $image = $this->input->post('hidden_image');
+
+                        $string = $this->input->post('description');
+                        $summary = substr("$string", 0, 100);
+                        $location = $this->input->post('location');
+                $date = $this->input->post('date');
+                $hour = $this->input->post('hour');
+                $min = $this->input->post('min');
+                $sec = 0;
+                $dateTime = $date.' '.$hour.':'.$min.':'.$sec;
+                        $this->dbmodel->update_event($id, $title, $content, $summary,$location,$image,$dateTime);
+                    $this->session->set_flashdata('message', 'Data Modified Sucessfully');
+                    redirect('bnw/event');
+                }
+            } else {
+                $id = $this->input->post('id');
+                $data['query'] = $this->dbmodel->get_event_id($id);
+                $this->load->view('bnw/event/editEvent', $data);
+            }
+            
+        }
+        else
+        {
+            redirect('login', 'refresh');
+        }
+        
+        
+    }
+    
+    function offerImgdelete($id=0)
+    {
+         if ($this->session->userdata('admin_logged_in')) {
+             
+             $id = $_GET['id'];
+             $this->dbmodel->offerImgdelete($id);
+             
+             $this->editpost($id);
+             
+         }
+         else
+         {
+             redirect('login', 'refresh');
+         }
+        
+    }
+    function Imgdelete($id=0)
+    {
+       if ($this->session->userdata('admin_logged_in')) {
+             
+             $id = $_GET['id'];
+             $this->dbmodel->Imgdelete($id);
+             
+             $this->editevent($id);
+             
+         }
+         else
+         {
+             redirect('login', 'refresh');
+         }
+    }
 }

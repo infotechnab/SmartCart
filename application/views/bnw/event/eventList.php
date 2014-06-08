@@ -6,7 +6,7 @@
     <h2>All Events</h2>
      <hr class="hr-gradient"/>
     <?php   
-         if(!empty($query)){
+         if(!empty($event)){
              ?>
         <table border="1" cellpadding="10">
         <tr>
@@ -20,7 +20,7 @@
             <th>Action</th>
         </tr>
         <?php
-            foreach ($query as $data){
+            foreach ($event as $data){
             ?>
           <tr>
               <td><?php echo $data->title; ?></td>
@@ -43,7 +43,7 @@
             
     ?>
     </table>
-    <?php // echo $links; ?>
+    <?php  echo $links; ?>
 </div>
     
     
