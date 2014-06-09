@@ -1,13 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.0.4
+-- version 3.4.5
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jun 08, 2014 at 06:22 AM
--- Server version: 5.6.12-log
--- PHP Version: 5.4.12
+-- Generation Time: Jun 09, 2014 at 06:00 AM
+-- Server version: 5.5.16
+-- PHP Version: 5.3.8
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 
@@ -19,8 +19,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `smartaservice`
 --
-CREATE DATABASE IF NOT EXISTS `smartaservice` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `smartaservice`;
 
 -- --------------------------------------------------------
 
@@ -61,9 +59,8 @@ CREATE TABLE IF NOT EXISTS `category` (
 
 INSERT INTO `category` (`id`, `category_name`) VALUES
 (10, 'File'),
-(12, 'Nepali'),
 (13, 'Featured Item'),
-(14, 'Product');
+(14, 'Offers');
 
 -- --------------------------------------------------------
 
@@ -77,31 +74,14 @@ CREATE TABLE IF NOT EXISTS `comment_store` (
   `comment_association_id` varchar(64) NOT NULL,
   `comment_user_name` varchar(100) NOT NULL,
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=28 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
 
 --
 -- Dumping data for table `comment_store`
 --
 
 INSERT INTO `comment_store` (`Id`, `comment`, `comment_association_id`, `comment_user_name`) VALUES
-(9, 'djasKSJHJDIHIUDSA', 'post/3', ''),
-(10, 'djasKSJHJDIHIUDSA', 'post/3', ''),
-(11, 'comment', 'view/addcomment', ''),
-(12, 'djjkdjudhsufjdaksfoipokwDJICOUJSJA', 'page/2', ''),
-(13, 'hi this is a post comment', 'post/3', ''),
-(15, 'now the comment is added', 'post/3', ''),
-(16, 'now the comment is added', 'post/3', ''),
-(17, 'epofojigkosdk[pfs', 'page/3', ' '),
-(18, 'now the commenting is easy', 'page/3', ' '),
-(19, 'comment is added to page 4', 'page/4', ' '),
-(20, 'jewijfowpofiewpoew', 'post/3', ' '),
-(21, 'mynew comment', 'post/3', ' '),
-(22, 'The last comment', 'post/3', ' '),
-(23, 'last added is shown at first', 'post/3', ' '),
-(24, 'ramji commented', 'post/3', ' '),
-(25, '', 'post/3', ' '),
-(26, '', 'post/3', ' '),
-(27, 'hdiuhfjhf', 'post/3', ' ');
+(9, 'djasKSJHJDIHIUDSA', 'post/3', '');
 
 -- --------------------------------------------------------
 
@@ -111,25 +91,22 @@ INSERT INTO `comment_store` (`Id`, `comment`, `comment_association_id`, `comment
 
 CREATE TABLE IF NOT EXISTS `coupon` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `key` varchar(255) NOT NULL,
+  `key` varchar(255) CHARACTER SET utf8 NOT NULL,
   `rate` double NOT NULL,
   `exp_date` date NOT NULL,
-  `user` varchar(255) NOT NULL,
-  `status` varchar(255) NOT NULL,
+  `user` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `status` varchar(255) CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `coupon`
 --
 
 INSERT INTO `coupon` (`id`, `key`, `rate`, `exp_date`, `user`, `status`) VALUES
-(1, 'Q1LP3', 45, '2014-05-01', '', '0'),
-(2, '2QI4U', 10, '2014-05-23', '', '0'),
-(3, 'E3Q6H', 5, '2014-05-30', '', '0'),
-(4, 'LBMR6', 11, '2014-05-30', '', '0'),
-(5, 'JDZSC', 25, '2014-05-31', '', '0'),
-(6, 'ESVFM', 12, '2014-05-30', '', '0');
+(1, 'Q1LP3', 450, '2014-06-16', '', '0'),
+(2, '2QI4U', 10, '2014-05-26', '', '0'),
+(3, 'MCMDE', 50, '2014-05-28', '', '0');
 
 -- --------------------------------------------------------
 
@@ -150,7 +127,7 @@ CREATE TABLE IF NOT EXISTS `design_setup` (
 
 INSERT INTO `design_setup` (`id`, `name`, `description`) VALUES
 (0, 'header_title', 'Smart Access Services'),
-(1, 'header_logo', 'addtocart1.png'),
+(1, 'header_logo', 'smartaccess_logo3.png'),
 (2, 'header_description', 'Smart Access Services'),
 (3, 'header_bgcolor', '#000000'),
 (4, 'sidebar_title', 'Quick navigation'),
@@ -168,20 +145,18 @@ CREATE TABLE IF NOT EXISTS `events` (
   `title` varchar(200) CHARACTER SET utf8 NOT NULL,
   `details` varchar(500) CHARACTER SET utf8 NOT NULL,
   `location` varchar(200) CHARACTER SET utf8 NOT NULL,
-  `date` varchar(100) CHARACTER SET utf8 DEFAULT NULL,
-  `image` varchar(100) CHARACTER SET utf8 NOT NULL,
+  `date` timestamp NULL DEFAULT NULL,
+  `image` varchar(100) CHARACTER SET utf8 DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `events`
 --
 
 INSERT INTO `events` (`id`, `title`, `details`, `location`, `date`, `image`) VALUES
-(1, 'upcoming', 'details are shown here', 'kathmandu nepal', '2014/06/10', ''),
-(2, 'TODAY', 'DSGFGSKNBCXVG HDBGSFH HFGDS VCSY GSDUIGW FGQIUGSVFD HGUI EBGIYFDEW', 'CVGXYUHWEIDOF HBEUIHF HBGOIUHV ', '2014/06/01', ''),
-(3, 'LAST MONTHS', 'UUDHSUFHDS', 'SDHHFSDUHBBGDUISFS BDHDSVF SUHBFDS', '2014/06/04', ''),
-(4, 'UPCOMINHGVDSUGF BVHDS ', 'DBDSHGFYDS GDSYUIFVS HFUDSGF UGDSUYFISD HGIUDSGHUFSDV DIGSFIUDS ', 'DSFGYDSH HBDSIFSD NMASDFVSD XHUSFVDSI', '2014/06/15', '');
+(1, 'first', 'hello<br>', 'nepal', '2014-06-08 18:15:00', NULL),
+(2, 'second', 'second<br>', 'sdf', '2014-06-08 18:15:00', NULL);
 
 -- --------------------------------------------------------
 
@@ -191,12 +166,12 @@ INSERT INTO `events` (`id`, `title`, `details`, `location`, `date`, `image`) VAL
 
 CREATE TABLE IF NOT EXISTS `gadgets` (
   `gadget_id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(200) NOT NULL,
-  `textBox` varchar(100) NOT NULL,
-  `defaultGadget` text NOT NULL,
-  `type` text NOT NULL,
-  `display` varchar(200) NOT NULL,
-  `setting` text NOT NULL,
+  `name` varchar(200) CHARACTER SET utf8 NOT NULL,
+  `textBox` varchar(100) CHARACTER SET utf8 NOT NULL,
+  `defaultGadget` text CHARACTER SET utf8 NOT NULL,
+  `type` text CHARACTER SET utf8 NOT NULL,
+  `display` varchar(200) CHARACTER SET utf8 NOT NULL,
+  `setting` text CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`gadget_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=231 ;
 
@@ -273,11 +248,11 @@ CREATE TABLE IF NOT EXISTS `meta_data` (
 --
 
 INSERT INTO `meta_data` (`id`, `name`, `value`) VALUES
-(1, 'siteurl', 'http://smartaservices.com'),
-(2, 'title', 'Smart Access Services'),
-(3, 'keywords', 'Cart '),
-(4, 'description', 'Shopping Cart'),
-(5, 'favicon_icon', 'favicon.png');
+(1, 'siteurl', 'www.BnW.com'),
+(2, 'title', 'B&W Dashboard'),
+(3, 'keywords', 'cms'),
+(4, 'description', 'cloud system'),
+(5, 'favicon_icon', ' ');
 
 -- --------------------------------------------------------
 
@@ -288,7 +263,7 @@ INSERT INTO `meta_data` (`id`, `name`, `value`) VALUES
 CREATE TABLE IF NOT EXISTS `misc_setting` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(64) CHARACTER SET utf8 NOT NULL,
-  `description` varchar(64) NOT NULL,
+  `description` varchar(64) CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
@@ -321,25 +296,22 @@ CREATE TABLE IF NOT EXISTS `navigation` (
   `menu_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `idx_navigation` (`menu_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=111 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=139 ;
 
 --
 -- Dumping data for table `navigation`
 --
 
 INSERT INTO `navigation` (`id`, `navigation_name`, `navigation_link`, `parent_id`, `navigation_type`, `navigation_slug`, `menu_id`) VALUES
+(92, 'File', 'category/10', 0, 'category', 'file', 4),
 (93, 'Home', 'index', 0, ' ', 'Home', 4),
-(94, 'File', 'category/10', 0, 'category', 'file', 4),
-(95, ' Nepali', 'category/12', 0, 'category', 'nepali', 4),
-(96, 'Featured Item', 'category/13', 0, 'category', 'FeaturedItem', 4),
-(102, 'Product', 'category/14', 95, 'category', 'Product', 4),
-(103, 'Contact Us', 'page/10', 0, 'page', 'ContactUs', 4),
-(104, 'salyani', 'http://salyani.com.np', 0, ' ', 'salyani', 4),
-(105, 'dsdadasd', 'index.php/view/page/5', 0, 'page', 'dsdadasd', 4),
-(106, 'Contact Us also edited', 'http://localhost/smartaservice/index.php/view/page/4', 0, 'page', 'ContactUsalsoedited', 4),
-(107, 'File', 'http://localhost/smartaservice/index.php/view/category/10', 0, 'category', 'File', 4),
-(108, 'Featured ', 'category/10', 0, ' ', 'Featured', 4),
-(110, 'ramji ', 'http://ramji.com.np', 0, ' ', 'ramji', 4);
+(95, ' Nepali', 'category/12', 92, 'category', 'nepali', 4),
+(133, 'Contact Us', 'page/10', 92, 'page', 'ContactUs', 4),
+(134, 'Product', 'http://localhost/smartaservice/index.php/view/category/14', 0, 'category', 'Product', 4),
+(135, 'Contact Us', 'http://localhost/smartaservice/index.php/view/page/10', 0, 'page', 'ContactUs', 4),
+(136, 'new category', 'http://localhost/smartaservice/index.php/view/category/15', 0, 'category', 'newcategory', 4),
+(137, 'Contact Us', 'contact', 0, ' ', 'ContactUs', 4),
+(138, 'Events', 'events', 0, ' ', 'Events', 4);
 
 -- --------------------------------------------------------
 
@@ -371,12 +343,6 @@ CREATE TABLE IF NOT EXISTS `page` (
 --
 
 INSERT INTO `page` (`id`, `page_name`, `page_content`, `page_author_id`, `page_date`, `page_summary`, `page_status`, `page_modifed_date`, `page_parent`, `page_order`, `page_type`, `page_tags`, `allow_comment`, `allow_like`, `allow_share`) VALUES
-(4, 'Contact Us also edited', '      Every SDK comes bundled with a couple of sample apps. If you want to \r\nlearn how to use all the Facebook Platform features just download and \r\ninstall the SDK and start hacking.', 10, '2014-03-14 04:44:49', '      Every SDK comes bundled with a couple of sample apps. If you want to \r\nlearn how to use all th', '0', '0000-00-00 00:00:00', 0, 0, '', '0', 0, 0, 0),
-(5, 'dsdadasd', 'dasddsad<br>', 10, '2014-03-18 08:28:40', 'dasddsad<br>', '1', '0000-00-00 00:00:00', 0, 0, '0', '0', 0, 0, 0),
-(6, 'asdsaddsad', 'dsadaddds<br>', 10, '2014-03-18 08:28:48', 'dsadaddds<br>', '1', '0000-00-00 00:00:00', 0, 0, '0', '0', 0, 0, 0),
-(7, 'sdsadadsdddd', 'asdasdasdsasad<br>', 10, '2014-03-18 08:28:56', 'asdasdasdsasad<br>', '1', '0000-00-00 00:00:00', 0, 0, '0', '0', 0, 0, 0),
-(8, 'axsas', 'saxasa<br>', 10, '2014-03-18 08:42:00', 'saxasa<br>', '1', '0000-00-00 00:00:00', 0, 0, '0', '0', 0, 0, 0),
-(9, 'ssacdsfrgv', 'bgtrgtgdsfcqw<br>', 10, '2014-03-18 08:42:09', 'bgtrgtgdsfcqw<br>', '1', '0000-00-00 00:00:00', 0, 0, '0', '0', 0, 0, 0),
 (10, 'Contact Us', '<b>&nbsp;Salyani Organization </b><br>Lions Chowk, Narayanghad<br>Chitwan<br>', 11, '2014-05-20 05:20:17', '<b>&nbsp;Salyani Organization </b><br>Lions Chowk, Narayanghad<br>Chitwan<br>', '1', '0000-00-00 00:00:00', 0, 0, '0', '0', 0, 0, 0);
 
 -- --------------------------------------------------------
@@ -388,6 +354,7 @@ INSERT INTO `page` (`id`, `page_name`, `page_content`, `page_author_id`, `page_d
 CREATE TABLE IF NOT EXISTS `post` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `post_title` mediumtext NOT NULL,
+  `image` varchar(255) DEFAULT NULL,
   `post_author_id` int(11) NOT NULL,
   `post_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `post_summary` mediumtext,
@@ -403,19 +370,14 @@ CREATE TABLE IF NOT EXISTS `post` (
   PRIMARY KEY (`id`),
   KEY `idx_post` (`post_category`),
   KEY `idx_post_0` (`post_author_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `post`
 --
 
-INSERT INTO `post` (`id`, `post_title`, `post_author_id`, `post_date`, `post_summary`, `post_status`, `comment_status`, `post_modified_date`, `post_tags`, `post_content`, `post_category`, `allow_comment`, `allow_like`, `allow_share`) VALUES
-(1, 'Earn $100 in one day by sushil', 11, '2014-03-20 06:05:22', '                                    Entrepreneurs are a different kind of people. They are never \r\nc', '0', 2, NULL, '', '                                    Entrepreneurs are a different kind of people. They are never \r\ncompletely satisfied with the normal, acceptable lifestyle commonly \r\ncalled “successful” by the rest of society. This traditional “success” \r\noften includes a good job, a nice house with a 30-year mortgage, a \r\ncouple of nice cars (on which it’s considered OK to owe a lot of money),\r\n a few weeks of vacation every year from the job you don’t really enjoy,\r\n etc.<br>If you’re reading this blog, you’re probably not content with that kind of success.', 14, 1, 1, 1),
-(2, 'how can you freelance by deepika', 11, '2014-03-20 06:07:11', '                                    I’ve been getting a lot of emails lately from people who are l', '0', 2, NULL, '', '                                    I’ve been getting a lot of emails lately from people who are looking \r\nto start working for themselves. &nbsp;Whether it’s a small business on \r\nthe side, or they’re looking to create a full time location independent \r\nbusiness, it’s obvious there’s a lot of entrepreneurial spirit out \r\nthere.<div absolute;="" top:="" -1999px;="" left:="" -1988px;"="" id="stcpDiv">\r\n<p>Along with questions about building a business, I’m asked frequently what business <em>I </em>run.</p>\r\n<p>If we’re going to start getting real about creating a location \r\nindependent income, I’m going to have to build a little bit of \r\ncredibilty.</p>\r\n<p>So here’s what I do:</p>\r\n<h3><em><strong>I’m an SEO Freelancer (for lack of a better term).</strong></em></h3>\r\n<p>For those of you who don’t know what SEO means, it stands for Search \r\nEngine Optimization. Essentially it’s my job to make sure my clients \r\nrank as highly as possible in Google (or other search engines) for the \r\nkey terms that we’ve decided are most important to their success.</p> - \r\nSee more at: \r\nfile:///G:/websites/How to Become an SEO Freelancer in 48 Hours — Location 180 _ Build a Business, Live Anywhere, Achieve Free.</div><div absolute;="" top:="" -1999px;="" left:="" -1988px;"="" id="stcpDiv"><p><br></p><p><br></p><br></div>', 14, 1, 1, 1),
-(3, 'Post allowing comment', 10, '2014-03-26 06:35:17', '                                          duifhioakfkdopfuijcnydsbc wdjiofj whoidjc jwpos ciwqsf oiw', '0', 2, NULL, '', '                                          duifhioakfkdopfuijcnydsbc wdjiofj whoidjc jwpos ciwqsf oiwnsdc iwn cdoiqwos hsfoiwejsf coiwbfu d qwhoifbv eifwed wd woijdoqwf vi2whdiwe qwdb weso9jmqw<br>', 7, 1, 0, 1),
-(4, 'ramji changed', 11, '2014-04-04 09:32:03', '            sdajsdksal<br>', '0', 2, NULL, '', '            sdajsdksal<br>', 14, 1, 1, 1),
-(5, 'dsadasdsa', 10, '2014-04-04 09:32:12', 'dsadasdass<br>', '1', 1, NULL, '', 'dsadasdass<br>', 1, 0, 0, 0),
-(6, 'deepika', 11, '2014-04-04 09:32:20', '                                    sadasdsadasdsa<br>', '0', 2, NULL, '', '                                    sadasdsadasdsa<br>', 14, 1, 1, 1);
+INSERT INTO `post` (`id`, `post_title`, `image`, `post_author_id`, `post_date`, `post_summary`, `post_status`, `comment_status`, `post_modified_date`, `post_tags`, `post_content`, `post_category`, `allow_comment`, `allow_like`, `allow_share`) VALUES
+(1, 'new ', NULL, 0, '2014-06-09 04:53:02', 'hello<br>', '0', NULL, NULL, NULL, 'hello<br>', 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -426,15 +388,15 @@ INSERT INTO `post` (`id`, `post_title`, `post_author_id`, `post_date`, `post_sum
 CREATE TABLE IF NOT EXISTS `product` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `qty` int(11) NOT NULL,
-  `price` int(11) NOT NULL,
-  `name` varchar(200) NOT NULL,
-  `description` varchar(2000) NOT NULL,
-  `summary` varchar(200) NOT NULL,
+  `price` double NOT NULL,
+  `name` varchar(200) CHARACTER SET utf8 NOT NULL,
+  `description` longtext CHARACTER SET utf8 NOT NULL,
+  `summary` varchar(200) CHARACTER SET utf8 NOT NULL,
   `category` int(11) NOT NULL,
-  `image1` varchar(255) DEFAULT NULL,
-  `image2` varchar(255) DEFAULT NULL,
-  `image3` varchar(255) DEFAULT NULL,
-  `shiping` varchar(255) NOT NULL,
+  `image1` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `image2` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `image3` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `shiping` varchar(255) CHARACTER SET utf8 NOT NULL,
   `like` varchar(50) CHARACTER SET utf8 NOT NULL,
   `share` varchar(50) CHARACTER SET utf8 NOT NULL,
   `status` int(11) NOT NULL,
@@ -447,26 +409,15 @@ CREATE TABLE IF NOT EXISTS `product` (
 --
 
 INSERT INTO `product` (`id`, `qty`, `price`, `name`, `description`, `summary`, `category`, `image1`, `image2`, `image3`, `shiping`, `like`, `share`, `status`) VALUES
-(26, 1, 100, 'ramayan', '      nepali movie<br>', '      nepali movie<br>', 12, 'tickets-185x185.jpg', 'tickets-185x1851.jpg', 'tickets-185x1852.jpg', '', '', '', 0),
-(27, 1, 500, 'hood', '            hood<br>', '            hood<br>', 10, 'tickets-185x1854.jpg', NULL, NULL, '', '', '', 0),
+(27, 1, 500, 'hood', '          ', '            hood<br>', 13, 'tickets-185x1854.jpg', NULL, NULL, '', '', '', 0),
 (28, 1, 5, 'cow', '      cow<br>', '      cow<br>', 10, 'emerochino-tickets11.jpg', NULL, NULL, '', '', '', 0),
 (29, 1, 11, 'sdfdsf', '                  sdfdsf<br>', '                  sdfdsf<br>', 10, 'Forest-Animals-Deer-Leonid-Afremov-Antelope.jpg', NULL, NULL, '', '', '', 0),
 (33, 1, 5000, 'Jacket', '            This jacket is made up of the leather and regzin. Its a high quality jacket made in indonesia. Its of YCKMD.', '            This jacket is made up of the leather and regzin. Its a high quality jacket made in indo', 13, NULL, NULL, NULL, 'disabled', 'disabled', 'enabled', 0),
 (34, 1, 2000, 'Paint', '                  This paint is of pure jeans . made in nepal. sakjdfhas', '                  This paint is of pure jeans . made in nepal. sakjdfhas', 13, NULL, NULL, NULL, 'disabled', 'enabled', 'enabled', 0),
-(38, 1, 12, 'Product', 'sdfsdf<br>', 'sdfsdf<br>', 14, NULL, NULL, NULL, '', '', '', 0),
-(40, 1, 0, 'sdas', 'sadas<br>', 'sadas<br>', 10, NULL, NULL, NULL, 'disabled', '', '', 0),
-(41, 1, 0, 'adsa', 'sada<br>', 'sada<br>', 10, NULL, NULL, NULL, 'enabled', '', '', 0),
-(42, 1, 0, 'nadd ', 'jhgh<br>', 'jhgh<br>', 10, NULL, NULL, NULL, 'enabled', '', '', 0),
-(43, 1, 0, 'ramji', '      sqdf<br>', '      sqdf<br>', 10, NULL, NULL, NULL, 'enabled', 'enabled', 'disabled', 0),
-(44, 1, 12345, 'nayaupdated', '      new<br>', '      new<br>', 10, NULL, NULL, NULL, 'enabled', '', '', 0),
-(45, 1, 0, 'newwithlike', '                  sdas<br>', '                  sdas<br>', 10, 'sss.jpg', NULL, NULL, 'enabled', 'enabled', 'enabled', 0),
-(46, 1, 0, 'new with share', '      zx<br>', '      zx<br>', 10, NULL, NULL, NULL, 'disabled', 'disabled', 'enabled', 0),
-(47, 1, 0, 'like n share both n ship', '            sa<br>', '            sa<br>', 10, 'charo.jpg', NULL, NULL, 'enabled', 'enabled', 'enabled', 0),
-(48, 1, 0, 'gkgkgk', 'jgkg kgg&nbsp; kugkg&nbsp; gk urfufj<br>', 'jgkg kgg&nbsp; kugkg&nbsp; gk urfufj<br>', 10, 'samart_Access_Services.jpg', NULL, NULL, 'disabled', 'enabled', 'enabled', 0),
-(49, 1, 29, 'kali', 'bcbcbs<br>', 'bcbcbs<br>', 13, '3-signup.jpg', NULL, NULL, 'disabled', 'enabled', 'enabled', 0),
-(50, 1, 500, 'my product', '      dskgfytgw vwqsjhf wqb huwifdc hhwui dbc whsaio dcjsx dsagyudfs svaudgvas sgvfduysa tdfsayudxas gdfy ywqgsiudxv sagdyqs vwsqgd ugfduysx gfsyd duyqwg ydqgdy duihnwqsfgci dgchsdouifb cqwisohnd<br>', '      dskgfytgw vwqsjhf wqb huwifdc hhwui dbc whsaio dcjsx dsagyudfs svaudgvas sgvfduysa tdfsayudxas', 13, 'logo1.png', '', '', 'disabled', 'enabled', 'enabled', 0),
-(51, 1, 66, 'bhai ', '            After Successful show of NAI Nabhannu la 2 we are giving back to back hit Nepali Movie Kabaddi.<br rgb(55,="" 64,="" 78);="" font-family:="" helvetica,="" arial,="" ''lucida="" grande'',="" tahoma,="" verdana,="" sans-serif;="" font-size:="" 14px;="" line-height:="" 20px;"=""><span rgb(55,="" 64,="" 78);="" font-family:="" helvetica,="" arial,="" ''lucida="" grande'',="" tahoma,="" verdana,="" sans-serif;="" font-size:="" 14px;="" line-height:="" 20px;"="">Due\r\n to high demand of friends,viewers and supporters we are showing Kabaddi\r\n - Nepali Feature Film in Melbourne on these days respectively</span><br rgb(55,="" 64,="" 78);="" font-family:="" helvetica,="" arial,="" ''lucida="" grande'',="" tahoma,="" verdana,="" sans-serif;="" font-size:="" 14px;="" line-height:="" 20px;"=""><span rgb(55,="" 64,="" 78);="" font-family:="" helvetica,="" arial,="" ''lucida="" grande'',="" tahoma,="" verdana,="" sans-serif;="" font-size:="" 14px;="" line-height:="" 20px;"="">1. J</span><span class="text_exposed_show" inline;="" color:="" rgb(55,="" 64,="" 78);="" font-family:="" helvetica,="" arial,="" ''lucida="" grande'',="" tahoma,="" verdana,="" sans-serif;="" font-size:="" 14px;="" line-height:="" 20px;"="">une 1st 2014 Sunday 6:15 pm (Sold Out)<br>2. June 5th 2014 Thursday 6:15 pm Limited seats (Booking open)<br>3. Jun 15th 2014 Sunday 6:15 pm (Booking Open)<br>Please Contact on these numbers 0430418980, 0433335515, 0426500259 or 0410744289.<br>Booking and ticket purchase online soon from<a href="http://www.smartaservices.com/" rel="nofollow nofollow" target="_blank">http://www.smartaservices.com</a></span>', '            After Successful show of NAI Nabhannu la 2 we are giving back to back hit Nepali Movie K', 13, '1-HOme.jpg', '', '', 'disabled', 'enabled', 'enabled', 0),
-(52, 1, 33334, 'Suzuki Katana 1100', 'Suzuki Katana 1100 wire wheel', 'Suzuki Katana 1100 wire wheel', 12, 'forest-animals-pictures1.jpg', NULL, NULL, 'disabled', 'enabled', 'enabled', 0);
+(51, 1, 120, 'last', 'sdf&#39;sdfds&quot;dsfsdfd&#39;dsfdsfsdf&#39;sdFSD&quot;Fsdf<br>', 'sdf&#39;sdfds&quot;dsfsdfd&#39;dsfdsfsdf&#39;sdFSD&quot;Fsdf<br>', 13, NULL, NULL, NULL, 'disabled', 'enabled', 'enabled', 0),
+(52, 0, 4, 'a', 'a<br>', 'a<br>', 10, 'down1.png', NULL, NULL, 'disabled', '', '', 0),
+(53, 1, 44, 'hello', 'sdf<br>', 'sdf<br>', 10, NULL, NULL, NULL, 'disabled', 'enabled', 'enabled', 1),
+(54, 1, 4, 'sdfgfdg', 'sdfgfdg<br>', 'sdfgfdg<br>', 10, NULL, NULL, NULL, 'disabled', 'enabled', 'enabled', 1);
 
 -- --------------------------------------------------------
 
@@ -490,14 +441,14 @@ CREATE TABLE IF NOT EXISTS `product_oder` (
   `o_id` int(11) NOT NULL AUTO_INCREMENT,
   `u_id` int(11) NOT NULL,
   `date` date NOT NULL,
-  `user_name` varchar(255) NOT NULL,
-  `deliver_address` varchar(255) NOT NULL,
-  `city` varchar(255) NOT NULL,
-  `state` varchar(255) NOT NULL,
-  `zip` varchar(200) NOT NULL,
-  `country` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `contact` varchar(50) NOT NULL,
+  `user_name` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `deliver_address` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `city` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `state` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `zip` varchar(200) CHARACTER SET utf8 NOT NULL,
+  `country` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `email` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `contact` varchar(50) CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`o_id`),
   KEY `u_id` (`u_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
@@ -520,11 +471,12 @@ CREATE TABLE IF NOT EXISTS `product_oder_detail` (
   `od_id` int(11) NOT NULL AUTO_INCREMENT,
   `o_id` int(11) NOT NULL,
   `p_id` int(11) NOT NULL,
-  `qty` varchar(255) NOT NULL,
+  `qty` varchar(255) CHARACTER SET utf8 NOT NULL,
   `price` double NOT NULL,
-  `trans_id` varchar(11) NOT NULL,
+  `total` double NOT NULL,
+  `trans_id` varchar(11) CHARACTER SET utf8 NOT NULL,
   `trans_num` int(10) NOT NULL,
-  `status` varchar(255) NOT NULL,
+  `status` varchar(255) CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`od_id`),
   KEY `p_id` (`p_id`),
   KEY `o_id` (`o_id`)
@@ -534,17 +486,15 @@ CREATE TABLE IF NOT EXISTS `product_oder_detail` (
 -- Dumping data for table `product_oder_detail`
 --
 
-INSERT INTO `product_oder_detail` (`od_id`, `o_id`, `p_id`, `qty`, `price`, `trans_id`, `trans_num`, `status`) VALUES
-(79, 1, 33, '1', 0, 'TRD1', 1, '0'),
-(80, 1, 34, '1', 0, 'TRD1', 1, '1'),
-(81, 1, 33, '1', 0, 'TRD2', 2, '0'),
-(82, 1, 34, '1', 0, 'TRD2', 2, '0'),
-(83, 1, 29, '5', 50, 'TRN3', 3, '0'),
-(84, 1, 29, '8', 0, 'TRN4', 4, '1'),
-(85, 1, 27, '8', 6363, 'TRN5', 5, '0'),
-(86, 1, 28, '66', 2, 'TRN6', 6, '1'),
-(87, 1, 27, '5', 2, 'TRN7', 7, '0'),
-(88, 1, 28, '65', 5, 'TRN8', 8, '0');
+INSERT INTO `product_oder_detail` (`od_id`, `o_id`, `p_id`, `qty`, `price`, `total`, `trans_id`, `trans_num`, `status`) VALUES
+(80, 1, 34, '1', 0, 0, 'TRD1', 1, '1'),
+(81, 1, 33, '1', 0, 0, 'TRD2', 2, '0'),
+(83, 1, 29, '5', 50, 0, 'TRN3', 3, '0'),
+(84, 1, 29, '8', 0, 0, 'TRN4', 4, '1'),
+(85, 1, 27, '8', 6363, 0, 'TRN5', 5, '0'),
+(86, 1, 28, '66', 2, 0, 'TRN6', 6, '1'),
+(87, 1, 27, '5', 2, 0, 'TRN7', 7, '0'),
+(88, 1, 28, '65', 5, 0, 'TRN8', 8, '0');
 
 -- --------------------------------------------------------
 
@@ -563,7 +513,7 @@ CREATE TABLE IF NOT EXISTS `shiping_cost` (
 --
 
 INSERT INTO `shiping_cost` (`sid`, `price`) VALUES
-(1, 5);
+(1, 100);
 
 -- --------------------------------------------------------
 
@@ -606,14 +556,14 @@ CREATE TABLE IF NOT EXISTS `user` (
   `zip` varchar(255) NOT NULL,
   `country` varchar(255) NOT NULL,
   `contact` varchar(255) NOT NULL,
-  `address` varchar(255) NOT NULL,
+  `address` varchar(255) DEFAULT NULL,
   `user_url` mediumtext,
   `user_registered_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `user_auth_key` varchar(64) DEFAULT NULL,
   `user_status` varchar(64) DEFAULT NULL,
   `user_type` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=65 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=38 ;
 
 --
 -- Dumping data for table `user`
@@ -621,17 +571,11 @@ CREATE TABLE IF NOT EXISTS `user` (
 
 INSERT INTO `user` (`id`, `user_name`, `user_fname`, `user_lname`, `user_email`, `user_pass`, `city`, `state`, `zip`, `country`, `contact`, `address`, `user_url`, `user_registered_date`, `user_auth_key`, `user_status`, `user_type`) VALUES
 (11, 'admin', 'ramji', 'subedi', 'admin@ad.min', '21232f297a57a5a743894a0e4a801fc3', '', '', '', '', '', '', NULL, '2014-05-11 11:27:48', ' ', '1', '0'),
-(12, 'ramji', 'ram', 'ram', 'ramji@salyani.com.np', 'ae3274d5bfa170ca69bb534be5a22467', '', '', '', '', '', 'sadfsdfdsfdsf', NULL, '2014-05-13 06:56:32', '', '1', '1'),
-(53, 'asdfgh', NULL, NULL, 'asd@asd.asd', '7815696ecbf1c96e6894b779456d330e', '', '', '', '', '', '', NULL, '2014-05-30 09:49:20', 'K2DCL2K5SM', NULL, '1'),
-(54, 'ramhari', NULL, NULL, 'ramu@ramu.ramu', 'f81e1273d28fd16562d236ea966809f1', '', '', '', '', '', '', NULL, '2014-05-30 09:53:05', NULL, NULL, '1'),
-(56, 'rajendra', 'asd', 'sadsa', 'raj@raj.raj', 'f81c2414e3f4685567201371a38aee4a', 'SASASDA-11', 'SASASAZ', '555555', 'AZSDASA', '98899889888', 'aVGDSHFAS-10', NULL, '2014-06-02 06:17:33', NULL, NULL, '1'),
-(57, 'rajendrasdfsd', NULL, NULL, 'lsldjf@ljsd.com', '84d9cfc2f395ce883a41d7ffc1bbcf4e', '', '', '', '', '', '', NULL, '2014-06-03 11:25:05', NULL, NULL, '1'),
-(58, 'sldjflsjdf', NULL, NULL, 'lssjddlfjls@kljsdlj.com', '87a0d5726ffc75d0ff4613aec6f0b085', '', '', '', '', '', '', NULL, '2014-06-03 11:26:29', NULL, NULL, '1'),
-(59, 'infotechnab', NULL, NULL, 'infotechnab@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', '', '', '', '', '', '', NULL, '2014-06-03 11:44:08', NULL, NULL, '1'),
-(60, 'thisnamehas2', NULL, NULL, 'shda@assdsa.as', 'be3f449389755766189956f845811ea0', '', '', '', '', '', '', NULL, '2014-06-03 11:49:59', NULL, NULL, '1'),
-(61, 'homnathbag', NULL, NULL, 'bhomnath@outlook.com', 'a152e841783914146e4bcd4f39100686', '', '', '', '', '', '', NULL, '2014-06-03 12:39:05', NULL, NULL, '1'),
-(63, 'homna', NULL, NULL, 'bhomnath@gmail.com', '2f85c77edb006d5caa5c52d14f88f044', '', '', '', '', '', '', NULL, '2014-06-05 07:15:33', NULL, NULL, '1'),
-(64, 'homnathbaga', NULL, NULL, 'asdfg@gmail.com', '040b7cf4a55014e185813e0644502ea9', '', '', '', '', '', '', NULL, '2014-06-06 11:38:33', NULL, NULL, '1');
+(12, 'ramji', 'ram', 'ram', 'ramji@salyani.com.np', 'ae3274d5bfa170ca69bb534be5a22467', '', '', '', '', '', 'sadfsdfdsfdsf', NULL, '2014-05-13 06:56:32', 'TL7UVI9645', '1', '1'),
+(13, 'adfsdsf', 'sadfsd', 'sdf', 'admin@df.cd', '900150983cd24fb0d6963f7d28e17f72', '', '', '', '', '545', 'asdf', NULL, '2014-05-20 10:14:01', NULL, NULL, '1'),
+(34, 'a', 'aa', 'asdfdsf', 'admin@a.l', '0cc175b9c0f1b6a831c399e269772661', '', '', '', '', 'a', 'aa', NULL, '2014-05-27 07:18:37', NULL, '1', '1'),
+(35, 'a', 'aa', 'asdfdsf', 'admin@a.l', '0cc175b9c0f1b6a831c399e269772661', '', '', '', '', 'a', 'aa', NULL, '2014-05-27 07:19:03', NULL, '1', '1'),
+(37, 'dfg', NULL, NULL, 'admin', '21232f297a57a5a743894a0e4a801fc3', '', '', '', '', '', NULL, NULL, '2014-06-01 10:04:45', NULL, NULL, '1');
 
 --
 -- Constraints for dumped tables
