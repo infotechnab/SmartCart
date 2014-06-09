@@ -74,7 +74,13 @@ public function product_info(){
          $query = $this->db->get('events');
         return $query->result();
     }
-    function record_count_events()
+    public function get_max_events(){
+        $this->db->limit(3);
+        $this->db->order_by('date','DESC');
+         $query = $this->db->get('events');
+        return $query->result();
+    }
+            function record_count_events()
     {  
         return $this->db->count_all("events");
     }

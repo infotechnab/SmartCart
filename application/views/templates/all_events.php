@@ -157,9 +157,38 @@ $currentDate = date("Y-m-d");
 </div>
 </div>
 <!-- left side content closed here -->
-<div id='sidebar'>
-    <div class="redColouredDiv" id='sidebarContent'>
-        <div id="sideBarImage"><img src="<?php echo base_url() . "content/uploads/images/addtocart.png"; ?>"/> </div>   
-        <h3>Shopping Cart</h3>
-    </div>
-    <div class='cartItems' id="shopping_cart">
+  <div id='sidebar'>
+            <div class="redColouredDiv" id='sidebarContent'><h3>Events</h3></div>
+		            <?php if(!empty($event)){
+                                
+     foreach ($event as $sideEvent){
+		                ?>
+            <div class='sidebarContentNext' style="z-index: 1;">
+                <?php if (strlen($sideEvent->image)>2){ ?>
+		                    <div class="cartImage" style="float: left; width: 14%; min-height: 40px; margin: 0px; padding: 0px;">
+		                       <img src="<?php echo base_url().'content/uploads/images/'.$sideEvent->image; ?>" width="50" height="50"  /> 
+		                    </div>
+                <?php } ?>
+		                    <div class="cartImage" style="float: left; width: 40%; min-height: 40px; margin: 0px; padding: 0px;">
+		                       <?php                                   
+                                       if(strlen($sideEvent->title)<=15){
+                                       ?>
+                                        <p><b><?php echo $sideEvent->title;  ?></b></p>
+                                       <?php } else { ?>
+                                           <p><b><?php echo mb_strimwidth($sideEvent->title, 0, 15, "..."); ?></b></p>
+                                     <?php  } ?>
+                                        
+                                        
+		                    </div> 
+                                    
+		                     
+		                                           
+		                </div>
+                            <?php } }?>
+           
+           
+            <div class="redColouredDiv" id='sidebarContent'>
+                <div id="sideBarImage"><img src="<?php echo base_url() . "content/uploads/images/addtocart.png"; ?>"/> </div>   
+                <h3>Shopping Cart</h3>
+            </div>
+            <div class='sidebarContentNext' id="shopping_cart">
