@@ -13,7 +13,8 @@ $currentDate = date("Y-m-d");
         
         $date=date("Y-m-d", strtotime($allEvents->date));
         $time=date("h:i A", strtotime($allEvents->date));
-       
+       $setTime=date("G:i:s", strtotime($sideEvent->date));
+         $noTime="0:00:00"; 
         if ($date > $currentDate)
         {
             if($upcommingEvent == TRUE)
@@ -37,7 +38,7 @@ $currentDate = date("Y-m-d");
 <?php } ?>
                 <div class='eventDetails'>
                     <h4><?php echo $allEvents->title; ?></h4>
-                    <h5 style="color: #5D5D5D;">Date:<?php echo $date ?> Time:<?php echo $time; ?></h5>
+                    <h5 style="color: #5D5D5D;">Date:<?php echo $date ?> <?php if($setTime!==$noTime){ echo "Time:".$time; } else{} ;?></h5>
                     <h5>Location: <?php echo $allEvents->location; ?></h5>
                     <?php if(strlen($allEvents->details)<=100)                                       
                                        {
@@ -197,7 +198,8 @@ $currentDate = date("Y-m-d");
     <?php foreach ($event as $sideEvent){
         $date=date("Y-m-d", strtotime($sideEvent->date));
         $time=date("h:i A", strtotime($sideEvent->date));
-        		                ?>
+        $setTime=date("G:i:s", strtotime($sideEvent->date));
+         $noTime="0:00:00"; 		                ?>
             <div id="shopping_cart" class="cartItems">
                 <a style="color:#000;" href="<?php echo base_url()."index.php/view/events" ?>"><div class='sidebarContentNext' style="z-index: 1;">
                 
@@ -206,11 +208,9 @@ $currentDate = date("Y-m-d");
 		                       <img src="<?php echo base_url().'content/uploads/images/'.$sideEvent->image; ?>" width="50" height="50"  /> 
 		                    </div>
                 <?php } ?>
-		                    <div  style="float: left; width: auto; height: auto; margin: 0px; padding: 0px 0px 0px 5px;">
+		                    <div class="eventTitle">
 		                       
-                                        <p style="font-size:12px; margin: 10px 0px 5px 0px; padding: 0px;"><b><?php echo $sideEvent->title;  ?></b> On <?php echo $date;  ?> at <?php echo $time;  ?></p>
-                                       
-                                       
+                                        <p><b><?php echo $sideEvent->title;  ?></b> On <?php echo $date;  ?> <?php if($setTime!==$noTime){ echo'at'. $time;} else{}  ?></p>
                                         
 		                    </div> 
                                     

@@ -92,7 +92,8 @@ if(!empty($events)){
     <?php foreach ($sideBarevent as $sideEvent){
         $Sdate=date("Y-m-d", strtotime($sideEvent->date));
         $Stime=date("h:i A", strtotime($sideEvent->date));
-        		                ?>
+        $setTime=date("G:i:s", strtotime($sideEvent->date));
+         $noTime="0:00:00";		                ?>
             <div id="shopping_cart" class="cartItems">
                 <a style="color:#000;" href="<?php echo base_url()."index.php/view/events" ?>"><div class='sidebarContentNext' style="z-index: 1;">
                 
@@ -101,11 +102,9 @@ if(!empty($events)){
 		                       <img src="<?php echo base_url().'content/uploads/images/'.$sideEvent->image; ?>" width="50" height="50"  /> 
 		                    </div>
                 <?php } ?>
-		                    <div  style="float: left; width: auto; height: auto; margin: 0px; padding: 0px 0px 0px 5px;">
+		                    <div class="eventTitle">
 		                       
-                                        <p style="font-size:12px; margin: 10px 0px 5px 0px; padding: 0px;"><b><?php echo $sideEvent->title;  ?></b> On <?php echo $Sdate;  ?> at <?php echo $Stime;  ?></p>
-                                       
-                                       
+                                       <p><b><?php echo $sideEvent->title;  ?></b> On <?php echo $date;  ?> <?php if($setTime!==$noTime){ echo'at'. $time;} else{}  ?></p>
                                         
 		                    </div> 
                                     
