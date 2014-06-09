@@ -653,11 +653,11 @@ $data['event']= $this->productmodel->get_max_events();
         
         $this->form_validation->set_rules('u_fname', 'First name', 'trim|regex_match[/^[a-z,0-9,A-Z]{2,15}$/]|xss_clean|max_length[15]');
         $this->form_validation->set_rules('u_lname', 'Last name', 'trim|regex_match[/^[a-z,0-9,A-Z]{2,15}$/]|xss_clean|max_length[15]');
-        $this->form_validation->set_rules('street_address', 'Address', 'trim|regex_match[/^[A-Za-z0-9\-\\,.]{2,35}$/]|required|xss_clean|max_length[35]');
+        $this->form_validation->set_rules('street_address', 'Address', 'trim|regex_match[/^[A-Za-z0-9\-\\,.]{2,35}$/]|xss_clean|max_length[35]');
         $this->form_validation->set_rules('Town_address', 'suburb/city', 'trim|regex_match[/^[A-Za-z0-9\-\\,.]{2,35}$/]|xss_clean|max_length[35]');
-        $this->form_validation->set_rules('District_address', 'State', 'trim|regex_match[/^[A-Za-z0-9\-\\,.]{2,35}$/]|required|xss_clean|max_length[35]');
-        $this->form_validation->set_rules('zip', 'Post Code', 'trim|regex_match[/^[0-9]{4,15}$/]|required|xss_clean|max_length[15]');
-        $this->form_validation->set_rules('country', 'Country', 'trim|regex_match[/^[A-Za-z0-9\-\\,.]{2,35}$/]|required|xss_clean|max_length[35]');
+        $this->form_validation->set_rules('District_address', 'State', 'trim|regex_match[/^[A-Za-z0-9\-\\,.]{2,35}$/]|xss_clean|max_length[35]');
+        $this->form_validation->set_rules('zip', 'Post Code', 'trim|regex_match[/^[0-9]{4,15}$/]|xss_clean|max_length[15]');
+        $this->form_validation->set_rules('country', 'Country', 'trim|regex_match[/^[A-Za-z0-9\-\\,.]{2,35}$/]|xss_clean|max_length[35]');
         $this->form_validation->set_rules('u_contact', 'Contact no.', 'trim|regex_match[/^[0-9]{5,15}$/]|xss_clean|max_length[15]');
         $this->form_validation->set_rules('user_email', 'Email', 'trim|regex_match[/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/]|required|xss_clean|max_length[200]');
         if ($this->form_validation->run() == FALSE) {
