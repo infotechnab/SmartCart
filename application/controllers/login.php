@@ -16,9 +16,10 @@ class Login extends CI_Controller {
 
     function index() {
 
-       
+        $data['link'] = $_GET['url'];
+      
         if ($this->session->userdata('admin_logged_in')&& $this->session->userdata('admin')) {
-             redirect('bnw', 'refresh');
+             redirect('login', 'refresh');
         } else {
             $this->session->sess_destroy();
             $data['meta'] = $this->dbmodel->get_meta_data();
@@ -28,7 +29,7 @@ class Login extends CI_Controller {
     }
 
     function validate_credentials() {
-          
+         
         $this->load->library('session');
         if (isset($_POST['checkMe'])) {
 
@@ -46,10 +47,11 @@ class Login extends CI_Controller {
             $this->index();
         } else {
             $this->load->model('dbmodel');
+           
             $query = $this->dbmodel->validate();
             if ($query) {
                 // if the user's credentials validated...
-              
+               $link = $this->input->post('requersUrl');
                 $data = array(
                     'username' => $this->input->post('username'),
                     'admin_logged_in' => true,
@@ -57,7 +59,14 @@ class Login extends CI_Controller {
                    
                 );
                 $this->session->set_userdata($data);
-                redirect('bnw/index');
+             if($link == base_url().'index.php/bnw/logout')
+             {
+                 redirect('bnw/index','refresh');
+                
+             }
+             else{
+                 redirect($link);
+             }
             } else { // incorrect username or password
                 $this->session->set_flashdata('message', 'Username or password incorrect');
                 redirect('login');

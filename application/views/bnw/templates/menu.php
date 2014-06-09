@@ -14,7 +14,7 @@
                         <ul class="subMenu">
                             <li><?php echo anchor('bnw/product', 'Add New Product') ?></li>
                             <li><?php echo anchor('bnw/productList', 'Products') ?></li>
-                           <li><?php echo anchor('bnw/disproduct', 'Sale Info') ?></li>
+                           <li><?php echo anchor('bnw/disproduct', 'Sold Info') ?></li>
                             <li><?php echo anchor('bnw/productShipping', 'Shipping ') ?></li>
                             <li><?php echo anchor('bnw/coupon', 'Create Coupon ') ?></li>
                             
