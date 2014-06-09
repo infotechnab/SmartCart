@@ -252,7 +252,8 @@ class View extends CI_Controller {
         $data['headerlogo'] = $this->viewmodel->get_header_logo();
         $data['meta'] = $this->dbmodel->get_meta_data();
         $data['headerdescription'] = $this->viewmodel->get_header_description();
-
+$data['event']= $this->productmodel->get_max_events();
+        $data['offer']= $this->productmodel->get_max_offers();
         $data['product_info'] = $this->productmodel->product_info();
 
         $data['featureItem'] = $this->productmodel->featured_item();
@@ -386,7 +387,8 @@ class View extends CI_Controller {
         $data['headerdescription'] = $this->viewmodel->get_header_description();
 
         $data['product_info'] = $this->productmodel->product_info();
-
+$data['event']= $this->productmodel->get_max_events();
+        $data['offer']= $this->productmodel->get_max_offers();
         $data['featureItem'] = $this->productmodel->featured_item();
         $data['category'] = $this->productmodel->category_list();
         $data['categoryId'] = $this->productmodel->category_list_id($id);
@@ -417,12 +419,11 @@ class View extends CI_Controller {
 
 
         $data['product_info'] = $this->productmodel->product_info();
-
+        $data['event']= $this->productmodel->get_max_events();
+        $data['offer']= $this->productmodel->get_max_offers();
         $data['featureItem'] = $this->productmodel->featured_item();
         $data['category'] = $this->productmodel->category_list();
-// $data['categoryId'] = $this->productmodel->category_list_id($id);
-//  $data['category'] = $this->productmodel->category_list_id();
-//var_dump($data);
+
         $data['get_page'] = $this->productmodel->get_page($id);
         foreach ($data['get_page'] as $page) {
             $data['pageTitle'] = $page->page_name;
@@ -810,11 +811,13 @@ class View extends CI_Controller {
         $data['headerdescription'] = $this->viewmodel->get_header_description();
         $data['featureItem'] = $this->productmodel->featured_item();
         $data['category'] = $this->productmodel->category_list();
+        $data['event']= $this->productmodel->get_max_events();
+        $data['offer']= $this->productmodel->get_max_offers();
         $data['slider_json'] = json_encode($data['featureItem']);
         $this->load->view('templates/header', $data);
         $this->load->view('templates/navigation');
 
-        $this->load->view('templates/contact');
+        $this->load->view('templates/contact', $data);
 
         $this->load->view('templates/cart');
         $this->load->view('templates/sidebarview', $data);
@@ -831,6 +834,7 @@ class View extends CI_Controller {
         $data['featureItem'] = $this->productmodel->featured_item();
         $data['category'] = $this->productmodel->category_list();
         $data['event']= $this->productmodel->get_max_events();
+        $data['offer']= $this->productmodel->get_max_offers();
         $data['slider_json'] = json_encode($data['featureItem']);
         $config = array();
         $config["base_url"] = base_url() . "index.php/view/events";
@@ -884,6 +888,8 @@ class View extends CI_Controller {
         $data['category'] = $this->productmodel->category_list();
         $data['slider_json'] = json_encode($data['featureItem']);
         $data['events']= $this->productmodel->get_events_by_id($id);
+        $data['sideBarevent']= $this->productmodel->get_max_events();
+        $data['offer']= $this->productmodel->get_max_offers();
         $this->load->view('templates/header', $data);
         $this->load->view('templates/navigation');
 

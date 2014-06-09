@@ -74,7 +74,7 @@ $currentDate = date("Y-m-d");
 <?php if (strlen($allEvents->image)>2) {
     ?>
                 <div class='eventImage' style="outline: 1px solid black;">
-                <img class="srcimage" src="<?php echo base_url() . "content/uploads/images/" . $allEvents->image; ?>" alt=""/>   
+                <img src="<?php echo base_url() . "content/uploads/images/" . $allEvents->image; ?>" alt=""/>   
             </div>
 
 <?php } ?>
@@ -116,7 +116,7 @@ $currentDate = date("Y-m-d");
 <?php if (strlen($allEvents->image)>2) {
     ?>
                 <div class='eventImage' style="outline: 1px solid black;">
-                <img class="srcimage" src="<?php echo base_url() . "content/uploads/images/" . $allEvents->image; ?>" alt=""/>   
+                <img src="<?php echo base_url() . "content/uploads/images/" . $allEvents->image; ?>" alt=""/>   
             </div>
 
 <?php } ?>
@@ -158,32 +158,66 @@ $currentDate = date("Y-m-d");
 </div>
 <!-- left side content closed here -->
   <div id='sidebar'>
-            <div class="redColouredDiv" id='sidebarContent'><h3>Events</h3></div>
-		            <?php if(!empty($event)){
+           
+           <!-- for offer -->
+            <?php if(!empty($offer)){ ?>
+            <div class="redColouredDiv" id='sidebarContent'><h3>Offers</h3></div>
+		            
                                 
-     foreach ($event as $sideEvent){
-		                ?>
-            <div class='sidebarContentNext' style="z-index: 1;">
+    <?php foreach ($offer as $sideOffer){
+        		                ?>
+           
+           
+                <?php if (strlen($sideOffer->image)>2){ ?>
+           
+		                    <div id="offerImage">
+		                       <img src="<?php echo base_url().'content/uploads/images/'.$sideOffer->image; ?>" width="100%" /> 
+		                   
+                <?php } ?>
+		                    <div id="offerContainer">
+                                        <p style="margin:0px;"><b><?php echo $sideOffer->post_title;  ?></b></p>  
+                                       
+                                        
+		                    </div> 
+                                    </div>
+		                                           
+		               
+      
+                            <?php } }?>
+           
+           
+            <div class="clear"></div>
+           
+           
+           <!--offer ends here-->
+           <?php if(!empty($event)){ ?>
+            <div class="redColouredDiv" id='sidebarContent'><h3>Events</h3></div>
+		            
+                                
+    <?php foreach ($event as $sideEvent){
+        $date=date("Y-m-d", strtotime($sideEvent->date));
+        $time=date("h:i A", strtotime($sideEvent->date));
+        		                ?>
+            <div id="shopping_cart" class="cartItems">
+                <a style="color:#000;" href="<?php echo base_url()."index.php/view/events" ?>"><div class='sidebarContentNext' style="z-index: 1;">
+                
                 <?php if (strlen($sideEvent->image)>2){ ?>
-		                    <div class="cartImage" style="float: left; width: 14%; min-height: 40px; margin: 0px; padding: 0px;">
+		                    <div class="cartImage" style="float: left; width: 14%; min-height: 40px; margin: -1px; padding: 0px;">
 		                       <img src="<?php echo base_url().'content/uploads/images/'.$sideEvent->image; ?>" width="50" height="50"  /> 
 		                    </div>
                 <?php } ?>
-		                    <div class="cartImage" style="float: left; width: 40%; min-height: 40px; margin: 0px; padding: 0px;">
-		                       <?php                                   
-                                       if(strlen($sideEvent->title)<=15){
-                                       ?>
-                                        <p><b><?php echo $sideEvent->title;  ?></b></p>
-                                       <?php } else { ?>
-                                           <p><b><?php echo mb_strimwidth($sideEvent->title, 0, 15, "..."); ?></b></p>
-                                     <?php  } ?>
-                                        
+		                    <div  style="float: left; width: auto; height: auto; margin: 0px; padding: 0px 0px 0px 5px;">
+		                       
+                                        <p style="font-size:12px; margin: 10px 0px 5px 0px; padding: 0px;"><b><?php echo $sideEvent->title;  ?></b> On <?php echo $date;  ?> at <?php echo $time;  ?></p>
+                                       
+                                       
                                         
 		                    </div> 
                                     
 		                     
-		                                           
-		                </div>
+                                          
+		                </div></a>
+       </div>
                             <?php } }?>
            
            

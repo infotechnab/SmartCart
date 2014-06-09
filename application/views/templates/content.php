@@ -363,27 +363,27 @@ $(document).ready(function() {
                                 
     <?php foreach ($offer as $sideOffer){
         		                ?>
-            <div id="shopping_cart" class="cartItems">
-            <div class='sidebarContentNext' style="z-index: 1;">
+           
+           
                 <?php if (strlen($sideOffer->image)>2){ ?>
-		                    <div style="float: left; width: 100%; min-height: 40px; margin: 0px; padding: 0px;">
-		                       <img src="<?php echo base_url().'content/uploads/images/'.$sideEvent->image; ?>" width="50" height="50"  /> 
-		                    </div>
+           
+		                    <div id="offerImage">
+		                       <img src="<?php echo base_url().'content/uploads/images/'.$sideOffer->image; ?>" width="100%" /> 
+		                   
                 <?php } ?>
-		                    <div  style="float: left; width: auto; min-height: 40px; margin: 0px; padding: 0px 0px 0px 5px;">
-		                       
+		                    <div id="offerContainer">
+                                        <p style="margin:0px;"><b><?php echo $sideOffer->post_title;  ?></b></p>  
                                        
                                         
 		                    </div> 
-                                    
-		                     
+                                    </div>
 		                                           
-		                </div>
-       </div>
+		               
+      
                             <?php } }?>
            
            
-           
+            <div class="clear"></div>
            
            
            <!--offer ends here-->
@@ -396,27 +396,24 @@ $(document).ready(function() {
         $time=date("h:i A", strtotime($sideEvent->date));
         		                ?>
             <div id="shopping_cart" class="cartItems">
-            <div class='sidebarContentNext' style="z-index: 1;">
+                <a style="color:#000;" href="<?php echo base_url()."index.php/view/events" ?>"><div class='sidebarContentNext' style="z-index: 1;">
+                
                 <?php if (strlen($sideEvent->image)>2){ ?>
-		                    <div class="cartImage" style="float: left; width: 14%; min-height: 40px; margin: 0px; padding: 0px;">
+		                    <div class="cartImage" style="float: left; width: 14%; min-height: 40px; margin: -1px; padding: 0px;">
 		                       <img src="<?php echo base_url().'content/uploads/images/'.$sideEvent->image; ?>" width="50" height="50"  /> 
 		                    </div>
                 <?php } ?>
-		                    <div  style="float: left; width: auto; min-height: 40px; margin: 0px; padding: 0px 0px 0px 5px;">
-		                       <?php                                   
-                                       if(strlen($sideEvent->title)<=15){
-                                       ?>
-                                        <p><b><?php echo $sideEvent->title;  ?></b> On <?php echo $date;  ?> at <?php echo $time;  ?></p>
-                                       <?php } else { ?>
-                                           <p><b><?php echo mb_strimwidth($sideEvent->title, 0, 15, "..."); ?></b> On <?php echo $date;  ?> at <?php echo $time;  ?></p>
-                                     <?php  } ?>
+		                    <div  style="float: left; width: auto; height: auto; margin: 0px; padding: 0px 0px 0px 5px;">
+		                       
+                                        <p style="font-size:12px; margin: 10px 0px 5px 0px; padding: 0px;"><b><?php echo $sideEvent->title;  ?></b> On <?php echo $date;  ?> at <?php echo $time;  ?></p>
+                                       
                                        
                                         
 		                    </div> 
                                     
 		                     
-		                                           
-		                </div>
+                                          
+		                </div></a>
        </div>
                             <?php } }?>
            

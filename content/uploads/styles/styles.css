@@ -551,10 +551,10 @@ body
 
 .cartItems
 {
-    margin: -5px 0px -12px 0px;
+    margin: -5px 0px -9px 0px;
     padding: 0px 0px 1px 0px;
     background-color: #fff;
-    min-height: 40px;
+    min-height: 57px;
     border-radius: 5px;
 }
 
@@ -1883,7 +1883,6 @@ input:-moz-placeholder { color:#999; }
 {
     float: left;
     width: 40%;
-    min-height: 225px;
     padding: 0px;
 }
 .eventImage img
@@ -1896,18 +1895,37 @@ input:-moz-placeholder { color:#999; }
 {
     float: left;
     width: 100%;
-    min-height: 400px;
-    padding: 10px 0px 0px 0px;
+    padding: 0px;
+}
+.eventSingleImage img
+{
+     padding: 0px;
+    margin: 0px;
+    width: 100%;
 }
 .eventDetails
 {
     padding: 10px;
     float: left;
-    width: auto;
+    width: 57%;
 }
 .eventDetails h4, .eventDetails p, .eventDetails h5
 {
     margin: 5px;
     padding:0px;
     
+}
+#offerContainer
+{
+    padding: 3%; width: 94%; margin: auto 0px 0px 0px;  background-color: #DDDDDD; color: #000; opacity:0.8; filter:alpha(opacity=60); position: absolute; bottom: 0; float: left;
+}
+#offerImage
+{
+    position:relative;
+    float: left;
+    width: 100%;
+    height:auto;
+    margin: 0px 0px -14px 0px;
+    padding: 0px;
+    background-color: #fff;
 }
