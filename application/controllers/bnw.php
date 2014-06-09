@@ -596,10 +596,7 @@ class bnw extends CI_Controller {
         }
     }
     
-    function delProductOrder()
-    {
-        echo ' Processing ';
-    }
+   
 
     function delProduct($id=0) {
         if ($this->session->userdata('admin_logged_in')) {

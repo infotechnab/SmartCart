@@ -21,7 +21,7 @@
             <th>Shipping Address</th>
             <th>PayPal Information</th>
            
-            <th>Action</th>
+<!--            <th>Action</th>-->
         </tr>
         <?php
             foreach ($query as $data){
@@ -96,7 +96,7 @@
                 <?php echo "<b>".$uName."</b><br/>".$email."<br/>".$contact."<br/>".$shpAddress.",".$city."<br/>".$country;  ?></td>
             <td></td>
             
-             <td><?php echo anchor('bnw/delProductOrder/'.$tid,'Delete'); ?></td>
+<!--             <td><?php /*echo anchor('bnw/delProductOrder/'.$tid,'Delete'); */?></td>-->
         </tr>
             <?php    
             }
