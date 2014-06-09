@@ -14,10 +14,11 @@ class bnw extends CI_Controller {
         $this->load->library('pagination');
        // $this->message = mysql_error();
        // $this->code = mysql_errno();
+        
         }
 
     public function index() {
-       
+              $url = base_url().'index.php/bnw';
         if ($this->session->userdata('admin_logged_in')) {
             $data['username'] = Array($this->session->userdata('admin_logged_in'));
             $data['meta'] = $this->dbmodel->get_meta_data();
@@ -32,7 +33,8 @@ class bnw extends CI_Controller {
             $this->load->view('bnw/dashboard/latest_product',$data);
            
         } else {
-            redirect('login', 'refresh');
+            
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
@@ -99,6 +101,7 @@ class bnw extends CI_Controller {
     }
     function coupon()
     {
+        $url = current_url();
          if ($this->session->userdata('admin_logged_in')) {
               $data['username'] = Array($this->session->userdata('admin_logged_in'));
             $data['meta'] = $this->dbmodel->get_meta_data();
@@ -110,12 +113,13 @@ class bnw extends CI_Controller {
            
          }
          else{
-             redirect('login', 'refresh');
+             redirect('login/index/?url='.$url, 'refresh');
          }
     }
     
     function addcoupon()
     {
+        $url = current_url();
          if ($this->session->userdata('admin_logged_in')) {
               $data['username'] = Array($this->session->userdata('admin_logged_in'));
             $data['meta'] = $this->dbmodel->get_meta_data();
@@ -150,13 +154,14 @@ class bnw extends CI_Controller {
          }
          else
          {
-              redirect('login', 'refresh');
+              redirect('login/index/?url='.$url, 'refresh');
          }
     }
 
     //========================== Add Product ======================================================//
 
     function product() {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $data['username'] = Array($this->session->userdata('admin_logged_in'));
             $data['meta'] = $this->dbmodel->get_meta_data();
@@ -167,11 +172,12 @@ class bnw extends CI_Controller {
             $this->load->view('product/addProduct',$data);
             
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
     function addproduct() {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $config['upload_path'] = './content/uploads/images/';
             $config['allowed_types'] = 'gif|jpg|png';
@@ -331,12 +337,13 @@ class bnw extends CI_Controller {
             }
            
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
     
     function quckly_addproduct()
     {
+        $url = current_url();
          if ($this->session->userdata('admin_logged_in')) {
             $config['upload_path'] = './content/uploads/images/';
             $config['allowed_types'] = 'gif|jpg|png';
@@ -425,14 +432,14 @@ class bnw extends CI_Controller {
             }
            
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 // ============================= End Add Product ====================================================//
     
     //============================ Product Listing =================================================//
     function productList() {
-
+$url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $data['username'] = Array($this->session->userdata('admin_logged_in'));
             $config = array();
@@ -452,12 +459,13 @@ class bnw extends CI_Controller {
             $this->load->view('product/listProduct');
            
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
     //================================ Product Editing ===================================================//
     function editproduct($id=0) {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $data['query'] = $this->dbmodel->findproduct($id);
             $data['meta'] = $this->dbmodel->get_meta_data();
@@ -470,11 +478,12 @@ class bnw extends CI_Controller {
 
            
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
     function updateproduct() {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
 
             $config['upload_path'] = './content/uploads/images/';
@@ -571,11 +580,12 @@ class bnw extends CI_Controller {
 
            
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
     public function productImgdelete() {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $image = $_GET['image'];
             $id = $_GET['id'];
@@ -592,13 +602,14 @@ class bnw extends CI_Controller {
             $this->session->set_flashdata('message', 'Data Delete Sucessfully');
             redirect('bnw/editproduct/' . $id);
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
     
    
 
     function delProduct($id=0) {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             
 //            $delimages = $this->dbmodel->findproduct($id);
@@ -650,11 +661,12 @@ class bnw extends CI_Controller {
                  redirect('bnw/productList');
                   }
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
         function disproduct()
         {
+            $url = current_url();
             if ($this->session->userdata('admin_logged_in')) {
             $data['username'] = Array($this->session->userdata('admin_logged_in'));
             $config = array();
@@ -677,10 +689,11 @@ class bnw extends CI_Controller {
             $this->load->view('product/test',$data);
            
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
         }
     function productOrderList(){
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $data['username'] = Array($this->session->userdata('admin_logged_in'));
             //$config = array();
@@ -700,16 +713,18 @@ class bnw extends CI_Controller {
             $this->load->view('product/listProductOrder');
           
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     
     }
     
         function catproduct()
     {
+            $url = current_url();
        if ($this->session->userdata('admin_logged_in')) {
             $data['username'] = Array($this->session->userdata('admin_logged_in'));
             $categoryValue = $this->input->post('categoryProduct');
+            if($categoryValue ==!0){
              $config = array();
             $config["base_url"] = base_url() . "index.php/bnw/catproduct";
             $config["total_rows"] = count($this->dbmodel->record_count_catproduct($categoryValue));
@@ -726,13 +741,18 @@ class bnw extends CI_Controller {
             $this->load->view('bnw/templates/menu');
             $this->load->view('product/listProduct');
             $this->load->view('bnw/templates/footer', $data);
-        } else {
-            redirect('login', 'refresh');
+        }
+        else{
+            $this->productList();
+        }
+       }else {
+            redirect('login/index/?url='.$url, 'refresh');
         } 
     }
     
     function viewdetail()
     {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             //$data['query'] = $this->dbmodel->findproduct($id);
             $data['meta'] = $this->dbmodel->get_meta_data();
@@ -746,12 +766,13 @@ class bnw extends CI_Controller {
 
            
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
     function updateTrn()
     {
+        $url = current_url();
          if ($this->session->userdata('admin_logged_in')) {
         $id = $_POST['trnID'];
         
@@ -782,12 +803,13 @@ class bnw extends CI_Controller {
             }
             redirect('bnw/disproduct');
             } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
     
      function productShipping()
         {
+         $url = current_url();
             if ($this->session->userdata('admin_logged_in')) {
             $data['username'] = Array($this->session->userdata('admin_logged_in'));
             $data['meta'] = $this->dbmodel->get_meta_data();
@@ -797,11 +819,12 @@ class bnw extends CI_Controller {
             $this->load->view('product/shipping',$data);
             
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
         }
         
         public function shippingupdate() {
+            $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
 
             $data['meta'] = $this->dbmodel->get_meta_data();
@@ -833,7 +856,7 @@ class bnw extends CI_Controller {
            
         } else {
 
-           redirect('login', 'refresh');
+           redirect('login/index/?url='.$url, 'refresh');
         }
     }
         
@@ -844,7 +867,7 @@ class bnw extends CI_Controller {
     function logout() {
         $this->session->sess_destroy();
         $this->index();
-        redirect('login', 'refresh');
+       // redirect('login', 'refresh');
     }
 
     public function menu_id_from_ajax() {
@@ -854,6 +877,7 @@ class bnw extends CI_Controller {
     }
 
     public function addPageForNavigation() {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $data['meta'] = $this->dbmodel->get_meta_data();
             $listOfPage = $this->dbmodel->get_list_of_pages();
@@ -936,11 +960,12 @@ class bnw extends CI_Controller {
                 
             }
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
     public function addCategoryForNavigation() {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $data['meta'] = $this->dbmodel->get_meta_data();
             $listOfPage = $this->dbmodel->get_list_of_pages();
@@ -1038,11 +1063,12 @@ class bnw extends CI_Controller {
                 
             }
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
     public function addCustomLink() {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $data['meta'] = $this->dbmodel->get_meta_data();
             $listOfMenu = $this->dbmodel->get_list_of_menu();
@@ -1085,7 +1111,7 @@ class bnw extends CI_Controller {
             
         } else {
 
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
@@ -1094,6 +1120,7 @@ class bnw extends CI_Controller {
     //=====================================================================================================
 
     public function navigation() {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
 
             $config["total_rows"] = $this->dbmodel->record_count_navigation();
@@ -1116,7 +1143,7 @@ class bnw extends CI_Controller {
             $this->load->view('bnw/menu/listOfItems', $data);
            
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
@@ -1125,6 +1152,7 @@ class bnw extends CI_Controller {
 
 
     public function editnavigation($id=0) {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             
           
@@ -1140,11 +1168,12 @@ class bnw extends CI_Controller {
         }
        
         else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
     public function showNavigation($id=0) {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $data['meta'] = $this->dbmodel->get_meta_data();
 
@@ -1154,12 +1183,13 @@ class bnw extends CI_Controller {
             $this->load->view('bnw/menu/navigationListing', $data);
            
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
     
     function manageNavigation($id=0)
     {
+        $url = current_url();
          if ($this->session->userdata('admin_logged_in')) {
          $data['meta'] = $this->dbmodel->get_meta_data();
 
@@ -1170,13 +1200,14 @@ class bnw extends CI_Controller {
             
              
              } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
          
     }
     
     function up($id=0)
     {
+        $url = current_url();
        if ($this->session->userdata('admin_logged_in')) {
           
          if($id == !0)
@@ -1257,12 +1288,12 @@ class bnw extends CI_Controller {
        
        else
        {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
        } 
     }
 
     function down($id)
-    {
+    { $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
          
             if($id ==!0)
@@ -1339,11 +1370,12 @@ class bnw extends CI_Controller {
         }
        else
        {
-          redirect('login', 'refresh');  
+          redirect('login/index/?url='.$url, 'refresh');
        } 
     }
 
     public function updatenavigation() {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $data['meta'] = $this->dbmodel->get_meta_data();
             $this->load->view("bnw/templates/header", $data);
@@ -1374,19 +1406,20 @@ class bnw extends CI_Controller {
             }
             
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
     function deletenavigation($id=0) {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $this->dbmodel->delnavigation($id);
             //die($id);
             $this->session->set_flashdata('message', 'Data Delete Sucessfully');
             //$this->showNavigation($id);
-            redirect('bnw/navigation');
+            redirect('bnw/showNavigation/4');
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
@@ -1395,6 +1428,7 @@ class bnw extends CI_Controller {
     //======================================================================================================
 
     public function category() {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
 
             $config = array();
@@ -1414,13 +1448,14 @@ class bnw extends CI_Controller {
             $this->load->view('bnw/category/addCategory', $data);
             
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
 //========================================to add category===================================================
 
     public function addcategory() {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
 
             $config['upload_path'] = './content/uploads/images/';
@@ -1474,12 +1509,13 @@ class bnw extends CI_Controller {
 
            
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
     //==================================To edit category=======================================================
     public function editcategory($id=0) {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $data['query'] = $this->dbmodel->findcategory($id);
             $data['meta'] = $this->dbmodel->get_meta_data();
@@ -1492,11 +1528,12 @@ class bnw extends CI_Controller {
 
           
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
     public function updatecategory() {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
 
             $config['upload_path'] = './content/uploads/images/';
@@ -1549,7 +1586,7 @@ class bnw extends CI_Controller {
 
            
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
@@ -1557,6 +1594,7 @@ class bnw extends CI_Controller {
 
 
     public function deletecategory($id=0) {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
           $this->dbmodel->delete_category($id);
               $this->session->set_flashdata('message', 'Data Delete Sucessfully');
@@ -1568,11 +1606,12 @@ class bnw extends CI_Controller {
            // $this->session->set_flashdata('message', 'Data Delete Sucessfully');
            // redirect('bnw/category');
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
     function change_category()
     {
+        $url = current_url();
          if ($this->session->userdata('admin_logged_in')) {
              $id = $_POST['id'];
              $cat_id = $_POST['categoryProduct'];
@@ -1582,11 +1621,12 @@ class bnw extends CI_Controller {
             
          }
          else{
-             redirect('login', 'refresh');
+             redirect('login/index/?url='.$url, 'refresh');
          }
     }
     function delete_category($id=0)
     {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
              $data['meta'] = $this->dbmodel->get_meta_data();
              $data['category'] = $this->dbmodel->get_category_id($id);
@@ -1598,12 +1638,13 @@ class bnw extends CI_Controller {
         }
         else
         {
-             redirect('login', 'refresh');
+             redirect('login/index/?url='.$url, 'refresh');
         }
         
     }
     function delete_Product_cat()
     {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
         $id = $_POST['id'];
         $this->dbmodel->delRelPro($id);
@@ -1613,7 +1654,7 @@ class bnw extends CI_Controller {
         }
         else
         {
-             redirect('login', 'refresh'); 
+             redirect('login/index/?url='.$url, 'refresh');
         }
     }
     //==========================================================================================================//
@@ -1621,6 +1662,7 @@ class bnw extends CI_Controller {
     //===========================================================================================================//
 
     public function posts() {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
 
             $config = array();
@@ -1639,13 +1681,14 @@ class bnw extends CI_Controller {
             $this->load->view('bnw/posts/postListing', $data);
             $this->load->view('bnw/templates/footer', $data);
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
     //============================To Add New Post=======================================//
 
     public function addpost() {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $username = $this->session->userdata('username');
             $data['username'] = ($this->session->userdata('admin_logged_in'));
@@ -1729,13 +1772,14 @@ class bnw extends CI_Controller {
 
             $this->load->view('bnw/templates/footer', $data);
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
     //======================================To Edit Post===========================================================//
 
     function editpost($id=0) {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $data['query'] = $this->dbmodel->findpost($id);
             $data['meta'] = $this->dbmodel->get_meta_data();
@@ -1747,23 +1791,25 @@ class bnw extends CI_Controller {
 
             $this->load->view('bnw/templates/footer', $data);
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
     //=========================================To Delete Post======================================================//
     public function deletepost($id=0) {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $this->dbmodel->deletepost($id);
             $this->session->set_flashdata('message', 'Data Deleted Sucessfully');
             redirect('bnw/posts');
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
     //===================================To Update Edited Post======================================================//
     public function updatepost() {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
 
             $config['upload_path'] = './content/uploads/images/';
@@ -1858,13 +1904,14 @@ class bnw extends CI_Controller {
 
             $this->load->view('bnw/templates/footer', $data);
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
     //==================================== Page ============================//
 
     public function pages() {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
 
             $config = array();
@@ -1884,12 +1931,13 @@ class bnw extends CI_Controller {
             $this->load->view('bnw/pages/pageListing', $pagedata);
           
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
     //============== ADD PAGE ==============//
     public function addpage() {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $username = $this->session->userdata('username');
             $data['username'] = ($this->session->userdata('admin_logged_in'));
@@ -1973,13 +2021,14 @@ class bnw extends CI_Controller {
 
            
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
     //======================EDIT PAGE===============================//
 
     function editpage($id=0) {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $data['query'] = $this->dbmodel->findpage($id);
 
@@ -1993,7 +2042,7 @@ class bnw extends CI_Controller {
 
            
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
@@ -2001,6 +2050,7 @@ class bnw extends CI_Controller {
 
 
     public function updatepage() {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
 
             $config['upload_path'] = './content/uploads/images/';
@@ -2094,18 +2144,19 @@ class bnw extends CI_Controller {
 
             
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
     public function deletepage($id) {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $this->dbmodel->delete_page($id);
             $this->dbmodel->delete_navigation_related_to_page($id);
             $this->session->set_flashdata('message', 'Data Delete Sucessfully');
             redirect('bnw/pages');
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
@@ -2113,6 +2164,7 @@ class bnw extends CI_Controller {
     //=============================USER===========================================//
     //============================================================================//
     public function users() {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
 
             $config = array();
@@ -2134,11 +2186,12 @@ class bnw extends CI_Controller {
             $this->load->view('bnw/users/userListing', $data);
             
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
     public function adduser() {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
 
             $data['meta'] = $this->dbmodel->get_meta_data();
@@ -2175,11 +2228,12 @@ class bnw extends CI_Controller {
            
         } else {
 
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
     public function edituser($id=0) {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
            // $this->load->helper('form');
            // $this->load->library(array('form_validation', 'session'));
@@ -2192,11 +2246,12 @@ class bnw extends CI_Controller {
             $this->load->view('bnw/users/editUser', $data);
            
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
     public function updateuser() {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
 
             $data['meta'] = $this->dbmodel->get_meta_data();
@@ -2235,13 +2290,14 @@ class bnw extends CI_Controller {
             }
             
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
     
 
     public function deleteuser($id=0) {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $uNAme = $this->session->userdata('username');
             //die($uNAme);
@@ -2267,11 +2323,12 @@ class bnw extends CI_Controller {
                 
             }
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
     public function profile() {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
 
             $config = array();
@@ -2294,7 +2351,7 @@ class bnw extends CI_Controller {
             $this->load->view('bnw/users/userProfiler', $data);
             
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
@@ -2303,6 +2360,7 @@ class bnw extends CI_Controller {
     //=========================================================================================================
 
     public function media() {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
 
             $config = array();
@@ -2320,12 +2378,13 @@ class bnw extends CI_Controller {
             $this->load->view('bnw/media/mediaListing', $data);
             $this->load->view('bnw/templates/footer', $data);
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
     //===============================to add media=================================================
     public function addmedia() {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
 
             $config['upload_path'] = './content/uploads/images/';
@@ -2372,13 +2431,14 @@ class bnw extends CI_Controller {
             $this->load->view('bnw/templates/footer', $data);
         } else {
 
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
     //==================================To edit media==================================================
 
     public function editmedia($id=0) {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $data['query'] = $this->dbmodel->findmedia($id);
             $data['meta'] = $this->dbmodel->get_meta_data();
@@ -2388,13 +2448,14 @@ class bnw extends CI_Controller {
             $this->load->view('bnw/media/editMedia', $data);
             $this->load->view('bnw/templates/footer', $data);
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
     //======================================To update edited media=========================================
 
     function updatemedia() {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
 
             $config['upload_path'] = './content/uploads/images/';
@@ -2444,11 +2505,12 @@ class bnw extends CI_Controller {
             }
             $this->load->view('bnw/templates/footer', $data);
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
     public function delmedia($id=0) {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $data['query'] = $this->dbmodel->findmedia($id);
             $data['meta'] = $this->dbmodel->get_meta_data();
@@ -2457,11 +2519,12 @@ class bnw extends CI_Controller {
             $this->load->view('bnw/media/deleteMedia', $data);
             $this->load->view('bnw/templates/footer', $data);
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
     public function deletemedia($id) {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $id = $_GET['image'];
             unlink('./content/uploads/images/' . $id);
@@ -2470,7 +2533,7 @@ class bnw extends CI_Controller {
             $this->session->set_flashdata('message', 'Data Delete Sucessfully');
             redirect('bnw/media');
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
@@ -2479,6 +2542,7 @@ class bnw extends CI_Controller {
     //==========================================================================================================//
 
     public function album() {
+        //$url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
 
             $config = array();
@@ -2500,6 +2564,7 @@ class bnw extends CI_Controller {
     }
 
     public function addalbum() {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
 
             $config['upload_path'] = './content/uploads/images/';
@@ -2536,12 +2601,13 @@ class bnw extends CI_Controller {
             $this->load->view('bnw/templates/footer', $data);
         } else {
 
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
     //===============================To Add Photo================================================================//
     public function addphoto() {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $data['meta'] = $this->dbmodel->get_meta_data();
             $config['upload_path'] = './content/uploads/images/';
@@ -2581,11 +2647,12 @@ class bnw extends CI_Controller {
             $this->load->view('bnw/templates/footer', $data);
         } else {
 
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
     public function delphoto($photoid=0) {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $data['query'] = $this->dbmodel->get_photo_media_id($photoid);
 
@@ -2595,11 +2662,12 @@ class bnw extends CI_Controller {
             $this->load->view('bnw/album/deletePhoto', $data);
             $this->load->view('bnw/templates/footer', $data);
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
     public function deletephoto($a=0) {
+        $url = current_url();
 
         if ($this->session->userdata('admin_logged_in')) {
             $a = $_GET['image'];
@@ -2609,7 +2677,7 @@ class bnw extends CI_Controller {
             $this->session->set_flashdata('message', 'Data Delete Sucessfully');
             redirect('bnw/addalbum');
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
@@ -2618,6 +2686,7 @@ class bnw extends CI_Controller {
     //============================================================================================================/
 
     public function slider() {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $config = array();
             $config["base_url"] = base_url() . "index.php/bnw/slider";
@@ -2636,11 +2705,12 @@ class bnw extends CI_Controller {
             $this->load->view('bnw/slider/slideListing', $data);
             $this->load->view('bnw/templates/footer', $data);
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
     public function addslider() {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
 
             $config['upload_path'] = './content/uploads/images/';
@@ -2712,11 +2782,12 @@ class bnw extends CI_Controller {
             $this->load->view('bnw/templates/footer', $data);
         } else {
 
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
     public function editslider($id=0) {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $data['query'] = $this->dbmodel->findslider($id);
             $data['meta'] = $this->dbmodel->get_meta_data();
@@ -2725,11 +2796,12 @@ class bnw extends CI_Controller {
             $this->load->view('bnw/slider/edit', $data);
             $this->load->view('bnw/templates/footer', $data);
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
     public function delslider($id=0) {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $data['query'] = $this->dbmodel->findslider($id);
             $data['meta'] = $this->dbmodel->get_meta_data();
@@ -2738,11 +2810,12 @@ class bnw extends CI_Controller {
             $this->load->view('bnw/slider/delete', $data);
             $this->load->view('bnw/templates/footer', $data);
         } else {
-            redirect('login', 'refresh');
+           redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
     public function updateslider() {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
 
             $config['upload_path'] = './content/uploads/images/';
@@ -2783,11 +2856,12 @@ class bnw extends CI_Controller {
             $this->load->view('bnw/templates/footer', $data);
         } else {
 
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
     public function deleteslider($a=0) {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $a = $_GET['image'];
 
@@ -2798,7 +2872,7 @@ class bnw extends CI_Controller {
             $this->session->set_flashdata('message', 'Data Delete Sucessfully');
             redirect('bnw/slider');
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
@@ -2807,6 +2881,7 @@ class bnw extends CI_Controller {
     //============================================================================================================//
 
     public function setup() {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $data['meta'] = $this->dbmodel->get_meta_data();
             $header = "bnw/templates/";
@@ -2815,23 +2890,24 @@ class bnw extends CI_Controller {
             $this->load->view('bnw/setup/index', $data);
             
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
     public function deletefavicone($id=0) {
-
+$url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
 
             $this->dbmodel->delete_favicone($id);
             $this->session->set_flashdata('message', 'Data Delete Sucessfully');
             redirect('bnw/setup');
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
     public function setupupdate() {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
 
             $config['upload_path'] = './content/uploads/images/';
@@ -2879,11 +2955,12 @@ class bnw extends CI_Controller {
                 redirect('bnw/setup');
             }
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
     public function header() {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $data['meta'] = $this->dbmodel->get_meta_data();
             $set['query'] = $this->dbmodel->get_design_setup();
@@ -2893,11 +2970,12 @@ class bnw extends CI_Controller {
             $this->load->view('bnw/setup/addHeader', $set);
             
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
     public function headerupdate() {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
 
             $config['upload_path'] = './content/uploads/images/';
@@ -2938,11 +3016,12 @@ class bnw extends CI_Controller {
             
         } else {
 
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
     public function sidebar() {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $data['meta'] = $this->dbmodel->get_meta_data();
             $set['query'] = $this->dbmodel->get_design_setup();
@@ -2951,11 +3030,12 @@ class bnw extends CI_Controller {
             $this->load->view('bnw/setup/addSidebar', $set);
            
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
     public function sidebarupdate() {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
 
             $this->load->library(array('form_validation', 'session'));
@@ -2979,12 +3059,13 @@ class bnw extends CI_Controller {
                 redirect('bnw');
             }
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
     //=====================================Miscellaneous Setting===============================================/
     public function miscsetting() {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $data['meta'] = $this->dbmodel->get_meta_data();
             $data['query'] = $this->dbmodel->get_misc_setting();
@@ -2993,11 +3074,12 @@ class bnw extends CI_Controller {
             $this->load->view('bnw/setup/miscSetting');
            
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
     public function miscsettingupdate() {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
 
             $this->load->library('session');
@@ -3015,7 +3097,7 @@ class bnw extends CI_Controller {
             $this->dbmodel->update_misc_setting($allowComment, $allowLike, $allowShare, $maximunPost, $maximumPage, $slideHeight, $slideWidth);
             redirect('bnw');
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
@@ -3024,6 +3106,7 @@ class bnw extends CI_Controller {
 
 
     public function add_new_album() {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
 
             $config['upload_path'] = './content/uploads/images/';
@@ -3059,11 +3142,12 @@ class bnw extends CI_Controller {
            
         } else {
 
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
     public function delalbum($id=0) {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $data['photoquery'] = $this->dbmodel->get_all_photos($id);
             $data['albumquery'] = $this->dbmodel->get_selected_album($id);
@@ -3073,11 +3157,12 @@ class bnw extends CI_Controller {
             $this->load->view('bnw/album/deleteAlbum', $data);
             $this->load->view('bnw/templates/footer', $data);
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
     function delete_album($id) {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
 
             $data['photoquery'] = $this->dbmodel->get_all_photos($id);
@@ -3091,21 +3176,22 @@ class bnw extends CI_Controller {
             $this->session->set_flashdata('message', 'One album Deleted Sucessfully');
             redirect('bnw/album');
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
     function editalbum($aid=0) {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $this->dbmodel->edit_album($aid);
             redirect('bnw/album');
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
     public function photos($id=0) {
-
+       
         $data['query'] = $this->dbmodel->get_media($id);
         $data['meta'] = $this->dbmodel->get_meta_data();
         $data['id'] = $id;
@@ -3118,6 +3204,7 @@ class bnw extends CI_Controller {
     //--------------------------------gallery---------------
 
     public function gallery() {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $data['query'] = $this->dbmodel->get_all_photos();
             $data['meta'] = $this->dbmodel->get_meta_data();
@@ -3126,14 +3213,14 @@ class bnw extends CI_Controller {
             $this->load->view('bnw/gallery/index', $data);
             $this->load->view('bnw/templates/footer', $data);
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
     // ==================  MENU  ============================ //
 
     public function menu() {
-
+$url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $config = array();
             $config["base_url"] = base_url() . "index.php/bnw/menu";
@@ -3153,11 +3240,12 @@ class bnw extends CI_Controller {
             $this->load->view('bnw/menu/addnew', $data);
             $this->load->view('bnw/templates/footer', $data);
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
     public function addmenu() {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $data['meta'] = $this->dbmodel->get_meta_data();
             $data["links"] = $this->pagination->create_links();
@@ -3183,11 +3271,12 @@ class bnw extends CI_Controller {
             
         } else {
 
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
     public function editmenu($mid=0) {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $data['query'] = $this->dbmodel->findmenu($mid);
             $data['meta'] = $this->dbmodel->get_meta_data();
@@ -3196,11 +3285,12 @@ class bnw extends CI_Controller {
             $this->load->view('bnw/menu/edit', $data);
             $this->load->view('bnw/templates/footer', $data);
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
     public function updatemenu() {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $data['meta'] = $this->dbmodel->get_meta_data();
 
@@ -3231,17 +3321,18 @@ class bnw extends CI_Controller {
             }
             $this->load->view('bnw/templates/footer', $data);
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
     public function deletemenu($id=0) {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $this->dbmodel->delete_menu($id);
             $this->session->set_flashdata('message', 'Data Delete Sucessfully');
             redirect('bnw/menu/addnew');
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
 
@@ -3695,6 +3786,7 @@ class bnw extends CI_Controller {
     
     function event()
     {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $data['meta'] = $this->dbmodel->get_meta_data();
             $config = array();
@@ -3714,12 +3806,13 @@ class bnw extends CI_Controller {
             $this->load->view('bnw/event/eventList',$data);
         }else
         {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
         
     }
     function addevent()
     {
+        $url = current_url();
        if ($this->session->userdata('admin_logged_in')) {
             $config['upload_path'] = './content/uploads/images/';
             $config['allowed_types'] = 'gif|jpg|png';
@@ -3807,12 +3900,13 @@ class bnw extends CI_Controller {
             }
        }else
         {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }  
     }
     
     function editevent($id=0)
     {
+        $url = current_url();
        if ($this->session->userdata('admin_logged_in')) {
             ;
             $data['meta'] = $this->dbmodel->get_meta_data();
@@ -3825,12 +3919,13 @@ class bnw extends CI_Controller {
 
            
         } else {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
     }
     
     function update_event()
     {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
              $config['upload_path'] = './content/uploads/images/';
             $config['allowed_types'] = 'gif|jpg|png';
@@ -3918,7 +4013,7 @@ class bnw extends CI_Controller {
         }
         else
         {
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
         
         
@@ -3926,6 +4021,7 @@ class bnw extends CI_Controller {
     
     function offerImgdelete($id=0)
     {
+        $url = current_url();
          if ($this->session->userdata('admin_logged_in')) {
              
              $id = $_GET['id'];
@@ -3946,12 +4042,13 @@ class bnw extends CI_Controller {
          }
          else
          {
-             redirect('login', 'refresh');
+             redirect('login/index/?url='.$url, 'refresh');
          }
         
     }
     function Imgdelete($id=0)
     {
+        $url = current_url();
        if ($this->session->userdata('admin_logged_in')) {
              
              $id = $_GET['id'];
@@ -3972,12 +4069,13 @@ class bnw extends CI_Controller {
          }
          else
          {
-             redirect('login', 'refresh');
+             redirect('login/index/?url='.$url, 'refresh');
          }
     }
     
     function delevent($id=0)
     {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $data['event'] = $this->dbmodel->get_event_id($id);
              foreach ($data['event'] as $a)
@@ -3997,7 +4095,7 @@ class bnw extends CI_Controller {
         }  else {
             
         
-            redirect('login', 'refresh');
+            redirect('login/index/?url='.$url, 'refresh');
         }
         
     }

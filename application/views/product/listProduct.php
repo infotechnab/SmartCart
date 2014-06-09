@@ -13,6 +13,7 @@
      $category = $this->dbmodel->get_category();
     echo form_open('bnw/catproduct'); ?>
      <select name="categoryProduct" id="categoryList">
+         <option value="0">All Product</option>
      <?php          foreach ($category as $cName)
               { ?>
          <option value="<?php echo $cName->id; ?>">

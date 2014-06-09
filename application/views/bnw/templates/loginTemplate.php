@@ -31,6 +31,7 @@
                
                 <table>
                     <?php echo form_open('login/validate_credentials'); ?>
+                    <input type="hidden" name="requersUrl" value="<?php echo $link; ?>"/>
                     <tbody>
                         <tr>
                         <td colspan="2">
