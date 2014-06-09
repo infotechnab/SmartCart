@@ -387,10 +387,14 @@ $data['event']= $this->productmodel->get_max_events();
         $data['headerdescription'] = $this->viewmodel->get_header_description();
 
         $data['product_info'] = $this->productmodel->product_info();
-$data['event']= $this->productmodel->get_max_events();
+        $data['event']= $this->productmodel->get_max_events();
         $data['offer']= $this->productmodel->get_max_offers();
         $data['featureItem'] = $this->productmodel->featured_item();
         $data['category'] = $this->productmodel->category_list();
+        
+        //Get all the category of this passed category
+        
+        
         $data['categoryId'] = $this->productmodel->category_list_id($id);
         foreach ($data['categoryId'] as $page) {
             $data['pageTitle'] = $page->category_name;

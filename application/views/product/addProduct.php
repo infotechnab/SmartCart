@@ -30,6 +30,8 @@
          <option value="<?php echo $catName->id; ?>"><?php echo $catName->category_name; ?></option>
          <?php } ?>
      </select>
+        
+     <p>   <input type="checkbox" name="featured" value="1" > Featured Item </p>
      
  </p></div>
  <div class="clear"></div>
