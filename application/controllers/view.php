@@ -27,6 +27,8 @@ class View extends CI_Controller {
         $data['headerdescription'] = $this->viewmodel->get_header_description();
         $data['featureItem'] = $this->productmodel->featured_item();
         $data['event']= $this->productmodel->get_max_events();
+        $data['offer']= $this->productmodel->get_max_offers();
+       
         $config = array();
         $config["base_url"] = base_url() . "index.php/view/index";
         $config["total_rows"] = $this->dbmodel->record_count_product();

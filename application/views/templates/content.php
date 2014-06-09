@@ -355,33 +355,69 @@ $(document).ready(function() {
 <!-- left side content closed here -->
 
        <div id='sidebar'>
-           <?php if(!empty($event)){ ?>
-            <div class="redColouredDiv" id='sidebarContent'><h3>Events</h3></div>
+           
+           <!-- for offer -->
+            <?php if(!empty($offer)){ ?>
+            <div class="redColouredDiv" id='sidebarContent'><h3>Offers</h3></div>
 		            
                                 
-    <?php foreach ($event as $sideEvent){
-		                ?>
+    <?php foreach ($offer as $sideOffer){
+        		                ?>
+            <div id="shopping_cart" class="cartItems">
             <div class='sidebarContentNext' style="z-index: 1;">
-                <?php if (strlen($sideEvent->image)>2){ ?>
-		                    <div class="cartImage" style="float: left; width: 14%; min-height: 40px; margin: 0px; padding: 0px;">
+                <?php if (strlen($sideOffer->image)>2){ ?>
+		                    <div style="float: left; width: 100%; min-height: 40px; margin: 0px; padding: 0px;">
 		                       <img src="<?php echo base_url().'content/uploads/images/'.$sideEvent->image; ?>" width="50" height="50"  /> 
 		                    </div>
                 <?php } ?>
-		                    <div class="cartImage" style="float: left; width: 40%; min-height: 40px; margin: 0px; padding: 0px;">
-		                       <?php                                   
-                                       if(strlen($sideEvent->title)<=15){
-                                       ?>
-                                        <p><b><?php echo $sideEvent->title;  ?></b></p>
-                                       <?php } else { ?>
-                                           <p><b><?php echo mb_strimwidth($sideEvent->title, 0, 15, "..."); ?></b></p>
-                                     <?php  } ?>
-                                        
+		                    <div  style="float: left; width: auto; min-height: 40px; margin: 0px; padding: 0px 0px 0px 5px;">
+		                       
+                                       
                                         
 		                    </div> 
                                     
 		                     
 		                                           
 		                </div>
+       </div>
+                            <?php } }?>
+           
+           
+           
+           
+           
+           <!--offer ends here-->
+           <?php if(!empty($event)){ ?>
+            <div class="redColouredDiv" id='sidebarContent'><h3>Events</h3></div>
+		            
+                                
+    <?php foreach ($event as $sideEvent){
+        $date=date("Y-m-d", strtotime($sideEvent->date));
+        $time=date("h:i A", strtotime($sideEvent->date));
+        		                ?>
+            <div id="shopping_cart" class="cartItems">
+            <div class='sidebarContentNext' style="z-index: 1;">
+                <?php if (strlen($sideEvent->image)>2){ ?>
+		                    <div class="cartImage" style="float: left; width: 14%; min-height: 40px; margin: 0px; padding: 0px;">
+		                       <img src="<?php echo base_url().'content/uploads/images/'.$sideEvent->image; ?>" width="50" height="50"  /> 
+		                    </div>
+                <?php } ?>
+		                    <div  style="float: left; width: auto; min-height: 40px; margin: 0px; padding: 0px 0px 0px 5px;">
+		                       <?php                                   
+                                       if(strlen($sideEvent->title)<=15){
+                                       ?>
+                                        <p><b><?php echo $sideEvent->title;  ?></b> On <?php echo $date;  ?> at <?php echo $time;  ?></p>
+                                       <?php } else { ?>
+                                           <p><b><?php echo mb_strimwidth($sideEvent->title, 0, 15, "..."); ?></b> On <?php echo $date;  ?> at <?php echo $time;  ?></p>
+                                     <?php  } ?>
+                                       
+                                        
+		                    </div> 
+                                    
+		                     
+		                                           
+		                </div>
+       </div>
                             <?php } }?>
            
            

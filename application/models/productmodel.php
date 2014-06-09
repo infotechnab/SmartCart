@@ -80,6 +80,13 @@ public function product_info(){
          $query = $this->db->get('events');
         return $query->result();
     }
+     public function get_max_offers(){
+        $this->db->limit(1);
+        $this->db->order_by('id','DESC');
+         $query = $this->db->get('post');
+        return $query->result();
+    }
+    
             function record_count_events()
     {  
         return $this->db->count_all("events");
