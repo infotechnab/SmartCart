@@ -364,7 +364,7 @@ public function check_user_email($email){
     {
         
         $this->db->limit($limit, $start);
-       // $this->db->where('status = 0');
+        $this->db->where('status = 0');
         $this->db->order_by('id','DESC');
         
         $query = $this->db->get('product');
