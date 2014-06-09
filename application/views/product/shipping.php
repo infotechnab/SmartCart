@@ -22,7 +22,7 @@
     
 
 
-<h2> Shipping Setting</h2>
+<h2>Product >> Shipping </h2>
 <hr class="hr-gradient"/>
 
 <?php echo form_open_multipart('bnw/shippingupdate');?>

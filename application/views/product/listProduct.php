@@ -3,7 +3,11 @@
     <p id="sucessmsg">
   <?php echo $this->session->flashdata('message'); ?>
     </p>
-    <h2>All Product</h2>
+    <h2 style="float: left;">Product >> All Products</h2>
+    <p style="float: left; margin: 25px 0px 5px 30px;">
+    <?php echo anchor('bnw/product','Add New Product'); ?>
+    </p>
+    <div class="clear"></div>
      <hr class="hr-gradient"/>
         <?php 
      $category = $this->dbmodel->get_category();

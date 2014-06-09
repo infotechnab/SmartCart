@@ -1,5 +1,5 @@
 <div class="rightSide">
- <h2>Add new Menu</h2>
+ <h2>Dashboard >> Add New Menu</h2>
  <hr class="hr-gradient"/>
   <?php echo validation_errors(); ?>
  
@@ -20,7 +20,9 @@
     <p id="sucessmsg">
   <?php if($this->session->flashdata('message')){echo $this->session->flashdata('message');}?>
     </p>
-    <p>List of all menu</p>
+    <h4 style="margin: 15px 0px 5px 5px;">All Menu</h4>
+   <hr style="width: 30%; float: left;" />
+   <div class="clear"></div>
      <?php    
         if(!empty($query)){
             ?>

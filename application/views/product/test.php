@@ -3,7 +3,7 @@
     <p id="sucessmsg">
   <?php echo $this->session->flashdata('message'); ?>
     </p>
-    <h2>All Product Order </h2>
+    <h2>Product >> Sales</h2>
      <hr class="hr-gradient"/>
     
     

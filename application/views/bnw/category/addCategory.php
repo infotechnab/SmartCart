@@ -1,6 +1,6 @@
 
 <div class="rightSide">
-    <h2>Add New Category</a></h2>
+    <h2>Dashboard >> Add New Category</a></h2>
 <hr class="hr-gradient"/>
      <?php echo validation_errors();
   if(isset($error))
@@ -21,7 +21,9 @@
   <?php echo form_close();?>
 
 <div id="body">
-    <p>List of all Categories</p>
+    <h4 style="margin: 15px 0px 5px 5px;">All Categories</h4>
+   <hr style="width: 30%; float: left;" />
+   <div class="clear"></div>
     <?php    
         if(!empty($query)){
             ?>

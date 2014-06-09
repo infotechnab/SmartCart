@@ -1,6 +1,6 @@
         
         <div class="rightSide">
-            <h2>Dashboard</h2> 
+            <h2>Dashboard >> Home</h2> 
             <hr class="hr-gradient"/>
             <style>
                

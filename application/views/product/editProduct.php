@@ -37,18 +37,18 @@
   <?php echo form_open_multipart('bnw/updateproduct');?>
   <p>Name:<br />
       <input type="hidden" name="id" value="<?php echo $id; ?>" >
-      <input type="text" name="pName" value="<?php echo $name; ?>" />
+      <input type="text" name="pName" size="66" value="<?php echo $name; ?>" />
   </p>
   <p>Description:<br />
   <textarea name="pdescription" id="area1" rows="5" cols="50" style="resize:none;">
       <?php echo $description; ?></textarea>
   </p>
-  <p> Price : <br/>
+  <div class="imageUpload"><p> Price : <br/>
             <input type="text" name="price" value="<?php echo $price; ?>" />
 
-  </p>
+      </p></div>
   
-  <p> Select Category : <br/>
+  <div class="imageUpload"><p> Select Category : <br/>
      
      <select name="pCategory">
          <?php foreach ($category as $catName)
@@ -57,7 +57,8 @@
          <?php } ?>
      </select>
      
- </p>
+      </p></div>
+  <div class="clear"></div>
  
        <div style="height: 180px;"> 
   <div class="product_image_div">

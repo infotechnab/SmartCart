@@ -525,6 +525,12 @@ selectMenu
 {
     width: 50px;
 }
-
-
+.imageUpload
+{
+   width: 25%; float: left; 
+}
+.imageUploadside
+{
+   width: 35%; float: left; 
+}
 

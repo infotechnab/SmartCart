@@ -82,7 +82,7 @@ $(document).ready(function() {
 <!-- NAvigation items list shown here  -->
  <div class="rightSide">
      <div class="titleArea">
-     <h2>Navigation</h2>
+     <h2>Dashboard >> Navigation</h2>
 <hr class="hr-gradient"/>   
     </div>
       <p style="color: red;">

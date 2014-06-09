@@ -27,7 +27,7 @@ $( "#datepicker" ).datepicker();
 </script>
 
 <div class="rightSide">
- <h2>Coupon</h2>
+ <h2>Product >> New Coupon</h2>
  <hr class="hr-gradient"/>
 
   <?php echo validation_errors(); ?>
@@ -39,7 +39,7 @@ $( "#datepicker" ).datepicker();
        
              <p>Coupon Key : <br/> </p>
              <div id="key"></div>
-        <input type="button" value="Generate Coupon" id="createCopon" /> <br/>
+             <input type="button" style="width: 143px;" value="Generate Coupon" id="createCopon" /> <br/>
              
        
         <p>Rate : <br/>
