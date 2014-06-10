@@ -697,7 +697,7 @@ div.vertical-line{
     }
     #navigationLeft
     {
-        width: 80%; float: left;
+        width: 86.5%; float: left;
     }
     #headerLogo
     {
@@ -1936,5 +1936,9 @@ input:-moz-placeholder { color:#999; }
 }
 .eventTitle p
 {
-    font-size:12px; margin: 10px 0px 5px 0px; padding: 0px;
+    font-size:12px; margin: 5px 0px 5px 0px; padding: 0px;
+}
+.eventTitle h4
+{
+   margin: 5px 0px 5px 0px; padding: 0px;  
 }

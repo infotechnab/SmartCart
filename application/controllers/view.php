@@ -26,9 +26,9 @@ class View extends CI_Controller {
         $data['meta'] = $this->dbmodel->get_meta_data();
         $data['headerdescription'] = $this->viewmodel->get_header_description();
         $data['featureItem'] = $this->productmodel->featured_item();
-        $data['event']= $this->productmodel->get_max_events();
-        $data['offer']= $this->productmodel->get_max_offers();
-       
+        $data['event'] = $this->productmodel->get_max_events();
+        $data['offer'] = $this->productmodel->get_max_offers();
+
         $config = array();
         $config["base_url"] = base_url() . "index.php/view/index";
         $config["total_rows"] = $this->dbmodel->record_count_product();
@@ -71,6 +71,7 @@ class View extends CI_Controller {
         $this->load->view('templates/navigation');
 
         $this->load->view('templates/content', $data);
+        $this->load->view('templates/sidebarOffer', $data);
 
         $this->load->view('templates/cart');
         $this->load->view('templates/sidebarview', $data);
@@ -117,7 +118,8 @@ class View extends CI_Controller {
     public function authenticate_user() {
         if (isset($_POST['email'])) {
             if (preg_match("/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/", $_POST['email']))
-                ; {
+                ;
+            {
                 $email = trim($_POST['email']);
                 $username = $this->dbmodel->get_selected_user($email);
                 if (!empty($username)) {
@@ -252,8 +254,8 @@ class View extends CI_Controller {
         $data['headerlogo'] = $this->viewmodel->get_header_logo();
         $data['meta'] = $this->dbmodel->get_meta_data();
         $data['headerdescription'] = $this->viewmodel->get_header_description();
-$data['event']= $this->productmodel->get_max_events();
-        $data['offer']= $this->productmodel->get_max_offers();
+        $data['event'] = $this->productmodel->get_max_events();
+        $data['offer'] = $this->productmodel->get_max_offers();
         $data['product_info'] = $this->productmodel->product_info();
 
         $data['featureItem'] = $this->productmodel->featured_item();
@@ -267,6 +269,7 @@ $data['event']= $this->productmodel->get_max_events();
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navigation');
             $this->load->view('templates/details', $data);
+            $this->load->view('templates/sidebarOffer', $data);
             $this->load->view('templates/cart');
             $this->load->view('templates/sidebarview', $data);
             $this->load->view('templates/footer');
@@ -387,32 +390,31 @@ $data['event']= $this->productmodel->get_max_events();
         $data['headerdescription'] = $this->viewmodel->get_header_description();
 
         $data['product_info'] = $this->productmodel->product_info();
-        $data['event']= $this->productmodel->get_max_events();
-        $data['offer']= $this->productmodel->get_max_offers();
+        $data['event'] = $this->productmodel->get_max_events();
+        $data['offer'] = $this->productmodel->get_max_offers();
         $data['featureItem'] = $this->productmodel->featured_item();
         $data['category'] = $this->productmodel->category_list();
-        
+
         //Get all the category of this passed category
         $selectedId = 0;
-        $navigation_link = base_url().'index.php/view/category/'.$id;
+        $navigation_link = base_url() . 'index.php/view/category/' . $id;
         var_dump($navigation_link);
         $selected_category = $this->dbmodel->get_id_of_selected_category($navigation_link);
-        if(!empty($selected_category))
-        {
-        foreach ($selected_category as $selected)
-        {
-            $selectedId = $selected->id;               
+        if (!empty($selected_category)) {
+            foreach ($selected_category as $selected) {
+                $selectedId = $selected->id;
+            }
         }
-        }
-        
+
         $this->load->helper('get_subcategory_helper');
-        $list = Array( );
-        $categorylist = fetch_menun(queryn($selectedId),$list);  
-        
+        $list = Array();
+        $categorylist = fetch_menun(queryn($selectedId), $list);
+
         //var_dump($categorylist);
         $data['categoryId'] = $this->productmodel->category_list_id($id);
         foreach ($data['categoryId'] as $page) {
-            $data['pageTitle'] = $page->category_name;        }
+            $data['pageTitle'] = $page->category_name;
+        }
         $data['product'] = $this->productmodel->get_productList($id);
         foreach ($data['product'] as $page) {
             $data['pageDescription'] = $page->description;
@@ -423,7 +425,7 @@ $data['event']= $this->productmodel->get_max_events();
         $this->load->view('templates/navigation');
 
         $this->load->view('templates/category_page', $data);
-
+        $this->load->view('templates/sidebarOffer', $data);
         $this->load->view('templates/cart');
         $this->load->view('templates/sidebarview', $data);
         $this->load->view('templates/footer');
@@ -437,8 +439,8 @@ $data['event']= $this->productmodel->get_max_events();
 
 
         $data['product_info'] = $this->productmodel->product_info();
-        $data['event']= $this->productmodel->get_max_events();
-        $data['offer']= $this->productmodel->get_max_offers();
+        $data['event'] = $this->productmodel->get_max_events();
+        $data['offer'] = $this->productmodel->get_max_offers();
         $data['featureItem'] = $this->productmodel->featured_item();
         $data['category'] = $this->productmodel->category_list();
 
@@ -451,7 +453,7 @@ $data['event']= $this->productmodel->get_max_events();
         $this->load->view('templates/navigation');
 
         $this->load->view('templates/single_page', $data);
-
+        $this->load->view('templates/sidebarOffer', $data);
         $this->load->view('templates/cart');
         $this->load->view('templates/sidebarview', $data);
         $this->load->view('templates/footer');
@@ -655,6 +657,7 @@ $data['event']= $this->productmodel->get_max_events();
         $this->load->view('templates/header', $data);
         $this->load->view('templates/navigation');
         $this->load->view('templates/user_details');
+        $this->load->view('templates/sidebarOffer', $data);
         $this->load->view('templates/cart');
         $this->load->view('templates/sidebarview', $data);
         $this->load->view('templates/footer');
@@ -668,7 +671,7 @@ $data['event']= $this->productmodel->get_max_events();
         $data['featureItem'] = $this->productmodel->featured_item();
         $data['product_info'] = $this->productmodel->product_info();
         $data['category'] = $this->productmodel->category_list();
-        
+
         $this->form_validation->set_rules('u_fname', 'First name', 'trim|regex_match[/^[a-z,0-9,A-Z]{2,15}$/]|xss_clean|max_length[15]');
         $this->form_validation->set_rules('u_lname', 'Last name', 'trim|regex_match[/^[a-z,0-9,A-Z]{2,15}$/]|xss_clean|max_length[15]');
         $this->form_validation->set_rules('street_address', 'Address', 'trim|regex_match[/^[A-Za-z0-9\-\\,.]{2,35}$/]|xss_clean|max_length[35]');
@@ -681,55 +684,43 @@ $data['event']= $this->productmodel->get_max_events();
         if ($this->form_validation->run() == FALSE) {
             $data['user_validation_message'] = validation_errors();
             $this->load->view('templates/header', $data);
-        $this->load->view('templates/navigation');
-        $this->load->view('templates/user_details');
-        $this->load->view('templates/cart');
-        $this->load->view('templates/sidebarview', $data);
-        $this->load->view('templates/footer');
+            $this->load->view('templates/navigation');
+            $this->load->view('templates/user_details');
+            $this->load->view('templates/cart');
+            $this->load->view('templates/sidebarview', $data);
+            $this->load->view('templates/footer');
         } else {
-            $fname=  trim($_POST['u_fname']);
-            $lname=  trim($_POST['u_lname']);
-            $street=  trim($_POST['street_address']);
-            $town=  trim($_POST['Town_address']);
-            $district=  trim($_POST['District_address']);
-            $zip=  trim($_POST['zip']);
-            $country=  trim($_POST['country']);
-            $contact=  trim($_POST['u_contact']);
-            $email=  trim($_POST['user_email']);
-            $userEmail= $this->session->userdata('useremail');
-                        if($userEmail===$email)
-            {
-            $this->dbmodel->update_user_data($fname,$lname,$street,$town,$district,$zip,$country,$contact,$email); 
-            
-            
-            
-            
-            
-            }else{
-            $this->session->set_flashdata('message', 'Your email did not match');
+            $fname = trim($_POST['u_fname']);
+            $lname = trim($_POST['u_lname']);
+            $street = trim($_POST['street_address']);
+            $town = trim($_POST['Town_address']);
+            $district = trim($_POST['District_address']);
+            $zip = trim($_POST['zip']);
+            $country = trim($_POST['country']);
+            $contact = trim($_POST['u_contact']);
+            $email = trim($_POST['user_email']);
+            $userEmail = $this->session->userdata('useremail');
+            if ($userEmail === $email) {
+                $this->dbmodel->update_user_data($fname, $lname, $street, $town, $district, $zip, $country, $contact, $email);
+            } else {
+                $this->session->set_flashdata('message', 'Your email did not match');
                 redirect('view/userdetails');
-            }  
+            }
         }
         $this->session->set_flashdata('message', 'Your details has been updatedsuccessfully');
-                redirect('view/index');
+        redirect('view/index');
     }
 
-            
-            
-   //         $this->dbmodel->update_user_data($fname,$lname,$street,$town,$district,$zip,$country,$contact,$email); 
-   //          $this->session->set_flashdata('message', 'Your data has been successfully updated');
-   //          $this->load->view('templates/header', $data);
+    //         $this->dbmodel->update_user_data($fname,$lname,$street,$town,$district,$zip,$country,$contact,$email); 
+    //          $this->session->set_flashdata('message', 'Your data has been successfully updated');
+    //          $this->load->view('templates/header', $data);
 //	        $this->load->view('templates/navigation');
 //	        $this->load->view('templates/user_details');
 //	        $this->load->view('templates/cart');
 //	        $this->load->view('templates/sidebarview', $data);
 //	        $this->load->view('templates/footer');
-            
-            
-            
-            
-  //      }
- //   }
+    //      }
+    //   }
 
     public function shippingAddress() {
         $this->load->view('templates/header');
@@ -777,7 +768,7 @@ $data['event']= $this->productmodel->get_max_events();
                 } else {
                     $this->dbmodel->add_new_user($name, $fname, $lname, $email, $pass, $status, $user_type, $contact, $address);
 
-                    
+
 
 //$this->session->set_flashdata('message', 'User registerd <br/> You may contineu shopping');
 //  redirect('view/registeruser');               
@@ -819,48 +810,46 @@ $data['event']= $this->productmodel->get_max_events();
             echo " enter to the paypal";
         }
     }
-    
-    function contact()
-    {
-         $data['username'] = $this->session->userdata('username');
+
+    function contact() {
+        $data['username'] = $this->session->userdata('username');
         $data['headertitle'] = $this->viewmodel->get_header_title();
         $data['headerlogo'] = $this->viewmodel->get_header_logo();
         $data['meta'] = $this->dbmodel->get_meta_data();
         $data['headerdescription'] = $this->viewmodel->get_header_description();
         $data['featureItem'] = $this->productmodel->featured_item();
         $data['category'] = $this->productmodel->category_list();
-        $data['event']= $this->productmodel->get_max_events();
-        $data['offer']= $this->productmodel->get_max_offers();
+        $data['event'] = $this->productmodel->get_max_events();
+        $data['offer'] = $this->productmodel->get_max_offers();
         $data['slider_json'] = json_encode($data['featureItem']);
         $this->load->view('templates/header', $data);
         $this->load->view('templates/navigation');
 
         $this->load->view('templates/contact', $data);
-
+        $this->load->view('templates/sidebarOffer', $data);
         $this->load->view('templates/cart');
         $this->load->view('templates/sidebarview', $data);
         $this->load->view('templates/footer');
     }
-    
-    public function events()
-        {
-         $data['username'] = $this->session->userdata('username');
+
+    public function events() {
+        $data['username'] = $this->session->userdata('username');
         $data['headertitle'] = $this->viewmodel->get_header_title();
         $data['headerlogo'] = $this->viewmodel->get_header_logo();
         $data['meta'] = $this->dbmodel->get_meta_data();
         $data['headerdescription'] = $this->viewmodel->get_header_description();
         $data['featureItem'] = $this->productmodel->featured_item();
         $data['category'] = $this->productmodel->category_list();
-        $data['event']= $this->productmodel->get_max_events();
-        $data['offer']= $this->productmodel->get_max_offers();
+        $data['event'] = $this->productmodel->get_max_events();
+        $data['offer'] = $this->productmodel->get_max_offers();
         $data['slider_json'] = json_encode($data['featureItem']);
         $config = array();
         $config["base_url"] = base_url() . "index.php/view/events";
         $config["total_rows"] = $this->productmodel->record_count_events();
         $config["per_page"] = 10;
-        
-        $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;        
-        $data['events']= $this->productmodel->get_all_events($config["per_page"], $page);
+
+        $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+        $data['events'] = $this->productmodel->get_all_events($config["per_page"], $page);
         $choice = $config["total_rows"] / $config["per_page"];
         $config["num_links"] = round($choice);
         $config['full_tag_open'] = '<ul class="tsc_pagination tsc_paginationA tsc_paginationA01">';
@@ -890,14 +879,14 @@ $data['event']= $this->productmodel->get_max_events();
         $this->load->view('templates/navigation');
 
         $this->load->view('templates/all_events', $data);
-
+        $this->load->view('templates/sidebarOffer', $data);
         $this->load->view('templates/cart');
         $this->load->view('templates/sidebarview', $data);
         $this->load->view('templates/footer');
     }
-     public function eventDetails($id=0)
-        {
-         $data['username'] = $this->session->userdata('username');
+
+    public function eventDetails($id = 0) {
+        $data['username'] = $this->session->userdata('username');
         $data['headertitle'] = $this->viewmodel->get_header_title();
         $data['headerlogo'] = $this->viewmodel->get_header_logo();
         $data['meta'] = $this->dbmodel->get_meta_data();
@@ -905,33 +894,30 @@ $data['event']= $this->productmodel->get_max_events();
         $data['featureItem'] = $this->productmodel->featured_item();
         $data['category'] = $this->productmodel->category_list();
         $data['slider_json'] = json_encode($data['featureItem']);
-        $data['events']= $this->productmodel->get_events_by_id($id);
-        $data['sideBarevent']= $this->productmodel->get_max_events();
-        $data['offer']= $this->productmodel->get_max_offers();
+        $data['events'] = $this->productmodel->get_events_by_id($id);
+        $data['event'] = $this->productmodel->get_max_events();
+        $data['offer'] = $this->productmodel->get_max_offers();
         $this->load->view('templates/header', $data);
         $this->load->view('templates/navigation');
 
         $this->load->view('templates/single_event', $data);
-
+        $this->load->view('templates/sidebarOffer', $data);
         $this->load->view('templates/cart');
         $this->load->view('templates/sidebarview', $data);
         $this->load->view('templates/footer');
     }
-            
-    function comment()
-    {
-        if($_POST)
-        {
-            
+
+    function comment() {
+        if ($_POST) {
+
             $email = $_POST['email'];
             $message = $_POST['message'];
-            die($email.$message);
-            
-        }
-        else{
+            die($email . $message);
+        } else {
             $this->contact();
         }
     }
+
 }
 
 /* End of file welcome.php */
