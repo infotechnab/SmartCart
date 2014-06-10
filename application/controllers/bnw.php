@@ -342,7 +342,8 @@ class bnw extends CI_Controller {
                 $this->dbmodel->add_new_product($productCategory,$description, $summary, $qty, $productName, $productPrice, $productImg, $productImgTwo, $productImgThree, $shipping, $allowLike, $allowShare,$featured);
                 // $this->dbmodel->add_images($id,$productImg);
                 $this->session->set_flashdata('message', 'One Product added sucessfully');
-                redirect('bnw/product');
+               // $this->productList();
+                         redirect('bnw/productList');
             }
            
         } else {
@@ -767,25 +768,25 @@ $url = current_url();
         } 
     }
     
-    function viewdetail()
-    {
-        $url = current_url();
-        if ($this->session->userdata('admin_logged_in')) {
-            //$data['query'] = $this->dbmodel->findproduct($id);
-            $data['meta'] = $this->dbmodel->get_meta_data();
-           // $data['category'] = $this->dbmodel->get_category();
-            //$data['miscSetting'] = $this->dbmodel->get_misc_setting();
-          //  $data['id'] = $id;
-            $tid = $_GET['id'];
-            $this->load->view("bnw/templates/header", $data);
-            $this->load->view("bnw/templates/menu");
-            $this->load->view('product/detailview', $data);
-
-           
-        } else {
-            redirect('login/index/?url='.$url, 'refresh');
-        }
-    }
+//    function viewdetail()
+//    {
+//        $url = current_url();
+//        if ($this->session->userdata('admin_logged_in')) {
+//            //$data['query'] = $this->dbmodel->findproduct($id);
+//            $data['meta'] = $this->dbmodel->get_meta_data();
+//           // $data['category'] = $this->dbmodel->get_category();
+//            //$data['miscSetting'] = $this->dbmodel->get_misc_setting();
+//          //  $data['id'] = $id;
+//            $tid = $_GET['id'];
+//            $this->load->view("bnw/templates/header", $data);
+//            $this->load->view("bnw/templates/menu");
+//            $this->load->view('product/detailview', $data);
+//
+//           
+//        } else {
+//            redirect('login/index/?url='.$url, 'refresh');
+//        }
+//    }
 
     function updateTrn()
     {
@@ -1448,15 +1449,31 @@ $url = current_url();
         $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
 
+            
             $config = array();
             $config["base_url"] = base_url() . "index.php/bnw/category";
             $config["total_rows"] = $this->dbmodel->record_count_category();
-            $config["per_category"] = 6;
+           // var_dump($config["total_rows"]);
+            $config["per_page"] = 6;
             $this->pagination->initialize($config);
-            $category = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+            $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
 
-            $data["query"] = $this->dbmodel->get_all_category($config["per_category"], $category);
+            $data["query"] = $this->dbmodel->get_all_category($config["per_page"], $page);
             $data["links"] = $this->pagination->create_links();
+            
+            
+            
+//            $config = array();
+//            $config["base_url"] = base_url() . "index.php/bnw/category";
+//            $config["total_rows"] = $this->dbmodel->record_count_category();
+//            print_r($config["total_rows"]);
+//            $config["per_category"] = 6;
+//            $this->pagination->initialize($config);
+//            $category = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+//
+//            $data["query"] = $this->dbmodel->get_all_category($config["per_category"], $category);
+//            $data["links"] = $this->pagination->create_links();
+            
             $data['meta'] = $this->dbmodel->get_meta_data();
 
 
@@ -1780,7 +1797,7 @@ $url = current_url();
                     $this->dbmodel->add_new_post($post_title, $post_content, $post_summary, $post_status,$image);
                    // $this->dbmodel->add_new_post($post_title, $post_content, $post_author_id, $post_summary, $post_status, $post_comment_status, $post_tags, $post_category_id, $allowComment, $allowLike, $allowShare);
                     $this->session->set_flashdata('message', 'One Offer added sucessfully');
-                    redirect('bnw/posts/postListing');
+                    redirect('bnw/posts');
                 }
             } else {
 
@@ -3892,7 +3909,7 @@ $url = current_url();
                 $dateTime = $date.' '.$hour.':'.$min.':'.$sec;
                 $this->dbmodel->add_event($name,$detail,$location,$dateTime,$image);
                 $this->session->set_flashdata('message', 'One event added sucessfully');
-                redirect('bnw/addevent');
+                redirect('bnw/event');
                     }
                     }
                     else{

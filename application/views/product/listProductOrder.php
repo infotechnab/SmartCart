@@ -67,7 +67,7 @@
             }
              echo $deliver_address;
              ?></td>
-            <td><?php echo anchor('bnw/delProductOrder/'.$data->od_id,'Delete'); ?></td>
+            <td><?php // echo anchor('bnw/delProductOrder/'.$data->od_id,'Delete'); ?></td>
         </tr>
             <?php    
             }
