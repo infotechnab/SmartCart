@@ -2,7 +2,7 @@
            
            <!-- for offer -->
             <?php if(!empty($offer)){ ?>
-            <div class="redColouredDiv" id='sidebarContent'><h3>Offers</h3></div>
+           <div class="redColouredDiv" id='sidebarContent'><h3 style="float: left;">Offers</h3> </div>
 		            
                                 
     <?php foreach ($offer as $sideOffer){
@@ -36,8 +36,8 @@
            
            <!--offer ends here-->
            <?php if(!empty($event)){ ?>
-            <div class="redColouredDiv" id='sidebarContent'><h3>Events</h3></div>
-		            
+           <div class="redColouredDiv" id='sidebarContent'><h3 style="float: left;">Events</h3><div ><a style="float: right; padding: 10px; color: blue; text-decoration: underline;" href="<?php echo base_url()."index.php/view/events" ?>">View all</a></div></div>
+           <div class="clear"></div>	            
                                 
     <?php foreach ($event as $sideEvent){
         $date=date("Y-m-d", strtotime($sideEvent->date));

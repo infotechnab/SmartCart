@@ -43,7 +43,7 @@ var base_url = '<?php echo base_url(); ?>';
     
 		<?php foreach ($category as $catList) {
 		    $category_id = $catList->id; ?>
-		<div class="redColouredDiv" id='sidebarContent'><h3><?php echo $catList->category_name; ?></h3></div>
+		<div class="redColouredDiv" id='sidebarContent'><h3 style="float: left;"><?php echo $catList->category_name; ?></h3><div ><a style="float: right; padding: 10px; color: blue; text-decoration: underline;" href="<?php echo base_url()."index.php/view/category/".$category_id ?>">View all</a></div></div>
 		            <?php $catProduct = $this->productmodel->get_product($category_id);
 		 foreach ($catProduct as $product_list) {
 		                ?>

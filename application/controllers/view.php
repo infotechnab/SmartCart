@@ -654,6 +654,8 @@ class View extends CI_Controller {
         $data['featureItem'] = $this->productmodel->featured_item();
         $data['product_info'] = $this->productmodel->product_info();
         $data['category'] = $this->productmodel->category_list();
+        $data['event'] = $this->productmodel->get_max_events();
+        $data['offer'] = $this->productmodel->get_max_offers();
         $this->load->view('templates/header', $data);
         $this->load->view('templates/navigation');
         $this->load->view('templates/user_details');

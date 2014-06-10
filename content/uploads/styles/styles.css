@@ -388,7 +388,7 @@ body
     min-height: 30px;
     width: 70%;
 }
-.contentContainerHeader h3
+.contentContainerHeader h3, .contentContainerHeader h4
 {
     margin: 0px;
     padding: 5px 0px 5px 0px;
@@ -411,7 +411,7 @@ body
     margin: 0px;
     padding: 2.5%;
     float: left;
-    height: 34px;
+    height: 35px;
     border-radius: 0px 0px 0px 5px;
     border: 1px solid #ccc;
     width: 38%;
