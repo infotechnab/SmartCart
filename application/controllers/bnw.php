@@ -304,9 +304,18 @@ class bnw extends CI_Controller {
                 $productName = $this->input->post('pName');
                 $productPrice = $this->input->post('pPrice');
                 $productCategory = $this->input->post('pCategory');
+                
                 $description = quotes_to_entities($this->input->post('pDescription'));
                 $summary = substr("$description", 0, 100);
                 $shippingCost= $this->input->post('checkMe');
+                $featured = $this->input->post('featured');
+                if($featured==1){
+                    $featured="1";
+                }
+                else
+                {
+                    $featured="0";
+                }
                 if($shippingCost==1){
                     $shipping="enabled";
                 }
@@ -330,7 +339,7 @@ class bnw extends CI_Controller {
                 {
                     $allowShare="disabled";
                 }
-                $this->dbmodel->add_new_product($productCategory,$description, $summary, $qty, $productName, $productPrice, $productImg, $productImgTwo, $productImgThree, $shipping, $allowLike, $allowShare);
+                $this->dbmodel->add_new_product($productCategory,$description, $summary, $qty, $productName, $productPrice, $productImg, $productImgTwo, $productImgThree, $shipping, $allowLike, $allowShare,$featured);
                 // $this->dbmodel->add_images($id,$productImg);
                 $this->session->set_flashdata('message', 'One Product added sucessfully');
                 redirect('bnw/product');
@@ -516,6 +525,14 @@ $url = current_url();
                 $summary = substr("$description", 0, 100);
                 $price = $this->input->post('price');
                 $category = $this->input->post('pCategory');
+                $featured = $this->input->post('featured');
+                if($featured==1){
+                    $featured="1";
+                }
+                else
+                {
+                    $featured="0";
+                }
                 //if valid
                 if ($this->upload->do_upload('myfile')) {
                     $data = array('upload_data' => $this->upload->data('myfile'));
@@ -569,7 +586,7 @@ $url = current_url();
                 }
 
                
-                $this->dbmodel->update_product($id,$category, $name, $description, $summary, $price, $productImg, $productImgTwo, $productImgThree, $shipping, $allowLike, $allowShare);
+                $this->dbmodel->update_product($id,$category, $name, $description, $summary, $price, $productImg, $productImgTwo, $productImgThree, $shipping, $allowLike, $allowShare,$featured);
                 $this->session->set_flashdata('message', 'Data Modified Sucessfully');
                 redirect('bnw/productList');
             } else {

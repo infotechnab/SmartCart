@@ -13,7 +13,7 @@
             $description = $data->description;
             $price= $data->price;
             $cateID = $data->category;
-           
+           $featured = $data->featured;
             $first_image= $data->image1;
             $second_image = $data->image2;
             $third_image = $data->image3;
@@ -56,7 +56,7 @@
          <option value="<?php echo $catName->id; ?>" <?php if($catName->id == $cateID) echo"selected"; ?> ><?php echo $catName->category_name; ?></option>
          <?php } ?>
      </select>
-     
+      <p>   <input type="checkbox" name="featured" value="1" <?php if($featured=='1') echo 'checked' ;?> /> Featured Item </p>
       </p></div>
   <div class="clear"></div>
  

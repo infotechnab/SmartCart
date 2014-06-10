@@ -31,7 +31,7 @@ public function product_info(){
         $status = 0;
         $this->db->where('status',$status);
      $this->db->order_by('id','DESC');
-     $query = $this->db->get_where('product', array('category' => '13'));
+     $query = $this->db->get_where('product', array('featured' => '1'));
        return $query->result();
     }
     
