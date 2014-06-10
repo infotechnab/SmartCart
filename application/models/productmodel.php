@@ -102,6 +102,8 @@ public function product_info(){
     {
         //die($id);
         //$this->db->limit($a, $b);
+        $status = 0;
+        $this->db->where('status',$status);
          $this->db->where('category',$id);
          $query = $this->db->get('product');
         // var_dump($query);
