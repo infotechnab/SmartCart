@@ -38,7 +38,7 @@ $currentDate = date("Y-m-d");
 <?php } ?>
                 <div class='eventDetails'>
                     <h4><?php echo $allEvents->title; ?></h4>
-                    <h5 style="color: #5D5D5D;">Date:<?php echo $date ?> <?php if($setTime!==$noTime){ echo "Time:".$time; } else{} ;?></h5>
+                    <h5 style="color: #5D5D5D;">Date:<?php echo $date ?> <?php if($setTime!==$noTime){ echo "Time:".$time; } else{}?></h5>
                     <h5>Location: <?php echo $allEvents->location; ?></h5>
                     <?php if(strlen($allEvents->details)<=100)                                       
                                        {
@@ -48,7 +48,7 @@ $currentDate = date("Y-m-d");
                                            <p><?php echo mb_strimwidth($allEvents->details, 0, 100, "..."); ?></b></p>
                                      <?php  } ?>
                    
-                    <a style="color: blue;" href='<?php echo base_url()."index.php/view/eventDetails/".$allEvents->id;?>'>see more</a>
+                    <a style="color: blue; text-decoration: underline;" href='<?php echo base_url()."index.php/view/eventDetails/".$allEvents->id;?>'>View more</a>
                 </div>
 
 
@@ -81,7 +81,7 @@ $currentDate = date("Y-m-d");
 <?php } ?>
                 <div class='eventDetails'>
                     <h4><?php echo $allEvents->title; ?></h4>
-                   <h5 style="color: #5D5D5D;">Date:<?php echo $date ?> Time:<?php echo $time; ?></h5>
+                   <h5 style="color: #5D5D5D;">Date:<?php echo $date ?> <?php if($setTime!==$noTime){ echo "Time:".$time; } else{}?></h5>
                    <h5>Location: <?php echo $allEvents->location; ?></h5>
                     <?php if(strlen($allEvents->details)<=100)                                       
                                        {
@@ -90,7 +90,7 @@ $currentDate = date("Y-m-d");
                                        <?php } else { ?>
                                            <p><?php echo mb_strimwidth($allEvents->details, 0, 100, "..."); ?></b></p>
                                      <?php  } ?>
-                    <a style="color: blue;" href='<?php echo base_url()."index.php/view/eventDetails/".$allEvents->id;?>'>see more</a>
+                    <a style="color: blue; text-decoration: underline;" href='<?php echo base_url()."index.php/view/eventDetails/".$allEvents->id;?>'>View more</a>
                 </div>
 
 
@@ -123,7 +123,7 @@ $currentDate = date("Y-m-d");
 <?php } ?>
                 <div class='eventDetails'>
                     <h4 ><?php echo $allEvents->title; ?></h4>
-                    <h5 style="color: #5D5D5D;">Date:<?php echo $date ?> Time:<?php echo $time; ?></h5>
+                    <h5 style="color: #5D5D5D;">Date:<?php echo $date ?> <?php if($setTime!==$noTime){ echo "Time:".$time; } else{}?></h5>
                     <h5>Location: <?php echo $allEvents->location; ?></h5>
                     <?php if(strlen($allEvents->details)<=100)                                       
                                        {
@@ -132,7 +132,7 @@ $currentDate = date("Y-m-d");
                                        <?php } else { ?>
                                            <p><?php echo mb_strimwidth($allEvents->details, 0, 100, "..."); ?></b></p>
                                      <?php  } ?>
-                    <a style="color: blue;" href='<?php echo base_url()."index.php/view/eventDetails/".$allEvents->id;?>'>see more</a>
+                    <a style="color: blue; text-decoration: underline;" href='<?php echo base_url()."index.php/view/eventDetails/".$allEvents->id;?>'>View more</a>
                 </div>
 
 

@@ -316,7 +316,15 @@ $(document).ready(function() {
                         }
                         ?>
                             <div class="clear"></div>
-                        <h3><?php echo $product->name; ?></h3>
+                            
+                            <?php if(strlen($product->name)<=20)                                       
+                                       {
+                                       ?>
+                                        <h3><?php echo $product->name; ?></h3>
+                                       <?php } else { ?>
+                                           <h4><?php echo mb_strimwidth($product->name, 0, 100, "..."); ?></h4>
+                                     <?php  } ?>
+                        
                          
                 </div>
                 <div class='contentContainerImage'>
