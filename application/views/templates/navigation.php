@@ -4,7 +4,7 @@
             <ul>
                 <?php
 
-            $this->load->helper('menumaker');
+            $this->load->helper('menumaker_helper');
 
             fetch_menu (query(0));
 

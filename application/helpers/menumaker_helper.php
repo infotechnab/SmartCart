@@ -8,12 +8,14 @@
 }
 function has_child($query) { //This function checks if the menus has childs or not
     $rows = mysql_num_rows ( $query );
-    if ($rows > 0) {
+    if ($rows >0){
         return true;
     } else {
         return false;
     }
 }
+
+
 function fetch_menu($query) {
     while ( $result = mysql_fetch_array ( $query ) ) {
         $menu_id = $result ['id'];

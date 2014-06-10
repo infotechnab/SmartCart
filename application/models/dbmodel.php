@@ -19,6 +19,18 @@ class Dbmodel extends CI_Model {
             return FALSE;
         }
     }
+    
+    //Get the selected category ID
+    public function get_id_of_selected_category($navigation_link)
+    {
+        
+        $this->db->where('navigation_link', $navigation_link);
+         $this->db->limit(1);
+        $query = $this->db->get('navigation');
+        return $query->result();
+    }
+    
+    
 function validate_user($email, $pass) {
     $password=md5($pass);
         $this->db->where('user_email',$email );

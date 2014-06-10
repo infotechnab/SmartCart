@@ -393,12 +393,26 @@ $data['event']= $this->productmodel->get_max_events();
         $data['category'] = $this->productmodel->category_list();
         
         //Get all the category of this passed category
+        $selectedId = 0;
+        $navigation_link = base_url().'index.php/view/category/'.$id;
+        var_dump($navigation_link);
+        $selected_category = $this->dbmodel->get_id_of_selected_category($navigation_link);
+        if(!empty($selected_category))
+        {
+        foreach ($selected_category as $selected)
+        {
+            $selectedId = $selected->id;               
+        }
+        }
         
+        $this->load->helper('get_subcategory_helper');
+        $list = Array( );
+        $categorylist = fetch_menun(queryn($selectedId),$list);  
         
+        //var_dump($categorylist);
         $data['categoryId'] = $this->productmodel->category_list_id($id);
         foreach ($data['categoryId'] as $page) {
-            $data['pageTitle'] = $page->category_name;
-        }
+            $data['pageTitle'] = $page->category_name;        }
         $data['product'] = $this->productmodel->get_productList($id);
         foreach ($data['product'] as $page) {
             $data['pageDescription'] = $page->description;

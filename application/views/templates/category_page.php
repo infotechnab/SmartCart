@@ -86,6 +86,7 @@ $this->load->helper('currency');
     <!-- the slider ends here-->
 
     <div class='contentHeader'>
+           
         <h3><?php
 if (!empty($categoryId)) {
     foreach ($categoryId as $pages) {

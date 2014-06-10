@@ -1472,14 +1472,15 @@ div.vertical-line{
     {
         width: 170%;
         text-overflow: ellipsis;
-    overflow: hidden;
+    //overflow: hidden;
     }
     #cssmenu .has-sub {
+
+}
   #verticalline
   {
       display: none;
   }
-}
 #register
 {
     width: 100%;
@@ -1706,7 +1707,7 @@ a
     {
        
         text-overflow: ellipsis;
-    overflow: hidden;
+    //overflow: hidden;
     }
 #updateCartBtn
 {
