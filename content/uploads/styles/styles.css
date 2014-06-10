@@ -52,9 +52,19 @@ body
 {
     color: #000;
 }
- .sucessmsg
+.sucessmsg
 {
     color: red;  
+}
+.homemsg
+{
+    color: red; 
+    position: absolute;
+    top: 13px;
+    left: 950px;
+    width: 300px;
+    height: auto;
+    
 }
 #itemContent a:link, a:visited, a:active
 {

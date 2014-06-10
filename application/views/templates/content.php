@@ -257,16 +257,25 @@ $(document).ready(function() {
 });
 
 </script>
+<script>
+   $(document).ready(function() {
+   $('.homemsg').show();
+   setTimeout(function() { 
+       $('.homemsg').fadeOut(); 
+   }, 50000);
+}); 
+</script>
 
 
 
 <div id='content'>
     <!-- from slider starts-->
-<div class="sucessmsg">
-                <?php 
-               if($this->session->flashdata('message')){echo $this->session->flashdata('message');}
-                
-                ?> </div>
+<?php 
+               if($this->session->flashdata('message')){?>
+            <div class="homemsg">
+              <?php  echo $this->session->flashdata('message'); ?>
+              </div>
+          <?php     }   ?> 
     <div class="slider_main">
         <div class='contentHeader'>
             <h3>Featured products</h3>

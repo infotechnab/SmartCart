@@ -622,15 +622,15 @@ class View extends CI_Controller {
                 $this->load->view('templates/footer');
             } else {
 
-                if ($this->dbmodel->add_new_user_for($name, $email, $pass))
-                    $data = array(
+                $this->dbmodel->add_new_user_for($name, $email, $pass);
+                $data = array(
                         'useremail' => $email,
                         'username' => $name,
-                        'logged_in' => true);
+                'logged_in' => true);
 
                 $this->session->set_userdata($data);
                 $this->registerEmail($email, $name);
-                $this->session->set_flashdata('message', 'User Registered Successfully');
+                $this->session->set_flashdata('message', 'You are Registered Successfully');
 
                 redirect('view/index');
             }
