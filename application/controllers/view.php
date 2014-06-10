@@ -398,7 +398,7 @@ class View extends CI_Controller {
         //Get all the category of this passed category
         $selectedId = 0;
         $navigation_link = base_url() . 'index.php/view/category/' . $id;
-        var_dump($navigation_link);
+       
         $selected_category = $this->dbmodel->get_id_of_selected_category($navigation_link);
         if (!empty($selected_category)) {
             foreach ($selected_category as $selected) {
@@ -410,7 +410,7 @@ class View extends CI_Controller {
         $list = Array();
         $categorylist = fetch_menun(queryn($selectedId), $list);
 
-        //var_dump($categorylist);
+        
         $data['categoryId'] = $this->productmodel->category_list_id($id);
         foreach ($data['categoryId'] as $page) {
             $data['pageTitle'] = $page->category_name;
