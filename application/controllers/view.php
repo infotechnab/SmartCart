@@ -531,7 +531,7 @@ class View extends CI_Controller {
                     'logged_in' => true);
 
                 $this->session->set_userdata($data);
-                redirect('view/index');
+                redirect('view/registeruser');
             } else {
                 $this->session->set_flashdata('message', 'Username or password incorrect');
                 redirect('view/homeLogin');
