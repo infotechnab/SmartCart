@@ -3926,7 +3926,7 @@ $url = current_url();
                 $dateTime = $date.' '.$hour.':'.$min.':'.$sec;
                 $this->dbmodel->add_event($name,$detail,$location,$dateTime,$image);
                 $this->session->set_flashdata('message', 'One event added sucessfully');
-                redirect('bnw/addevent');
+                redirect('bnw/event');
             }
             
         
