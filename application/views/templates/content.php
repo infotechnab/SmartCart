@@ -309,22 +309,18 @@ $(document).ready(function() {
             <div class='contentContainerBox'>
 
                 <div class='contentContainerHeader'><a href='<?php echo base_url() . "index.php/view/details/".$product->id ?>'>
-                        <?php if ($product->like == "enabled") { ?>
-                            <div class="fb-like" style="float: left; margin-right: 3px;" data-href="<?php echo base_url() . "/index.php/view/details/".$product->id; ?>" data-layout="button_count" data-action="like" data-show-faces="false" data-share="false"></div>
+                        <div style="width:100%; margin: 0px; padding: 0px;">        <?php if ($product->like == "enabled") { ?>
+                         <div class="fb-like" data-href="<?php echo base_url() . "/index.php/view/details/".$product->id; ?>" data-layout="button_count" data-action="like" data-show-faces="false" data-share="false"></div>
                             <?php
-                        } else {
-                            
-                        }
-                        ?> 
+                        } 
+                        ?>      
                         <?php if ($product->share == "enabled") { ?>
-                            <div class="fb-share-button" style="float:left;" data-href="<?php echo base_url() . "/index.php/view/details/".$product->id; ?>" data-type="button_count"></div>
+                            <div class="fb-share-button"  data-href="<?php echo base_url() . "/index.php/view/details/".$product->id; ?>" data-type="button_count"></div>
                             <script src="//connect.facebook.net/en_US/all.js"></script>
                             <?php
-                        } else {
-                            
-                        }
+                        } 
                         ?>
-                            <div class="clear"></div>
+                        </div>   
                             
                             <?php if(strlen($product->name)<=20)                                       
                                        {

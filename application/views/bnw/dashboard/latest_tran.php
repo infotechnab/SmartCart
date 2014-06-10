@@ -1,9 +1,7 @@
 <div class="sale_product">
     <div class="sale">
 
-    <p id="sucessmsg">
-  <?php echo $this->session->flashdata('message'); ?>
-    </p>
+    
     <h4>Latest sales product </h4>
      <hr >
     
