@@ -28,7 +28,7 @@
         
          if(!empty($query)){
              ?>
-        <table border="1" cellpadding="10">
+        <table border="1" cellpadding="10" width="100%">
         <tr>
             <th>Category</th>
             <th>Product Name</th>
@@ -51,7 +51,7 @@
               }
               echo $categoryName;
               ?></td>
-            <td><?php echo $data->name ?></td>
+              <td><?php echo $data->name ?></td>
             <td><?php echo $data->summary; ?></td>
             <td><?php echo $data->price ?></td>
             <td><img src="<?php echo base_url()."content/uploads/images/".$data->image1; ?>" width="50" height="50" alt="Image not set!" /></td>

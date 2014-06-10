@@ -7,7 +7,7 @@
         
          if(!empty($pList)){
              ?>
-        <table border="1" cellpadding="10">
+        <table border="1" cellpadding="10" width="95%">
         <tr>
             <th>Category</th>
             <th>Product Name</th>
