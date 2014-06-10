@@ -262,7 +262,7 @@ $(document).ready(function() {
    $('.homemsg').show();
    setTimeout(function() { 
        $('.homemsg').fadeOut(); 
-   }, 50000);
+   }, 5000);
 }); 
 </script>
 
