@@ -20,14 +20,14 @@ function has_childn($query) { //This function checks if the menus has childs or 
 
  
 function fetch_menun($query,$list) {
-    //var_dump($list);
+   
     while ( $result = mysql_fetch_array ( $query ) ) {
         $menu_id = $result ['id'];
         $menu_name = $result ['navigation_name'];
         $menu_link = $result ['navigation_link'];       
          
          $list[] = array_push($list, end(explode("/",$menu_link))); 
-        var_dump($list);
+       
         if (has_childn( queryn( $menu_id))) {            
             fetch_menun ( queryn( $menu_id), $list); 
               
