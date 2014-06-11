@@ -19,7 +19,8 @@ class View extends CI_Controller {
         $this->load->helper(array('form', 'url', 'date'));
     }
 
-    public function index() {     //fetching data from database of the product
+    public function index() {     //fetching data from database of the product   
+        
         $data['username'] = $this->session->userdata('username');
         $data['headertitle'] = $this->viewmodel->get_header_title();
         $data['headerlogo'] = $this->viewmodel->get_header_logo();
@@ -28,7 +29,7 @@ class View extends CI_Controller {
         $data['featureItem'] = $this->productmodel->featured_item();
         $data['event'] = $this->productmodel->get_max_events();
         $data['offer'] = $this->productmodel->get_max_offers();
-
+      
         $config = array();
         $config["base_url"] = base_url() . "index.php/view/index";
         $config["total_rows"] = $this->dbmodel->record_count_product();
@@ -36,7 +37,6 @@ class View extends CI_Controller {
         $this->pagination->initialize($config);
         $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
 
-        $data["product_info"] = $this->dbmodel->get_all_product($config["per_page"], $page);
         /* from here */
         $choice = $config["total_rows"] / $config["per_page"];
         $config["num_links"] = round($choice);
@@ -60,13 +60,17 @@ class View extends CI_Controller {
         $config['last_link'] = '&gt;&gt;';
         $this->pagination->initialize($config);
 
-        /* to here */
+        $data["product_info"] = $this->dbmodel->get_all_product($config["per_page"], $page);
+
         $config['display_pages'] = FALSE;
         $data["links"] = $this->pagination->create_links();
 
         $data['category'] = $this->productmodel->category_list();
 
         $data['slider_json'] = json_encode($data['featureItem']);
+        
+
+
         $this->load->view('templates/header', $data);
         $this->load->view('templates/navigation');
 
@@ -74,8 +78,34 @@ class View extends CI_Controller {
         $this->load->view('templates/sidebarOffer', $data);
 
         $this->load->view('templates/cart');
+        /*for facebook like*/
+         $productId = array();
+        foreach ($data["product_info"] as $fbsorting) {
+            $productLink = base_url() . "/index.php/view/details/" . $fbsorting->id;
+            $data = json_decode(file_get_contents("http://api.facebook.com/method/fql.query?query=select%20like_count%20from%20link_stat%20where%20url='$productLink'&format=json"));
+            $productId[$fbsorting->id] = $data[0]->like_count;
+        }
+        arsort($productId);
+        $temp = array();
+        foreach ($productId as $key => $fbratingproduct) {
+
+            array_push($temp, $this->productmodel->get_fbsorted_prodcuts($key));
+        }
+
+     $popularProduct=array();   
+    for ($i = 0; $i < 5; $i++){  
+     $product= array($temp[$i]['0']);
+    $popularProduct=array_merge($popularProduct, $product);
+    
+    }
+   $data['facebookPopular']=$popularProduct;
+  
+    /*facebook like ends here*/
         $this->load->view('templates/sidebarview', $data);
         $this->load->view('templates/footer');
+        
+    
+    
     }
 
     public function user_detail() {
@@ -118,8 +148,7 @@ class View extends CI_Controller {
     public function authenticate_user() {
         if (isset($_POST['email'])) {
             if (preg_match("/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/", $_POST['email']))
-                ;
-            {
+                ; {
                 $email = trim($_POST['email']);
                 $username = $this->dbmodel->get_selected_user($email);
                 if (!empty($username)) {
@@ -398,7 +427,7 @@ class View extends CI_Controller {
         //Get all the category of this passed category
         $selectedId = 0;
         $navigation_link = base_url() . 'index.php/view/category/' . $id;
-       
+
         $selected_category = $this->dbmodel->get_id_of_selected_category($navigation_link);
         if (!empty($selected_category)) {
             foreach ($selected_category as $selected) {
@@ -410,7 +439,7 @@ class View extends CI_Controller {
         $list = Array();
         $categorylist = fetch_menun(queryn($selectedId), $list);
 
-        
+
         $data['categoryId'] = $this->productmodel->category_list_id($id);
         foreach ($data['categoryId'] as $page) {
             $data['pageTitle'] = $page->category_name;
@@ -624,9 +653,9 @@ class View extends CI_Controller {
 
                 $this->dbmodel->add_new_user_for($name, $email, $pass);
                 $data = array(
-                        'useremail' => $email,
-                        'username' => $name,
-                'logged_in' => true);
+                    'useremail' => $email,
+                    'username' => $name,
+                    'logged_in' => true);
 
                 $this->session->set_userdata($data);
                 $this->registerEmail($email, $name);

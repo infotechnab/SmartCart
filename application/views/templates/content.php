@@ -291,7 +291,8 @@ $(document).ready(function() {
                 </div></div>
         </div>  </div>
 
-    <!-- the slider ends here-->
+    <!-- the slider ends here-->  
+    
 
     <div class='contentHeader'>
         <h3>Recent products</h3>
@@ -308,10 +309,12 @@ $(document).ready(function() {
             ?>
             <div class='contentContainerBox'>
 
+<!-- upto here -->
                 <div class='contentContainerHeader'><a href='<?php echo base_url() . "index.php/view/details/".$product->id ?>'>
-                        <div style="width:100%; margin: 0px; padding: 0px;">        <?php if ($product->like == "enabled") { ?>
+                        <div class="likeShare">        <?php if ($product->like == "enabled") { ?>
                          <div class="fb-like" data-href="<?php echo base_url() . "/index.php/view/details/".$product->id; ?>" data-layout="button_count" data-action="like" data-show-faces="false" data-share="false"></div>
                             <?php
+                            
                         } 
                         ?>      
                         <?php if ($product->share == "enabled") { ?>

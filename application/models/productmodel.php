@@ -207,4 +207,12 @@ public function product_info(){
         $this->db->where('sid', 1);
         $this->db->update('shiping_cost', $data);
     }
+    
+    function get_fbsorted_prodcuts($key)
+    {
+        $this->db->select('id,image1,name, price');
+    $this->db->where('id', $key);   
+        $query = $this->db->get('product');
+        return $query->result();
+    }
 }

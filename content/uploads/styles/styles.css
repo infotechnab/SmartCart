@@ -1952,3 +1952,7 @@ input:-moz-placeholder { color:#999; }
 {
    margin: 5px 0px 5px 0px; padding: 0px;  
 }
+.likeShare
+{
+    width:100%; margin: 0px; padding: 0px;
+}
