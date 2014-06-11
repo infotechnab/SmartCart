@@ -208,7 +208,7 @@ public function product_info(){
         $this->db->update('shiping_cost', $data);
     }
     
-    function get_fbsorted_prodcuts($key)
+    function get_fbsorted_prodcuts($key=0)
     {
         $this->db->select('id,image1,name, price');
     $this->db->where('id', $key);   

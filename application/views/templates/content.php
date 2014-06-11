@@ -329,9 +329,13 @@ $(document).ready(function() {
                                        {
                                        ?>
                                         <h3><?php echo $product->name; ?></h3>
-                                       <?php } else { ?>
-                                           <h4><?php echo mb_strimwidth($product->name, 0, 100, "..."); ?></h4>
-                                     <?php  } ?>
+                                       <?php } else { if (strlen($product->name)<=30){?>
+                                           <h4><?php echo mb_strimwidth($product->name, 0, 30, "..."); ?></h4>
+                                       <?php  }
+                                       else{ ?>
+                                           <h4> <?php $text= wordwrap($product->name, 23, "\n", true); echo mb_strimwidth($text, 0, 65, "..."); ?></h4>   
+                                  <?php     }
+                                       } ?>
                         
                          
                 </div>

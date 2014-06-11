@@ -19,8 +19,51 @@ class View extends CI_Controller {
         $this->load->helper(array('form', 'url', 'date'));
     }
 
+    public function facebookLikeCount() {
+        /* for facebook like */
+        $products=$this->dbmodel->get_all_product_for_facebook();
+        $productId = array();
+        foreach ($products as $fbsorting) {
+            $productLink = base_url() . "/index.php/view/details/" . $fbsorting->id;
+            //$dataf = json_decode(file_get_contents("http://api.facebook.com/method/fql.query?query=select%20like_count%20from%20link_stat%20where%20url='$productLink'&format=json"));
+
+
+
+            $fburl = "http://api.facebook.com/method/fql.query?query=select%20like_count%20from%20link_stat%20where%20url='$productLink'&format=atom";
+// grab the atom dump via facebook api url call above
+            $ch = curl_init($fburl); // url for page
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $atom_data = curl_exec($ch);
+// it returns something like this:
+            /* <fql_query_response xmlns="http://api.facebook.com/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" list="true">
+              <link_stat>
+              <like_count>9</like_count>
+              </link_stat>
+              </fql_query_response> */
+// grab the like count out, i hate dom parsing, so just use regex:
+
+            preg_match('#like_count>(\d+)<#', $atom_data, $matches);
+            $like_count = $matches[1];
+            $productId[$fbsorting->id] = $like_count;
+        }
+        arsort($productId);
+        $temp = array();
+        foreach ($productId as $key => $fbratingproduct) {
+
+            array_push($temp, $this->productmodel->get_fbsorted_prodcuts($key));
+        }
+
+        $popularProduct = array();
+        for ($i = 0; $i < 10; $i++) {
+            $product = array($temp[$i]['0']);
+            $popularProduct = array_merge($popularProduct, $product);
+        }
+        $data['facebookPopular'] = $popularProduct;
+       
+        /* facebook like ends here */
+    }
+
     public function index() {     //fetching data from database of the product   
-        
         $data['username'] = $this->session->userdata('username');
         $data['headertitle'] = $this->viewmodel->get_header_title();
         $data['headerlogo'] = $this->viewmodel->get_header_logo();
@@ -29,7 +72,7 @@ class View extends CI_Controller {
         $data['featureItem'] = $this->productmodel->featured_item();
         $data['event'] = $this->productmodel->get_max_events();
         $data['offer'] = $this->productmodel->get_max_offers();
-      
+
         $config = array();
         $config["base_url"] = base_url() . "index.php/view/index";
         $config["total_rows"] = $this->dbmodel->record_count_product();
@@ -68,9 +111,12 @@ class View extends CI_Controller {
         $data['category'] = $this->productmodel->category_list();
 
         $data['slider_json'] = json_encode($data['featureItem']);
+        /* for facebook like */
         
+        $data['facebookPopular'] = $popularProduct;
+        /* facebook like ends here */
 
-
+var_dump($data['facebookPopular']);
         $this->load->view('templates/header', $data);
         $this->load->view('templates/navigation');
 
@@ -78,34 +124,9 @@ class View extends CI_Controller {
         $this->load->view('templates/sidebarOffer', $data);
 
         $this->load->view('templates/cart');
-        /*for facebook like*/
-         $productId = array();
-        foreach ($data["product_info"] as $fbsorting) {
-            $productLink = base_url() . "/index.php/view/details/" . $fbsorting->id;
-            $data = json_decode(file_get_contents("http://api.facebook.com/method/fql.query?query=select%20like_count%20from%20link_stat%20where%20url='$productLink'&format=json"));
-            $productId[$fbsorting->id] = $data[0]->like_count;
-        }
-        arsort($productId);
-        $temp = array();
-        foreach ($productId as $key => $fbratingproduct) {
 
-            array_push($temp, $this->productmodel->get_fbsorted_prodcuts($key));
-        }
-
-     $popularProduct=array();   
-    for ($i = 0; $i < 5; $i++){  
-     $product= array($temp[$i]['0']);
-    $popularProduct=array_merge($popularProduct, $product);
-    
-    }
-   $data['facebookPopular']=$popularProduct;
-  
-    /*facebook like ends here*/
         $this->load->view('templates/sidebarview', $data);
         $this->load->view('templates/footer');
-        
-    
-    
     }
 
     public function user_detail() {
@@ -148,7 +169,8 @@ class View extends CI_Controller {
     public function authenticate_user() {
         if (isset($_POST['email'])) {
             if (preg_match("/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/", $_POST['email']))
-                ; {
+                ;
+            {
                 $email = trim($_POST['email']);
                 $username = $this->dbmodel->get_selected_user($email);
                 if (!empty($username)) {

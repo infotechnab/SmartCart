@@ -383,6 +383,13 @@ public function check_user_email($email){
         $query = $this->db->get('product');
         return $query->result();
     }
+    function get_all_product_for_facebook()
+    {
+        $this->db->where('status = 0');
+        $this->db->order_by('id','DESC');  
+        $query = $this->db->get('product');
+        return $query->result();
+    }
     function get_related_product($id)
     {//die($id);
        // $this->db->order_by('id','DESC');
