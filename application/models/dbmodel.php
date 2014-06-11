@@ -252,10 +252,11 @@ public function check_user_email($email){
     }
 
 
-    function add_new_product($cat,$des,$sum,$qty,$name,$price,$img1,$img2,$img3, $shipping, $allowLike, $allowShare)
+    function add_new_product($cat,$des,$sum,$qty,$name,$price,$img1,$img2,$img3, $shipping, $allowLike, $allowShare,$featured)
     {
         $status = 0;
         $data = array(
+            'featured'=>$featured,
             'category'=>$cat,
             'description'=>$des,
             'summary'=>$sum,
@@ -382,6 +383,13 @@ public function check_user_email($email){
         $query = $this->db->get('product');
         return $query->result();
     }
+    function get_all_product_for_facebook()
+    {
+        $this->db->where('status = 0');
+        $this->db->order_by('id','DESC');  
+        $query = $this->db->get('product');
+        return $query->result();
+    }
     function get_related_product($id)
     {//die($id);
        // $this->db->order_by('id','DESC');
@@ -450,9 +458,10 @@ public function check_user_email($email){
         $this->db->update('product', $data);
     }
     
-    function update_product($id,$cate,$name,$description,$summary,$price,$productImg,$productImgTwo,$productImgThree, $shipping, $allowLike, $allowShare)
+    function update_product($id,$cate,$name,$description,$summary,$price,$productImg,$productImgTwo,$productImgThree, $shipping, $allowLike, $allowShare,$featured)
     {
         $data = array(
+            'featured'=>$featured,
             'category'=>$cate,
             'name'=>$name,
             'description'=>$description,

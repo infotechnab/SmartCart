@@ -257,16 +257,25 @@ $(document).ready(function() {
 });
 
 </script>
+<script>
+   $(document).ready(function() {
+   $('.homemsg').show();
+   setTimeout(function() { 
+       $('.homemsg').fadeOut(); 
+   }, 5000);
+}); 
+</script>
 
 
 
 <div id='content'>
     <!-- from slider starts-->
-<div class="sucessmsg">
-                <?php 
-               if($this->session->flashdata('message')){echo $this->session->flashdata('message');}
-                
-                ?> </div>
+<?php 
+               if($this->session->flashdata('message')){?>
+            <div class="homemsg">
+              <?php  echo $this->session->flashdata('message'); ?>
+              </div>
+          <?php     }   ?> 
     <div class="slider_main">
         <div class='contentHeader'>
             <h3>Featured products</h3>
@@ -282,7 +291,8 @@ $(document).ready(function() {
                 </div></div>
         </div>  </div>
 
-    <!-- the slider ends here-->
+    <!-- the slider ends here-->  
+    
 
     <div class='contentHeader'>
         <h3>Recent products</h3>
@@ -299,24 +309,34 @@ $(document).ready(function() {
             ?>
             <div class='contentContainerBox'>
 
+<!-- upto here -->
                 <div class='contentContainerHeader'><a href='<?php echo base_url() . "index.php/view/details/".$product->id ?>'>
-                        <?php if ($product->like == "enabled") { ?>
-                            <div class="fb-like" style="float: left; margin-right: 3px;" data-href="<?php echo base_url() . "/index.php/view/details/".$product->id; ?>" data-layout="button_count" data-action="like" data-show-faces="false" data-share="false"></div>
+                        <div class="likeShare">        <?php if ($product->like == "enabled") { ?>
+                         <div class="fb-like" data-href="<?php echo base_url() . "/index.php/view/details/".$product->id; ?>" data-layout="button_count" data-action="like" data-show-faces="false" data-share="false"></div>
                             <?php
-                        } else {
                             
-                        }
-                        ?> 
+                        } 
+                        ?>      
                         <?php if ($product->share == "enabled") { ?>
-                            <div class="fb-share-button" style="float:left;" data-href="<?php echo base_url() . "/index.php/view/details/".$product->id; ?>" data-type="button_count"></div>
+                            <div class="fb-share-button"  data-href="<?php echo base_url() . "/index.php/view/details/".$product->id; ?>" data-type="button_count"></div>
                             <script src="//connect.facebook.net/en_US/all.js"></script>
                             <?php
-                        } else {
-                            
-                        }
+                        } 
                         ?>
-                            <div class="clear"></div>
-                        <h3><?php echo $product->name; ?></h3>
+                        </div>   
+                            
+                            <?php if(strlen($product->name)<=20)                                       
+                                       {
+                                       ?>
+                                        <h3><?php echo $product->name; ?></h3>
+                                       <?php } else { if (strlen($product->name)<=30){?>
+                                           <h4><?php echo mb_strimwidth($product->name, 0, 30, "..."); ?></h4>
+                                       <?php  }
+                                       else{ ?>
+                                           <h4> <?php $text= wordwrap($product->name, 23, "\n", true); echo mb_strimwidth($text, 0, 65, "..."); ?></h4>   
+                                  <?php     }
+                                       } ?>
+                        
                          
                 </div>
                 <div class='contentContainerImage'>
@@ -354,74 +374,4 @@ $(document).ready(function() {
  
 <!-- left side content closed here -->
 
-       <div id='sidebar'>
-           
-           <!-- for offer -->
-            <?php if(!empty($offer)){ ?>
-            <div class="redColouredDiv" id='sidebarContent'><h3>Offers</h3></div>
-		            
-                                
-    <?php foreach ($offer as $sideOffer){
-        		                ?>
-           
-           
-                <?php if (strlen($sideOffer->image)>2){ ?>
-           
-		                    <div id="offerImage">
-		                       <img src="<?php echo base_url().'content/uploads/images/'.$sideOffer->image; ?>" width="100%" /> 
-		                   
-                <?php } ?>
-		                    <div id="offerContainer">
-                                        <p style="margin:0px;"><b><?php echo $sideOffer->post_title;  ?></b></p>  
-                                       
-                                        
-		                    </div> 
-                                    </div>
-		                                           
-		               
       
-                            <?php } }?>
-           
-           
-            <div class="clear"></div>
-           
-           
-           <!--offer ends here-->
-           <?php if(!empty($event)){ ?>
-            <div class="redColouredDiv" id='sidebarContent'><h3>Events</h3></div>
-		            
-                                
-    <?php foreach ($event as $sideEvent){
-        $date=date("Y-m-d", strtotime($sideEvent->date));
-        $time=date("h:i A", strtotime($sideEvent->date));
-        $setTime=date("G:i:s", strtotime($sideEvent->date));
-         $noTime="0:00:00";      
-        		                ?>
-            <div id="shopping_cart" class="cartItems">
-                <a style="color:#000;" href="<?php echo base_url()."index.php/view/events" ?>"><div class='sidebarContentNext' style="z-index: 1;">
-                
-                <?php if (strlen($sideEvent->image)>2){ ?>
-		                    <div class="cartImage" style="float: left; width: 14%; min-height: 40px; margin: -1px; padding: 0px;">
-		                       <img src="<?php echo base_url().'content/uploads/images/'.$sideEvent->image; ?>" width="50" height="50"  /> 
-		                    </div>
-                <?php } ?>
-		                    <div class="eventTitle">
-		                       
-                                        <p><b><?php echo $sideEvent->title;  ?></b> On <?php echo $date;  ?> <?php if($setTime!==$noTime){ echo'at'. $time;} else{}  ?></p>
-                                       
-                                       
-                                        
-		                    </div> 
-                                    
-		                     
-                                          
-		                </div></a>
-       </div>
-                            <?php } }?>
-           
-           
-            <div class="redColouredDiv" id='sidebarContent'>
-                <div id="sideBarImage"><img src="<?php echo base_url() . "content/uploads/images/addtocart.png"; ?>"/> </div>   
-                <h3>Shopping Cart</h3>
-            </div>
-            <div class='sidebarContentNext' id="shopping_cart">

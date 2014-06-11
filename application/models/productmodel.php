@@ -28,11 +28,11 @@ public function product_info(){
     }
     
     public function featured_item(){
-        $status = 0;
+       $status = 0;
         $this->db->where('status',$status);
      $this->db->order_by('id','DESC');
-     $query = $this->db->get_where('product', array('category' => '13'));
-       return $query->result();
+     $query = $this->db->get_where('product', array('featured' => '1'));
+      return $query->result();
     }
     
     public function getTranId()
@@ -102,6 +102,8 @@ public function product_info(){
     {
         //die($id);
         //$this->db->limit($a, $b);
+        $status = 0;
+        $this->db->where('status',$status);
          $this->db->where('category',$id);
          $query = $this->db->get('product');
         // var_dump($query);
@@ -204,5 +206,13 @@ public function product_info(){
             'price' => $charge);
         $this->db->where('sid', 1);
         $this->db->update('shiping_cost', $data);
+    }
+    
+    function get_fbsorted_prodcuts($key=0)
+    {
+        $this->db->select('id,image1,name, price');
+    $this->db->where('id', $key);   
+        $query = $this->db->get('product');
+        return $query->result();
     }
 }

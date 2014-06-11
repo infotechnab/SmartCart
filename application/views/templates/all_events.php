@@ -13,7 +13,7 @@ $currentDate = date("Y-m-d");
         
         $date=date("Y-m-d", strtotime($allEvents->date));
         $time=date("h:i A", strtotime($allEvents->date));
-       $setTime=date("G:i:s", strtotime($sideEvent->date));
+       $setTime=date("G:i:s", strtotime($allEvents->date));
          $noTime="0:00:00"; 
         if ($date > $currentDate)
         {
@@ -38,7 +38,7 @@ $currentDate = date("Y-m-d");
 <?php } ?>
                 <div class='eventDetails'>
                     <h4><?php echo $allEvents->title; ?></h4>
-                    <h5 style="color: #5D5D5D;">Date:<?php echo $date ?> <?php if($setTime!==$noTime){ echo "Time:".$time; } else{} ;?></h5>
+                    <h5 style="color: #5D5D5D;">Date:<?php echo $date ?> <?php if($setTime!==$noTime){ echo "Time:".$time; } else{}?></h5>
                     <h5>Location: <?php echo $allEvents->location; ?></h5>
                     <?php if(strlen($allEvents->details)<=100)                                       
                                        {
@@ -48,7 +48,7 @@ $currentDate = date("Y-m-d");
                                            <p><?php echo mb_strimwidth($allEvents->details, 0, 100, "..."); ?></b></p>
                                      <?php  } ?>
                    
-                    <a style="color: blue;" href='<?php echo base_url()."index.php/view/eventDetails/".$allEvents->id;?>'>see more</a>
+                    <a style="color: blue; text-decoration: underline;" href='<?php echo base_url()."index.php/view/eventDetails/".$allEvents->id;?>'>View more</a>
                 </div>
 
 
@@ -81,7 +81,7 @@ $currentDate = date("Y-m-d");
 <?php } ?>
                 <div class='eventDetails'>
                     <h4><?php echo $allEvents->title; ?></h4>
-                   <h5 style="color: #5D5D5D;">Date:<?php echo $date ?> Time:<?php echo $time; ?></h5>
+                   <h5 style="color: #5D5D5D;">Date:<?php echo $date ?> <?php if($setTime!==$noTime){ echo "Time:".$time; } else{}?></h5>
                    <h5>Location: <?php echo $allEvents->location; ?></h5>
                     <?php if(strlen($allEvents->details)<=100)                                       
                                        {
@@ -90,7 +90,7 @@ $currentDate = date("Y-m-d");
                                        <?php } else { ?>
                                            <p><?php echo mb_strimwidth($allEvents->details, 0, 100, "..."); ?></b></p>
                                      <?php  } ?>
-                    <a style="color: blue;" href='<?php echo base_url()."index.php/view/eventDetails/".$allEvents->id;?>'>see more</a>
+                    <a style="color: blue; text-decoration: underline;" href='<?php echo base_url()."index.php/view/eventDetails/".$allEvents->id;?>'>View more</a>
                 </div>
 
 
@@ -123,7 +123,7 @@ $currentDate = date("Y-m-d");
 <?php } ?>
                 <div class='eventDetails'>
                     <h4 ><?php echo $allEvents->title; ?></h4>
-                    <h5 style="color: #5D5D5D;">Date:<?php echo $date ?> Time:<?php echo $time; ?></h5>
+                    <h5 style="color: #5D5D5D;">Date:<?php echo $date ?> <?php if($setTime!==$noTime){ echo "Time:".$time; } else{}?></h5>
                     <h5>Location: <?php echo $allEvents->location; ?></h5>
                     <?php if(strlen($allEvents->details)<=100)                                       
                                        {
@@ -132,7 +132,7 @@ $currentDate = date("Y-m-d");
                                        <?php } else { ?>
                                            <p><?php echo mb_strimwidth($allEvents->details, 0, 100, "..."); ?></b></p>
                                      <?php  } ?>
-                    <a style="color: blue;" href='<?php echo base_url()."index.php/view/eventDetails/".$allEvents->id;?>'>see more</a>
+                    <a style="color: blue; text-decoration: underline;" href='<?php echo base_url()."index.php/view/eventDetails/".$allEvents->id;?>'>View more</a>
                 </div>
 
 
@@ -156,73 +156,6 @@ $currentDate = date("Y-m-d");
     </div>
 <?php } ?>
 </div>
-</div>
+
 <!-- left side content closed here -->
-  <div id='sidebar'>
-           
-           <!-- for offer -->
-            <?php if(!empty($offer)){ ?>
-            <div class="redColouredDiv" id='sidebarContent'><h3>Offers</h3></div>
-		            
-                                
-    <?php foreach ($offer as $sideOffer){
-        		                ?>
-           
-           
-                <?php if (strlen($sideOffer->image)>2){ ?>
-           
-		                    <div id="offerImage">
-		                       <img src="<?php echo base_url().'content/uploads/images/'.$sideOffer->image; ?>" width="100%" /> 
-		                   
-                <?php } ?>
-		                    <div id="offerContainer">
-                                        <p style="margin:0px;"><b><?php echo $sideOffer->post_title;  ?></b></p>  
-                                       
-                                        
-		                    </div> 
-                                    </div>
-		                                           
-		               
-      
-                            <?php } }?>
-           
-           
-            <div class="clear"></div>
-           
-           
-           <!--offer ends here-->
-           <?php if(!empty($event)){ ?>
-            <div class="redColouredDiv" id='sidebarContent'><h3>Events</h3></div>
-		            
-                                
-    <?php foreach ($event as $sideEvent){
-        $date=date("Y-m-d", strtotime($sideEvent->date));
-        $time=date("h:i A", strtotime($sideEvent->date));
-        $setTime=date("G:i:s", strtotime($sideEvent->date));
-         $noTime="0:00:00"; 		                ?>
-            <div id="shopping_cart" class="cartItems">
-                <a style="color:#000;" href="<?php echo base_url()."index.php/view/events" ?>"><div class='sidebarContentNext' style="z-index: 1;">
-                
-                <?php if (strlen($sideEvent->image)>2){ ?>
-		                    <div class="cartImage" style="float: left; width: 14%; min-height: 40px; margin: -1px; padding: 0px;">
-		                       <img src="<?php echo base_url().'content/uploads/images/'.$sideEvent->image; ?>" width="50" height="50"  /> 
-		                    </div>
-                <?php } ?>
-		                    <div class="eventTitle">
-		                       
-                                        <p><b><?php echo $sideEvent->title;  ?></b> On <?php echo $date;  ?> <?php if($setTime!==$noTime){ echo'at'. $time;} else{}  ?></p>
-                                        
-		                    </div> 
-                                    
-		                     
-                                          
-		                </div></a>
-       </div>
-                            <?php } }?>
-           
-           
-            <div class="redColouredDiv" id='sidebarContent'>
-                <div id="sideBarImage"><img src="<?php echo base_url() . "content/uploads/images/addtocart.png"; ?>"/> </div>   
-                <h3>Shopping Cart</h3>
-            </div>
-            <div class='sidebarContentNext' id="shopping_cart">
+ 

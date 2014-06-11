@@ -15,9 +15,13 @@ class Login extends CI_Controller {
     }
 
     function index() {
-
+            if(isset($_GET['url'])){
         $data['link'] = $_GET['url'];
-      
+            }
+            else{
+               
+                $data['link'] = base_url().'index.php/bnw';
+            }
         if ($this->session->userdata('admin_logged_in')&& $this->session->userdata('admin')) {
              redirect('login', 'refresh');
         } else {

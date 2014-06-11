@@ -1,7 +1,5 @@
 <div class="product">
-    <p id="sucessmsg">
-  <?php echo $this->session->flashdata('message'); ?>
-    </p>
+   
     <h4>Latest Product</h4>
      <hr />
         <?php 
@@ -9,7 +7,7 @@
         
          if(!empty($pList)){
              ?>
-        <table border="1" cellpadding="10">
+        <table border="1" cellpadding="10" width="95%">
         <tr>
             <th>Category</th>
             <th>Product Name</th>

@@ -233,7 +233,7 @@ $(document).ready(function() {
     var editLink = '<a href='+link+'>'+'Edit Navigation'+'</a>';
     var mLink = '<?php echo base_url();?>'+'index.php/bnw/manageNavigation/'+selectedValue;
     var manageLink = '<a href='+mLink+'>'+'Manage Navigation'+'</a>';
-   
+   var blank = '';
   $.ajax({
   type: "POST",
   url: "<?php echo base_url().'index.php/bnw/menu_id_from_ajax' ;?>",
@@ -241,8 +241,17 @@ $(document).ready(function() {
    success: function(msg) 
          {
              $("#cssmenu").html(msg);
+             if(selectedValue >0)
+                 {
+                  
              $("#editLink").html(editLink);
              $("#manLink").html(manageLink);
+                 }
+                 else{
+                     $("#editLink").html(blank);
+             $("#manLink").html(blank);
+                 }
+                 
          }
   
     

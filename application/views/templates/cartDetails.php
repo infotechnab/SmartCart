@@ -122,31 +122,7 @@ $this->load->helper('currency');
 
     </div>
 </div>
-<!--
-<div id="cartDetailsSidebar">
-    <div id="order_summary">
-        <table width="100%">
-            <tr class='amt_summary'>
-                <td class='txtright' width='50%'>Total: </td>
-                <td><b><?php // get_currency($this->cart->total()); ?></b></td>
-            </tr>
-            <tr class='amt_summary'>
-                <td class='txtright'>Shipping Cost:</td>
-                <td></td>
-            </tr>
-            <tr class='amt_summary'>
-                <td class='txtright'>Discount:</td>
-                <td></td>
-            </tr>
-            <tr class='amt_summary'>
-                <td class='txtright'>Total:</td>
-                <td></td>
-            </tr>
-        </table>
 
-    </div>
-</div>
--->
 
 <div class="clear"></div>
 

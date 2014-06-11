@@ -52,9 +52,19 @@ body
 {
     color: #000;
 }
- .sucessmsg
+.sucessmsg
 {
     color: red;  
+}
+.homemsg
+{
+    color: red; 
+    position: absolute;
+    top: 13px;
+    left: 950px;
+    width: 300px;
+    height: auto;
+    
 }
 #itemContent a:link, a:visited, a:active
 {
@@ -388,7 +398,7 @@ body
     min-height: 30px;
     width: 70%;
 }
-.contentContainerHeader h3
+.contentContainerHeader h3, .contentContainerHeader h4
 {
     margin: 0px;
     padding: 5px 0px 5px 0px;
@@ -411,7 +421,7 @@ body
     margin: 0px;
     padding: 2.5%;
     float: left;
-    height: 34px;
+    height: 35px;
     border-radius: 0px 0px 0px 5px;
     border: 1px solid #ccc;
     width: 38%;
@@ -697,7 +707,7 @@ div.vertical-line{
     }
     #navigationLeft
     {
-        width: 80%; float: left;
+        width: 86.5%; float: left;
     }
     #headerLogo
     {
@@ -1936,5 +1946,13 @@ input:-moz-placeholder { color:#999; }
 }
 .eventTitle p
 {
-    font-size:12px; margin: 10px 0px 5px 0px; padding: 0px;
+    font-size:12px; margin: 5px 0px 5px 0px; padding: 0px;
+}
+.eventTitle h4
+{
+   margin: 5px 0px 5px 0px; padding: 0px;  
+}
+.likeShare
+{
+    width:100%; margin: 0px; padding: 0px;
 }
