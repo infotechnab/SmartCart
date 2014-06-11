@@ -116,7 +116,6 @@ class View extends CI_Controller {
         $data['facebookPopular'] = $popularProduct;
         /* facebook like ends here */
 
-var_dump($data['facebookPopular']);
         $this->load->view('templates/header', $data);
         $this->load->view('templates/navigation');
 
