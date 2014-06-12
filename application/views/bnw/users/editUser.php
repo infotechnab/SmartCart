@@ -63,7 +63,7 @@
   <?php echo form_close();
   }
  else {
-      echo " <b> Sorry! The user is not found </b> "; 
+      echo " <b> Sorry! related user is not found </b> "; 
   }
   ?>
   
