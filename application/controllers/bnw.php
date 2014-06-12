@@ -2343,11 +2343,11 @@ $url = current_url();
         $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $uNAme = $this->session->userdata('username');
-            //die($uNAme);
+           
             $uNAme = "admin";
-            //die($id);
+            
             $userKey = $this->dbmodel->check_user($id);
-            // print_r($userKey);
+           
             foreach ($userKey as $user) {
                 $userid = $user->user_name;
             }
