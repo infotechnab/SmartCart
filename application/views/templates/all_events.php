@@ -45,7 +45,7 @@ $currentDate = date("Y-m-d");
                                        ?>
                                         <p><?php echo $allEvents->details; ?></p>
                                        <?php } else { ?>
-                                           <p><?php echo mb_strimwidth($allEvents->details, 0, 100, "..."); ?></b></p>
+                                           <p><b><?php echo mb_strimwidth($allEvents->details, 0, 90, "..."); ?></b></p>
                                      <?php  } ?>
                    
                     <a style="color: blue; text-decoration: underline;" href='<?php echo base_url()."index.php/view/eventDetails/".$allEvents->id;?>'>View more</a>

@@ -14,7 +14,7 @@
 		                    <div id="offerImage">
 		                       <img src="<?php echo base_url().'content/uploads/images/'.$sideOffer->image; ?>" width="100%" /> 
 		                   <div id="offerContainer">
-                                        <p style="margin:0px;"><b><?php echo $sideOffer->post_title;  ?></b></p>  
+                                        <p style="margin:0px;"><b><?php echo wordwrap($sideOffer->post_title, 43, "\n", true); ?></b></p>  
                                        
                                         
 		                    </div> 
@@ -22,8 +22,8 @@
                 <?php }else { ?>
 		                   <div id="offerImage">
 		                                     
-                                        <p style="margin:0px; padding: 5px;"><b><?php echo $sideOffer->post_title;  ?></b></p>     
-                                        <p style="margin:0px; padding: 5px;"><?php echo $sideOffer->post_content;  ?></p>
+                                        <p style="margin:0px; padding: 5px;"><b><?php echo wordwrap($sideOffer->post_title, 43, "\n", true); ?></b></p>     
+                                        <p style="margin:0px; padding: 5px;"><?php echo wordwrap($sideOffer->post_content, 43, "\n", TRUE);  ?></p>
 		                    </div> 
 		                                           
 		               
@@ -55,7 +55,7 @@
                 <?php } ?>
 		                    <div class="eventTitle">
 		                       
-                                        <h4><?php echo mb_strimwidth($sideEvent->title, 0, 40, "..."); ?></h4>
+                                        <h4><?php echo mb_strimwidth($sideEvent->title, 0, 37, "..."); ?></h4>
                                         <p>On <?php echo $date;  ?> <?php if($setTime!==$noTime){ echo'at'. $time;} else{}  ?></p>
                                        
                                        

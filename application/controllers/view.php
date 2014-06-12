@@ -19,9 +19,11 @@ class View extends CI_Controller {
         $this->load->helper(array('form', 'url', 'date'));
     }
 
-    public function facebookLikeCount() {
+    private $variable;
+
+    private function facebookLikeCount() {
         /* for facebook like */
-        $products=$this->dbmodel->get_all_product_for_facebook();
+        $products = $this->dbmodel->get_all_product_for_facebook();
         $productId = array();
         foreach ($products as $fbsorting) {
             $productLink = base_url() . "/index.php/view/details/" . $fbsorting->id;
@@ -58,8 +60,9 @@ class View extends CI_Controller {
             $product = array($temp[$i]['0']);
             $popularProduct = array_merge($popularProduct, $product);
         }
-        $data['facebookPopular'] = $popularProduct;
-       
+
+        return $popularProduct;
+
         /* facebook like ends here */
     }
 
@@ -111,11 +114,8 @@ class View extends CI_Controller {
         $data['category'] = $this->productmodel->category_list();
 
         $data['slider_json'] = json_encode($data['featureItem']);
-        /* for facebook like */
-        
-        $data['facebookPopular'] = $popularProduct;
-        /* facebook like ends here */
 
+        $data['facebookPopular'] = $this->variable = $this->facebookLikeCount();
         $this->load->view('templates/header', $data);
         $this->load->view('templates/navigation');
 
@@ -142,7 +142,7 @@ class View extends CI_Controller {
 
         $data['featureItem'] = $this->productmodel->featured_item();
         $data['category'] = $this->productmodel->category_list();
-
+        $data['facebookPopular'] = $this->variable = $this->facebookLikeCount();
 
         $data['token_error'] = "Sorry the item you are searching in not found";
         $this->load->view('templates/header', $data);
@@ -168,8 +168,7 @@ class View extends CI_Controller {
     public function authenticate_user() {
         if (isset($_POST['email'])) {
             if (preg_match("/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/", $_POST['email']))
-                ;
-            {
+                ; {
                 $email = trim($_POST['email']);
                 $username = $this->dbmodel->get_selected_user($email);
                 if (!empty($username)) {
@@ -310,6 +309,7 @@ class View extends CI_Controller {
 
         $data['featureItem'] = $this->productmodel->featured_item();
         $data['category'] = $this->productmodel->category_list();
+        $data['facebookPopular'] = $this->variable = $this->facebookLikeCount();
         if (isset($id)) {
             $data['product'] = $this->productmodel->getProductById($id);
             foreach ($data['product'] as $page) {
@@ -444,7 +444,7 @@ class View extends CI_Controller {
         $data['offer'] = $this->productmodel->get_max_offers();
         $data['featureItem'] = $this->productmodel->featured_item();
         $data['category'] = $this->productmodel->category_list();
-
+        $data['facebookPopular'] = $this->variable = $this->facebookLikeCount();
         //Get all the category of this passed category
         $selectedId = 0;
         $navigation_link = base_url() . 'index.php/view/category/' . $id;
@@ -486,7 +486,7 @@ class View extends CI_Controller {
         $data['headerlogo'] = $this->viewmodel->get_header_logo();
         $data['meta'] = $this->dbmodel->get_meta_data();
         $data['headerdescription'] = $this->viewmodel->get_header_description();
-
+        $data['facebookPopular'] = $this->variable = $this->facebookLikeCount();
 
         $data['product_info'] = $this->productmodel->product_info();
         $data['event'] = $this->productmodel->get_max_events();
@@ -706,6 +706,7 @@ class View extends CI_Controller {
         $data['category'] = $this->productmodel->category_list();
         $data['event'] = $this->productmodel->get_max_events();
         $data['offer'] = $this->productmodel->get_max_offers();
+        $data['facebookPopular'] = $this->variable = $this->facebookLikeCount();
         $this->load->view('templates/header', $data);
         $this->load->view('templates/navigation');
         $this->load->view('templates/user_details');
@@ -723,7 +724,7 @@ class View extends CI_Controller {
         $data['featureItem'] = $this->productmodel->featured_item();
         $data['product_info'] = $this->productmodel->product_info();
         $data['category'] = $this->productmodel->category_list();
-
+        $data['facebookPopular'] = $this->variable = $this->facebookLikeCount();
         $this->form_validation->set_rules('u_fname', 'First name', 'trim|regex_match[/^[a-z,0-9,A-Z]{2,15}$/]|xss_clean|max_length[15]');
         $this->form_validation->set_rules('u_lname', 'Last name', 'trim|regex_match[/^[a-z,0-9,A-Z]{2,15}$/]|xss_clean|max_length[15]');
         $this->form_validation->set_rules('street_address', 'Address', 'trim|regex_match[/^[A-Za-z0-9\-\\,.]{2,35}$/]|xss_clean|max_length[35]');
@@ -873,6 +874,7 @@ class View extends CI_Controller {
         $data['category'] = $this->productmodel->category_list();
         $data['event'] = $this->productmodel->get_max_events();
         $data['offer'] = $this->productmodel->get_max_offers();
+        $data['facebookPopular'] = $this->variable = $this->facebookLikeCount();
         $data['slider_json'] = json_encode($data['featureItem']);
         $this->load->view('templates/header', $data);
         $this->load->view('templates/navigation');
@@ -894,6 +896,7 @@ class View extends CI_Controller {
         $data['category'] = $this->productmodel->category_list();
         $data['event'] = $this->productmodel->get_max_events();
         $data['offer'] = $this->productmodel->get_max_offers();
+        $data['facebookPopular'] = $this->variable = $this->facebookLikeCount();
         $data['slider_json'] = json_encode($data['featureItem']);
         $config = array();
         $config["base_url"] = base_url() . "index.php/view/events";
@@ -949,6 +952,7 @@ class View extends CI_Controller {
         $data['events'] = $this->productmodel->get_events_by_id($id);
         $data['event'] = $this->productmodel->get_max_events();
         $data['offer'] = $this->productmodel->get_max_offers();
+        $data['facebookPopular'] = $this->variable = $this->facebookLikeCount();
         $this->load->view('templates/header', $data);
         $this->load->view('templates/navigation');
 
