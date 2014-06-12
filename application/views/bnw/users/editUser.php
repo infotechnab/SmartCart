@@ -27,24 +27,21 @@
   <?php echo form_open_multipart('bnw/updateuser');?>
    <p>Name:<br />
        <input type="hidden" name="id" value="<?php echo $id; ?>" >
-  <input type="text" name="user_name" value="<?php echo $name; ?>" />
+       <input type="text" size="66" placeholder="min 2 characters required" name="user_name" value="<?php echo $name; ?>" />
   </p>
   
   <p>First Name:<br />
-  <input type="text" name="user_fname" value="<?php echo $fname; ?>" />
+  <input type="text" size="66" placeholder="min 2 characters required" name="user_fname" value="<?php echo $fname; ?>" />
   </p>
   
   <p>Last Name:<br />
-  <input type="text" name="user_lname" value="<?php echo $lname; ?>" />
+  <input type="text" size="66" placeholder="min 2 characters required" name="user_lname" value="<?php echo $lname; ?>" />
   </p>
   
   <p>E-mail:<br />
-  <input type="email" name="user_email" value="<?php echo $email; ?>" />
+  <input type="email" size="66" name="user_email" value="<?php echo $email; ?>" />
   </p>
   
-  <p>Password:<br />
-  <input type="password" name="user_pass" value="<?php //echo $pass; ?>" />
-  </p>
   
    <p> User Status:<br />
   <?php 

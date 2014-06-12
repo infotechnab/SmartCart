@@ -3,7 +3,11 @@
     <p id="sucessmsg">
   <?php echo $this->session->flashdata('message'); ?>
     </p>
-    <h2>All Events</h2>
+    <h2 style="float: left;">Events >> All Events</h2>
+    <p style="float: left; margin: 25px 0px 5px 30px;">
+    <?php echo anchor('bnw/addevent','Add New Event'); ?>
+    </p>
+     <div class="clear"></div>
      <hr class="hr-gradient"/>
     <?php   
          if(!empty($event)){
@@ -11,7 +15,7 @@
         <table border="1" cellpadding="10">
         <tr>
             
-            <th> Name</th>
+            <th>Event Title</th>
             <th>Description</th>
             <th>location</th>
             <th>Date and Time</th>
@@ -23,9 +27,9 @@
             foreach ($event as $data){
             ?>
           <tr>
-              <td><?php echo $data->title; ?></td>
+              <td><?php echo wordwrap($data->title, 50, "\n", true); ?></td>
             
-            <td><?php echo $data->details; ?></td>
+            <td><?php echo wordwrap($data->details, 50, "\n", true); ?></td>
             <td><?php echo $data->location ?></td>
             <td><?php  echo $data->date;?></td>
             <td><?php if(isset($data->image)) { ?><img src="<?php echo base_url()."content/uploads/images/".$data->image; ?>" width="50" height="50" ale="<?php echo $data->image; ?>" /><?php } else { echo 'image not set' ;} ?></td>

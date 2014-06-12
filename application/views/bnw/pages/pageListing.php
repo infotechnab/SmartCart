@@ -4,7 +4,11 @@
     <p id="sucessmsg">
   <?php echo $this->session->flashdata('message'); ?>
     </p>
-    <h2>All Pages</h2>
+    <h2 style="float: left;">Pages >> All Pages</h2>
+    <p style="float: left; margin: 25px 0px 5px 30px;">
+    <?php echo anchor('bnw/addpage','Add New Page'); ?>
+    </p>
+    <div class="clear"></div>
     <hr class="hr-gradient"/>
     
     
@@ -26,8 +30,8 @@
             ?>
           <tr>
             
-            <td><?php echo $data->page_name ?></td>
-            <td><?php echo $data->page_summary ?></td>
+            <td><?php echo wordwrap($data->page_name, 50, "\n", true); ?></td>
+            <td><?php echo wordwrap($data->page_summary, 50, "\n", true); ?></td>
            
               
             

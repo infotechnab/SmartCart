@@ -4,7 +4,11 @@
     <p id="sucessmsg">
   <?php echo $this->session->flashdata('message'); ?>
     </p>
-    <h2>All Users</h2>
+   <h2 style="float: left;">Users >> All Users</h2>
+    <p style="float: left; margin: 25px 0px 5px 30px;">
+    <?php echo anchor('bnw/adduser','Add New user'); ?>
+    </p>
+    <div class="clear"></div>
      <hr class="hr-gradient"/>
  <?php
     
@@ -13,7 +17,7 @@
             ?>
     <table border="1" cellpadding="10">
         <tr>
-            <th>S.N.</th>
+           
             <th>User Name</th>
             <th>First Name</th>
             <th>Last Name</th>
@@ -27,7 +31,7 @@
      <?php       foreach ($query as $data){
             ?>
           <tr>
-            <td><?php echo $data->id ?></td>
+           
             <td><?php echo $data->user_name ?></td>
             <td><?php echo $data->user_fname ?></td>
             <td><?php echo $data->user_lname ?></td>

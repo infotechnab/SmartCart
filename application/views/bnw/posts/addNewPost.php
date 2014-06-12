@@ -12,7 +12,11 @@ if ($query)
  }
  ?>
     <div class="titleArea">
-     <h2>Add new offer</h2>
+     <h2 style="float: left;">Offers >> Add New Offer</h2>
+    <p style="float: left; margin: 25px 0px 5px 30px;">
+    <?php echo anchor('bnw/posts','View all Offers'); ?>
+    </p>
+     <div class="clear"></div>
 <hr class="hr-gradient"/>   
     </div>
     
@@ -30,7 +34,7 @@ if ($query)
   <?php echo form_open_multipart('bnw/addpost');?>
   
   <p>Offer Title:<br />
-  <input type="text" name="post_title" value="<?php echo set_value('post_title'); ?>" />
+      <input type="text" name="post_title" size="66" value="<?php echo set_value('post_title'); ?>" />
   </p>
   <p>Body:<br />
       <textarea name="post_content" id="area1" cols="50" rows="5" ><?php echo set_value('post_content'); ?></textarea>

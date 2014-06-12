@@ -4,7 +4,11 @@
     <p id="sucessmsg">
   <?php echo $this->session->flashdata('message'); ?>
     </p>
-    <h2>All Offer</h2>
+    <h2 style="float: left;">Offers >> All Offers</h2>
+    <p style="float: left; margin: 25px 0px 5px 30px;">
+    <?php echo anchor('bnw/addpost','Add New Offer'); ?>
+    </p>
+     <div class="clear"></div>
      <hr class="hr-gradient"/>
     
     
@@ -28,8 +32,8 @@
             ?>
           <tr>
            
-            <td><?php echo $data->post_title ?></td>
-            <td><?php echo $data->post_summary ?></td>
+            <td><?php echo wordwrap($data->post_title, 50, "\n", true); ?></td>
+            <td><?php echo wordwrap($data->post_summary, 50, "\n", true); ?></td>
             
             
             

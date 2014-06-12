@@ -36,7 +36,7 @@ if ($miscSetting)
         }
     ?>
    <div class="titleArea">
-     <h2>Edit Offer/ <?php echo $post_title; ?></h2>
+     <h2>Offers >> Edit Offer/ <?php echo mb_strimwidth($post_title, 0, 65, "..."); ?></h2>
 <hr class="hr-gradient"/>   
     </div> 
     <div id="forLeftPage">
@@ -50,7 +50,7 @@ if ($miscSetting)
     <input type="hidden" name="hidden_image" value="<?php echo $post_image; ?>"/>
   <p>Offer Title:<br />
       <input type="hidden" name="id" value="<?php echo $id; ?>" >
-      <input type="text" name="post_title" value="<?php echo $post_title; ?>" />
+      <input type="text" size="66" name="post_title" value="<?php echo $post_title; ?>" />
   </p>
   <p>Body:<br />
   <textarea name="post_content" id="area1" rows="5" cols="50" style="resize:none;">

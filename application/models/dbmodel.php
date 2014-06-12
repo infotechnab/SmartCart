@@ -306,6 +306,11 @@ public function check_user_email($email){
         $this->db->where('status = 0');
         return $this->db->count_all("product");
     }
+    function record_count_coupon()
+    {
+        
+        return $this->db->count_all("coupon");
+    }
     
     function record_count_cat($id)
     {
@@ -902,10 +907,9 @@ public function get_navigation_info($navigationName)
         return $query->result();
     }
 
-    public function get_coupon()
- {
-            
-        //$this->db->where('type','page');
+    public function get_coupon($limit, $start)
+    {   
+        $this->db->limit($limit, $start);
         $query = $this->db->get('coupon');
         return $query->result();
  }
@@ -1109,8 +1113,9 @@ public function get_navigation_info($navigationName)
       public function record_count_user() {
         return $this->db->count_all("user");
     }
-     public function get_all_user() {
-           //$this->db->limit($limit, $start); 
+     public function get_all_user($limit, $start) {
+        $this->db->limit($limit, $start); 
+        $this->db->order_by('id','DESC');
         $query = $this->db->get('user');
         return $query->result();
     }
@@ -1173,14 +1178,13 @@ public function get_navigation_info($navigationName)
         return $query->result();
     }  
     
-     public function update_user($id,$name, $fname, $lname, $email, $pass, $status, $user_type) {
+     public function update_user($id,$name, $fname, $lname, $email, $status, $user_type) {
        
         $data = array(
             'user_name'=>$name,
             'user_fname'=> $fname,
             'user_lname'=> $lname,
             'user_email'=> $email,
-            'user_pass'=> $pass,
             'user_status'=> $status,
             'user_type'=> $user_type);
         $this->db->where('id', $id);

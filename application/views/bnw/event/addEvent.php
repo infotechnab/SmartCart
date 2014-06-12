@@ -1,5 +1,9 @@
 <div class="rightSide">
- <h2>Add new Event</h2>
+ <h2 style="float: left;">Events >> Add New Events</h2>
+    <p style="float: left; margin: 25px 0px 5px 30px;">
+    <?php echo anchor('bnw/event','View all Events'); ?>
+    </p>
+     <div class="clear"></div>
  <hr class="hr-gradient"/>
   <?php echo validation_errors(); ?>
  <link rel="stylesheet" href="<?php echo base_url().'content/uploads/scripts/date.css';?>">
@@ -17,7 +21,7 @@ $( "#datepicker" ).datepicker();
   <?php echo form_open_multipart('bnw/addevent');?>
       
  <p>Name:<br />
-      <input type="text" name="event_name" value="<?php echo set_value('event_name'); ?>"  /> </p> 
+     <input type="text"  size="66" name="event_name" value="<?php echo set_value('event_name'); ?>"  /> </p> 
  <p>Detail: <br/>
   <textarea name="detail" id="area1" cols="50" rows="5" ><?php echo set_value('detail'); ?></textarea>
  </p>

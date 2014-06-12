@@ -12,7 +12,11 @@ if ($query)
  }
  ?>
     <div class="titleArea">
-     <h2>Add new page</h2>
+     <h2 style="float: left;">Pages >> Add New Page</h2>
+    <p style="float: left; margin: 25px 0px 5px 30px;">
+    <?php echo anchor('bnw/pages','View all Pages'); ?>
+    </p>
+     <div class="clear"></div>
 <hr class="hr-gradient"/>   
     </div>
     
@@ -30,7 +34,7 @@ if ($query)
   <?php echo form_open_multipart('bnw/addpage');?>
   
   <p>Title:<br />
-  <input type="text" name="page_name" value="<?php echo set_value('page_name'); ?>" />
+  <input type="text" name="page_name" size="66" value="<?php echo set_value('page_name'); ?>" />
   </p>
   <p>Body:<br />
       <textarea name="page_content" id="area1" cols="50" rows="5" ><?php echo set_value('page_content'); ?></textarea>
@@ -41,13 +45,13 @@ if ($query)
     <div id="forRightPage"> 
   
    <p> Order : <br/>
-       <input type="text" name="page_order" /> </p>
+       <input type="text" size="66" name="page_order" /> </p>
    
    <p> Type : <br/>
-       <input type="text" name="page_order" /> </p>
+       <input type="text" size="66" name="page_order" /> </p>
    
    <p> Tags : <br/>
-       <input type="text" name="page_order" /> </p>
+       <input type="text" size="66" name="page_order" /> </p>
    <p>Status:<br />
   <?php 
   $options = array(

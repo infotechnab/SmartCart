@@ -105,8 +105,20 @@ class bnw extends CI_Controller {
          if ($this->session->userdata('admin_logged_in')) {
               $data['username'] = Array($this->session->userdata('admin_logged_in'));
             $data['meta'] = $this->dbmodel->get_meta_data();
+            
+             $config = array();
+            $config["base_url"] = base_url() . "index.php/bnw/coupon";
+            $config["total_rows"] = $this->dbmodel->record_count_coupon();
+           // var_dump($config["total_rows"]);
+            $config["per_page"] = 15;
+          
+            $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+
+            $data['coupon'] = $this->dbmodel->get_coupon($config["per_page"], $page);
+            $this->pagination->initialize($config);
+            $data["links"] = $this->pagination->create_links();
+                      
             $data['category'] = $this->dbmodel->get_category();
-            $data['coupon'] = $this->dbmodel->get_coupon();
             $this->load->view('bnw/templates/header', $data);
             $this->load->view('bnw/templates/menu');
             $this->load->view('product/listcoupon',$data);                    
@@ -2204,13 +2216,11 @@ $url = current_url();
             $config = array();
             $config["base_url"] = base_url() . "index.php/bnw/users";
             $config["total_rows"] = $this->dbmodel->record_count_user();
-            $config["per_user"] = 6;
-
-
+            $config["per_page"] = 10;
             $this->pagination->initialize($config);
+            $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
 
-            $user = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-            $data["query"] = $this->dbmodel->get_all_user($config["per_user"], $user);
+            $data["query"] = $this->dbmodel->get_all_user($config["per_page"], $page);
             $data["links"] = $this->pagination->create_links();
             $data['query'] = $this->dbmodel->get_user();
             $data['meta'] = $this->dbmodel->get_meta_data();
@@ -2233,12 +2243,12 @@ $url = current_url();
             $this->load->view("bnw/templates/menu");
             $this->load->helper('form');
             $this->load->library(array('form_validation', 'session'));
-            $this->form_validation->set_rules('user_name', 'User Name', 'required|xss_clean|max_length[200]');
-            $this->form_validation->set_rules('user_fname', 'First Name', 'required|xss_clean|max_length[200]');
-            $this->form_validation->set_rules('user_lname', 'Last Name', 'required|xss_clean|max_length[200]');
-            $this->form_validation->set_rules('user_email', 'User email', 'required|xss_clean|max_length[200]');
-            $this->form_validation->set_rules('user_pass', 'Password', 'required|xss_clean|md5|max_length[200]');
-            $this->form_validation->set_rules('user_type', 'User Type', 'required|xss_clean|max_length[200]');
+            $this->form_validation->set_rules('user_name', 'User Name', 'trim|regex_match[/^[a-z,0-9,A-Z]{2,15}$/]|required|xss_clean|max_length[200]');
+            $this->form_validation->set_rules('user_fname', 'First Name', 'trim|regex_match[/^[a-z,0-9,A-Z]{2,15}$/]|required|xss_clean|max_length[200]');
+            $this->form_validation->set_rules('user_lname', 'Last Name', 'trim|regex_match[/^[a-z,0-9,A-Z]{2,15}$/]|required|xss_clean|max_length[200]');
+            $this->form_validation->set_rules('user_email', 'User email', 'trim|regex_match[/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/]|required|xss_clean|max_length[200]');
+            $this->form_validation->set_rules('user_pass', 'Password', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,35}$/]|required|xss_clean|md5|max_length[200]');
+            $this->form_validation->set_rules('user_type', 'User Type', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,35}$/]|required|xss_clean|max_length[200]');
             if ($this->form_validation->run() == FALSE) {
 
                 $this->load->view('bnw/users/addNew');
@@ -2294,11 +2304,11 @@ $url = current_url();
             $this->load->helper('form');
             $this->load->library(array('form_validation', 'session'));
             //set validation rules
-            $this->form_validation->set_rules('user_name', 'User Name', 'required|xss_clean|max_length[200]');
-            $this->form_validation->set_rules('user_fname', 'First Name', 'required|xss_clean|max_length[200]');
-            $this->form_validation->set_rules('user_lname', 'Last Name', 'required|xss_clean|max_length[200]');
-            $this->form_validation->set_rules('user_email', 'User email', 'required|xss_clean|max_length[200]');
-            $this->form_validation->set_rules('user_pass', 'Password', 'required|xss_clean|md5|max_length[200]');
+            $this->form_validation->set_rules('user_name', 'User Name', 'trim|regex_match[/^[a-z,0-9,A-Z]{2,15}$/]|required|xss_clean|max_length[200]');
+            $this->form_validation->set_rules('user_fname', 'First Name', 'trim|regex_match[/^[a-z,0-9,A-Z]{2,15}$/]|required|xss_clean|max_length[200]');
+            $this->form_validation->set_rules('user_lname', 'Last Name', 'trim|regex_match[/^[a-z,0-9,A-Z]{2,15}$/]|required|xss_clean|max_length[200]');
+            $this->form_validation->set_rules('user_email', 'User email', 'trim|regex_match[/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/]|required|xss_clean|max_length[200]');
+           
             $this->form_validation->set_rules('user_type', 'User Type', 'required|xss_clean|max_length[200]');
 
             if ($this->form_validation->run() == FALSE) {
@@ -2313,11 +2323,11 @@ $url = current_url();
                 $fname = $this->input->post('user_fname');
                 $lname = $this->input->post('user_lname');
                 $email = $this->input->post('user_email');
-                $pass = $this->input->post('user_pass');
+                
                 $status = $this->input->post('user_status');
                 $user_type = $this->input->post('user_type');
                 
-                $this->dbmodel->update_user($id, $name, $fname, $lname, $email, $pass, $status, $user_type);
+                $this->dbmodel->update_user($id, $name, $fname, $lname, $email, $status, $user_type);
                 $this->session->set_flashdata('message', 'User data Modified Sucessfully');
 
                 redirect('bnw/users/userListing');

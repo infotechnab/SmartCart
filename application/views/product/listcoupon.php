@@ -26,6 +26,7 @@
             </tr>
             <?php } ?>
         </table>
+         <?php  echo $links; ?>
     </div>
     
     </div>

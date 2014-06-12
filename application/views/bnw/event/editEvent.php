@@ -33,7 +33,7 @@ $( "#datepicker" ).datepicker();
        
        ?>
         <div class="titleArea">
-     <h2>Edit Event</h2>
+     <h2>Events >> Edit Event/ <?php echo mb_strimwidth($name, 0, 60, "..."); ?></h2>
 <hr class="hr-gradient"/>   
     </div> 
 <!--    <div id="forLeftPage">-->
@@ -46,7 +46,7 @@ $( "#datepicker" ).datepicker();
   <?php echo form_open_multipart('bnw/update_event');?>
   <p>Name:<br />
       <input type="hidden" name="id" value="<?php echo $id; ?>" >
-      <input type="text" name="Name" value="<?php echo $name; ?>" />
+      <input type="text" size="66" name="Name" value="<?php echo $name; ?>" />
   </p>
   <p>Description:<br />
   <textarea name="description" id="area1" rows="5" cols="50" style="resize:none;">
