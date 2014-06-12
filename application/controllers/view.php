@@ -45,7 +45,7 @@ class View extends CI_Controller {
 // grab the like count out, i hate dom parsing, so just use regex:
 
             preg_match('#like_count>(\d+)<#', $atom_data, $matches);
-            $like_count = $matches;
+            $like_count = $matches['1'];
             $productId[$fbsorting->id] = $like_count;
         }
         arsort($productId);
