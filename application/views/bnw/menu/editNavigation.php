@@ -13,7 +13,7 @@
         
     ?>
 <div class="rightSide">
-    <h2>Edit Navigation/ <?php echo $name; ?></h2>
+    <h2>Dashboard >> Edit Navigation/ <?php echo $name; ?></h2>
 <hr class="hr-gradient"/>
     <div id="forLeftPage"> 
  

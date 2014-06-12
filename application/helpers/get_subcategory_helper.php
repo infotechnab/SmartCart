@@ -27,11 +27,9 @@ function fetch_menun($query,$list) {
         $menu_link = $result ['navigation_link'];       
          
          $list[] = array_push($list, end(explode("/",$menu_link))); 
-<<<<<<< HEAD
-       
-=======
+
        // var_dump($list);
->>>>>>> 4b931f46acf4011d69ff648eb8f99f446cc9fc94
+
         if (has_childn( queryn( $menu_id))) {            
             fetch_menun ( queryn( $menu_id), $list); 
               

@@ -29,8 +29,8 @@
             ?>
     <table border="1" cellpadding="10">
         <tr>
-            <th>S.N.</th>
-            <th>Name of Category</th> 
+            
+            <th>Category Title</th> 
             <th>Action</th>
         </tr>
     
@@ -41,7 +41,7 @@
                                 
                 ?>
           <tr>
-            <td><?php echo $data->id; ?></td>
+           
             <td><?php echo $data->category_name ?></td>
             <td><?php echo anchor('bnw/editcategory/'.$data->id,'Edit'); ?> / 
             <?php

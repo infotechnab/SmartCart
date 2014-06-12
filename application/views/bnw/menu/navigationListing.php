@@ -5,7 +5,7 @@
     <p id="sucessmsg">
   <?php if($this->session->flashdata('message')){echo $this->session->flashdata('message');}?>
     </p>
-    <h2>List of Navigation</h2>
+    <h2>DAshboard >> List of Navigation</h2>
     <hr class="hr-gradient"/>
     <?php    
         if(!empty($query)){

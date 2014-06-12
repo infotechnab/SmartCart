@@ -8,15 +8,15 @@
     <p id="sucessmsg">
   <?php if($this->session->flashdata('message')){echo $this->session->flashdata('message');}?>
     </p>
-    <h2>List of Navigation</h2>
+    <h2>Dashboard >> List of Navigation</h2>
     <hr class="hr-gradient"/>
     <?php    
         if(!empty($query)){
             ?>
     <table border="1" cellpadding="10">
         <tr>
-            <th>S.N.</th>
-            <th>Title</th> 
+            <th>NAvigation Id</th>
+            <th>Navigation Title</th> 
             <th>Link</th>
             <th>Parent</th>
                     

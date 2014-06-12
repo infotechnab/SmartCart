@@ -1,5 +1,5 @@
 <div class="rightSide">
- <h2> Add New Navigation </h2>
+ <h2>Dashboard >> Add New Navigation </h2>
   <?php echo validation_errors(); ?>
  
   <p id="sucessmsg">

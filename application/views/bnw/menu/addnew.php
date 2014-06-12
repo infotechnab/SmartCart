@@ -28,8 +28,8 @@
             ?>
     <table border="1" cellpadding="10">
         <tr>
-            <th>S.N.</th>
-            <th>Title</th>
+            
+            <th>Menu Title</th>
             <th>Action</th>
         </tr>
     
@@ -38,7 +38,7 @@
                 
             ?>
           <tr>
-            <td><?php echo $data->id; ?></td>
+            
             <td><?php echo $data->menu_name; ?></td>
             <td><?php echo anchor('bnw/editmenu/'.$data->id,'Edit'); ?> / 
             <?php echo anchor('bnw/deletemenu/'.$data->id,'Delete'); ?></td>

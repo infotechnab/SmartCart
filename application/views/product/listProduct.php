@@ -30,7 +30,7 @@
              ?>
         <table border="1" cellpadding="10" width="100%">
         <tr>
-            <th>Category</th>
+            <th>Product Category</th>
             <th>Product Name</th>
             <th>Description</th>
             <th>Price</th>
