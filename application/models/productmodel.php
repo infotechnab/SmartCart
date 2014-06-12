@@ -191,10 +191,10 @@ public function product_info(){
         return $query->result();
        
     }
-    function get_user($name, $email) {
+    function get_user($name) {
        
                 
-        $this->db->where('user_email', $email);
+        //$this->db->where('user_email', $email);
         $this->db->where('user_name', $name);
         $query = $this->db->get('user');
         return $query->result();

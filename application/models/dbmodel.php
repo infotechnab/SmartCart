@@ -44,7 +44,16 @@ function validate_user($email, $pass) {
         $this->db->where('user_type',1);
         $query = $this->db->get('user');
         return $query->result();
+       
     }
+    public function get_logged_in_user_by_name($userName){
+        $this->db->where('user_name', $userName );
+        $this->db->where('user_type',0);
+        $query = $this->db->get('user');
+        return $query->result();
+        
+    }
+    
 
 
     // this is another method to get user verified 

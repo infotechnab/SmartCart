@@ -45,7 +45,7 @@ class View extends CI_Controller {
 // grab the like count out, i hate dom parsing, so just use regex:
 
             preg_match('#like_count>(\d+)<#', $atom_data, $matches);
-            $like_count = $matches[1];
+            $like_count = $matches;
             $productId[$fbsorting->id] = $like_count;
         }
         arsort($productId);
@@ -336,16 +336,16 @@ class View extends CI_Controller {
 
     public function login() {
 
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('logged_in')|| $this->session->userdata('admin_logged_in')) {
             $data['headertitle'] = $this->viewmodel->get_header_title();
             $data['headerlogo'] = $this->viewmodel->get_header_logo();
             $data['meta'] = $this->dbmodel->get_meta_data();
             $data['headerdescription'] = $this->viewmodel->get_header_description();
             $name = $this->session->userdata('username');
-            $email = $this->session->userdata('useremail');
+            //$email = $this->session->userdata('useremail');
 
             $this->load->model('dbmodel');
-            $data['detail'] = $this->productmodel->get_user($name, $email);
+            $data['detail'] = $this->productmodel->get_user($name);
 
             if (!empty($data['detail'])) {
                 $data['shiping'] = $this->productmodel->getship();
@@ -697,6 +697,10 @@ class View extends CI_Controller {
     }
 
     public function userdetails() {
+        if ($this->session->userdata('logged_in') && $this->session->userdata('admin_logged_in')) {
+        $array_items = array('logged_in'=>'false');
+        $this->session->unset_userdata($array_items);
+        
         $data['headertitle'] = $this->viewmodel->get_header_title();
         $data['headerlogo'] = $this->viewmodel->get_header_logo();
         $data['meta'] = $this->dbmodel->get_meta_data();
@@ -714,9 +718,35 @@ class View extends CI_Controller {
         $this->load->view('templates/cart');
         $this->load->view('templates/sidebarview', $data);
         $this->load->view('templates/footer');
-    }
+        }
+        else
+        { if ($this->session->userdata('logged_in')||$this->session->userdata('admin_logged_in')){
+            $data['headertitle'] = $this->viewmodel->get_header_title();
+        $data['headerlogo'] = $this->viewmodel->get_header_logo();
+        $data['meta'] = $this->dbmodel->get_meta_data();
+        $data['headerdescription'] = $this->viewmodel->get_header_description();
+        $data['featureItem'] = $this->productmodel->featured_item();
+        $data['product_info'] = $this->productmodel->product_info();
+        $data['category'] = $this->productmodel->category_list();
+        $data['event'] = $this->productmodel->get_max_events();
+        $data['offer'] = $this->productmodel->get_max_offers();
+        $data['facebookPopular'] = $this->variable = $this->facebookLikeCount();
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/navigation');
+        $this->load->view('templates/user_details');
+        $this->load->view('templates/sidebarOffer', $data);
+        $this->load->view('templates/cart');
+        $this->load->view('templates/sidebarview', $data);
+        $this->load->view('templates/footer');
+        }else{
+            $this->session->set_flashdata('message', 'Sorry You are not logged in, please login first.');
+             redirect('view/index');
+        }
+        
+    }}
 
     public function updateUser() {
+        
         $data['headertitle'] = $this->viewmodel->get_header_title();
         $data['headerlogo'] = $this->viewmodel->get_header_logo();
         $data['meta'] = $this->dbmodel->get_meta_data();
@@ -735,6 +765,7 @@ class View extends CI_Controller {
         $this->form_validation->set_rules('u_contact', 'Contact no.', 'trim|regex_match[/^[0-9]{5,15}$/]|xss_clean|max_length[15]');
         $this->form_validation->set_rules('user_email', 'Email', 'trim|regex_match[/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/]|required|xss_clean|max_length[200]');
         if ($this->form_validation->run() == FALSE) {
+            
             $data['user_validation_message'] = validation_errors();
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navigation');
@@ -743,6 +774,7 @@ class View extends CI_Controller {
             $this->load->view('templates/sidebarview', $data);
             $this->load->view('templates/footer');
         } else {
+           
             $fname = trim($_POST['u_fname']);
             $lname = trim($_POST['u_lname']);
             $street = trim($_POST['street_address']);
@@ -752,7 +784,9 @@ class View extends CI_Controller {
             $country = trim($_POST['country']);
             $contact = trim($_POST['u_contact']);
             $email = trim($_POST['user_email']);
+             
             $userEmail = $this->session->userdata('useremail');
+            die($userEmail);
             if ($userEmail === $email) {
                 $this->dbmodel->update_user_data($fname, $lname, $street, $town, $district, $zip, $country, $contact, $email);
             } else {

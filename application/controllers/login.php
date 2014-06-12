@@ -58,8 +58,8 @@ class Login extends CI_Controller {
                $link = $this->input->post('requersUrl');
                 $data = array(
                     'username' => $this->input->post('username'),
-                    'admin_logged_in' => true,
-                    'logged_in' =>true
+                    'admin_logged_in' => true
+                    //'logged_in' =>true
                    
                 );
                 $this->session->set_userdata($data);
