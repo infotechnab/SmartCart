@@ -492,7 +492,6 @@ $url = current_url();
             $data['query'] = $this->dbmodel->findproduct($id);
             $data['meta'] = $this->dbmodel->get_meta_data();
             $data['category'] = $this->dbmodel->get_category();
-            //$data['miscSetting'] = $this->dbmodel->get_misc_setting();
             $data['id'] = $id;
             $this->load->view("bnw/templates/header", $data);
             $this->load->view("bnw/templates/menu");
@@ -4127,10 +4126,11 @@ $url = current_url();
                  $img = $a->image;
              }
             // die($img);
-             if($img==!NULL)
+             if(strlen($img)>1 )
              {
              unlink('./content/uploads/images/'. $img);
              }
+            
             $this->dbmodel->delete($id);
       $this->session->set_flashdata('message', 'Data Delete Sucessfully');
       redirect('bnw/event');

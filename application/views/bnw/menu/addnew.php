@@ -40,8 +40,8 @@
           <tr>
             
             <td><?php echo $data->menu_name; ?></td>
-            <td><?php echo anchor('bnw/editmenu/'.$data->id,'Edit'); ?> / 
-            <?php echo anchor('bnw/deletemenu/'.$data->id,'Delete'); ?></td>
+            <td><?php echo anchor('bnw/editmenu/'.$data->id,'Edit'); ?>
+           
         </tr>
             <?php    
             }

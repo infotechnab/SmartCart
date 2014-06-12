@@ -17,7 +17,7 @@ if ($miscSetting)
   {
      echo $error;
   }
-        if(isset($query)){
+        if(!empty($query)){
             foreach ($query as $data){
             $id = $data->id;
             $post_title= $data->post_title;
@@ -33,7 +33,7 @@ if ($miscSetting)
            $share=$data->allow_share;
             $listOfCategory = $this->dbmodel->get_list_of_category();
        }
-        }
+        
     ?>
    <div class="titleArea">
      <h2>Offers >> Edit Offer/ <?php echo mb_strimwidth($post_title, 0, 65, "..."); ?></h2>
@@ -69,7 +69,11 @@ if ($miscSetting)
   </p>
   
    <input type="submit" value="Submit" />
-  <?php echo form_close();?>
+  <?php echo form_close();
+  } else{
+       echo " <b> Sorry! The related offer is not found </b> "; 
+  }
+  ?>
     </div>
     
    <!-- <div id="forRightPage">

@@ -4,7 +4,7 @@
   {
      echo $error;
   }
-        if(isset($query)){
+        if(!empty($query)){
             foreach ($query as $data){
            $id = $data->id;
            $name = $data->user_name;
@@ -15,7 +15,7 @@
            $status= $data->user_status;
          
        }
-        }
+        
     ?>
 <h2>Edit user/ <?php echo $name; ?></h2>
 <hr class="hr-gradient"/>
@@ -60,7 +60,13 @@
   </p>
   
   <input type="submit" value="Submit" />
-  <?php echo form_close();?>
+  <?php echo form_close();
+  }
+ else {
+      echo " <b> Sorry! The user is not found </b> "; 
+  }
+  ?>
+  
 </div>
 <div class="clear"></div>
 </div>
