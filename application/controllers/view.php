@@ -697,9 +697,7 @@ class View extends CI_Controller {
     }
 
     public function userdetails() {
-        if ($this->session->userdata('logged_in') && $this->session->userdata('admin_logged_in')) {
-        $array_items = array('logged_in'=>'false');
-        $this->session->unset_userdata($array_items);
+        if ($this->session->userdata('logged_in')) {
         
         $data['headertitle'] = $this->viewmodel->get_header_title();
         $data['headerlogo'] = $this->viewmodel->get_header_logo();
@@ -720,32 +718,15 @@ class View extends CI_Controller {
         $this->load->view('templates/footer');
         }
         else
-        { if ($this->session->userdata('logged_in')||$this->session->userdata('admin_logged_in')){
-            $data['headertitle'] = $this->viewmodel->get_header_title();
-        $data['headerlogo'] = $this->viewmodel->get_header_logo();
-        $data['meta'] = $this->dbmodel->get_meta_data();
-        $data['headerdescription'] = $this->viewmodel->get_header_description();
-        $data['featureItem'] = $this->productmodel->featured_item();
-        $data['product_info'] = $this->productmodel->product_info();
-        $data['category'] = $this->productmodel->category_list();
-        $data['event'] = $this->productmodel->get_max_events();
-        $data['offer'] = $this->productmodel->get_max_offers();
-        $data['facebookPopular'] = $this->variable = $this->facebookLikeCount();
-        $this->load->view('templates/header', $data);
-        $this->load->view('templates/navigation');
-        $this->load->view('templates/user_details');
-        $this->load->view('templates/sidebarOffer', $data);
-        $this->load->view('templates/cart');
-        $this->load->view('templates/sidebarview', $data);
-        $this->load->view('templates/footer');
-        }else{
+        {
             $this->session->set_flashdata('message', 'Sorry You are not logged in, please login first.');
              redirect('view/index');
         }
         
-    }}
+    }
 
     public function updateUser() {
+        if ($this->session->userdata('logged_in')) {
         
         $data['headertitle'] = $this->viewmodel->get_header_title();
         $data['headerlogo'] = $this->viewmodel->get_header_logo();
@@ -774,6 +755,16 @@ class View extends CI_Controller {
             $this->load->view('templates/sidebarview', $data);
             $this->load->view('templates/footer');
         } else {
+            
+          //  $fname = "";
+          //  $lname = "";
+          //  $street = "";
+          //  $town = "";
+          //  $district = "";
+          //  $zip = "";
+          //  $country = "";
+          //  $contact = "";
+           
            
             $fname = trim($_POST['u_fname']);
             $lname = trim($_POST['u_lname']);
@@ -786,7 +777,7 @@ class View extends CI_Controller {
             $email = trim($_POST['user_email']);
              
             $userEmail = $this->session->userdata('useremail');
-            die($userEmail);
+            
             if ($userEmail === $email) {
                 $this->dbmodel->update_user_data($fname, $lname, $street, $town, $district, $zip, $country, $contact, $email);
             } else {
@@ -794,8 +785,16 @@ class View extends CI_Controller {
                 redirect('view/userdetails');
             }
         }
+        
         $this->session->set_flashdata('message', 'Your details has been updatedsuccessfully');
         redirect('view/index');
+        
+        }
+ else {
+      $this->session->set_flashdata('message', 'Sorry You are not logged in, please login first.');
+             redirect('view/index');
+     
+ }
     }
 
     //         $this->dbmodel->update_user_data($fname,$lname,$street,$town,$district,$zip,$country,$contact,$email); 

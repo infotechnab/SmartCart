@@ -22,14 +22,19 @@ class Login extends CI_Controller {
                
                 $data['link'] = base_url().'index.php/bnw';
             }
-        if ($this->session->userdata('admin_logged_in')&& $this->session->userdata('admin')) {
-             redirect('login', 'refresh');
-        } else {
+        if ($this->session->userdata('admin_logged_in')) {
+             redirect('bnw');
+        } 
+            
+            
+            else
+            {
             $this->session->sess_destroy();
             $data['meta'] = $this->dbmodel->get_meta_data();
             $this->load->view('bnw/templates/loginTemplate', $data);
             $this->load->view('bnw/templates/footer', $data);
-        }
+            }
+        
     }
 
     function validate_credentials() {
@@ -54,15 +59,25 @@ class Login extends CI_Controller {
            
             $query = $this->dbmodel->validate();
             if ($query) {
+                
+                
                 // if the user's credentials validated...
                $link = $this->input->post('requersUrl');
                 $data = array(
                     'username' => $this->input->post('username'),
-                    'admin_logged_in' => true
-                    //'logged_in' =>true
+                    'admin_logged_in' => true,
+                    'logged_in' =>true
                    
                 );
+                
                 $this->session->set_userdata($data);
+                $username = $this->session->userdata ('username');
+            $adminEmail= $this->dbmodel->get_admin_email($username);
+            foreach ($adminEmail as $email){
+                $data['useremail']= $email->user_email;
+            }
+            $this->session->set_userdata($data);
+                
              if($link == base_url().'index.php/bnw/logout')
              {
                  redirect('bnw/index','refresh');

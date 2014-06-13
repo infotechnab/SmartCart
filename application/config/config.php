@@ -14,8 +14,13 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://localhost/SmartCart/';
-
+ if( in_array( $_SERVER['REMOTE_ADDR'], array( '127.0.0.1', '::1' ) ) ) {
+    $config['base_url']    = 'http://localhost/SmartCart/';
+}
+else
+{
+$config['base_url']    = 'http://smartaservices.com/';
+}
 /*
 |--------------------------------------------------------------------------
 | Index File

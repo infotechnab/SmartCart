@@ -1,29 +1,8 @@
 <?php if ($this->session->userdata('logged_in')) {
-            $userEmail = $this->session->userdata('useremail');
-          
-            $detail = $this->dbmodel->get_logged_in_user($userEmail);
-            
-
-    foreach ($detail as $userdetail) {
-        $username = $userdetail->user_name;
-        $fname = $userdetail->user_fname;
-        $lname = $userdetail->user_lname;
-        $email = $userdetail->user_email;
-        $contact = $userdetail->contact;
-        $address = $userdetail->address;
-        $city = $userdetail->city;
-        $state = $userdetail->state;
-        $zip = $userdetail->zip;
-        $country = $userdetail->country;
-    }
-}
-else
-{
-    if ($this->session->userdata('admin_logged_in')) {
             $userName = $this->session->userdata('username');
+          
+            $detail = $this->dbmodel->get_logged_in_user($userName);
             
-            $detail = $this->dbmodel->get_logged_in_user_by_name($userName);
-            //var_dump($detail);
 
     foreach ($detail as $userdetail) {
         $username = $userdetail->user_name;
@@ -38,6 +17,7 @@ else
         $country = $userdetail->country;
     }
 }
+  
  else {
     
 
@@ -51,7 +31,7 @@ else
   $state="";
   $zip="";
   $country="";
-}}
+}
 ?>
 <div id='content'>
     <div id="userDetail">

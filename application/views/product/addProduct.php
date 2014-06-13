@@ -19,7 +19,7 @@
 <textarea name="pDescription" id="area1" cols="50" rows="5" ><?php echo set_value('pDescription'); ?></textarea> </p>
  <div class="imageUpload">
      <p>Price:<br />
-         <input type="number" name="pPrice" value="<?php echo set_value('pPrice'); ?>" min="1" /> </p></div>
+         <input type="number" name="pPrice" value="<?php echo set_value('pPrice'); ?>" min="1" step="0.1"/> </p></div>
 
 <div class="imageUpload">
     <p> Select Category : <br/>

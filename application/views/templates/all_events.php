@@ -74,7 +74,7 @@ $currentDate = date("Y-m-d");
             <div class="eventContainer">
 <?php if (strlen($allEvents->image)>2) {
     ?>
-                <div class='eventImage' style="outline: 1px solid black;">
+                <div class='eventImage'>
                 <img src="<?php echo base_url() . "content/uploads/images/" . $allEvents->image; ?>" alt=""/>   
             </div>
 
@@ -116,7 +116,7 @@ $currentDate = date("Y-m-d");
             <div class="eventContainer">
 <?php if (strlen($allEvents->image)>2) {
     ?>
-                <div class='eventImage' style="outline: 1px solid black;">
+                <div class='eventImage'>
                 <img src="<?php echo base_url() . "content/uploads/images/" . $allEvents->image; ?>" alt=""/>   
             </div>
 

@@ -39,13 +39,21 @@ function validate_user($email, $pass) {
         $query = $this->db->get('user');
         return $query->result();
     }
-    public function get_logged_in_user($userEmail){
-        $this->db->where('user_email', $userEmail );
-        $this->db->where('user_type',1);
+    public function get_logged_in_user($userName){
+        $this->db->where('user_name', $userName );
+        //$this->db->where('user_type',1);
         $query = $this->db->get('user');
         return $query->result();
        
     }
+    public function get_admin_email($userName){
+         $this->db->where('user_name', $userName );
+        $this->db->where('user_type',0);
+        $query = $this->db->get('user');
+        return $query->result();
+       
+    }
+
     public function get_logged_in_user_by_name($userName){
         $this->db->where('user_name', $userName );
         $this->db->where('user_type',0);

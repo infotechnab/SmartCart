@@ -412,8 +412,9 @@ function myFunction() {
 </style>
 
 <?php if ($this->session->userdata('logged_in')) {
-            $userEmail = $this->session->userdata('useremail');
-            $detail = $this->dbmodel->get_logged_in_user($userEmail);
+           $userName = $this->session->userdata('username');
+          
+            $detail = $this->dbmodel->get_logged_in_user($userName);
         
 
     foreach ($detail as $userdetail) {
