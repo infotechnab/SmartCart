@@ -328,8 +328,8 @@ $this->load->helper('currency');
         ?>
                             <h3><?php echo $product->name; ?></h3>
                         <?php } else { ?> 
-                            <h4> <?php $text = wordwrap($product->name, 22, "\n", true);
-                    echo mb_strimwidth($text, 0, 45, ".."); ?></h4>
+                            <h4> <?php $text = wordwrap($product->name, 18, "\n", true);
+                    echo mb_strimwidth($text, 0, 36, ".."); ?></h4>
                         <?php }
                         ?>
 

@@ -1942,7 +1942,7 @@ input:-moz-placeholder { color:#999; }
 }
 .eventTitle
 {
-    float: left; width: 85%; height: auto; margin: 0px; padding: 0px 0px 0px 5px;
+    float: left; width: 85%; height: 40px; margin: 0px; padding: 0px 0px 0px 5px;
 }
 .eventTitle p
 {

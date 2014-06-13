@@ -1647,9 +1647,7 @@ $url = current_url();
                 
           
             
-            //$this->dbmodel->delete_category($id);
-           // $this->session->set_flashdata('message', 'Data Delete Sucessfully');
-           // redirect('bnw/category');
+           
         } else {
             redirect('login/index/?url='.$url, 'refresh');
         }
@@ -1675,7 +1673,7 @@ $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
              $data['meta'] = $this->dbmodel->get_meta_data();
              $data['category'] = $this->dbmodel->get_category_id($id);
-            // $data['category_list'] = $this->dbmodel->get_category();
+           
             $this->load->view('bnw/templates/header', $data);
             $this->load->view('bnw/templates/menu', $data);
             $this->load->view('bnw/category/delcategory', $data);
@@ -1687,15 +1685,15 @@ $url = current_url();
         }
         
     }
-    function delete_Product_cat()
+    function delete_Product_cat($id)
     {
         $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
-        $id = $_POST['id'];
-        $this->dbmodel->delRelPro($id);
+        $this->dbmodel->delete_related_product($id);
         $this->dbmodel->delete_category($id);
-        $this->session->set_flashdata('message', 'Data Delete Sucessfully');
-       redirect('bnw/category');
+        
+        //$this->session->set_flashdata('message', 'Data Delete Sucessfully');
+            redirect('bnw/category');
         }
         else
         {

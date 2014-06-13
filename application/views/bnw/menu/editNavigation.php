@@ -9,7 +9,7 @@
            
                 $id = $navdata->id;
                 $name = $navdata->navigation_name;
-       }
+        }
         
     ?>
 <div class="rightSide">
@@ -30,13 +30,17 @@
   </p>
   
   <input type="submit" value="Submit" />
-  <?php echo form_close();?>
+  
+  <?php echo form_close(); ?>
   
 
 </div></div>
+
+<?php   }
+else{ ?>
+    <div class="rightSide">
+    <h2>Sorry! related navigation item is not found.</h2>
+<?php } ?>
 <div class="clear"></div>
 </div>
-<?php }
-else{
-    echo 'page not found';
-}?>
+

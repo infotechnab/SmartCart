@@ -15,7 +15,7 @@ if(isset($category))
   <p id="sucessmsg">
   <?php if($this->session->flashdata('message')){echo $this->session->flashdata('message');}?>
     </p>
-  <?php echo form_open_multipart('bnw/delete_Product_cat/');?>
+  <?php echo form_open_multipart('bnw/delete_Product_cat/'.$id);?>
   
       <input type="hidden" name="id" value="<?php echo $id; ?>" />
       
@@ -24,8 +24,7 @@ if(isset($category))
     <input type="submit" value="Yes" />
     <?php echo anchor('bnw/category', 'No');  ?>
   
- <?php 
-    echo form_close(); ?>
+ <?php echo form_close(); ?>
 
 <div>
     <h4>Related Product</h4>

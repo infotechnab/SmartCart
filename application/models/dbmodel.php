@@ -1017,17 +1017,16 @@ public function get_navigation_info($navigationName)
     }
 
     public function delete_category($id) {
-//==== working ================= //
-        //die($id);
+
         $this->db->delete('category', array('id' => $id));
        
     }
     
-       function delRelPro($id)
+    public function delete_related_product($id)
     {
-       //die($id);
-       $this->db->where('category',$id);
-        $this->db->delete('product');
+        $this->db->delete('product', array('category' => $id));  
+     
+        
     }
 //pages -----------------------------------------------
     public function record_count_page() {

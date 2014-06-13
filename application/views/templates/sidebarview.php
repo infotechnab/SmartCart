@@ -41,39 +41,33 @@ $this->load->helper('currency');
 
 <div class='cartItems' id="shopping_cart">
 
-    <?php foreach ($category as $catList) {
-        $category_id = $catList->id;
-        ?>
-        <div class="redColouredDiv" id='sidebarContent'><h3 style="float: left;"><?php echo $catList->category_name; ?></h3><div ><a style="float: right; padding: 10px; color: blue; text-decoration: underline;" href="<?php echo base_url() . "index.php/view/category/" . $category_id ?>">View all</a></div></div>
-       
-           
-
-                
-
-        <?php 
-    } ?>
+    
     <!-- from here-->
     <?php if (!empty($facebookPopular)) { ?>
 
 
-        <div class="redColouredDiv" id='sidebarContent'><h3 style="float: left;">Popular Products</h3><div ><a style="float: right; padding: 10px; color: blue; text-decoration: underline;" href="<?php echo base_url() . "index.php/view/category/" . $category_id ?>">View all</a></div></div>
-            <?php foreach ($facebookPopular as $populars) {
+        <div class="redColouredDiv" id='sidebarContent'><h3 style="float: left;">Popular Products</h3></div>
+             <?php
+          
+            foreach ($facebookPopular as  $populars) {
+             
                 ?>         
-            <div class='sidebarContentNext' style="z-index: 1;">
-                <?php ?>
+        <a  style="color: #000;"href="<?php echo base_url()."index.php/view/details/".$populars['id'] ?>"> <div class='sidebarContentNext' style="z-index: 1;">
+               
                 <div class="cartImage" style="float: left; width: 14%; min-height: 40px; margin: 0px; padding: 0px;">
-                    <img src="<?php echo base_url() . 'content/uploads/images/' . $populars->image1; ?>" width="50" height="50"  /> 
+                    <img src="<?php echo base_url() . 'content/uploads/images/' . $populars['image']; ?>" width="50" height="50"  />
                 </div>
                     <?php ?>
                 <div class="cartImage" style="float: left; width: 40%; min-height: 40px; margin: 0px; padding: 0px;">
                     <?php
-                    $a = strlen($populars->name);
+                    $a = strlen($populars['name']);
 
                     if ($a <= 15) {
                         ?>
-                        <p><b><?php echo $populars->name; ?></b></p>
-        <?php } else { ?>
-                        <p><b><?php echo mb_strimwidth($populars->name, 0, 15, "..."); ?></b></p>
+                        <p><b><?php echo $populars['name']; ?></b></p>
+        <?php } else { ?>         
+           
+                        <p><b><?php echo mb_strimwidth($populars['name'], 0, 15, "..."); ?></b></p>
         <?php } ?>
 
 
@@ -84,22 +78,32 @@ $this->load->helper('currency');
 
                 </div>
                 <div class="sidebarCart"> 
-                    <div class='sidebarCartLeft'><h4><?php get_currency($populars->price); ?></h4></div>
+                    <div class='sidebarCartLeft'><h4><?php get_currency($populars['price']); ?></h4></div>
 
 
-                    <input type="button" value="<?php echo $populars->id ?>" class="addToCartSidebar" id="addToCartBtn">  
+                    <input type="button" value="<?php echo $populars['id'] ?>" class="addToCartSidebar" id="addToCartBtn">  
 
 
                 </div>
 
 
-            </div>
+            </div></a>
 
 
         <?php }
     } ?>
     <!-- till here-->
+<?php foreach ($category as $catList) {
+        $category_id = $catList->id;
+        ?>
+        <div class="redColouredDiv" id='sidebarContent'><h3 style="float: left;"><?php echo $catList->category_name; ?></h3><div ><a style="float: right; padding: 10px; color: blue; text-decoration: underline;" href="<?php echo base_url() . "index.php/view/category/" . $category_id ?>">View all</a></div></div>
+       
+           
 
+                
+
+        <?php 
+    } ?>
 
     <div class="redColouredDiv" id='sidebarContent'><h3>Sponsors</h3></div>
 <?php for ($i = 0; $i < 1; $i++) {

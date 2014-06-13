@@ -20,7 +20,15 @@ $this->load->helper('currency');
 
                 <tr>
                     <td class="hide"><img class="hide" src="<?php echo base_url() . 'content/uploads//images/' . $item['image1']; ?>" height="50" width="50"> </td>
-                    <td style="padding: 0px 0px 0px 10px;"><?php echo $item['name']; ?> </td>
+                    <td style="padding: 0px 0px 0px 10px;">
+                   <?php if (strlen($item['name']) <= 15) {
+                        ?>
+                        <?php echo $item['name']; ?></td>
+        <?php } else { ?>         
+           
+                        <?php echo mb_strimwidth($item['name'], 0, 15, "..."); ?></td>
+        <?php } ?>
+                         
                     <td style="text-align: center;"><?php echo $item['qty'] ?></td>
                     <td>x</td>
                     <td style="text-align: center;"><?php get_currency($item['price']); ?></td>

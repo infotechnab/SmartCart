@@ -50,7 +50,7 @@
                 
                 <?php if (strlen($sideEvent->image)>2){ ?>
 		                    <div class="cartImage" style="float: left; width: 14%; min-height: 40px; margin: -1px; padding: 0px;">
-		                       <img src="<?php echo base_url().'content/uploads/images/'.$sideEvent->image; ?>" width="50" height="50"  /> 
+		                       <img src="<?php echo base_url().'content/uploads/images/'.$sideEvent->image; ?>" width="51" height="51"  /> 
 		                    </div>
                 <?php } ?>
 		                    <div class="eventTitle">

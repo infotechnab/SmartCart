@@ -27,41 +27,30 @@ class View extends CI_Controller {
         $productId = array();
         foreach ($products as $fbsorting) {
             $productLink = base_url() . "/index.php/view/details/" . $fbsorting->id;
-            //$dataf = json_decode(file_get_contents("http://api.facebook.com/method/fql.query?query=select%20like_count%20from%20link_stat%20where%20url='$productLink'&format=json"));
-
-
-
+         
             $fburl = "http://api.facebook.com/method/fql.query?query=select%20like_count%20from%20link_stat%20where%20url='$productLink'&format=atom";
-// grab the atom dump via facebook api url call above
             $ch = curl_init($fburl); // url for page
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             $atom_data = curl_exec($ch);
-// it returns something like this:
-            /* <fql_query_response xmlns="http://api.facebook.com/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" list="true">
-              <link_stat>
-              <like_count>9</like_count>
-              </link_stat>
-              </fql_query_response> */
-// grab the like count out, i hate dom parsing, so just use regex:
-
             preg_match('#like_count>(\d+)<#', $atom_data, $matches);
-            $like_count = $matches['1'];
+            if(isset($matches['1'])) {
+                $like_count = $matches['1'];
             $productId[$fbsorting->id] = $like_count;
+            }
         }
         arsort($productId);
         $temp = array();
         foreach ($productId as $key => $fbratingproduct) {
+            foreach ($this->productmodel->get_fbsorted_prodcuts($key) as $fbproductInfo)
+            {
+                $temp[$key] = array('id'=>$fbproductInfo->id, 'name'=>$fbproductInfo->name, 'image'=>$fbproductInfo->image1, 'price'=>$fbproductInfo->price);
+            }
 
-            array_push($temp, $this->productmodel->get_fbsorted_prodcuts($key));
+            
         }
 
-        $popularProduct = array();
-        for ($i = 0; $i < 10; $i++) {
-            $product = array($temp[$i]['0']);
-            $popularProduct = array_merge($popularProduct, $product);
-        }
 
-        return $popularProduct;
+        return $temp;
 
         /* facebook like ends here */
     }
