@@ -552,7 +552,7 @@ body
 .sidebarContentNext
 {
     margin: 1% 0% 0% 0%;
-    padding: 0px 0px 0px 5px;
+    padding: 5px;
     background-color: #fff;
     min-height: 51px;
     border-radius: 5px;
