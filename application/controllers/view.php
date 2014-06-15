@@ -27,26 +27,23 @@ class View extends CI_Controller {
         $productId = array();
         foreach ($products as $fbsorting) {
             $productLink = base_url() . "/index.php/view/details/" . $fbsorting->id;
-         
+
             $fburl = "http://api.facebook.com/method/fql.query?query=select%20like_count%20from%20link_stat%20where%20url='$productLink'&format=atom";
             $ch = curl_init($fburl); // url for page
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             $atom_data = curl_exec($ch);
             preg_match('#like_count>(\d+)<#', $atom_data, $matches);
-            if(isset($matches['1'])) {
+            if (isset($matches['1'])) {
                 $like_count = $matches['1'];
-            $productId[$fbsorting->id] = $like_count;
+                $productId[$fbsorting->id] = $like_count;
             }
         }
         arsort($productId);
         $temp = array();
         foreach ($productId as $key => $fbratingproduct) {
-            foreach ($this->productmodel->get_fbsorted_prodcuts($key) as $fbproductInfo)
-            {
-                $temp[$key] = array('id'=>$fbproductInfo->id, 'name'=>$fbproductInfo->name, 'image'=>$fbproductInfo->image1, 'price'=>$fbproductInfo->price);
+            foreach ($this->productmodel->get_fbsorted_prodcuts($key) as $fbproductInfo) {
+                $temp[$key] = array('id' => $fbproductInfo->id, 'name' => $fbproductInfo->name, 'image' => $fbproductInfo->image1, 'price' => $fbproductInfo->price);
             }
-
-            
         }
 
 
@@ -325,7 +322,7 @@ class View extends CI_Controller {
 
     public function login() {
 
-        if ($this->session->userdata('logged_in')|| $this->session->userdata('admin_logged_in')) {
+        if ($this->session->userdata('logged_in') || $this->session->userdata('admin_logged_in')) {
             $data['headertitle'] = $this->viewmodel->get_header_title();
             $data['headerlogo'] = $this->viewmodel->get_header_logo();
             $data['meta'] = $this->dbmodel->get_meta_data();
@@ -422,6 +419,37 @@ class View extends CI_Controller {
         $this->load->view('templates/footer');
     }
 
+    function queryn($parent_id) { //function to run a query  
+        $query = mysql_query("SELECT * FROM navigation WHERE parent_id=$parent_id && navigation_type='category'");
+        return $query;
+    }
+
+    function has_childn($query) { //This function checks if the menus has childs or not
+        $rows = mysql_num_rows($query);
+        if ($rows > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private $list = array();
+
+    function fetch_menun($query) {
+
+        while ($result = mysql_fetch_array($query)) {
+            $menu_id = $result ['id'];
+            $menu_name = $result ['navigation_name'];
+            $menu_link = $result ['navigation_link'];
+            $catid = end(explode("/", $menu_link));
+            $this->list[$catid] = $catid;
+            if ($this->has_childn($this->queryn($menu_id))) {
+                $this->fetch_menun($this->queryn($menu_id));
+            }
+        }
+        return $this->list;
+    }
+
     function category($id = 0) {
         $data['headertitle'] = $this->viewmodel->get_header_title();
         $data['headerlogo'] = $this->viewmodel->get_header_logo();
@@ -437,32 +465,25 @@ class View extends CI_Controller {
         //Get all the category of this passed category
         $selectedId = 0;
         $navigation_link = base_url() . 'index.php/view/category/' . $id;
-
         $selected_category = $this->dbmodel->get_id_of_selected_category($navigation_link);
         if (!empty($selected_category)) {
             foreach ($selected_category as $selected) {
                 $selectedId = $selected->id;
             }
         }
-
-        $this->load->helper('get_subcategory_helper');
-        $list = Array();
-        $categorylist = fetch_menun(queryn($selectedId), $list);
-
-
+        $categorylist = $this->fetch_menun($this->queryn($selectedId));
+        
         $data['categoryId'] = $this->productmodel->category_list_id($id);
         foreach ($data['categoryId'] as $page) {
             $data['pageTitle'] = $page->category_name;
         }
-        $data['product'] = $this->productmodel->get_productList($id);
+        $data['product'] = $this->productmodel->get_productList($categorylist, $id);
         foreach ($data['product'] as $page) {
             $data['pageDescription'] = $page->description;
         }
-
         $data['slider_json'] = json_encode($data['featureItem']);
         $this->load->view('templates/header', $data);
         $this->load->view('templates/navigation');
-
         $this->load->view('templates/category_page', $data);
         $this->load->view('templates/sidebarOffer', $data);
         $this->load->view('templates/cart');
@@ -687,103 +708,97 @@ class View extends CI_Controller {
 
     public function userdetails() {
         if ($this->session->userdata('logged_in')) {
-        
-        $data['headertitle'] = $this->viewmodel->get_header_title();
-        $data['headerlogo'] = $this->viewmodel->get_header_logo();
-        $data['meta'] = $this->dbmodel->get_meta_data();
-        $data['headerdescription'] = $this->viewmodel->get_header_description();
-        $data['featureItem'] = $this->productmodel->featured_item();
-        $data['product_info'] = $this->productmodel->product_info();
-        $data['category'] = $this->productmodel->category_list();
-        $data['event'] = $this->productmodel->get_max_events();
-        $data['offer'] = $this->productmodel->get_max_offers();
-        $data['facebookPopular'] = $this->variable = $this->facebookLikeCount();
-        $this->load->view('templates/header', $data);
-        $this->load->view('templates/navigation');
-        $this->load->view('templates/user_details');
-        $this->load->view('templates/sidebarOffer', $data);
-        $this->load->view('templates/cart');
-        $this->load->view('templates/sidebarview', $data);
-        $this->load->view('templates/footer');
-        }
-        else
-        {
-            $this->session->set_flashdata('message', 'Sorry You are not logged in, please login first.');
-             redirect('view/index');
-        }
-        
-    }
 
-    public function updateUser() {
-        if ($this->session->userdata('logged_in')) {
-        
-        $data['headertitle'] = $this->viewmodel->get_header_title();
-        $data['headerlogo'] = $this->viewmodel->get_header_logo();
-        $data['meta'] = $this->dbmodel->get_meta_data();
-        $data['headerdescription'] = $this->viewmodel->get_header_description();
-        $data['featureItem'] = $this->productmodel->featured_item();
-        $data['product_info'] = $this->productmodel->product_info();
-        $data['category'] = $this->productmodel->category_list();
-        $data['facebookPopular'] = $this->variable = $this->facebookLikeCount();
-        $this->form_validation->set_rules('u_fname', 'First name', 'trim|regex_match[/^[a-z,0-9,A-Z]{2,15}$/]|xss_clean|max_length[15]');
-        $this->form_validation->set_rules('u_lname', 'Last name', 'trim|regex_match[/^[a-z,0-9,A-Z]{2,15}$/]|xss_clean|max_length[15]');
-        $this->form_validation->set_rules('street_address', 'Address', 'trim|regex_match[/^[A-Za-z0-9\-\\,.]{2,35}$/]|xss_clean|max_length[35]');
-        $this->form_validation->set_rules('Town_address', 'suburb/city', 'trim|regex_match[/^[A-Za-z0-9\-\\,.]{2,35}$/]|xss_clean|max_length[35]');
-        $this->form_validation->set_rules('District_address', 'State', 'trim|regex_match[/^[A-Za-z0-9\-\\,.]{2,35}$/]|xss_clean|max_length[35]');
-        $this->form_validation->set_rules('zip', 'Post Code', 'trim|regex_match[/^[0-9]{4,15}$/]|xss_clean|max_length[15]');
-        $this->form_validation->set_rules('country', 'Country', 'trim|regex_match[/^[A-Za-z0-9\-\\,.]{2,35}$/]|xss_clean|max_length[35]');
-        $this->form_validation->set_rules('u_contact', 'Contact no.', 'trim|regex_match[/^[0-9]{5,15}$/]|xss_clean|max_length[15]');
-        $this->form_validation->set_rules('user_email', 'Email', 'trim|regex_match[/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/]|required|xss_clean|max_length[200]');
-        if ($this->form_validation->run() == FALSE) {
-            
-            $data['user_validation_message'] = validation_errors();
+            $data['headertitle'] = $this->viewmodel->get_header_title();
+            $data['headerlogo'] = $this->viewmodel->get_header_logo();
+            $data['meta'] = $this->dbmodel->get_meta_data();
+            $data['headerdescription'] = $this->viewmodel->get_header_description();
+            $data['featureItem'] = $this->productmodel->featured_item();
+            $data['product_info'] = $this->productmodel->product_info();
+            $data['category'] = $this->productmodel->category_list();
+            $data['event'] = $this->productmodel->get_max_events();
+            $data['offer'] = $this->productmodel->get_max_offers();
+            $data['facebookPopular'] = $this->variable = $this->facebookLikeCount();
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navigation');
             $this->load->view('templates/user_details');
+            $this->load->view('templates/sidebarOffer', $data);
             $this->load->view('templates/cart');
             $this->load->view('templates/sidebarview', $data);
             $this->load->view('templates/footer');
         } else {
-            
-          //  $fname = "";
-          //  $lname = "";
-          //  $street = "";
-          //  $town = "";
-          //  $district = "";
-          //  $zip = "";
-          //  $country = "";
-          //  $contact = "";
-           
-           
-            $fname = trim($_POST['u_fname']);
-            $lname = trim($_POST['u_lname']);
-            $street = trim($_POST['street_address']);
-            $town = trim($_POST['Town_address']);
-            $district = trim($_POST['District_address']);
-            $zip = trim($_POST['zip']);
-            $country = trim($_POST['country']);
-            $contact = trim($_POST['u_contact']);
-            $email = trim($_POST['user_email']);
-             
-            $userEmail = $this->session->userdata('useremail');
-            
-            if ($userEmail === $email) {
-                $this->dbmodel->update_user_data($fname, $lname, $street, $town, $district, $zip, $country, $contact, $email);
+            $this->session->set_flashdata('message', 'Sorry You are not logged in, please login first.');
+            redirect('view/index');
+        }
+    }
+
+    public function updateUser() {
+        if ($this->session->userdata('logged_in')) {
+
+            $data['headertitle'] = $this->viewmodel->get_header_title();
+            $data['headerlogo'] = $this->viewmodel->get_header_logo();
+            $data['meta'] = $this->dbmodel->get_meta_data();
+            $data['headerdescription'] = $this->viewmodel->get_header_description();
+            $data['featureItem'] = $this->productmodel->featured_item();
+            $data['product_info'] = $this->productmodel->product_info();
+            $data['category'] = $this->productmodel->category_list();
+            $data['facebookPopular'] = $this->variable = $this->facebookLikeCount();
+            $this->form_validation->set_rules('u_fname', 'First name', 'trim|regex_match[/^[a-z,0-9,A-Z]{2,15}$/]|xss_clean|max_length[15]');
+            $this->form_validation->set_rules('u_lname', 'Last name', 'trim|regex_match[/^[a-z,0-9,A-Z]{2,15}$/]|xss_clean|max_length[15]');
+            $this->form_validation->set_rules('street_address', 'Address', 'trim|regex_match[/^[A-Za-z0-9\-\\,.]{2,35}$/]|xss_clean|max_length[35]');
+            $this->form_validation->set_rules('Town_address', 'suburb/city', 'trim|regex_match[/^[A-Za-z0-9\-\\,.]{2,35}$/]|xss_clean|max_length[35]');
+            $this->form_validation->set_rules('District_address', 'State', 'trim|regex_match[/^[A-Za-z0-9\-\\,.]{2,35}$/]|xss_clean|max_length[35]');
+            $this->form_validation->set_rules('zip', 'Post Code', 'trim|regex_match[/^[0-9]{4,15}$/]|xss_clean|max_length[15]');
+            $this->form_validation->set_rules('country', 'Country', 'trim|regex_match[/^[A-Za-z0-9\-\\,.]{2,35}$/]|xss_clean|max_length[35]');
+            $this->form_validation->set_rules('u_contact', 'Contact no.', 'trim|regex_match[/^[0-9]{5,15}$/]|xss_clean|max_length[15]');
+            $this->form_validation->set_rules('user_email', 'Email', 'trim|regex_match[/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/]|required|xss_clean|max_length[200]');
+            if ($this->form_validation->run() == FALSE) {
+
+                $data['user_validation_message'] = validation_errors();
+                $this->load->view('templates/header', $data);
+                $this->load->view('templates/navigation');
+                $this->load->view('templates/user_details');
+                $this->load->view('templates/cart');
+                $this->load->view('templates/sidebarview', $data);
+                $this->load->view('templates/footer');
             } else {
-                $this->session->set_flashdata('message', 'Your email did not match');
-                redirect('view/userdetails');
+
+                //  $fname = "";
+                //  $lname = "";
+                //  $street = "";
+                //  $town = "";
+                //  $district = "";
+                //  $zip = "";
+                //  $country = "";
+                //  $contact = "";
+
+
+                $fname = trim($_POST['u_fname']);
+                $lname = trim($_POST['u_lname']);
+                $street = trim($_POST['street_address']);
+                $town = trim($_POST['Town_address']);
+                $district = trim($_POST['District_address']);
+                $zip = trim($_POST['zip']);
+                $country = trim($_POST['country']);
+                $contact = trim($_POST['u_contact']);
+                $email = trim($_POST['user_email']);
+
+                $userEmail = $this->session->userdata('useremail');
+
+                if ($userEmail === $email) {
+                    $this->dbmodel->update_user_data($fname, $lname, $street, $town, $district, $zip, $country, $contact, $email);
+                } else {
+                    $this->session->set_flashdata('message', 'Your email did not match');
+                    redirect('view/userdetails');
+                }
             }
+
+            $this->session->set_flashdata('message', 'Your details has been updatedsuccessfully');
+            redirect('view/index');
+        } else {
+            $this->session->set_flashdata('message', 'Sorry You are not logged in, please login first.');
+            redirect('view/index');
         }
-        
-        $this->session->set_flashdata('message', 'Your details has been updatedsuccessfully');
-        redirect('view/index');
-        
-        }
- else {
-      $this->session->set_flashdata('message', 'Sorry You are not logged in, please login first.');
-             redirect('view/index');
-     
- }
     }
 
     //         $this->dbmodel->update_user_data($fname,$lname,$street,$town,$district,$zip,$country,$contact,$email); 

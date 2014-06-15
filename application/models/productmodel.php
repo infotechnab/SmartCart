@@ -98,15 +98,23 @@ public function product_info(){
          return $query->result();
                 
     }
-    function get_productList($id)
+    function get_productList($catlist,$id)
     {
         //die($id);
         //$this->db->limit($a, $b);
+        $catlist[$id]=$id;
+        
         $status = 0;
+        //$this->db->where('category',$id);
+        foreach ($catlist as $cat)
+        {
+            
+            $this->db->or_where('category',$cat); 
+        }
         $this->db->where('status',$status);
-         $this->db->where('category',$id);
+        
          $query = $this->db->get('product');
-        // var_dump($query);
+   
          return $query->result();
                 
     }
