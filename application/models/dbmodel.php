@@ -319,8 +319,9 @@ public function check_user_email($email){
     
     function record_count_product()
     {
-        $this->db->where('status = 0');
-        return $this->db->count_all("product");
+        $this->db->where('status','0');
+        $this->db->from("product");
+        return $this->db->count_all_results();
     }
     function record_count_coupon()
     {
