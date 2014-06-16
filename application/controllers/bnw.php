@@ -638,55 +638,15 @@ $url = current_url();
     function delProduct($id=0) {
         $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
-            
-//            $delimages = $this->dbmodel->findproduct($id);
-//            foreach ($delimages as $images)
-//            {
-//                $imgOne = $images->image1;
-//                $imgTwo = $images->image2;
-//                $imgThree = $images->image3;
-//            }
-//            
-//            if(isset($imgOne)==!NULL)
-//            {
-//                unlink('./content/uploads/images/' . $imgOne);
-//            }
-//          //  else{}
-//            if(isset($imgTwo)==!NULL)
-//            {
-//                unlink('./content/uploads/images/' . $imgTwo);
-//           }
-//          //  else{}
-//            if(isset($imgThree)==!NULL)
-//           {
-//                unlink('./content/uploads/images/' . $imgThree);
-//           }
-//          //  else{}
-//            
-//            
-//            $result =$this->dbmodel->delProduct($id);
-//             if($result == true)
-//            {
-//                $this->session->set_flashdata('message', 'Data Delete Sucessfully');
-//                 redirect('bnw/productList');
-//                
-//            }
-//           else {
-//                 $this->session->set_flashdata('message', 'Cannot delete or update a parent row');
-//                 redirect('bnw/productList');
-//                  }
-//            
-          $result =$this->dbmodel->delProduct($id);
-           if($result == true)
-            {
-               $this->session->set_flashdata('message', 'Data Delete Sucessfully');
-                 redirect('bnw/productList');
-                
+          if($this->dbmodel->delProduct($id)==FALSE){
+              $this->session->set_flashdata('message', 'Data could not be deleted');
+            redirect('bnw/productList'); 
             }
-          else {
-                 $this->session->set_flashdata('message', 'Cannot delete product');
-                 redirect('bnw/productList');
-                  }
+            else{
+            $this->dbmodel->delete_navigation_related_to_page($id);
+            $this->session->set_flashdata('message', 'Data Delete Sucessfully');
+            redirect('bnw/productList');
+                }
         } else {
             redirect('login/index/?url='.$url, 'refresh');
         }
@@ -1843,11 +1803,19 @@ $url = current_url();
     public function deletepost($id=0) {
         $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
-            $this->dbmodel->deletepost($id);
+            
+            if($this->dbmodel->deletepost($id)==FALSE){
+              $this->session->set_flashdata('message', 'Sorry! Data could not be deleted');
+             redirect('bnw/posts');
+            }
+            else{
+            
+            
+           // $this->dbmodel->deletepost($id);
             
             $this->session->set_flashdata('message', 'Data Deleted Sucessfully');
             redirect('bnw/posts');
-        } else {
+        }} else {
             redirect('login/index/?url='.$url, 'refresh');
         }
     }
@@ -2196,11 +2164,15 @@ $url = current_url();
     public function deletepage($id) {
         $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
-            $this->dbmodel->delete_page($id);
+            if($this->dbmodel->delete_page($id)==FALSE){
+              $this->session->set_flashdata('message', 'Data could not be deleted');
+            redirect('bnw/pages');  
+            }
+            else{
             $this->dbmodel->delete_navigation_related_to_page($id);
             $this->session->set_flashdata('message', 'Data Delete Sucessfully');
             redirect('bnw/pages');
-        } else {
+        } }else {
             redirect('login/index/?url='.$url, 'refresh');
         }
     }
@@ -2347,16 +2319,19 @@ $url = current_url();
             $uNAme = "admin";
             
             $userKey = $this->dbmodel->check_user($id);
-           
+           if(!empty($userKey)){
             foreach ($userKey as $user) {
                 $userid = $user->user_name;
-            }
+           }}
             if ($uNAme !== $userid) {
-               // die($uNAme);
-                $this->dbmodel->delete_user($id);
+               if($this->dbmodel->delete_user($id)==FALSE){
+              $this->session->set_flashdata('message', 'Data could not be deleted');
+            redirect('bnw/users');
+            }else{
+                
                 $this->session->set_flashdata('message', 'Data Delete Sucessfully');
                 redirect('bnw/users');
-            } else {
+            }} else {
                // echo 'Sory you can not be delete this user because user is Login!';
                 $data['token_error'] = "Sory you can not be delete this user because user is Login!";
                  $this->load->view("bnw/templates/header", $data);

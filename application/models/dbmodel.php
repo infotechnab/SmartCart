@@ -80,7 +80,6 @@ function validate_user($email, $pass) {
     }
      function check_user($id)
     {
-           // die('dsfgsdfg'.$id);
         $this->db->select('user_name');
         $this->db->where('id', $id);
         $userKey = $this->db->get('user');
@@ -435,7 +434,7 @@ public function check_user_email($email){
     function get_product()
     {
         $this->db->order_by('id','DESC');
-        //$this->db->where('status = 0');
+        $this->db->where('status = 0');
         $query = $this->db->get('product',3);
         return $query->result();
     }
@@ -526,22 +525,21 @@ public function check_user_email($email){
         $this->db->update('product_oder_detail',$data);
     }
     function delProduct($id){
-       // die($id);
-        $status = 1;
+      $query = $this->db->get_where('product', array('id' => $id));
+        if($query->num_rows() > 0)
+        {
+           $status = 1;
         $data = array(
             'status'=>$status
         );
         $this->db->where('id',$id);
          $result = $this->db->update('product',$data);
-          if(!$result)
-        {
-            return false;
-                }
-        else
-        {
-            return true;
-           // die('its work');
+           return TRUE;
         }
+        else{
+            return FALSE;
+        }
+        
     }
     
         function record_count_catproduct($name)
@@ -787,8 +785,16 @@ public function get_navigation_info($navigationName)
     }
     
      public function deletepost($id) {
- $this->db->delete('post', array('id' => $id));
-     
+         
+         $query = $this->db->get_where('post', array('id' => $id));
+        if($query->num_rows() > 0)
+        {
+           $this->db->delete('post', array('id' => $id));
+           return TRUE;
+        }
+        else{
+            return FALSE;
+        }
     }
     
     function add_new_post($post_title, $post_content, $post_summary, $post_status,$image)
@@ -1105,8 +1111,20 @@ public function get_navigation_info($navigationName)
     }
 
     public function delete_page($id) {
+        $query = $this->db->get_where('page', array('id' => $id));
+        if($query->num_rows() > 0)
+        {
+           $this->db->delete('page', array('id' => $id));
+           return TRUE;
+        }
+        else{
+            return FALSE;
+        }
+        
+        
+        
 
-        $this->db->delete('page', array('id' => $id));
+        //$this->db->delete('page', array('id' => $id));
     }
     
     public function delete_page_image($id)
@@ -1227,8 +1245,16 @@ public function get_navigation_info($navigationName)
   return $query->num_rows();
  } 
       public function delete_user($id) {
-
-        $this->db->delete('user', array('id' => $id));
+$query = $this->db->get_where('user', array('id' => $id));
+        if($query->num_rows() > 0)
+        {
+           $this->db->delete('user', array('id' => $id));
+           return TRUE;
+        }
+        else{
+            return FALSE;
+        }
+        
     }
     
     
