@@ -1689,11 +1689,31 @@ $url = current_url();
     {
         $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
-        $this->dbmodel->delete_related_product($id);
-        $this->dbmodel->delete_category($id);
         
-        //$this->session->set_flashdata('message', 'Data Delete Sucessfully');
+        $this->dbmodel->delete_category($id);
+        $this->dbmodel->delete_related_product($id);
+        
+         if( $this->dbmodel->delete_category($id) == false ){
+
+         $this->session->set_flashdata('message', 'Category Could not be deleted');
             redirect('bnw/category');
+            } 
+            else{
+        $this->session->set_flashdata('message', 'Category Deleted Sucessfully');
+            redirect('bnw/category');
+            } 
+        
+        
+       if( $this->dbmodel->delete_related_product($id) == false ){
+
+         $this->session->set_flashdata('message', 'Data Could not be deleted');
+            redirect('bnw/category');
+            } 
+            else{
+        $this->session->set_flashdata('message', 'Data Delete Sucessfully');
+            redirect('bnw/category');
+            }  
+       
         }
         else
         {
