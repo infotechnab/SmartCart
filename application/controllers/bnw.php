@@ -220,9 +220,7 @@ class bnw extends CI_Controller {
                     
                      //if valid
                 $data = array('upload_data' => $this->upload->data('file'));
-                $slidename = $this->input->post('slide_name');
-                $slideimage = $data['upload_data']['file_name'];
-                $slidecontent = $this->input->post('slide_content');
+              
 
                 //for cropper
                 //require_once(APPPATH.'Imagemanipulator.php');
@@ -1685,34 +1683,17 @@ $url = current_url();
         }
         
     }
-    function delete_Product_cat($id)
+    public function delete_Product_cat()
     {
         $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
-        
-        $this->dbmodel->delete_category($id);
+        $id= $_POST['id'];
         $this->dbmodel->delete_related_product($id);
-        
-         if( $this->dbmodel->delete_category($id) == false ){
-
-         $this->session->set_flashdata('message', 'Category Could not be deleted');
-            redirect('bnw/category');
-            } 
-            else{
-        $this->session->set_flashdata('message', 'Category Deleted Sucessfully');
-            redirect('bnw/category');
-            } 
-        
-        
-       if( $this->dbmodel->delete_related_product($id) == false ){
-
-         $this->session->set_flashdata('message', 'Data Could not be deleted');
-            redirect('bnw/category');
-            } 
-            else{
+        $this->dbmodel->delete_category($id);
+     
         $this->session->set_flashdata('message', 'Data Delete Sucessfully');
             redirect('bnw/category');
-            }  
+           
        
         }
         else
@@ -1863,6 +1844,7 @@ $url = current_url();
         $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $this->dbmodel->deletepost($id);
+            
             $this->session->set_flashdata('message', 'Data Deleted Sucessfully');
             redirect('bnw/posts');
         } else {

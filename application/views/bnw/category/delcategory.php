@@ -1,13 +1,13 @@
 <div class="rightSide">
 <?php
-if(isset($category))
+if(!empty($category))
 {
-    foreach ($category as $data)
+    foreach ($category as $categories)
     {
-        $id = $data->id;
-        $name = $data->category_name;
+        $id = $categories->id;
+        $name = $categories->category_name;
     }
-}
+
 ?>
     <h2>Are You Sure To Delete <?php echo $name; ?> </h2> <br/> <h3> It will also delete all product associated with this category </h3>
   <?php echo validation_errors(); ?>
@@ -15,17 +15,14 @@ if(isset($category))
   <p id="sucessmsg">
   <?php if($this->session->flashdata('message')){echo $this->session->flashdata('message');}?>
     </p>
-  <?php echo form_open_multipart('bnw/delete_Product_cat/'.$id);?>
+  <?php echo form_open_multipart('bnw/delete_Product_cat');?>
   
       <input type="hidden" name="id" value="<?php echo $id; ?>" />
-      
-      
-  </p>
+    
     <input type="submit" value="Yes" />
     <?php echo anchor('bnw/category', 'No');  ?>
   
  <?php echo form_close(); ?>
-
 <div>
     <h4>Related Product</h4>
     <div>
@@ -52,7 +49,7 @@ if(isset($category))
         
          <?php 
      $category = $this->dbmodel->get_categorys($id);
-    echo form_open('bnw/change_category'); ?>
+    echo form_open_multipart('bnw/change_category'); ?>
         <input type="hidden" name="id" value="<?php echo $id; ?>" />
      <select name="categoryProduct" id="categoryList">
      <?php          foreach ($category as $cName)
@@ -64,7 +61,11 @@ if(isset($category))
      
      <input type="submit" value="Change category" />
     <?php 
-    echo form_close(); ?>
+    echo form_close();}
+else{
+    echo "<h3>Sorry! related category is not found</h3>";
+    
+} ?>
         
         
         

@@ -787,8 +787,8 @@ public function get_navigation_info($navigationName)
     }
     
      public function deletepost($id) {
-
-        $this->db->delete('post', array('id' => $id));
+ $this->db->delete('post', array('id' => $id));
+     
     }
     
     function add_new_post($post_title, $post_content, $post_summary, $post_status,$image)
@@ -931,7 +931,7 @@ public function get_navigation_info($navigationName)
         return $query->result();
  }
     public function get_category_id($id) {
-            
+        $this->db->select("id, category_name");    
         $this->db->where('id',$id);
         $query = $this->db->get('category');
         return $query->result();
@@ -1017,24 +1017,14 @@ public function get_navigation_info($navigationName)
     }
 
     public function delete_category($id) {
-
        $this->db->where( 'id', $id );
-        $this->db->delete( 'category' );
-
-    if ( $this->db->affected_rows() == '1' ) {return TRUE;}
-    else {return FALSE;}     
-        
-       
+        $this->db->delete('category');
     }
     
     public function delete_related_product($id)
     {
          $this->db->where( 'category', $id );
-        $this->db->delete( 'product' );
-
-    if ( $this->db->affected_rows() == '1' ) {return TRUE;}
-    else {return FALSE;}     
-        
+         $this->db->delete('product');                         
     }
 //pages -----------------------------------------------
     public function record_count_page() {

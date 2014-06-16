@@ -6,9 +6,17 @@
     <div class="clear"></div>
  <hr class="hr-gradient"/>
 
-  <?php echo validation_errors(); ?>
+  <?php echo validation_errors();
+  
+   if(isset($error))
+  {
+      echo $error;
+  }
+  ?>
 <p id="sucessmsg">
-  <?php if($this->session->flashdata('message')){echo $this->session->flashdata('message');}?>
+  <?php if($this->session->flashdata('message')){echo $this->session->flashdata('message');}
+  
+  ?>
     </p>
   <?php echo form_open_multipart('bnw/addproduct');?>
       
