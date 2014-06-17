@@ -12,6 +12,10 @@
   {
       echo $error;
   }
+  if(isset($errmsg))
+  {
+      echo $errmsg;
+  }
   ?>
 <p id="sucessmsg">
   <?php if($this->session->flashdata('message')){echo $this->session->flashdata('message');}

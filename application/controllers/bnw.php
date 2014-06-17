@@ -8,17 +8,16 @@ class bnw extends CI_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('dbmodel');
-         $this->load->model('productmodel');
+        $this->load->model('productmodel');
         $this->load->helper('url');
         $this->load->helper(array('form', 'url'));
         $this->load->library('pagination');
-       // $this->message = mysql_error();
-       // $this->code = mysql_errno();
-        
-        }
+        // $this->message = mysql_error();
+        // $this->code = mysql_errno();
+    }
 
     public function index() {
-              $url = base_url().'index.php/bnw';
+        $url = base_url() . 'index.php/bnw';
         if ($this->session->userdata('admin_logged_in')) {
             $data['username'] = Array($this->session->userdata('admin_logged_in'));
             $data['meta'] = $this->dbmodel->get_meta_data();
@@ -30,17 +29,16 @@ class bnw extends CI_Controller {
             $this->load->view('bnw/index', $data);
             $this->load->view('bnw/dashboard/quickly_add');
             $this->load->view('bnw/dashboard/latest_tran', $data);
-            $this->load->view('bnw/dashboard/latest_product',$data);
-           
+            $this->load->view('bnw/dashboard/latest_product', $data);
         } else {
-            
-            redirect('login/index/?url='.$url, 'refresh');
+
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
     //========================== for Cart System =======================================================//
 
-      function getRandomStringForCoupen($length) {
+    function getRandomStringForCoupen($length) {
         $validCharacters = "ABCDEFGHIJKLMNPQRSTUXYVWZ123456789";
         $validCharNumber = strlen($validCharacters);
         $result = "";
@@ -51,102 +49,87 @@ class bnw extends CI_Controller {
         }
         return $result;
     }
-    
-    function getcoupon()
-    {
-       // die('work');
+
+    function getcoupon() {
+        // die('work');
         $key = $this->getRandomStringForCoupen(5);
-        echo '<input type="text" value="'.$key.'" name="key" />';
-       
+        echo '<input type="text" value="' . $key . '" name="key" />';
     }
-    
-    function checkcoupon()
-    {
-        $data['abc']=array(
+
+    function checkcoupon() {
+        $data['abc'] = array(
             'coupon' => $_POST['coupon'],
             'subtotal' => $_POST['subtotal']
-                    );
-                   // print_r($data['abc']);
-        
+        );
+        // print_r($data['abc']);
+
         $key = $_POST['coupon'];
         $today = date("Y-m-d");
         $token = $this->dbmodel->getdate($key);
-        if(!empty($token))
-        {
-            foreach ($token as $expdate)
-            {
+        if (!empty($token)) {
+            foreach ($token as $expdate) {
                 $date = $expdate->exp_date;
             }
-            if($today<=$date)
-            {
-                $validkey = $this->dbmodel->checkkey($key,$today);
-        foreach ($validkey as $rate)
-            {
-                $disRate = $rate->rate;
-            }
-            echo '<script> var rate ='.$disRate.'; </script> 
-<p> You have a discount '.$disRate.' % </p> ';
-       
-            }
-            else{
-               // die('msdfdsfdsfdsf');
+            if ($today <= $date) {
+                $validkey = $this->dbmodel->checkkey($key, $today);
+                foreach ($validkey as $rate) {
+                    $disRate = $rate->rate;
+                }
+                echo '<script> var rate =' . $disRate . '; </script> 
+<p> You have a discount ' . $disRate . ' % </p> ';
+            } else {
+                // die('msdfdsfdsfdsf');
                 echo "Coupon has been expired!";
             }
+        } else {
+            echo "Coupon does not exist!";
         }
-        else{
-             echo "Coupon does not exist!";
-        }
-        
-        
     }
-    function coupon()
-    {
+
+    function coupon() {
         $url = current_url();
-         if ($this->session->userdata('admin_logged_in')) {
-              $data['username'] = Array($this->session->userdata('admin_logged_in'));
+        if ($this->session->userdata('admin_logged_in')) {
+            $data['username'] = Array($this->session->userdata('admin_logged_in'));
             $data['meta'] = $this->dbmodel->get_meta_data();
-            
-             $config = array();
+
+            $config = array();
             $config["base_url"] = base_url() . "index.php/bnw/coupon";
             $config["total_rows"] = $this->dbmodel->record_count_coupon();
-           // var_dump($config["total_rows"]);
+            // var_dump($config["total_rows"]);
             $config["per_page"] = 15;
-          
+
             $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
 
             $data['coupon'] = $this->dbmodel->get_coupon($config["per_page"], $page);
             $this->pagination->initialize($config);
             $data["links"] = $this->pagination->create_links();
-                      
+
             $data['category'] = $this->dbmodel->get_category();
             $this->load->view('bnw/templates/header', $data);
             $this->load->view('bnw/templates/menu');
-            $this->load->view('product/listcoupon',$data);                    
-           
-         }
-         else{
-             redirect('login/index/?url='.$url, 'refresh');
-         }
+            $this->load->view('product/listcoupon', $data);
+        } else {
+            redirect('login/index/?url=' . $url, 'refresh');
+        }
     }
-    
-    function addcoupon()
-    {
+
+    function addcoupon() {
         $url = current_url();
-         if ($this->session->userdata('admin_logged_in')) {
-              $data['username'] = Array($this->session->userdata('admin_logged_in'));
+        if ($this->session->userdata('admin_logged_in')) {
+            $data['username'] = Array($this->session->userdata('admin_logged_in'));
             $data['meta'] = $this->dbmodel->get_meta_data();
             $data['category'] = $this->dbmodel->get_category();
 
             $this->load->view('bnw/templates/header', $data);
             $this->load->view('bnw/templates/menu');
-           
+
             $this->load->view('bnw/templates/footer', $data);
-             $this->load->helper('form');
+            $this->load->helper('form');
             $this->load->library(array('form_validation', 'session'));
             $this->form_validation->set_rules('key', 'Coupon Key', 'required|xss_clean|max_length[200]');
             $this->form_validation->set_rules('rate', 'Discount Rate', 'required|xss_clean|max_length[200]');
             $this->form_validation->set_rules('expdate', 'Expire Date', 'required|xss_clean|max_length[200]');
-            
+
             if ($this->form_validation->run() == FALSE) {
 
                 $this->load->view('product/coupon');
@@ -157,17 +140,14 @@ class bnw extends CI_Controller {
                 $key = $this->input->post('key');
                 $rate = $this->input->post('rate');
                 $date = $this->input->post('expdate');
-                
-                $this->dbmodel->add_coupon($key,$rate,$date);
+
+                $this->dbmodel->add_coupon($key, $rate, $date);
                 $this->session->set_flashdata('message', 'One Coupon Created sucessfully');
                 redirect('bnw/coupon');
             }
-           
-         }
-         else
-         {
-              redirect('login/index/?url='.$url, 'refresh');
-         }
+        } else {
+            redirect('login/index/?url=' . $url, 'refresh');
+        }
     }
 
     //========================== Add Product ======================================================//
@@ -181,13 +161,26 @@ class bnw extends CI_Controller {
 
             $this->load->view('bnw/templates/header', $data);
             $this->load->view('bnw/templates/menu');
-            $this->load->view('product/addProduct',$data);
-            
+            $this->load->view('product/addProduct', $data);
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
+    public function valid_upload($f_type1)
+	{
+        
+		if ($f_type1== "image/gif" OR $f_type1== "image/png" OR $f_type1== "" OR $f_type1== "image/jpeg" OR $f_type1== "image/JPEG" OR $f_type1== "image/PNG" OR $f_type1== "image/GIF")
+		{
+			$this->form_validation->set_message('valid_upload', 'The %s type must be gif/jpeg/png or blank');
+			return FALSE;
+		}
+		else
+		{
+			return TRUE;
+		}
+	}
+        
     function addproduct() {
         $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
@@ -206,165 +199,179 @@ class bnw extends CI_Controller {
             $this->load->library(array('form_validation', 'session'));
             $this->form_validation->set_rules('pName', 'Name', 'required|xss_clean|max_length[200]');
             $this->form_validation->set_rules('pPrice', 'Price', 'required|xss_clean|max_length[200]');
-
-            if (($this->form_validation->run() == FALSE)) {
+            $this->form_validation->set_rules('myfile', 'Image1', 'trim|callback_valid_upload');
+             $this->form_validation->set_rules('myfileTwo', 'Image2', 'trim|callback_valid_upload');
+              $this->form_validation->set_rules('myfileThree', 'Image3', 'trim|callback_valid_upload');
+            
+            
+            
+    /*        $f_type1=$_FILES['myfile']['type'];
+        if ($f_type1== "image/gif" OR $f_type1== "image/png" OR $f_type1== "" OR $f_type1== "image/jpeg" OR $f_type1== "image/JPEG" OR $f_type1== "image/PNG" OR $f_type1== "image/GIF"){
+        $error=False;
+        }else{
+        $error1=True;}
+        
+       $f_type2=$_FILES['myfileTwo']['type'];
+        if ($f_type2== "image/gif" OR $f_type2== "image/png" OR $f_type2== "" OR $f_type2== "image/jpeg" OR $f_type2== "image/JPEG" OR $f_type2== "image/PNG" OR $f_type2== "image/GIF"){
+        $error=False;
+        }else{
+        $error2=True;}
+        
+        $f_type3=$_FILES['myfileThree']['type'];
+        if ($f_type3== "image/gif" OR $f_type3== "image/png" OR $f_type3== "" OR $f_type3== "image/jpeg" OR $f_type3== "image/JPEG" OR $f_type3== "image/PNG" OR $f_type3== "image/GIF"){
+        $error=False;
+        }else{
+        $error3=True;}*/
+            if ($this->form_validation->run() == FALSE ){ //|| $error1 == TRUE || $error2 == TRUE || $error3 == TRUE) {
+                
                 $data['error'] = $this->upload->display_errors();
 
                 $this->load->view('product/addProduct', $data);
             } else {
-
+                
+                
                 //if valid
                 if ($this->upload->do_upload('myfile')) {
                     $data = array('upload_data' => $this->upload->data('myfile'));
                     $productImg = $data['upload_data']['file_name'];
-                    
-                     //if valid
-                $data = array('upload_data' => $this->upload->data('file'));
-              
+                   
+                    //if valid
+                    $data = array('upload_data' => $this->upload->data('file'));
 
-                //for cropper
-                //require_once(APPPATH.'Imagemanipulator.php');
-                include_once 'imagemanipulator.php';
 
-                $manipulator = new ImageManipulator($_FILES['myfile']['tmp_name']);
-                $width = $manipulator->getWidth();
-                $height = $manipulator->getHeight();
+                    //for cropper
+                    //require_once(APPPATH.'Imagemanipulator.php');
+                    include_once 'imagemanipulator.php';
 
-                $centreX = round($width / 2);
+                    $manipulator = new ImageManipulator($_FILES['myfile']['tmp_name']);
+                    $width = $manipulator->getWidth();
+                    $height = $manipulator->getHeight();
 
-                $centreY = round($height / 2);
+                    $centreX = round($width / 2);
 
-                // our dimensions will be 200x130
-                $x1 = $centreX - 300; // 200 / 2
-                $y1 = $centreY - 400; // 130 / 2
+                    $centreY = round($height / 2);
 
-                $x2 = $centreX + 300; // 200 / 2
-                $y2 = $centreY + 400; // 130 / 2
-                // center cropping to 200x130
-                $newImage = $manipulator->crop($x1, $y1, $x2, $y2);
-                // saving file to uploads folder
-                $manipulator->save('./content/uploads/images/' . $_FILES['myfile']['name']);
-                //cropper closed               
-               } else {
+                    // our dimensions will be 200x130
+                    $x1 = $centreX - 300; // 200 / 2
+                    $y1 = $centreY - 400; // 130 / 2
+
+                    $x2 = $centreX + 300; // 200 / 2
+                    $y2 = $centreY + 400; // 130 / 2
+                    // center cropping to 200x130
+                    $newImage = $manipulator->crop($x1, $y1, $x2, $y2);
+                    // saving file to uploads folder
+                    $manipulator->save('./content/uploads/images/' . $_FILES['myfile']['name']);
+                    //cropper closed               
+                } else {
                     $productImg = NULL;
                 }
                 if ($this->upload->do_upload('myfileTwo')) {
                     $data = array('upload_data' => $this->upload->data('myfileTwo'));
                     $productImgTwo = $data['upload_data']['file_name'];
-                    
+
                     //for cropper
-                //require_once(APPPATH.'Imagemanipulator.php');
-                include_once 'imagemanipulator.php';
+                    //require_once(APPPATH.'Imagemanipulator.php');
+                    include_once 'imagemanipulator.php';
 
-                $manipulator = new ImageManipulator($_FILES['myfileTwo']['tmp_name']);
-                $width = $manipulator->getWidth();
-                $height = $manipulator->getHeight();
+                    $manipulator = new ImageManipulator($_FILES['myfileTwo']['tmp_name']);
+                    $width = $manipulator->getWidth();
+                    $height = $manipulator->getHeight();
 
-                $centreX = round($width / 2);
+                    $centreX = round($width / 2);
 
-                $centreY = round($height / 2);
+                    $centreY = round($height / 2);
 
-                // our dimensions will be 200x130
-                $x1 = $centreX - 300; // 200 / 2
-                $y1 = $centreY - 400; // 130 / 2
+                    // our dimensions will be 200x130
+                    $x1 = $centreX - 300; // 200 / 2
+                    $y1 = $centreY - 400; // 130 / 2
 
-                $x2 = $centreX + 300; // 200 / 2
-                $y2 = $centreY + 400; // 130 / 2
-                // center cropping to 200x130
-                $newImage = $manipulator->crop($x1, $y1, $x2, $y2);
-                // saving file to uploads folder
-                $manipulator->save('./content/uploads/images/' . $_FILES['myfileTwo']['name']);
+                    $x2 = $centreX + 300; // 200 / 2
+                    $y2 = $centreY + 400; // 130 / 2
+                    // center cropping to 200x130
+                    $newImage = $manipulator->crop($x1, $y1, $x2, $y2);
+                    // saving file to uploads folder
+                    $manipulator->save('./content/uploads/images/' . $_FILES['myfileTwo']['name']);
                 } else {
                     $productImgTwo = NULL;
                 }
                 if ($this->upload->do_upload('myfileThree')) {
                     $data = array('upload_data' => $this->upload->data('myfileThree'));
                     $productImgThree = $data['upload_data']['file_name'];
-                    
+
                     include_once 'imagemanipulator.php';
 
-                $manipulator = new ImageManipulator($_FILES['myfileThree']['tmp_name']);
-                $width = $manipulator->getWidth();
-                $height = $manipulator->getHeight();
+                    $manipulator = new ImageManipulator($_FILES['myfileThree']['tmp_name']);
+                    $width = $manipulator->getWidth();
+                    $height = $manipulator->getHeight();
 
-                $centreX = round($width / 2);
+                    $centreX = round($width / 2);
 
-                $centreY = round($height / 2);
+                    $centreY = round($height / 2);
 
-                // our dimensions will be 200x130
-                $x1 = $centreX - 300; // 200 / 2
-                $y1 = $centreY - 400; // 130 / 2
+                    // our dimensions will be 200x130
+                    $x1 = $centreX - 300; // 200 / 2
+                    $y1 = $centreY - 400; // 130 / 2
 
-                $x2 = $centreX + 300; // 200 / 2
-                $y2 = $centreY + 400; // 130 / 2
-                // center cropping to 200x130
-                $newImage = $manipulator->crop($x1, $y1, $x2, $y2);
-                // saving file to uploads folder
-                $manipulator->save('./content/uploads/images/' . $_FILES['myfileThree']['name']);
+                    $x2 = $centreX + 300; // 200 / 2
+                    $y2 = $centreY + 400; // 130 / 2
+                    // center cropping to 200x130
+                    $newImage = $manipulator->crop($x1, $y1, $x2, $y2);
+                    // saving file to uploads folder
+                    $manipulator->save('./content/uploads/images/' . $_FILES['myfileThree']['name']);
                 } else {
                     $productImgThree = NULL;
                 }
 
-               // $proID = $this->dbmodel->get_proID();
-               // foreach ($proID as $pID) {
-               //     $id = $pID->id;
-               // }
-              //  $id = $id + 1;
+                // $proID = $this->dbmodel->get_proID();
+                // foreach ($proID as $pID) {
+                //     $id = $pID->id;
+                // }
+                //  $id = $id + 1;
                 $qty = $this->input->post('qty');
                 $productName = $this->input->post('pName');
                 $productPrice = $this->input->post('pPrice');
                 $productCategory = $this->input->post('pCategory');
-                
+
                 $description = quotes_to_entities($this->input->post('pDescription'));
                 $summary = substr("$description", 0, 100);
-                $shippingCost= $this->input->post('checkMe');
+                $shippingCost = $this->input->post('checkMe');
                 $featured = $this->input->post('featured');
-                if($featured==1){
-                    $featured="1";
+                if ($featured == 1) {
+                    $featured = "1";
+                } else {
+                    $featured = "0";
                 }
-                else
-                {
-                    $featured="0";
+                if ($shippingCost == 1) {
+                    $shipping = "enabled";
+                } else {
+                    $shipping = "disabled";
                 }
-                if($shippingCost==1){
-                    $shipping="enabled";
+                $like = $this->input->post('enableLike');
+                if ($like == 1) {
+                    $allowLike = "enabled";
+                } else {
+                    $allowLike = "disabled";
                 }
-                else
-                {
-                    $shipping="disabled";
+                $share = $this->input->post('enableShare');
+                if ($share == 1) {
+                    $allowShare = "enabled";
+                } else {
+                    $allowShare = "disabled";
                 }
-                $like= $this->input->post('enableLike');
-                if($like==1){
-                    $allowLike="enabled";
-                }
-                else
-                {
-                    $allowLike="disabled";
-                }
-                $share= $this->input->post('enableShare');
-                if($share==1){
-                    $allowShare="enabled";
-                }
-                else
-                {
-                    $allowShare="disabled";
-                }
-                $this->dbmodel->add_new_product($productCategory,$description, $summary, $qty, $productName, $productPrice, $productImg, $productImgTwo, $productImgThree, $shipping, $allowLike, $allowShare,$featured);
+                $this->dbmodel->add_new_product($productCategory, $description, $summary, $qty, $productName, $productPrice, $productImg, $productImgTwo, $productImgThree, $shipping, $allowLike, $allowShare, $featured);
                 // $this->dbmodel->add_images($id,$productImg);
                 $this->session->set_flashdata('message', 'One Product added sucessfully');
-               // $this->productList();
-                         redirect('bnw/productList');
+                // $this->productList();
+                redirect('bnw/productList');
             }
-           
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
-    
-    function quckly_addproduct()
-    {
+
+    function quckly_addproduct() {
         $url = current_url();
-         if ($this->session->userdata('admin_logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
             $config['upload_path'] = './content/uploads/images/';
             $config['allowed_types'] = 'gif|jpg|png';
             $config['max_size'] = '2000';
@@ -391,81 +398,78 @@ class bnw extends CI_Controller {
                 if ($this->upload->do_upload('myfile')) {
                     $data = array('upload_data' => $this->upload->data('myfile'));
                     $productImg = $data['upload_data']['file_name'];
-                    
-                     //if valid
-                $data = array('upload_data' => $this->upload->data('file'));
-                $slidename = $this->input->post('slide_name');
-                $slideimage = $data['upload_data']['file_name'];
-                $slidecontent = $this->input->post('slide_content');
 
-                //for cropper
-                //require_once(APPPATH.'Imagemanipulator.php');
-                include_once 'imagemanipulator.php';
+                    //if valid
+                    $data = array('upload_data' => $this->upload->data('file'));
+                    $slidename = $this->input->post('slide_name');
+                    $slideimage = $data['upload_data']['file_name'];
+                    $slidecontent = $this->input->post('slide_content');
 
-                $manipulator = new ImageManipulator($_FILES['myfile']['tmp_name']);
-                $width = $manipulator->getWidth();
-                $height = $manipulator->getHeight();
+                    //for cropper
+                    //require_once(APPPATH.'Imagemanipulator.php');
+                    include_once 'imagemanipulator.php';
 
-                $centreX = round($width / 2);
+                    $manipulator = new ImageManipulator($_FILES['myfile']['tmp_name']);
+                    $width = $manipulator->getWidth();
+                    $height = $manipulator->getHeight();
 
-                $centreY = round($height / 2);
+                    $centreX = round($width / 2);
 
-                // our dimensions will be 200x130
-                $x1 = $centreX - 300; // 200 / 2
-                $y1 = $centreY - 400; // 130 / 2
+                    $centreY = round($height / 2);
 
-                $x2 = $centreX + 300; // 200 / 2
-                $y2 = $centreY + 400; // 130 / 2
-                // center cropping to 200x130
-                $newImage = $manipulator->crop($x1, $y1, $x2, $y2);
-                // saving file to uploads folder
-                $manipulator->save('./content/uploads/images/' . $_FILES['myfile']['name']);
-                //cropper closed               
-               } else {
+                    // our dimensions will be 200x130
+                    $x1 = $centreX - 300; // 200 / 2
+                    $y1 = $centreY - 400; // 130 / 2
+
+                    $x2 = $centreX + 300; // 200 / 2
+                    $y2 = $centreY + 400; // 130 / 2
+                    // center cropping to 200x130
+                    $newImage = $manipulator->crop($x1, $y1, $x2, $y2);
+                    // saving file to uploads folder
+                    $manipulator->save('./content/uploads/images/' . $_FILES['myfile']['name']);
+                    //cropper closed               
+                } else {
                     $productImg = NULL;
                 }
-              
-               
-               // $proID = $this->dbmodel->get_proID();
-               // foreach ($proID as $pID) {
-               //     $id = $pID->id;
-               // }
-              //  $id = $id + 1;
-               // $qty = $this->input->post('qty');
+
+
+                // $proID = $this->dbmodel->get_proID();
+                // foreach ($proID as $pID) {
+                //     $id = $pID->id;
+                // }
+                //  $id = $id + 1;
+                // $qty = $this->input->post('qty');
                 $productName = $this->input->post('pName');
                 $productPrice = $this->input->post('pPrice');
                 $productCategory = $this->input->post('pCategory');
                 $description = quotes_to_entities($this->input->post('pDescription'));
                 $summary = substr("$description", 0, 100);
-                $shippingCost= $this->input->post('checkMe');
-                if($shippingCost==1){
-                    $shipping="enabled";
+                $shippingCost = $this->input->post('checkMe');
+                if ($shippingCost == 1) {
+                    $shipping = "enabled";
+                } else {
+                    $shipping = "disabled";
                 }
-                else
-                {
-                    $shipping="disabled";
-                }
-                $this->dbmodel->quick_add_new_product($productCategory,$description, $summary, $productName, $productPrice, $productImg,  $shipping);
+                $this->dbmodel->quick_add_new_product($productCategory, $description, $summary, $productName, $productPrice, $productImg, $shipping);
                 // $this->dbmodel->add_images($id,$productImg);
                 $this->session->set_flashdata('message', 'One Product added sucessfully');
                 redirect('bnw/index');
             }
-           
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
+
 // ============================= End Add Product ====================================================//
-    
     //============================ Product Listing =================================================//
     function productList() {
-$url = current_url();
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $data['username'] = Array($this->session->userdata('admin_logged_in'));
             $config = array();
             $config["base_url"] = base_url() . "index.php/bnw/productList";
             $config["total_rows"] = $this->dbmodel->record_count_product();
-           // var_dump($config["total_rows"]);
+            // var_dump($config["total_rows"]);
             $config["per_page"] = 6;
             $this->pagination->initialize($config);
             $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
@@ -477,14 +481,13 @@ $url = current_url();
             $this->load->view('bnw/templates/header', $data);
             $this->load->view('bnw/templates/menu');
             $this->load->view('product/listProduct');
-           
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
     //================================ Product Editing ===================================================//
-    function editproduct($id=0) {
+    function editproduct($id = 0) {
         $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $data['query'] = $this->dbmodel->findproduct($id);
@@ -494,10 +497,8 @@ $url = current_url();
             $this->load->view("bnw/templates/header", $data);
             $this->load->view("bnw/templates/menu");
             $this->load->view('product/editProduct', $data);
-
-           
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
@@ -536,12 +537,10 @@ $url = current_url();
                 $price = $this->input->post('price');
                 $category = $this->input->post('pCategory');
                 $featured = $this->input->post('featured');
-                if($featured==1){
-                    $featured="1";
-                }
-                else
-                {
-                    $featured="0";
+                if ($featured == 1) {
+                    $featured = "1";
+                } else {
+                    $featured = "0";
                 }
                 //if valid
                 if ($this->upload->do_upload('myfile')) {
@@ -549,54 +548,45 @@ $url = current_url();
                     $productImg = $data['upload_data']['file_name'];
                     //die("selected file");
                 } else {
-                   
-                      
-                        $productImg = $this->input->post('firstImg');
-                 
+
+
+                    $productImg = $this->input->post('firstImg');
                 }
                 if ($this->upload->do_upload('myfileTwo')) {
                     $data = array('upload_data' => $this->upload->data('myfileTwo'));
                     $productImgTwo = $data['upload_data']['file_name'];
                 } else {
-                  
+
                     $productImgTwo = $this->input->post('secondImg');
-               
                 }
                 if ($this->upload->do_upload('myfileThree')) {
                     $data = array('upload_data' => $this->upload->data('myfileThree'));
                     $productImgThree = $data['upload_data']['file_name'];
                 } else {
-                 
+
                     $productImgThree = $this->input->post('thirdImg');
-              
                 }
-                $shippingCost= $this->input->post('checkMe');
-                if($shippingCost==1){
-                    $shipping="enabled";
+                $shippingCost = $this->input->post('checkMe');
+                if ($shippingCost == 1) {
+                    $shipping = "enabled";
+                } else {
+                    $shipping = "disabled";
                 }
-                else
-                {
-                    $shipping="disabled";
+                $like = $this->input->post('enableLike');
+                if ($like == 1) {
+                    $allowLike = "enabled";
+                } else {
+                    $allowLike = "disabled";
                 }
-                $like= $this->input->post('enableLike');
-                if($like==1){
-                    $allowLike="enabled";
-                }
-                else
-                {
-                    $allowLike="disabled";
-                }
-                $share= $this->input->post('enableShare');
-                if($share==1){
-                    $allowShare="enabled";
-                }
-                else
-                {
-                    $allowShare="disabled";
+                $share = $this->input->post('enableShare');
+                if ($share == 1) {
+                    $allowShare = "enabled";
+                } else {
+                    $allowShare = "disabled";
                 }
 
-               
-                $this->dbmodel->update_product($id,$category, $name, $description, $summary, $price, $productImg, $productImgTwo, $productImgThree, $shipping, $allowLike, $allowShare,$featured);
+
+                $this->dbmodel->update_product($id, $category, $name, $description, $summary, $price, $productImg, $productImgTwo, $productImgThree, $shipping, $allowLike, $allowShare, $featured);
                 $this->session->set_flashdata('message', 'Data Modified Sucessfully');
                 redirect('bnw/productList');
             } else {
@@ -604,10 +594,8 @@ $url = current_url();
                 $data['query'] = $this->dbmodel->findproduct($id);
                 $this->load->view('bnw/product/editProduct', $data);
             }
-
-           
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
@@ -617,79 +605,73 @@ $url = current_url();
             $image = $_GET['image'];
             $id = $_GET['id'];
             // die($image);
-            if(isset($image))
-            {
+            if (isset($image)) {
                 unlink('./content/uploads/images/' . $image);
-            }
-            else{
+            } else {
                 $image = NULL;
             }
-            
+
             $this->dbmodel->delete_product_photo($id, $image);
             $this->session->set_flashdata('message', 'Data Delete Sucessfully');
             redirect('bnw/editproduct/' . $id);
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
-    
-   
 
-    function delProduct($id=0) {
+    function delProduct($id = 0) {
         $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
-          if($this->dbmodel->delProduct($id)==FALSE){
-              $this->session->set_flashdata('message', 'Data could not be deleted');
-            redirect('bnw/productList'); 
+            if ($this->dbmodel->delProduct($id) == FALSE) {
+                $this->session->set_flashdata('message', 'Data could not be deleted');
+                redirect('bnw/productList');
+            } else {
+                $this->dbmodel->delete_navigation_related_to_page($id);
+                $this->session->set_flashdata('message', 'Data Delete Sucessfully');
+                redirect('bnw/productList');
             }
-            else{
-            $this->dbmodel->delete_navigation_related_to_page($id);
-            $this->session->set_flashdata('message', 'Data Delete Sucessfully');
-            redirect('bnw/productList');
-                }
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
-        function disproduct()
-        {
-            $url = current_url();
-            if ($this->session->userdata('admin_logged_in')) {
+
+    function disproduct() {
+        $url = current_url();
+        if ($this->session->userdata('admin_logged_in')) {
             $data['username'] = Array($this->session->userdata('admin_logged_in'));
             $config = array();
             $config["base_url"] = base_url() . "index.php/bnw/disproduct";
             $config["total_rows"] = count($this->dbmodel->get_record_all_product_orderDis());
-            
+
             $config["per_page"] = 6;
             $this->pagination->initialize($config);
             $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
 
             $data["query"] = $this->dbmodel->get_all_productTrn($config["per_page"], $page);
-           
+
             $data["links"] = $this->pagination->create_links();
-            
-          // $data['query'] = $this->dbmodel->get_all_product_orderDis();
+
+            // $data['query'] = $this->dbmodel->get_all_product_orderDis();
             $data['meta'] = $this->dbmodel->get_meta_data();
 
             $this->load->view('bnw/templates/header', $data);
             $this->load->view('bnw/templates/menu');
-            $this->load->view('product/test',$data);
-           
+            $this->load->view('product/test', $data);
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
-        }
-    function productOrderList(){
+    }
+
+    function productOrderList() {
         $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $data['username'] = Array($this->session->userdata('admin_logged_in'));
             //$config = array();
-           // $config["base_url"] = base_url() . "index.php/bnw/productOrderList";
+            // $config["base_url"] = base_url() . "index.php/bnw/productOrderList";
             //$config["total_rows"] = $this->dbmodel->record_count_product_order();
-           // $config["per_page"] = 6;
-           // $this->pagination->initialize($config);
-           // $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-
+            // $config["per_page"] = 6;
+            // $this->pagination->initialize($config);
+            // $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
             //$data["query"] = $this->dbmodel->get_all_product($config["per_page"], $page);
             //$data["links"] = $this->pagination->create_links();
             $data['query'] = $this->dbmodel->get_all_product_order();
@@ -698,45 +680,41 @@ $url = current_url();
             $this->load->view('bnw/templates/header', $data);
             $this->load->view('bnw/templates/menu');
             $this->load->view('product/listProductOrder');
-          
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
-    
     }
-    
-        function catproduct()
-    {
-            $url = current_url();
-       if ($this->session->userdata('admin_logged_in')) {
+
+    function catproduct() {
+        $url = current_url();
+        if ($this->session->userdata('admin_logged_in')) {
             $data['username'] = Array($this->session->userdata('admin_logged_in'));
             $categoryValue = $this->input->post('categoryProduct');
-            if($categoryValue ==!0){
-             $config = array();
-            $config["base_url"] = base_url() . "index.php/bnw/catproduct";
-            $config["total_rows"] = count($this->dbmodel->record_count_catproduct($categoryValue));
-           
-            $config["per_page"] = 6;
-            $this->pagination->initialize($config);
-            $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+            if ($categoryValue == !0) {
+                $config = array();
+                $config["base_url"] = base_url() . "index.php/bnw/catproduct";
+                $config["total_rows"] = count($this->dbmodel->record_count_catproduct($categoryValue));
 
-            $data["query"] = $this->dbmodel->get_all_cateproduct($config["per_page"], $page,$categoryValue);
-            $data["links"] = $this->pagination->create_links();
-            $data['meta'] = $this->dbmodel->get_meta_data();
+                $config["per_page"] = 6;
+                $this->pagination->initialize($config);
+                $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
 
-            $this->load->view('bnw/templates/header', $data);
-            $this->load->view('bnw/templates/menu');
-            $this->load->view('product/listProduct');
-            $this->load->view('bnw/templates/footer', $data);
+                $data["query"] = $this->dbmodel->get_all_cateproduct($config["per_page"], $page, $categoryValue);
+                $data["links"] = $this->pagination->create_links();
+                $data['meta'] = $this->dbmodel->get_meta_data();
+
+                $this->load->view('bnw/templates/header', $data);
+                $this->load->view('bnw/templates/menu');
+                $this->load->view('product/listProduct');
+                $this->load->view('bnw/templates/footer', $data);
+            } else {
+                $this->productList();
+            }
+        } else {
+            redirect('login/index/?url=' . $url, 'refresh');
         }
-        else{
-            $this->productList();
-        }
-       }else {
-            redirect('login/index/?url='.$url, 'refresh');
-        } 
     }
-    
+
 //    function viewdetail()
 //    {
 //        $url = current_url();
@@ -757,61 +735,57 @@ $url = current_url();
 //        }
 //    }
 
-    function updateTrn()
-    {
+    function updateTrn() {
         $url = current_url();
-         if ($this->session->userdata('admin_logged_in')) {
-        $id = $_POST['trnID'];
-        
-        $query = $this->dbmodel->TransDetail($id);
-        //var_dump($query);
+        if ($this->session->userdata('admin_logged_in')) {
+            $id = $_POST['trnID'];
+
+            $query = $this->dbmodel->TransDetail($id);
+            //var_dump($query);
             foreach ($query as $item) {
                 //$newqty = 'item_qnt_' . $item['id'];
-               // $newrow = 'item_row_' . $item['id'];
+                // $newrow = 'item_row_' . $item['id'];
                 $pid = $item->p_id;
                 $dbstatus = $item->status;
-              //  die($pid);
-                $newpro = $_POST['product_'.$item->p_id];
-                $newstatus = $_POST['status_'.$item->p_id];
+                //  die($pid);
+                $newpro = $_POST['product_' . $item->p_id];
+                $newstatus = $_POST['status_' . $item->p_id];
                 $productid = $newstatus;
                 if (isset($newstatus)) {
                     if ($dbstatus != $productid) {
 
 
                         $newstatus;
-                        
-                        $this->dbmodel->updateDetails($newstatus,$pid,$id);
-                       // $this->cart->update(array(
-                            
+
+                        $this->dbmodel->updateDetails($newstatus, $pid, $id);
+                        // $this->cart->update(array(
                         //    'status' => $newQnt
-                       // ));
+                        // ));
                     }
                 }
             }
             redirect('bnw/disproduct');
-            } else {
-            redirect('login/index/?url='.$url, 'refresh');
+        } else {
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
-    
-     function productShipping()
-        {
-         $url = current_url();
-            if ($this->session->userdata('admin_logged_in')) {
+
+    function productShipping() {
+        $url = current_url();
+        if ($this->session->userdata('admin_logged_in')) {
             $data['username'] = Array($this->session->userdata('admin_logged_in'));
             $data['meta'] = $this->dbmodel->get_meta_data();
             $data['getship'] = $this->productmodel->getship();
             $this->load->view('bnw/templates/header', $data);
             $this->load->view('bnw/templates/menu');
-            $this->load->view('product/shipping',$data);
-            
+            $this->load->view('product/shipping', $data);
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
-        }
-        
-        public function shippingupdate() {
-            $url = current_url();
+    }
+
+    public function shippingupdate() {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
 
             $data['meta'] = $this->dbmodel->get_meta_data();
@@ -830,31 +804,28 @@ $url = current_url();
             } else {
 
                 //if valid
-              
+
 
                 $charge = $this->input->post('shipping_charge');
-               
-                
-               
+
+
+
                 $this->productmodel->update_shipping_cost($charge);
                 $this->session->set_flashdata('message', 'Shipping updated sucessfully');
                 redirect('bnw/shippingupdate');
             }
-           
         } else {
 
-           redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
-        
-        
-    
+
     //=================================== end Cart System  ========================================================//
 
     function logout() {
         $this->session->sess_destroy();
         $this->index();
-       // redirect('login', 'refresh');
+        // redirect('login', 'refresh');
     }
 
     public function menu_id_from_ajax() {
@@ -884,59 +855,54 @@ $url = current_url();
                     }
                 }
                 $menuSelected = $_POST['departments'];
-                 if($menuSelected==!"0")
-                {
-                $menu_info = $this->dbmodel->get_menu_info($menuSelected);
-                foreach ($menu_info as $id) {
-                    $menu_id = $id->id;
-                }
-                $navigationName = $_POST['jobs'];
-                if ($navigationName == 'Make Parent')
-                    $parent_id = '0';
-                else {
-                    $post_category_info = $this->dbmodel->get_navigation_info($navigationName);
-                    foreach ($post_category_info as $pid) {
-                        $parent_id = $pid->id;
+                if ($menuSelected == !"0") {
+                    $menu_info = $this->dbmodel->get_menu_info($menuSelected);
+                    foreach ($menu_info as $id) {
+                        $menu_id = $id->id;
                     }
-                }
-
-                foreach ($listOfSelectedMenu as $myData) {
-                    foreach ($myData as $k => $v) {
-                        $navigation_type = "page";
-                        $navigation_name = $v;
-                        $navigation_link = base_url()."index.php/view/".$navigation_type . "/" . $k;
-                        $navigation_slug = preg_replace('/\s+/', '', $v);
+                    $navigationName = $_POST['jobs'];
+                    if ($navigationName == 'Make Parent')
+                        $parent_id = '0';
+                    else {
+                        $post_category_info = $this->dbmodel->get_navigation_info($navigationName);
+                        foreach ($post_category_info as $pid) {
+                            $parent_id = $pid->id;
+                        }
                     }
-                    $this->dbmodel->add_new_navigation_item($navigation_name, $navigation_link, $parent_id, $navigation_type, $navigation_slug, $menu_id);
-                }
 
-                redirect('bnw/navigation');
-                }
-                else{
-                   $data['token_error'] = ' Select at least one menu list!'; 
+                    foreach ($listOfSelectedMenu as $myData) {
+                        foreach ($myData as $k => $v) {
+                            $navigation_type = "page";
+                            $navigation_name = $v;
+                            $navigation_link = base_url() . "index.php/view/" . $navigation_type . "/" . $k;
+                            $navigation_slug = preg_replace('/\s+/', '', $v);
+                        }
+                        $this->dbmodel->add_new_navigation_item($navigation_name, $navigation_link, $parent_id, $navigation_type, $navigation_slug, $menu_id);
+                    }
+
+                    redirect('bnw/navigation');
+                } else {
+                    $data['token_error'] = ' Select at least one menu list!';
                     $config["total_rows"] = $this->dbmodel->record_count_navigation();
-          
-            $config["per_navigation"] = 6;
-            $this->pagination->initialize($config);
-            $navigation = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
 
-            $data["query"] = $this->dbmodel->get_navigation($config["per_navigation"], $navigation);
-            $data["links"] = $this->pagination->create_links();
-            $data['meta'] = $this->dbmodel->get_meta_data();
-            $data["listOfPage"] = $this->dbmodel->get_list_of_pages();
-            $data["listOfCategory"] = $this->dbmodel->get_list_of_category();
-            $data["listOfMenu"] = $this->dbmodel->get_list_of_menu();
-            $data["listOfNavigation"] = $this->dbmodel->get_list_of_navigation();
-            $data["listOfNavigationID"] = $this->dbmodel->get_list_of_navigationID();
+                    $config["per_navigation"] = 6;
+                    $this->pagination->initialize($config);
+                    $navigation = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
 
-            $this->load->view('bnw/templates/header', $data);
-            $this->load->view('bnw/templates/menu');
-            $this->load->view('bnw/menu/listOfItems', $data);
-            
+                    $data["query"] = $this->dbmodel->get_navigation($config["per_navigation"], $navigation);
+                    $data["links"] = $this->pagination->create_links();
+                    $data['meta'] = $this->dbmodel->get_meta_data();
+                    $data["listOfPage"] = $this->dbmodel->get_list_of_pages();
+                    $data["listOfCategory"] = $this->dbmodel->get_list_of_category();
+                    $data["listOfMenu"] = $this->dbmodel->get_list_of_menu();
+                    $data["listOfNavigation"] = $this->dbmodel->get_list_of_navigation();
+                    $data["listOfNavigationID"] = $this->dbmodel->get_list_of_navigationID();
+
+                    $this->load->view('bnw/templates/header', $data);
+                    $this->load->view('bnw/templates/menu');
+                    $this->load->view('bnw/menu/listOfItems', $data);
                 }
-            } 
-            
-            else {
+            } else {
                 $data['meta'] = $this->dbmodel->get_meta_data();
                 $data["listOfPage"] = $this->dbmodel->get_list_of_pages();
                 $data["listOfCategory"] = $this->dbmodel->get_list_of_category();
@@ -944,10 +910,9 @@ $url = current_url();
                 $this->load->view('bnw/templates/header', $data);
                 $this->load->view('bnw/templates/menu', $data);
                 $this->load->view('bnw/menu/listOfItems', $data);
-                
             }
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
@@ -967,77 +932,72 @@ $url = current_url();
 
             if (($_SERVER['REQUEST_METHOD'] == 'POST')) {
                 $menuSelected = $_POST['departments'];
-               // die($menuSelected);
-                if($menuSelected==!"0")
-                {
-                   // die($menuSelected."dfdsfds");
-                $menu_info = $this->dbmodel->get_menu_info($menuSelected);
-              
-                foreach ($menu_info as $id) {
-                    $menu_id = $id->id;
-                }
-               
-              
-                $navigationName = $_POST['jobs'];
-                if ($navigationName == 'Make Parent')
-                    $parent_id = '0';
-                else {
-                    $post_category_info = $this->dbmodel->get_navigation_info($navigationName);
-                    foreach ($post_category_info as $pid) {
-                        $parent_id = $pid->id;
+                // die($menuSelected);
+                if ($menuSelected == !"0") {
+                    // die($menuSelected."dfdsfds");
+                    $menu_info = $this->dbmodel->get_menu_info($menuSelected);
+
+                    foreach ($menu_info as $id) {
+                        $menu_id = $id->id;
                     }
-                }
 
-                $categoryList = Array();
-                foreach ($listOfCategory as $myData) { {
-                        if (isset($_POST[preg_replace('/\s+/', '', $myData->category_name)])) {
 
-                            array_push($categoryList, array($myData->id => $myData->category_name));
+                    $navigationName = $_POST['jobs'];
+                    if ($navigationName == 'Make Parent')
+                        $parent_id = '0';
+                    else {
+                        $post_category_info = $this->dbmodel->get_navigation_info($navigationName);
+                        foreach ($post_category_info as $pid) {
+                            $parent_id = $pid->id;
                         }
                     }
-                }
 
+                    $categoryList = Array();
+                    foreach ($listOfCategory as $myData) { {
+                            if (isset($_POST[preg_replace('/\s+/', '', $myData->category_name)])) {
 
-                foreach ($categoryList as $myData) {
-                    foreach ($myData as $k => $v) {
-                        $navigation_name = $v;
-                        $navigation_type = "category";
-                        $navigation_link = base_url()."index.php/view/".$navigation_type . "/" . $k;
-                        $navigation_slug = preg_replace('/\s+/', '', $v);
-                        ;
+                                array_push($categoryList, array($myData->id => $myData->category_name));
+                            }
+                        }
                     }
 
-                    $this->dbmodel->add_new_navigation_item($navigation_name, $navigation_link, $parent_id, $navigation_type, $navigation_slug, $menu_id);
-                }
 
-                $this->load->view('bnw/templates/header', $data);
-                $this->load->view('bnw/templates/menu', $data);
-                $this->load->view('bnw/menu/listOfItems', $data);
-                
-                }
-                else{
-                    
-                    $data['token_error'] = ' Select at least one menu list!'; 
+                    foreach ($categoryList as $myData) {
+                        foreach ($myData as $k => $v) {
+                            $navigation_name = $v;
+                            $navigation_type = "category";
+                            $navigation_link = base_url() . "index.php/view/" . $navigation_type . "/" . $k;
+                            $navigation_slug = preg_replace('/\s+/', '', $v);
+                            ;
+                        }
+
+                        $this->dbmodel->add_new_navigation_item($navigation_name, $navigation_link, $parent_id, $navigation_type, $navigation_slug, $menu_id);
+                    }
+
+                    $this->load->view('bnw/templates/header', $data);
+                    $this->load->view('bnw/templates/menu', $data);
+                    $this->load->view('bnw/menu/listOfItems', $data);
+                } else {
+
+                    $data['token_error'] = ' Select at least one menu list!';
                     $config["total_rows"] = $this->dbmodel->record_count_navigation();
-          
-            $config["per_navigation"] = 6;
-            $this->pagination->initialize($config);
-            $navigation = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
 
-            $data["query"] = $this->dbmodel->get_navigation($config["per_navigation"], $navigation);
-            $data["links"] = $this->pagination->create_links();
-            $data['meta'] = $this->dbmodel->get_meta_data();
-            $data["listOfPage"] = $this->dbmodel->get_list_of_pages();
-            $data["listOfCategory"] = $this->dbmodel->get_list_of_category();
-            $data["listOfMenu"] = $this->dbmodel->get_list_of_menu();
-            $data["listOfNavigation"] = $this->dbmodel->get_list_of_navigation();
-            $data["listOfNavigationID"] = $this->dbmodel->get_list_of_navigationID();
+                    $config["per_navigation"] = 6;
+                    $this->pagination->initialize($config);
+                    $navigation = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
 
-            $this->load->view('bnw/templates/header', $data);
-            $this->load->view('bnw/templates/menu');
-            $this->load->view('bnw/menu/listOfItems', $data);
-            
-                  
+                    $data["query"] = $this->dbmodel->get_navigation($config["per_navigation"], $navigation);
+                    $data["links"] = $this->pagination->create_links();
+                    $data['meta'] = $this->dbmodel->get_meta_data();
+                    $data["listOfPage"] = $this->dbmodel->get_list_of_pages();
+                    $data["listOfCategory"] = $this->dbmodel->get_list_of_category();
+                    $data["listOfMenu"] = $this->dbmodel->get_list_of_menu();
+                    $data["listOfNavigation"] = $this->dbmodel->get_list_of_navigation();
+                    $data["listOfNavigationID"] = $this->dbmodel->get_list_of_navigationID();
+
+                    $this->load->view('bnw/templates/header', $data);
+                    $this->load->view('bnw/templates/menu');
+                    $this->load->view('bnw/menu/listOfItems', $data);
                 }
             } else {
                 $data['meta'] = $this->dbmodel->get_meta_data();
@@ -1047,10 +1007,9 @@ $url = current_url();
                 $this->load->view('bnw/templates/header', $data);
                 $this->load->view('bnw/templates/menu', $data);
                 $this->load->view('bnw/menu/listOfItems', $data);
-                
             }
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
@@ -1095,10 +1054,9 @@ $url = current_url();
                 $this->session->set_flashdata('message', 'One Navigation item added sucessfully');
                 redirect('bnw/navigation');
             }
-            
         } else {
 
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
@@ -1111,7 +1069,7 @@ $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
 
             $config["total_rows"] = $this->dbmodel->record_count_navigation();
-          
+
             $config["per_navigation"] = 6;
             $this->pagination->initialize($config);
             $navigation = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
@@ -1128,9 +1086,8 @@ $url = current_url();
             $this->load->view('bnw/templates/header', $data);
             $this->load->view('bnw/templates/menu');
             $this->load->view('bnw/menu/listOfItems', $data);
-           
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
@@ -1138,28 +1095,25 @@ $url = current_url();
 
 
 
-    public function editnavigation($id=0) {
+    public function editnavigation($id = 0) {
         $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
-            
-          
-                
-            
+
+
+
+
             $data['query'] = $this->dbmodel->findnavigation($id);
 
             $data['meta'] = $this->dbmodel->get_meta_data();
             $this->load->view("bnw/templates/header", $data);
             $this->load->view("bnw/templates/menu");
             $this->load->view('bnw/menu/editNavigation', $data);
-            
-        }
-       
-        else {
-            redirect('login/index/?url='.$url, 'refresh');
+        } else {
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
-    public function showNavigation($id=0) {
+    public function showNavigation($id = 0) {
         $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $data['meta'] = $this->dbmodel->get_meta_data();
@@ -1168,197 +1122,156 @@ $url = current_url();
             $this->load->view("bnw/templates/header", $data);
             $this->load->view("bnw/templates/menu");
             $this->load->view('bnw/menu/navigationListing', $data);
-           
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
-    
-    function manageNavigation($id=0)
-    {
+
+    function manageNavigation($id = 0) {
         $url = current_url();
-         if ($this->session->userdata('admin_logged_in')) {
-         $data['meta'] = $this->dbmodel->get_meta_data();
+        if ($this->session->userdata('admin_logged_in')) {
+            $data['meta'] = $this->dbmodel->get_meta_data();
 
             $data['query'] = $this->dbmodel->get_list_of_selected_menu_navigation($id);
             $this->load->view("bnw/templates/header", $data);
             $this->load->view("bnw/templates/menu");
             $this->load->view('bnw/menu/manageNavigation', $data);
-            
-             
-             } else {
-            redirect('login/index/?url='.$url, 'refresh');
+        } else {
+            redirect('login/index/?url=' . $url, 'refresh');
         }
-         
     }
-    
-    function up($id=0)
-    {
+
+    function up($id = 0) {
         $url = current_url();
-       if ($this->session->userdata('admin_logged_in')) {
-          
-         if($id == !0)
-         {
-           $parent = $this->dbmodel->get_parent_id($id);
-         //  var_dump($parent);
-           if(!empty($parent))
-           {
-           foreach ($parent as $pid)
-           {
-               $parentID = $pid->parent_id;
-           }
-           
-           $getID = $this->dbmodel->get_data($parentID);
-           
-          $previousID = 0;
-          $tempID = 999;
-      foreach ($getID as $data)
-      {
-          if($id == $data->id )
-          {
-              break;
-          }
-          else
-          {
-             
-              $previousID = $data->id;
-          }
-      }
-           //die($previousID." ".$tempID);
-           if($previousID !==0)
-           {
-              // die('not work');
-           $updateID = $this->dbmodel->update_navID($id , $tempID);
-           $updateParentID = $this->dbmodel->update_navParentID($id , $tempID);
-           $updatePreviousID = $this->dbmodel->update_previousID($id,$previousID);
-           $updatePreviousParentID = $this->dbmodel->update_Previous_ParentID($id,$previousID);
-           $updateUP = $this->dbmodel->update_up($tempID,$previousID);
-           $updateParentID_UP = $this->dbmodel->update_parentID_UP($tempID,$previousID);
-           
-           redirect('bnw/manageNavigation/4');
-           }
-           else
-           {
-           ///   echo " sdlfjsdajfsldjf";
-           $this->session->set_flashdata('message', 'Upper level not available');
-           redirect('bnw/manageNavigation/4');
-           
-           }
-         } 
-         else {
-            
-             $data['token_error'] = 'Page not found';
-               
-               $data['meta'] = $this->dbmodel->get_meta_data();
+        if ($this->session->userdata('admin_logged_in')) {
 
-            $data['query'] = $this->dbmodel->get_list_of_selected_menu_navigation($id);
-            $this->load->view("bnw/templates/header", $data);
-            $this->load->view("bnw/templates/menu");
-            $this->load->view('bnw/templetes/error_landing_page', $data);
-            
-         }
-       }
-    else {
-           
-            $data['token_error'] = 'Page not found';
-               
-               $data['meta'] = $this->dbmodel->get_meta_data();
+            if ($id == !0) {
+                $parent = $this->dbmodel->get_parent_id($id);
+                //  var_dump($parent);
+                if (!empty($parent)) {
+                    foreach ($parent as $pid) {
+                        $parentID = $pid->parent_id;
+                    }
 
-            $data['query'] = $this->dbmodel->get_list_of_selected_menu_navigation($id);
-            $this->load->view("bnw/templates/header", $data);
-            $this->load->view("bnw/templates/menu");
-            $this->load->view('bnw/templetes/error_landing_page', $data);
-            
-     
+                    $getID = $this->dbmodel->get_data($parentID);
+
+                    $previousID = 0;
+                    $tempID = 999;
+                    foreach ($getID as $data) {
+                        if ($id == $data->id) {
+                            break;
+                        } else {
+
+                            $previousID = $data->id;
+                        }
+                    }
+                    //die($previousID." ".$tempID);
+                    if ($previousID !== 0) {
+                        // die('not work');
+                        $updateID = $this->dbmodel->update_navID($id, $tempID);
+                        $updateParentID = $this->dbmodel->update_navParentID($id, $tempID);
+                        $updatePreviousID = $this->dbmodel->update_previousID($id, $previousID);
+                        $updatePreviousParentID = $this->dbmodel->update_Previous_ParentID($id, $previousID);
+                        $updateUP = $this->dbmodel->update_up($tempID, $previousID);
+                        $updateParentID_UP = $this->dbmodel->update_parentID_UP($tempID, $previousID);
+
+                        redirect('bnw/manageNavigation/4');
+                    } else {
+                        ///   echo " sdlfjsdajfsldjf";
+                        $this->session->set_flashdata('message', 'Upper level not available');
+                        redirect('bnw/manageNavigation/4');
+                    }
+                } else {
+
+                    $data['token_error'] = 'Page not found';
+
+                    $data['meta'] = $this->dbmodel->get_meta_data();
+
+                    $data['query'] = $this->dbmodel->get_list_of_selected_menu_navigation($id);
+                    $this->load->view("bnw/templates/header", $data);
+                    $this->load->view("bnw/templates/menu");
+                    $this->load->view('bnw/templetes/error_landing_page', $data);
+                }
+            } else {
+
+                $data['token_error'] = 'Page not found';
+
+                $data['meta'] = $this->dbmodel->get_meta_data();
+
+                $data['query'] = $this->dbmodel->get_list_of_selected_menu_navigation($id);
+                $this->load->view("bnw/templates/header", $data);
+                $this->load->view("bnw/templates/menu");
+                $this->load->view('bnw/templetes/error_landing_page', $data);
             }
-       }
-       
-       else
-       {
-            redirect('login/index/?url='.$url, 'refresh');
-       } 
+        } else {
+            redirect('login/index/?url=' . $url, 'refresh');
+        }
     }
 
-    function down($id)
-    { $url = current_url();
+    function down($id) {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
-         
-            if($id ==!0)
-            {
-             $parent = $this->dbmodel->get_parent_id_down($id);
-         //  var_dump($parent);
-              if(!empty($parent))
-           {
-           foreach ($parent as $pid)
-           {
-               $parentID = $pid->parent_id;
-           }
-           
-           $getID = $this->dbmodel->get_data_down($parentID);
-          $previousID = 0;
-          $tempID = 999;
-      foreach ($getID as $data)
-      {
-          if($id == $data->id )
-          {
-              break;
-          }
-          else
-          {
-             
-              $previousID = $data->id;
-          }
-      }
-          // die($previousID);
-           
-           if($previousID !==0)
-           {
-              // die('not work');
-           $updateID = $this->dbmodel->update_navID($id , $tempID);
-           $updateParentID = $this->dbmodel->update_navParentID($id , $tempID);
-           $updatePreviousID = $this->dbmodel->update_previousID($id,$previousID);
-           $updatePreviousParentID = $this->dbmodel->update_Previous_ParentID($id,$previousID);
-           $updateUP = $this->dbmodel->update_up($tempID,$previousID);
-           $updateParentID_UP = $this->dbmodel->update_parentID_UP($tempID,$previousID);
-           
-           redirect('bnw/manageNavigation/4');
-           }
-           else
-           {
-              // echo 'Can not process';
-              $this->session->set_flashdata('message', 'Lower level not available');
-           redirect('bnw/manageNavigation/4');
-           }
-           }
-           else{
-           
-               $data['token_error'] = 'Page not found';
-               
-               $data['meta'] = $this->dbmodel->get_meta_data();
 
-            $data['query'] = $this->dbmodel->get_list_of_selected_menu_navigation($id);
-            $this->load->view("bnw/templates/header", $data);
-            $this->load->view("bnw/templates/menu");
-            $this->load->view('templates/error_landing_page', $data);
-            
-           }
-           }
-       else{
-          $data['token_error'] = 'Page not found';
-               
-               $data['meta'] = $this->dbmodel->get_meta_data();
+            if ($id == !0) {
+                $parent = $this->dbmodel->get_parent_id_down($id);
+                //  var_dump($parent);
+                if (!empty($parent)) {
+                    foreach ($parent as $pid) {
+                        $parentID = $pid->parent_id;
+                    }
 
-            $data['query'] = $this->dbmodel->get_list_of_selected_menu_navigation($id);
-            $this->load->view("bnw/templates/header", $data);
-            $this->load->view("bnw/templates/menu");
-            $this->load->view('templates/error_landing_page', $data);
-            
-       }
+                    $getID = $this->dbmodel->get_data_down($parentID);
+                    $previousID = 0;
+                    $tempID = 999;
+                    foreach ($getID as $data) {
+                        if ($id == $data->id) {
+                            break;
+                        } else {
+
+                            $previousID = $data->id;
+                        }
+                    }
+                    // die($previousID);
+
+                    if ($previousID !== 0) {
+                        // die('not work');
+                        $updateID = $this->dbmodel->update_navID($id, $tempID);
+                        $updateParentID = $this->dbmodel->update_navParentID($id, $tempID);
+                        $updatePreviousID = $this->dbmodel->update_previousID($id, $previousID);
+                        $updatePreviousParentID = $this->dbmodel->update_Previous_ParentID($id, $previousID);
+                        $updateUP = $this->dbmodel->update_up($tempID, $previousID);
+                        $updateParentID_UP = $this->dbmodel->update_parentID_UP($tempID, $previousID);
+
+                        redirect('bnw/manageNavigation/4');
+                    } else {
+                        // echo 'Can not process';
+                        $this->session->set_flashdata('message', 'Lower level not available');
+                        redirect('bnw/manageNavigation/4');
+                    }
+                } else {
+
+                    $data['token_error'] = 'Page not found';
+
+                    $data['meta'] = $this->dbmodel->get_meta_data();
+
+                    $data['query'] = $this->dbmodel->get_list_of_selected_menu_navigation($id);
+                    $this->load->view("bnw/templates/header", $data);
+                    $this->load->view("bnw/templates/menu");
+                    $this->load->view('templates/error_landing_page', $data);
+                }
+            } else {
+                $data['token_error'] = 'Page not found';
+
+                $data['meta'] = $this->dbmodel->get_meta_data();
+
+                $data['query'] = $this->dbmodel->get_list_of_selected_menu_navigation($id);
+                $this->load->view("bnw/templates/header", $data);
+                $this->load->view("bnw/templates/menu");
+                $this->load->view('templates/error_landing_page', $data);
+            }
+        } else {
+            redirect('login/index/?url=' . $url, 'refresh');
         }
-       else
-       {
-          redirect('login/index/?url='.$url, 'refresh');
-       } 
     }
 
     public function updatenavigation() {
@@ -1391,13 +1304,12 @@ $url = current_url();
 
                 redirect('bnw/navigation');
             }
-            
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
-    function deletenavigation($id=0) {
+    function deletenavigation($id = 0) {
         $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $this->dbmodel->delnavigation($id);
@@ -1406,7 +1318,7 @@ $url = current_url();
             //$this->showNavigation($id);
             redirect('bnw/showNavigation/4');
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
@@ -1418,20 +1330,20 @@ $url = current_url();
         $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
 
-            
+
             $config = array();
             $config["base_url"] = base_url() . "index.php/bnw/category";
             $config["total_rows"] = $this->dbmodel->record_count_category();
-           // var_dump($config["total_rows"]);
+            // var_dump($config["total_rows"]);
             $config["per_page"] = 6;
             $this->pagination->initialize($config);
             $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
 
             $data["query"] = $this->dbmodel->get_all_category($config["per_page"], $page);
             $data["links"] = $this->pagination->create_links();
-            
-            
-            
+
+
+
 //            $config = array();
 //            $config["base_url"] = base_url() . "index.php/bnw/category";
 //            $config["total_rows"] = $this->dbmodel->record_count_category();
@@ -1442,16 +1354,15 @@ $url = current_url();
 //
 //            $data["query"] = $this->dbmodel->get_all_category($config["per_category"], $category);
 //            $data["links"] = $this->pagination->create_links();
-            
+
             $data['meta'] = $this->dbmodel->get_meta_data();
 
 
             $this->load->view("bnw/templates/header", $data);
             $this->load->view("bnw/templates/menu");
             $this->load->view('bnw/category/addCategory', $data);
-            
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
@@ -1509,15 +1420,13 @@ $url = current_url();
 
                 $this->load->view('bnw/category/addCategory', $data);
             }
-
-           
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
     //==================================To edit category=======================================================
-    public function editcategory($id=0) {
+    public function editcategory($id = 0) {
         $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $data['query'] = $this->dbmodel->findcategory($id);
@@ -1528,10 +1437,8 @@ $url = current_url();
             $this->load->view("bnw/templates/header", $data);
             $this->load->view("bnw/templates/menu");
             $this->load->view('bnw/category/edit', $data);
-
-          
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
@@ -1586,81 +1493,66 @@ $url = current_url();
                 $data['query'] = $this->dbmodel->findcategory($id);
                 $this->load->view('bnw/category/edit', $data);
             }
-
-           
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
     //========================================To delete category=============================================
 
 
-    public function deletecategory($id=0) {
+    public function deletecategory($id = 0) {
         $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
-          $this->dbmodel->delete_category($id);
-              $this->session->set_flashdata('message', 'Data Delete Sucessfully');
-                 redirect('bnw/category');
-                
-          
-            
-           
+            $this->dbmodel->delete_category($id);
+            $this->session->set_flashdata('message', 'Data Delete Sucessfully');
+            redirect('bnw/category');
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
-    function change_category()
-    {
-        $url = current_url();
-         if ($this->session->userdata('admin_logged_in')) {
-             $id = $_POST['id'];
-             $cat_id = $_POST['categoryProduct'];
-            // die($cat_id);
-             $this->dbmodel->change_category($id,$cat_id);
-             $this->deletecategory($id);
-            
-         }
-         else{
-             redirect('login/index/?url='.$url, 'refresh');
-         }
-    }
-    function delete_category($id=0)
-    {
+
+    function change_category() {
         $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
-             $data['meta'] = $this->dbmodel->get_meta_data();
-             $data['category'] = $this->dbmodel->get_category_id($id);
-           
+            $id = $_POST['id'];
+            $cat_id = $_POST['categoryProduct'];
+            // die($cat_id);
+            $this->dbmodel->change_category($id, $cat_id);
+            $this->deletecategory($id);
+        } else {
+            redirect('login/index/?url=' . $url, 'refresh');
+        }
+    }
+
+    function delete_category($id = 0) {
+        $url = current_url();
+        if ($this->session->userdata('admin_logged_in')) {
+            $data['meta'] = $this->dbmodel->get_meta_data();
+            $data['category'] = $this->dbmodel->get_category_id($id);
+
             $this->load->view('bnw/templates/header', $data);
             $this->load->view('bnw/templates/menu', $data);
             $this->load->view('bnw/category/delcategory', $data);
-           
+        } else {
+            redirect('login/index/?url=' . $url, 'refresh');
         }
-        else
-        {
-             redirect('login/index/?url='.$url, 'refresh');
-        }
-        
     }
-    public function delete_Product_cat()
-    {
+
+    public function delete_Product_cat() {
         $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
-        $id= $_POST['id'];
-        $this->dbmodel->delete_related_product($id);
-        $this->dbmodel->delete_category($id);
-     
-        $this->session->set_flashdata('message', 'Data Delete Sucessfully');
+            $id = $_POST['id'];
+            $this->dbmodel->delete_related_product($id);
+            $this->dbmodel->delete_category($id);
+
+            $this->session->set_flashdata('message', 'Data Delete Sucessfully');
             redirect('bnw/category');
-           
-       
-        }
-        else
-        {
-             redirect('login/index/?url='.$url, 'refresh');
+        } else {
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
+
     //==========================================================================================================//
     //====================================POST==================================================================//
     //===========================================================================================================//
@@ -1685,7 +1577,7 @@ $url = current_url();
             $this->load->view('bnw/posts/postListing', $data);
             $this->load->view('bnw/templates/footer', $data);
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
@@ -1698,9 +1590,9 @@ $url = current_url();
             $data['username'] = ($this->session->userdata('admin_logged_in'));
             $config['upload_path'] = './content/uploads/images/';
             $config['allowed_types'] = 'gif|jpg|png';
-           // $config['max_size'] = '500';
-           // $config['max_width'] = '1024';
-           // $config['max_height'] = '768';
+            // $config['max_size'] = '500';
+            // $config['max_width'] = '1024';
+            // $config['max_height'] = '768';
             $this->load->library('upload', $config);
             $data['meta'] = $this->dbmodel->get_meta_data();
             $data['query'] = $this->dbmodel->get_posts();
@@ -1720,7 +1612,6 @@ $url = current_url();
 //                    $post_category_id = $pid->id;
 //                }
 //            }
-
             //set validation rules
             $this->form_validation->set_rules('post_title', 'Page Name', 'required|xss_clean|max_length[200]');
             $this->form_validation->set_rules('post_content', 'Body', 'required|xss_clean');
@@ -1733,16 +1624,16 @@ $url = current_url();
                         $error = array('error' => $this->upload->display_errors('offreImage'));
                         $this->load->view('bnw/posts/addNewPost', $error);
                     } else {
-                       // die('img');
+                        // die('img');
                         $data = array('upload_data' => $this->upload->data('offreImage'));
                         $image = $data['upload_data']['file_name'];
                         $post_title = $this->input->post('post_title');
                         $post_content = $this->input->post('post_content');
                         $string = $this->input->post('post_content');
-                    $post_summary = substr("$string", 0, 100);
-                    $post_status = $this->input->post('post_status');
-                    
-                        $this->dbmodel->add_new_post($post_title, $post_content, $post_summary, $post_status,$image);
+                        $post_summary = substr("$string", 0, 100);
+                        $post_status = $this->input->post('post_status');
+
+                        $this->dbmodel->add_new_post($post_title, $post_content, $post_summary, $post_status, $image);
                         $this->session->set_flashdata('message', 'One offer added sucessfully');
                         redirect('bnw/posts/postListing');
                     }
@@ -1760,12 +1651,12 @@ $url = current_url();
                     $post_status = $this->input->post('post_status');
                     $post_comment_status = $this->input->post('comment_status');
                     $post_tags = $this->input->post('post_tags');
-                   // $post_category_info = $this->dbmodel->get_post_category_info($categoryName);
+                    // $post_category_info = $this->dbmodel->get_post_category_info($categoryName);
                     $allowComment = $this->input->post('allow_comment');
                     $allowLike = $this->input->post('allow_like');
                     $allowShare = $this->input->post('allow_share');
-                    $this->dbmodel->add_new_post($post_title, $post_content, $post_summary, $post_status,$image);
-                   // $this->dbmodel->add_new_post($post_title, $post_content, $post_author_id, $post_summary, $post_status, $post_comment_status, $post_tags, $post_category_id, $allowComment, $allowLike, $allowShare);
+                    $this->dbmodel->add_new_post($post_title, $post_content, $post_summary, $post_status, $image);
+                    // $this->dbmodel->add_new_post($post_title, $post_content, $post_author_id, $post_summary, $post_status, $post_comment_status, $post_tags, $post_category_id, $allowComment, $allowLike, $allowShare);
                     $this->session->set_flashdata('message', 'One Offer added sucessfully');
                     redirect('bnw/posts');
                 }
@@ -1776,13 +1667,13 @@ $url = current_url();
 
             $this->load->view('bnw/templates/footer', $data);
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
     //======================================To Edit Post===========================================================//
 
-    function editpost($id=0) {
+    function editpost($id = 0) {
         $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $data['query'] = $this->dbmodel->findpost($id);
@@ -1795,28 +1686,28 @@ $url = current_url();
 
             $this->load->view('bnw/templates/footer', $data);
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
     //=========================================To Delete Post======================================================//
-    public function deletepost($id=0) {
+    public function deletepost($id = 0) {
         $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
-            
-            if($this->dbmodel->deletepost($id)==FALSE){
-              $this->session->set_flashdata('message', 'Sorry! Data could not be deleted');
-             redirect('bnw/posts');
+
+            if ($this->dbmodel->deletepost($id) == FALSE) {
+                $this->session->set_flashdata('message', 'Sorry! Data could not be deleted');
+                redirect('bnw/posts');
+            } else {
+
+
+                // $this->dbmodel->deletepost($id);
+
+                $this->session->set_flashdata('message', 'Data Deleted Sucessfully');
+                redirect('bnw/posts');
             }
-            else{
-            
-            
-           // $this->dbmodel->deletepost($id);
-            
-            $this->session->set_flashdata('message', 'Data Deleted Sucessfully');
-            redirect('bnw/posts');
-        }} else {
-            redirect('login/index/?url='.$url, 'refresh');
+        } else {
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
@@ -1860,7 +1751,7 @@ $url = current_url();
             if (($this->form_validation->run() == TRUE)) {
                 if ($_FILES && $_FILES['file']['name'] !== "") {
                     if (!$this->upload->do_upload('file')) {
-                       // die('i am here');
+                        // die('i am here');
                         $data['error'] = $this->upload->display_errors('file');
                         $id = $this->input->post('id');
                         $data['query'] = $this->dbmodel->findpost($id);
@@ -1917,7 +1808,7 @@ $url = current_url();
 
             $this->load->view('bnw/templates/footer', $data);
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
@@ -1942,9 +1833,8 @@ $url = current_url();
             $this->load->view("bnw/templates/header", $data);
             $this->load->view("bnw/templates/menu");
             $this->load->view('bnw/pages/pageListing', $pagedata);
-          
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
@@ -2031,16 +1921,14 @@ $url = current_url();
 
                 $this->load->view('bnw/pages/addnew', $data);
             }
-
-           
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
     //======================EDIT PAGE===============================//
 
-    function editpage($id=0) {
+    function editpage($id = 0) {
         $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $data['query'] = $this->dbmodel->findpage($id);
@@ -2052,10 +1940,8 @@ $url = current_url();
             $this->load->view("bnw/templates/header", $data);
             $this->load->view("bnw/templates/menu");
             $this->load->view('bnw/pages/edit', $data);
-
-           
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
@@ -2154,26 +2040,24 @@ $url = current_url();
                 $data['query'] = $this->dbmodel->findpage($id);
                 $this->load->view('bnw/pages/edit', $data);
             }
-
-            
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
     public function deletepage($id) {
         $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
-            if($this->dbmodel->delete_page($id)==FALSE){
-              $this->session->set_flashdata('message', 'Data could not be deleted');
-            redirect('bnw/pages');  
+            if ($this->dbmodel->delete_page($id) == FALSE) {
+                $this->session->set_flashdata('message', 'Data could not be deleted');
+                redirect('bnw/pages');
+            } else {
+                $this->dbmodel->delete_navigation_related_to_page($id);
+                $this->session->set_flashdata('message', 'Data Delete Sucessfully');
+                redirect('bnw/pages');
             }
-            else{
-            $this->dbmodel->delete_navigation_related_to_page($id);
-            $this->session->set_flashdata('message', 'Data Delete Sucessfully');
-            redirect('bnw/pages');
-        } }else {
-            redirect('login/index/?url='.$url, 'refresh');
+        } else {
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
@@ -2199,9 +2083,8 @@ $url = current_url();
             $this->load->view("bnw/templates/header", $data);
             $this->load->view("bnw/templates/menu");
             $this->load->view('bnw/users/userListing', $data);
-            
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
@@ -2236,32 +2119,30 @@ $url = current_url();
                 $user_type = $this->input->post('user_type');
                 $contact = $this->input->post('phone');
                 $address = $this->input->post('address');
-                $this->dbmodel->add_new_user($name, $fname, $lname, $email, $pass, $status, $user_type,$contact,$address);
+                $this->dbmodel->add_new_user($name, $fname, $lname, $email, $pass, $status, $user_type, $contact, $address);
                 $this->session->set_flashdata('message', 'One user added sucessfully');
                 redirect('bnw/users/userListing');
             }
-           
         } else {
 
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
-    public function edituser($id=0) {
+    public function edituser($id = 0) {
         $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
-           // $this->load->helper('form');
-           // $this->load->library(array('form_validation', 'session'));
-           // $this->form_validation->set_rules('user_pass', 'Password', 'required|md5|xss_clean|max_length[200]');
+            // $this->load->helper('form');
+            // $this->load->library(array('form_validation', 'session'));
+            // $this->form_validation->set_rules('user_pass', 'Password', 'required|md5|xss_clean|max_length[200]');
             $data['query'] = $this->dbmodel->finduser($id);
             $data['meta'] = $this->dbmodel->get_meta_data();
 
             $this->load->view("bnw/templates/header", $data);
             $this->load->view("bnw/templates/menu");
             $this->load->view('bnw/users/editUser', $data);
-           
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
@@ -2279,7 +2160,7 @@ $url = current_url();
             $this->form_validation->set_rules('user_fname', 'First Name', 'trim|regex_match[/^[a-z,0-9,A-Z]{2,15}$/]|required|xss_clean|max_length[200]');
             $this->form_validation->set_rules('user_lname', 'Last Name', 'trim|regex_match[/^[a-z,0-9,A-Z]{2,15}$/]|required|xss_clean|max_length[200]');
             $this->form_validation->set_rules('user_email', 'User email', 'trim|regex_match[/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/]|required|xss_clean|max_length[200]');
-           
+
             $this->form_validation->set_rules('user_type', 'User Type', 'required|xss_clean|max_length[200]');
 
             if ($this->form_validation->run() == FALSE) {
@@ -2294,54 +2175,51 @@ $url = current_url();
                 $fname = $this->input->post('user_fname');
                 $lname = $this->input->post('user_lname');
                 $email = $this->input->post('user_email');
-                
+
                 $status = $this->input->post('user_status');
                 $user_type = $this->input->post('user_type');
-                
+
                 $this->dbmodel->update_user($id, $name, $fname, $lname, $email, $status, $user_type);
                 $this->session->set_flashdata('message', 'User data Modified Sucessfully');
 
                 redirect('bnw/users/userListing');
             }
-            
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
-    
-
-    public function deleteuser($id=0) {
+    public function deleteuser($id = 0) {
         $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $uNAme = $this->session->userdata('username');
-           
+
             $uNAme = "admin";
-            
+
             $userKey = $this->dbmodel->check_user($id);
-           if(!empty($userKey)){
-            foreach ($userKey as $user) {
-                $userid = $user->user_name;
-           }}
+            if (!empty($userKey)) {
+                foreach ($userKey as $user) {
+                    $userid = $user->user_name;
+                }
+            }
             if ($uNAme !== $userid) {
-               if($this->dbmodel->delete_user($id)==FALSE){
-              $this->session->set_flashdata('message', 'Data could not be deleted');
-            redirect('bnw/users');
-            }else{
-                
-                $this->session->set_flashdata('message', 'Data Delete Sucessfully');
-                redirect('bnw/users');
-            }} else {
-               // echo 'Sory you can not be delete this user because user is Login!';
+                if ($this->dbmodel->delete_user($id) == FALSE) {
+                    $this->session->set_flashdata('message', 'Data could not be deleted');
+                    redirect('bnw/users');
+                } else {
+
+                    $this->session->set_flashdata('message', 'Data Delete Sucessfully');
+                    redirect('bnw/users');
+                }
+            } else {
+                // echo 'Sory you can not be delete this user because user is Login!';
                 $data['token_error'] = "Sory you can not be delete this user because user is Login!";
-                 $this->load->view("bnw/templates/header", $data);
-            $this->load->view("bnw/templates/menu");
-            $this->load->view('templates/error_landing_page', $data);
-            
-                
+                $this->load->view("bnw/templates/header", $data);
+                $this->load->view("bnw/templates/menu");
+                $this->load->view('templates/error_landing_page', $data);
             }
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
@@ -2367,9 +2245,8 @@ $url = current_url();
             $this->load->view("bnw/templates/header", $data);
             $this->load->view("bnw/templates/menu");
             $this->load->view('bnw/users/userProfiler', $data);
-            
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
@@ -2396,7 +2273,7 @@ $url = current_url();
             $this->load->view('bnw/media/mediaListing', $data);
             $this->load->view('bnw/templates/footer', $data);
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
@@ -2449,13 +2326,13 @@ $url = current_url();
             $this->load->view('bnw/templates/footer', $data);
         } else {
 
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
     //==================================To edit media==================================================
 
-    public function editmedia($id=0) {
+    public function editmedia($id = 0) {
         $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $data['query'] = $this->dbmodel->findmedia($id);
@@ -2466,7 +2343,7 @@ $url = current_url();
             $this->load->view('bnw/media/editMedia', $data);
             $this->load->view('bnw/templates/footer', $data);
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
@@ -2523,11 +2400,11 @@ $url = current_url();
             }
             $this->load->view('bnw/templates/footer', $data);
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
-    public function delmedia($id=0) {
+    public function delmedia($id = 0) {
         $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $data['query'] = $this->dbmodel->findmedia($id);
@@ -2537,7 +2414,7 @@ $url = current_url();
             $this->load->view('bnw/media/deleteMedia', $data);
             $this->load->view('bnw/templates/footer', $data);
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
@@ -2551,7 +2428,7 @@ $url = current_url();
             $this->session->set_flashdata('message', 'Data Delete Sucessfully');
             redirect('bnw/media');
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
@@ -2619,7 +2496,7 @@ $url = current_url();
             $this->load->view('bnw/templates/footer', $data);
         } else {
 
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
@@ -2665,11 +2542,11 @@ $url = current_url();
             $this->load->view('bnw/templates/footer', $data);
         } else {
 
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
-    public function delphoto($photoid=0) {
+    public function delphoto($photoid = 0) {
         $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $data['query'] = $this->dbmodel->get_photo_media_id($photoid);
@@ -2680,11 +2557,11 @@ $url = current_url();
             $this->load->view('bnw/album/deletePhoto', $data);
             $this->load->view('bnw/templates/footer', $data);
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
-    public function deletephoto($a=0) {
+    public function deletephoto($a = 0) {
         $url = current_url();
 
         if ($this->session->userdata('admin_logged_in')) {
@@ -2695,7 +2572,7 @@ $url = current_url();
             $this->session->set_flashdata('message', 'Data Delete Sucessfully');
             redirect('bnw/addalbum');
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
@@ -2723,7 +2600,7 @@ $url = current_url();
             $this->load->view('bnw/slider/slideListing', $data);
             $this->load->view('bnw/templates/footer', $data);
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
@@ -2800,11 +2677,11 @@ $url = current_url();
             $this->load->view('bnw/templates/footer', $data);
         } else {
 
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
-    public function editslider($id=0) {
+    public function editslider($id = 0) {
         $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $data['query'] = $this->dbmodel->findslider($id);
@@ -2814,11 +2691,11 @@ $url = current_url();
             $this->load->view('bnw/slider/edit', $data);
             $this->load->view('bnw/templates/footer', $data);
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
-    public function delslider($id=0) {
+    public function delslider($id = 0) {
         $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $data['query'] = $this->dbmodel->findslider($id);
@@ -2828,7 +2705,7 @@ $url = current_url();
             $this->load->view('bnw/slider/delete', $data);
             $this->load->view('bnw/templates/footer', $data);
         } else {
-           redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
@@ -2874,11 +2751,11 @@ $url = current_url();
             $this->load->view('bnw/templates/footer', $data);
         } else {
 
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
-    public function deleteslider($a=0) {
+    public function deleteslider($a = 0) {
         $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $a = $_GET['image'];
@@ -2890,7 +2767,7 @@ $url = current_url();
             $this->session->set_flashdata('message', 'Data Delete Sucessfully');
             redirect('bnw/slider');
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
@@ -2906,21 +2783,20 @@ $url = current_url();
             $this->load->view($header . 'header', $data);
             $this->load->view($header . 'menu');
             $this->load->view('bnw/setup/index', $data);
-            
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
-    public function deletefavicone($id=0) {
-$url = current_url();
+    public function deletefavicone($id = 0) {
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
 
             $this->dbmodel->delete_favicone($id);
             $this->session->set_flashdata('message', 'Data Delete Sucessfully');
             redirect('bnw/setup');
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
@@ -2947,7 +2823,6 @@ $url = current_url();
                 $this->load->view($header . 'header', $data);
                 $this->load->view($header . 'menu');
                 $this->load->view('bnw/setup/index', $data);
-               
             } else {
                 if (!$this->upload->do_upload('file_name')) {
 
@@ -2973,7 +2848,7 @@ $url = current_url();
                 redirect('bnw/setup');
             }
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
@@ -2986,9 +2861,8 @@ $url = current_url();
             $this->load->view("bnw/templates/header", $data);
             $this->load->view("bnw/templates/menu");
             $this->load->view('bnw/setup/addHeader', $set);
-            
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
@@ -3031,10 +2905,9 @@ $url = current_url();
                 $this->session->set_flashdata('message', 'Header setting done sucessfully');
                 redirect('bnw');
             }
-            
         } else {
 
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
@@ -3046,9 +2919,8 @@ $url = current_url();
             $this->load->view("bnw/templates/header", $data);
             $this->load->view("bnw/templates/menu");
             $this->load->view('bnw/setup/addSidebar', $set);
-           
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
@@ -3067,7 +2939,6 @@ $url = current_url();
                 $this->load->view("bnw/templates/header", $data);
                 $this->load->view("bnw/templates/menu");
                 $this->load->view('bnw/setup/addSidebar');
-               
             } else {
                 $sideBarTitle = $this->input->post('sidebar_title');
                 $sideBarDescription = $this->input->post('sidebar_description');
@@ -3077,7 +2948,7 @@ $url = current_url();
                 redirect('bnw');
             }
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
@@ -3090,9 +2961,8 @@ $url = current_url();
             $this->load->view("bnw/templates/header", $data);
             $this->load->view("bnw/templates/menu");
             $this->load->view('bnw/setup/miscSetting');
-           
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
@@ -3115,7 +2985,7 @@ $url = current_url();
             $this->dbmodel->update_misc_setting($allowComment, $allowLike, $allowShare, $maximunPost, $maximumPage, $slideHeight, $slideWidth);
             redirect('bnw');
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
@@ -3157,14 +3027,13 @@ $url = current_url();
                 $this->session->set_flashdata('message', 'One Album added sucessfully');
                 redirect('bnw/album/index');
             }
-           
         } else {
 
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
-    public function delalbum($id=0) {
+    public function delalbum($id = 0) {
         $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $data['photoquery'] = $this->dbmodel->get_all_photos($id);
@@ -3175,7 +3044,7 @@ $url = current_url();
             $this->load->view('bnw/album/deleteAlbum', $data);
             $this->load->view('bnw/templates/footer', $data);
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
@@ -3186,7 +3055,7 @@ $url = current_url();
             $data['photoquery'] = $this->dbmodel->get_all_photos($id);
             foreach ($data['photoquery'] as $photo) {
                 $image = $photo->media_type;
-                unlink('./content/uploads/images/'. $image);
+                unlink('./content/uploads/images/' . $image);
             }
 
             $this->dbmodel->delete_photo($id);
@@ -3194,22 +3063,22 @@ $url = current_url();
             $this->session->set_flashdata('message', 'One album Deleted Sucessfully');
             redirect('bnw/album');
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
-    function editalbum($aid=0) {
+    function editalbum($aid = 0) {
         $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $this->dbmodel->edit_album($aid);
             redirect('bnw/album');
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
-    public function photos($id=0) {
-       
+    public function photos($id = 0) {
+
         $data['query'] = $this->dbmodel->get_media($id);
         $data['meta'] = $this->dbmodel->get_meta_data();
         $data['id'] = $id;
@@ -3231,14 +3100,14 @@ $url = current_url();
             $this->load->view('bnw/gallery/index', $data);
             $this->load->view('bnw/templates/footer', $data);
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
     // ==================  MENU  ============================ //
 
     public function menu() {
-$url = current_url();
+        $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $config = array();
             $config["base_url"] = base_url() . "index.php/bnw/menu";
@@ -3258,7 +3127,7 @@ $url = current_url();
             $this->load->view('bnw/menu/addnew', $data);
             $this->load->view('bnw/templates/footer', $data);
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
@@ -3286,14 +3155,13 @@ $url = current_url();
                 $this->session->set_flashdata('message', 'One menu added sucessfully');
                 redirect('bnw/menu/addnew');
             }
-            
         } else {
 
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
-    public function editmenu($mid=0) {
+    public function editmenu($mid = 0) {
         $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $data['query'] = $this->dbmodel->findmenu($mid);
@@ -3303,7 +3171,7 @@ $url = current_url();
             $this->load->view('bnw/menu/edit', $data);
             $this->load->view('bnw/templates/footer', $data);
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
@@ -3339,18 +3207,18 @@ $url = current_url();
             }
             $this->load->view('bnw/templates/footer', $data);
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
-    public function deletemenu($id=0) {
+    public function deletemenu($id = 0) {
         $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $this->dbmodel->delete_menu($id);
             $this->session->set_flashdata('message', 'Data Delete Sucessfully');
             redirect('bnw/menu/addnew');
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
 
@@ -3801,46 +3669,43 @@ $url = current_url();
         $this->dbmodel->addaanbieding($image_data);
         // redirect("bnw/aanbiedingen");
     }
-    
-    function event()
-    {
+
+    function event() {
         $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $data['meta'] = $this->dbmodel->get_meta_data();
             $config = array();
             $config["base_url"] = base_url() . "index.php/bnw/event";
             $config["total_rows"] = $this->dbmodel->get_event();
-            
-           $config["per_page"] = 6;
+
+            $config["per_page"] = 6;
             $this->pagination->initialize($config);
             $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
 
             $data["event"] = $this->dbmodel->get_event_data($config["per_page"], $page);
             $data["links"] = $this->pagination->create_links();
             $data["query"] = $this->dbmodel->get_menu();
-          //  $data["event"] = $this->dbmodel->get_event_data();
+            //  $data["event"] = $this->dbmodel->get_event_data();
             $this->load->view('bnw/templates/header', $data);
             $this->load->view('bnw/templates/menu');
-            $this->load->view('bnw/event/eventList',$data);
-        }else
-        {
-            redirect('login/index/?url='.$url, 'refresh');
+            $this->load->view('bnw/event/eventList', $data);
+        } else {
+            redirect('login/index/?url=' . $url, 'refresh');
         }
-        
     }
-    function addevent()
-    {
+
+    function addevent() {
         $url = current_url();
-       if ($this->session->userdata('admin_logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
             $config['upload_path'] = './content/uploads/images/';
             $config['allowed_types'] = 'gif|jpg|png';
             $config['max_size'] = '500';
             $config['max_width'] = '1024';
             $config['max_height'] = '768';
             $this->load->library('upload', $config);
-            
-            
-           
+
+
+
             $data["links"] = $this->pagination->create_links();
             $data['meta'] = $this->dbmodel->get_meta_data();
             $data["links"] = $this->pagination->create_links();
@@ -3855,135 +3720,126 @@ $url = current_url();
 
                 $this->load->view('bnw/event/addEvent');
             } else {
-                
+
                 if ($_FILES && $_FILES['file']['name'] !== "") {
                     if (!$this->upload->do_upload('file')) {
                         $error = array('error' => $this->upload->display_errors('file'));
                         $this->load->view('bnw/event/addEvent', $error);
-                    }else{
+                    } else {
                         include_once 'imagemanipulator.php';
 
-                $manipulator = new ImageManipulator($_FILES['file']['tmp_name']);
-                $width = $manipulator->getWidth();
-                $height = $manipulator->getHeight();
+                        $manipulator = new ImageManipulator($_FILES['file']['tmp_name']);
+                        $width = $manipulator->getWidth();
+                        $height = $manipulator->getHeight();
 
-                $centreX = round($width / 2);
+                        $centreX = round($width / 2);
 
-                $centreY = round($height / 2);
+                        $centreY = round($height / 2);
 
-                // our dimensions will be 200x130
-                $x1 = $centreX - 374; // 200 / 2
-                $y1 = $centreY - 150; // 130 / 2
+                        // our dimensions will be 200x130
+                        $x1 = $centreX - 374; // 200 / 2
+                        $y1 = $centreY - 150; // 130 / 2
 
-                $x2 = $centreX + 374; // 200 / 2
-                $y2 = $centreY + 150; // 130 / 2
-                // center cropping to 200x130
-                $newImage = $manipulator->crop($x1, $y1, $x2, $y2);
-                // saving file to uploads folder
-                $manipulator->save('./content/uploads/images/' . $_FILES['file']['name']);
-                         $data = array('upload_data' => $this->upload->data('file'));
+                        $x2 = $centreX + 374; // 200 / 2
+                        $y2 = $centreY + 150; // 130 / 2
+                        // center cropping to 200x130
+                        $newImage = $manipulator->crop($x1, $y1, $x2, $y2);
+                        // saving file to uploads folder
+                        $manipulator->save('./content/uploads/images/' . $_FILES['file']['name']);
+                        $data = array('upload_data' => $this->upload->data('file'));
                         $image = $data['upload_data']['file_name'];
                         $name = $this->input->post('event_name');
-                $detail = $this->input->post('detail');
-                $location = $this->input->post('location');
-                $date = $this->input->post('date');
-                $hour = $this->input->post('hour');
-                $min = $this->input->post('min');
-                $sec = 0;
-                $dateTime = $date.' '.$hour.':'.$min.':'.$sec;
-                $this->dbmodel->add_event($name,$detail,$location,$dateTime,$image);
-                $this->session->set_flashdata('message', 'One event added sucessfully');
-                redirect('bnw/event');
+                        $detail = $this->input->post('detail');
+                        $location = $this->input->post('location');
+                        $date = $this->input->post('date');
+                        $hour = $this->input->post('hour');
+                        $min = $this->input->post('min');
+                        $sec = 0;
+                        $dateTime = $date . ' ' . $hour . ':' . $min . ':' . $sec;
+                        $this->dbmodel->add_event($name, $detail, $location, $dateTime, $image);
+                        $this->session->set_flashdata('message', 'One event added sucessfully');
+                        redirect('bnw/event');
                     }
-                    }
-                    else{
+                } else {
 
-                //if valid
-                      $image = NULL; 
-                $name = $this->input->post('event_name');
-                $detail = $this->input->post('detail');
-                $location = $this->input->post('location');
-                $date = $this->input->post('date');
-                $hour = $this->input->post('hour');
-                $min = $this->input->post('min');
-                $sec = 0;
-                $dateTime = $date.' '.$hour.':'.$min.':'.$sec;
-                $this->dbmodel->add_event($name,$detail,$location,$dateTime,$image);
-                $this->session->set_flashdata('message', 'One event added sucessfully');
-                redirect('bnw/event');
+                    //if valid
+                    $image = NULL;
+                    $name = $this->input->post('event_name');
+                    $detail = $this->input->post('detail');
+                    $location = $this->input->post('location');
+                    $date = $this->input->post('date');
+                    $hour = $this->input->post('hour');
+                    $min = $this->input->post('min');
+                    $sec = 0;
+                    $dateTime = $date . ' ' . $hour . ':' . $min . ':' . $sec;
+                    $this->dbmodel->add_event($name, $detail, $location, $dateTime, $image);
+                    $this->session->set_flashdata('message', 'One event added sucessfully');
+                    redirect('bnw/event');
+                }
             }
-            
-        
-           
-            }
-       }else
-        {
-            redirect('login/index/?url='.$url, 'refresh');
-        }  
+        } else {
+            redirect('login/index/?url=' . $url, 'refresh');
+        }
     }
-    
-    function editevent($id=0)
-    {
+
+    function editevent($id = 0) {
         $url = current_url();
-       if ($this->session->userdata('admin_logged_in')) {
+        if ($this->session->userdata('admin_logged_in')) {
             ;
             $data['meta'] = $this->dbmodel->get_meta_data();
             $data['event'] = $this->dbmodel->get_event_id($id);
-           
-           // $data['id'] = $id;
+
+            // $data['id'] = $id;
             $this->load->view("bnw/templates/header", $data);
             $this->load->view("bnw/templates/menu");
             $this->load->view('bnw/event/editEvent', $data);
-
-           
         } else {
-            redirect('login/index/?url='.$url, 'refresh');
+            redirect('login/index/?url=' . $url, 'refresh');
         }
     }
-    
-    function update_event()
-    {
+
+    function update_event() {
         $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
-             $config['upload_path'] = './content/uploads/images/';
+            $config['upload_path'] = './content/uploads/images/';
             $config['allowed_types'] = 'gif|jpg|png';
-           // $config['max_size'] = '500';
-           // $config['max_width'] = '1024';
-           // $config['max_height'] = '768';
+            // $config['max_size'] = '500';
+            // $config['max_width'] = '1024';
+            // $config['max_height'] = '768';
             $this->load->library('upload', $config);
-             $this->load->library(array('form_validation', 'session'));
+            $this->load->library(array('form_validation', 'session'));
             $this->form_validation->set_rules('Name', 'Name', 'required|xss_clean|max_length[200]');
-            
+
             if (($this->form_validation->run() == TRUE)) {
                 if ($_FILES && $_FILES['file']['name'] !== "") {
                     if (!$this->upload->do_upload('file')) {
-                     
+
                         $data['error'] = $this->upload->display_errors('file');
                         $id = $this->input->post('id');
                         $data['query'] = $this->dbmodel->get_event_id($id);
                         $this->load->view('bnw/event/editEvent', $data);
                     } else {
-                      //  die('image');
+                        //  die('image');
                         include_once 'imagemanipulator.php';
 
-                $manipulator = new ImageManipulator($_FILES['file']['tmp_name']);
-                $width = $manipulator->getWidth();
-                $height = $manipulator->getHeight();
+                        $manipulator = new ImageManipulator($_FILES['file']['tmp_name']);
+                        $width = $manipulator->getWidth();
+                        $height = $manipulator->getHeight();
 
-                $centreX = round($width / 2);
+                        $centreX = round($width / 2);
 
-                $centreY = round($height / 2);
+                        $centreY = round($height / 2);
 
-                // our dimensions will be 200x130
-                $x1 = $centreX - 374; // 200 / 2
-                $y1 = $centreY - 150; // 130 / 2
+                        // our dimensions will be 200x130
+                        $x1 = $centreX - 374; // 200 / 2
+                        $y1 = $centreY - 150; // 130 / 2
 
-                $x2 = $centreX + 374; // 200 / 2
-                $y2 = $centreY + 150; // 130 / 2
-                // center cropping to 200x130
-                $newImage = $manipulator->crop($x1, $y1, $x2, $y2);
-                // saving file to uploads folder
-                $manipulator->save('./content/uploads/images/' . $_FILES['file']['name']);
+                        $x2 = $centreX + 374; // 200 / 2
+                        $y2 = $centreY + 150; // 130 / 2
+                        // center cropping to 200x130
+                        $newImage = $manipulator->crop($x1, $y1, $x2, $y2);
+                        // saving file to uploads folder
+                        $manipulator->save('./content/uploads/images/' . $_FILES['file']['name']);
                         $id = $this->input->post('id');
                         $title = $this->input->post('Name');
                         $content = $this->input->post('description');
@@ -3993,32 +3849,32 @@ $url = current_url();
                         $string = $this->input->post('description');
                         $summary = substr("$string", 0, 100);
                         $location = $this->input->post('location');
-                         $date = $this->input->post('date');
-                          $hour = $this->input->post('hour');
-                         $min = $this->input->post('min');
-                          $sec = 0;
-                          $dateTime = $date.' '.$hour.':'.$min.':'.$sec;
-                        $this->dbmodel->update_event($id, $title, $content, $summary,$location,$image,$dateTime);
+                        $date = $this->input->post('date');
+                        $hour = $this->input->post('hour');
+                        $min = $this->input->post('min');
+                        $sec = 0;
+                        $dateTime = $date . ' ' . $hour . ':' . $min . ':' . $sec;
+                        $this->dbmodel->update_event($id, $title, $content, $summary, $location, $image, $dateTime);
                         $this->session->set_flashdata('message', 'Data Modified Sucessfully');
                         redirect('bnw/event');
                     }
                 } else {
-                   // die('not');
-                        $id = $this->input->post('id');
-                        $title = $this->input->post('Name');
-                        $content = $this->input->post('description');
-                        
-                         $image = $this->input->post('hidden_image');
+                    // die('not');
+                    $id = $this->input->post('id');
+                    $title = $this->input->post('Name');
+                    $content = $this->input->post('description');
 
-                        $string = $this->input->post('description');
-                        $summary = substr("$string", 0, 100);
-                        $location = $this->input->post('location');
-                $date = $this->input->post('date');
-                $hour = $this->input->post('hour');
-                $min = $this->input->post('min');
-                $sec = 0;
-                $dateTime = $date.' '.$hour.':'.$min.':'.$sec;
-                        $this->dbmodel->update_event($id, $title, $content, $summary,$location,$image,$dateTime);
+                    $image = $this->input->post('hidden_image');
+
+                    $string = $this->input->post('description');
+                    $summary = substr("$string", 0, 100);
+                    $location = $this->input->post('location');
+                    $date = $this->input->post('date');
+                    $hour = $this->input->post('hour');
+                    $min = $this->input->post('min');
+                    $sec = 0;
+                    $dateTime = $date . ' ' . $hour . ':' . $min . ':' . $sec;
+                    $this->dbmodel->update_event($id, $title, $content, $summary, $location, $image, $dateTime);
                     $this->session->set_flashdata('message', 'Data Modified Sucessfully');
                     redirect('bnw/event');
                 }
@@ -4027,96 +3883,73 @@ $url = current_url();
                 $data['query'] = $this->dbmodel->get_event_id($id);
                 $this->load->view('bnw/event/editEvent', $data);
             }
-            
+        } else {
+            redirect('login/index/?url=' . $url, 'refresh');
         }
-        else
-        {
-            redirect('login/index/?url='.$url, 'refresh');
+    }
+
+    function offerImgdelete($id = 0) {
+        $url = current_url();
+        if ($this->session->userdata('admin_logged_in')) {
+
+            $id = $_GET['id'];
+            $data['query'] = $this->dbmodel->findpost($id);
+            foreach ($data['query'] as $a) {
+                $img = $a->image;
+            }
+            // die($img);
+            if ($img == !NULL) {
+                unlink('./content/uploads/images/' . $img);
+            }
+            $this->dbmodel->offerImgdelete($id);
+
+            $this->editpost($id);
+        } else {
+            redirect('login/index/?url=' . $url, 'refresh');
         }
-        
-        
     }
-    
-    function offerImgdelete($id=0)
-    {
+
+    function Imgdelete($id = 0) {
         $url = current_url();
-         if ($this->session->userdata('admin_logged_in')) {
-             
-             $id = $_GET['id'];
-             $data['query'] = $this->dbmodel->findpost($id);
-              foreach ($data['query'] as $a)
-             {
-                 $img = $a->image;
-             }
+        if ($this->session->userdata('admin_logged_in')) {
+
+            $id = $_GET['id'];
+            $data['event'] = $this->dbmodel->get_event_id($id);
+            foreach ($data['event'] as $a) {
+                $img = $a->image;
+            }
             // die($img);
-             if($img==!NULL)
-             {
-             unlink('./content/uploads/images/'. $img);
-             }
-             $this->dbmodel->offerImgdelete($id);
-             
-             $this->editpost($id);
-             
-         }
-         else
-         {
-             redirect('login/index/?url='.$url, 'refresh');
-         }
-        
+            if ($img == !NULL) {
+                unlink('./content/uploads/images/' . $img);
+            }
+            $this->dbmodel->Imgdelete($id);
+
+            $this->editevent($id);
+        } else {
+            redirect('login/index/?url=' . $url, 'refresh');
+        }
     }
-    function Imgdelete($id=0)
-    {
-        $url = current_url();
-       if ($this->session->userdata('admin_logged_in')) {
-             
-             $id = $_GET['id'];
-             $data['event'] = $this->dbmodel->get_event_id($id);
-             foreach ($data['event'] as $a)
-             {
-                 $img = $a->image;
-             }
-            // die($img);
-             if($img==!NULL)
-             {
-             unlink('./content/uploads/images/'. $img);
-             }
-             $this->dbmodel->Imgdelete($id);
-             
-             $this->editevent($id);
-             
-         }
-         else
-         {
-             redirect('login/index/?url='.$url, 'refresh');
-         }
-    }
-    
-    function delevent($id=0)
-    {
+
+    function delevent($id = 0) {
         $url = current_url();
         if ($this->session->userdata('admin_logged_in')) {
             $data['event'] = $this->dbmodel->get_event_id($id);
-             foreach ($data['event'] as $a)
-             {
-                 $img = $a->image;
-             }
+            foreach ($data['event'] as $a) {
+                $img = $a->image;
+            }
             // die($img);
-             if(strlen($img)>1 )
-             {
-             unlink('./content/uploads/images/'. $img);
-             }
-            
+            if (strlen($img) > 1) {
+                unlink('./content/uploads/images/' . $img);
+            }
+
             $this->dbmodel->delete($id);
-      $this->session->set_flashdata('message', 'Data Delete Sucessfully');
-      redirect('bnw/event');
-        
-            
-        }  else {
-            
-        
-            redirect('login/index/?url='.$url, 'refresh');
+            $this->session->set_flashdata('message', 'Data Delete Sucessfully');
+            redirect('bnw/event');
+        } else {
+
+
+            redirect('login/index/?url=' . $url, 'refresh');
         }
-        
     }
-    
+
 }

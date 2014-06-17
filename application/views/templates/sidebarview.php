@@ -47,7 +47,7 @@ $this->load->helper('currency');
     <?php if (!empty($facebookPopular)) { ?>
 
 
-    <a href="<?php echo base_url() . "index.php/view/populars" ?>"> <div class="redColouredDiv" id='sidebarContent'><h3>Popular Products</h3></div></a>
+    <a href="<?php echo base_url() . "index.php/view/populars" ?>"> <div class="redColouredDiv" id='sidebarContent'><h3 style="text-decoration: underline">Popular Products</h3></div></a>
              <?php
           
             foreach ($facebookPopular as  $populars) {
@@ -97,7 +97,7 @@ $this->load->helper('currency');
 <?php foreach ($category as $catList) {
         $category_id = $catList->id;
         ?>
-    <a href="<?php echo base_url() . "index.php/view/category/" . $category_id ?>"><div class="redColouredDiv" id='sidebarContent'><h3><?php echo $catList->category_name; ?></h3></div></a>
+    <a href="<?php echo base_url() . "index.php/view/category/" . $category_id ?>"><div class="redColouredDiv" id='sidebarContent'><h3 style="text-decoration: underline"><?php echo $catList->category_name; ?></h3></div></a>
        
            
 

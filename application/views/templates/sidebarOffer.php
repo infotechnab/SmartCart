@@ -36,7 +36,7 @@
            
            <!--offer ends here-->
            <?php if(!empty($event)){ ?>
-           <a href="<?php echo base_url()."index.php/view/events" ?>"><div class="redColouredDiv" id='sidebarContent'><h3 >Events</h3></div></a>
+           <a href="<?php echo base_url()."index.php/view/events" ?>"><div class="redColouredDiv" id='sidebarContent'><h3 style="text-decoration: underline">Events</h3></div></a>
           	            
                                 
     <?php foreach ($event as $sideEvent){
