@@ -172,9 +172,20 @@ $(document).ready(function() {
                     <div class='contentContainer'>
                         
                             <div id='detailsImageLarge'>
+                                <?php if (strlen($productDet->image1)>2){ ?>
                                 <div class="detailsImageLargeLeft">
-                                <img src="<?php echo base_url() . "content/uploads/images/" . $productDet->image1; ?>" alt="<?php echo $productDet->name; ?>"/>   
+                                <img src="<?php echo base_url() . "content/uploads/images/" . $productDet->image1; ?>" alt=""/>   
                                 </div>
+                                <?php }else{if (strlen($productDet->image2)>2){?>
+                                    <div class="detailsImageLargeLeft">
+                                <img src="<?php echo base_url() . "content/uploads/images/" . $productDet->image2; ?>" alt=""/>   
+                                </div>
+                                <?php   } else  {if (strlen($productDet->image3)>2){?>
+                                    <div class="detailsImageLargeLeft">
+                                <img src="<?php echo base_url() . "content/uploads/images/" . $productDet->image3; ?>" alt=""/>   
+                                </div>
+                             <?php   }
+                                else {}}}  ?>
 <div class="detailsImageLargeLeft">
                             <div id="detailsDetail">
                                 
@@ -214,18 +225,18 @@ $(document).ready(function() {
                         <div class="clear"></div>
 <?php if(strlen($productDet->image1)>2){ ?>
                         <div class='detailsImage'>
-                            <img class="srcimage" src="<?php echo base_url() . "content/uploads/images/" . $productDet->image1; ?>" alt="<?php echo $productDet->name; ?>"/>   
+                            <img class="srcimage" src="<?php echo base_url() . "content/uploads/images/" . $productDet->image1; ?>" alt=""/>   
                         </div>
                         
                         <?php } ?>
                         <?php if(strlen($productDet->image2)>2){ ?>
                         <div class='detailsImage'>
-                            <img class="srcimage" src="<?php echo base_url() . "content/uploads/images/" . $productDet->image2; ?>" alt="<?php echo $productDet->name; ?>"/>   
+                            <img class="srcimage" src="<?php echo base_url() . "content/uploads/images/" . $productDet->image2; ?>" alt=""/>   
                         </div>
                          <?php } ?>
                         <?php if(strlen($productDet->image3)>2){ ?>
                         <div class='detailsImage'>
-                            <img class="srcimage" src="<?php echo base_url() . "content/uploads/images/" . $productDet->image3; ?>" alt="<?php echo $productDet->name; ?>"/>   
+                            <img class="srcimage" src="<?php echo base_url() . "content/uploads/images/" . $productDet->image3; ?>" alt=""/>   
                         </div>
      <?php } ?>
                       <div class="clear"></div>

@@ -309,7 +309,7 @@ $this->load->helper('currency');
             <div class='contentContainerBox'>
 
                 <!-- upto here -->
-                <div class='contentContainerHeader'><a href='<?php echo base_url() . "index.php/view/details/" . $product->id ?>'>
+                <a href='<?php echo base_url() . "index.php/view/details/" . $product->id ?>'><div class='contentContainerHeader'>
                         <div class="likeShare">        <?php if ($product->like == "enabled") { ?>
                                 <div class="fb-like" data-href="<?php echo base_url() . "/index.php/view/details/" . $product->id; ?>" data-layout="button_count" data-action="like" data-show-faces="false" data-share="false"></div>
                                 <?php
@@ -337,9 +337,26 @@ $this->load->helper('currency');
 
 
                 </div>
+                
+                <?php if (strlen($product->image1)>2){ ?>
+                                <div class='contentContainerImage'>
+                    <img src="<?php echo base_url() . "content/uploads/images/" . $product->image1; ?>" alt="" height="150" width="130"/>   
+                </div>
+                                <?php }else{if (strlen($product->image2)>2){?>
+                                    <div class='contentContainerImage'>
+                    <img src="<?php echo base_url() . "content/uploads/images/" . $product->image2; ?>" alt="" height="150" width="130"/>   
+                </div>
+                                <?php   } else  {if (strlen($product->image3)>2){?>
+                                    <div class='contentContainerImage'>
+                    <img src="<?php echo base_url() . "content/uploads/images/" . $product->image3; ?>" alt="" height="150" width="130"/>   
+                </div>
+                             <?php   } else {?>
                 <div class='contentContainerImage'>
-                    <img src="<?php echo base_url() . "content/uploads/images/" . $product->image1; ?>" alt="No images" height="150" width="130"/>   
-                </div></a>
+                    
+                </div>
+                    <?php }}}  ?>
+                
+                </a>
 
                 <div class="loadingImg" style="display: none; position: relative; margin:-137px auto 83px 79px; padding: 0px;">
                     <img width="30" style="margin:0px; padding: 0px;" src="<?php echo base_url() . 'content/uploads/images/page-loader.gif'; ?>" alt="loading.."/>

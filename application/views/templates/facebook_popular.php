@@ -98,7 +98,7 @@ if (!empty($facebookPopular)) {
         ?>
                 <div class='contentContainerBox'>
 
-                    <div class='contentContainerHeader'><a href='<?php echo base_url() . "index.php/view/details/" . $product_list['id'] ?>'>
+                   <a href='<?php echo base_url() . "index.php/view/details/" . $product_list['id'] ?>'> <div class='contentContainerHeader'>
        <!--                    <div style="width:100%; margin: 0px; padding: 0px;">        <?php// if ($product_list->like == "enabled") { ?>
                          <div class="fb-like" data-href="<?php //echo base_url() . "/index.php/view/details/".$product_list->id; ?>" data-layout="button_count" data-action="like" data-show-faces="false" data-share="false"></div>
                             <?php
@@ -119,9 +119,16 @@ if (!empty($facebookPopular)) {
                                            <h4> <?php $text= wordwrap($product_list['name'], 18, "\n", true); echo mb_strimwidth($text, 0, 36, ".."); ?></h4>
                                      <?php  } ?>         
                     </div>
+                       <?php if (strlen($product_list['image'])>2){ ?>
                     <div class='contentContainerImage'>
                         <img src="<?php echo base_url() . "content/uploads/images/" . $product_list['image']; ?>" alt="" height="150" width="130"/>   
-                    </div></a>
+                    </div>
+                       <?php } else { ?>
+                           <div class='contentContainerImage'>
+                        
+                    </div>
+                     <?php  } ?>   
+                   </a>
 
                     <div class="contentContainerBottom"> 
                         <div class='contentContainerFooterLeft'><h4><?php get_currency($product_list['price']); ?></h4></div>
