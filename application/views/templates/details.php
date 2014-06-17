@@ -86,6 +86,7 @@ var base_url = '<?php echo base_url(); ?>';
 $(document).ready(function() {
     //adding item to the cart...
     $(".addToCart").click(function() {
+        $(this).parent().parent().parent().css("opacity", "0.3");
        $(this).parent().parent().parent().prev().css("display","block");
         var id = $(this).val();
         var dataString = 'itemid=' + id;

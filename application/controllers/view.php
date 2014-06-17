@@ -39,15 +39,17 @@ class View extends CI_Controller {
             }
         }
         arsort($productId);
+        
         $temp = array();
         foreach ($productId as $key => $fbratingproduct) {
-            foreach ($this->productmodel->get_fbsorted_prodcuts($key) as $fbproductInfo) {
+            $data['fbsortmax']=$this->productmodel->get_fbsorted_prodcuts($key);
+            
+            foreach ($data['fbsortmax'] as $fbproductInfo) {
                 $temp[$key] = array('id' => $fbproductInfo->id, 'name' => $fbproductInfo->name, 'image' => $fbproductInfo->image1, 'price' => $fbproductInfo->price);
             }
         }
-
-
-        return $temp;
+        $output = array_slice($temp, 0, 10);
+        return $output;
 
         /* facebook like ends here */
     }
