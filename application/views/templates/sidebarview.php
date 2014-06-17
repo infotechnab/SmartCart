@@ -11,6 +11,7 @@ $this->load->helper('currency');
             //$(this).parent().prev().css("display","block");
             var id = $(this).val();
             var dataString = 'itemid=' + id;
+            
             $.ajax({
                 type: "POST",
                 url: base_url + 'index.php/view/add',
@@ -46,7 +47,7 @@ $this->load->helper('currency');
     <?php if (!empty($facebookPopular)) { ?>
 
 
-        <div class="redColouredDiv" id='sidebarContent'><h3 style="float: left;">Popular Products</h3></div>
+    <a href="<?php echo base_url() . "index.php/view/populars" ?>"> <div class="redColouredDiv" id='sidebarContent'><h3>Popular Products</h3></div></a>
              <?php
           
             foreach ($facebookPopular as  $populars) {
@@ -76,7 +77,7 @@ $this->load->helper('currency');
                 <div class="loadingImg" style="display: none; position: relative; margin:-3px 0px 0px 0px; z-index: 10000; padding: 0px; left:-50px;">
                     <img width="20" style="margin:0px; padding: 0px;" src="<?php echo base_url() . 'content/uploads/images/page-loader.gif'; ?>" alt="loading.."/>
 
-                </div>
+                </div></a>
                 <div class="sidebarCart"> 
                     <div class='sidebarCartLeft'><h4><?php get_currency($populars['price']); ?></h4></div>
 
@@ -87,7 +88,7 @@ $this->load->helper('currency');
                 </div>
 
 
-            </div></a>
+            </div>
 
 
         <?php }
@@ -96,7 +97,7 @@ $this->load->helper('currency');
 <?php foreach ($category as $catList) {
         $category_id = $catList->id;
         ?>
-        <div class="redColouredDiv" id='sidebarContent'><h3 style="float: left;"><?php echo $catList->category_name; ?></h3><div ><a style="float: right; padding: 10px; color: blue; text-decoration: underline;" href="<?php echo base_url() . "index.php/view/category/" . $category_id ?>">View all</a></div></div>
+    <a href="<?php echo base_url() . "index.php/view/category/" . $category_id ?>"><div class="redColouredDiv" id='sidebarContent'><h3><?php echo $catList->category_name; ?></h3></div></a>
        
            
 

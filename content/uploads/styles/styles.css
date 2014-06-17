@@ -261,8 +261,8 @@ body
 {
     margin: 0px;
     padding: 5px 0px 5px 20px;
-    max-height: 30px;
-    overflow-wrap: hyphenate;   
+    max-height: 40px;
+    
     z-index: 100;
 }
 .contentHeaderDetails

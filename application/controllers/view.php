@@ -365,7 +365,6 @@ class View extends CI_Controller {
         foreach ($product as $prod) {
             $name = $prod->name;
             $price = $prod->price;
-            $desc = $prod->description;
             $image1 = $prod->image1;
             $shiping = $prod->shiping;
         }
@@ -389,7 +388,6 @@ class View extends CI_Controller {
             'qty' => $newQnt,
             'price' => $price,
             'name' => $name,
-            'desc' => $desc,
             'image1' => $image1,
             'shiping' => $shiping
         );
@@ -493,7 +491,28 @@ class View extends CI_Controller {
         $this->load->view('templates/sidebarview', $data);
         $this->load->view('templates/footer');
     }
+ function populars() {
+        $data['headertitle'] = $this->viewmodel->get_header_title();
+        $data['headerlogo'] = $this->viewmodel->get_header_logo();
+        $data['meta'] = $this->dbmodel->get_meta_data();
+        $data['headerdescription'] = $this->viewmodel->get_header_description();
 
+        
+        $data['event'] = $this->productmodel->get_max_events();
+        $data['offer'] = $this->productmodel->get_max_offers();
+        $data['featureItem'] = $this->productmodel->featured_item();
+        $data['category'] = $this->productmodel->category_list();
+        $data['facebookPopular'] = $this->variable = $this->facebookLikeCount();
+        //Get all the category of this passed category
+       
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/navigation');
+        $this->load->view('templates/facebook_popular', $data);
+        $this->load->view('templates/sidebarOffer', $data);
+        $this->load->view('templates/cart');
+        $this->load->view('templates/sidebarview', $data);
+        $this->load->view('templates/footer');
+    }
     function page($id) {
         $data['headertitle'] = $this->viewmodel->get_header_title();
         $data['headerlogo'] = $this->viewmodel->get_header_logo();
