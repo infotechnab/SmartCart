@@ -50,7 +50,14 @@ public function product_info(){
        $query = $this->db->get('product');
         return $query->result();
     }
-    
+    public function get_product_data($product_code)
+    {
+        $this->db->select('shiping');
+         $this->db->where('id', $product_code);
+        $this->db->limit(1);
+       $query = $this->db->get('product');
+        return $query->result();
+    }
     function category_list()
     {
         $query = $this->db->get('category');
@@ -98,6 +105,9 @@ public function product_info(){
          return $query->result();
                 
     }
+    
+   
+    
     function get_productList($catlist,$id)
     {
         //die($id);

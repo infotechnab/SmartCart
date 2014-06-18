@@ -1,6 +1,32 @@
 <?php
 $this->load->helper('currency');
-$shiping= $this->productmodel->getship();
+if ($cart = $this->cart->contents()) {
+                    $cartInitialize = 0;
+                     $productShip=array();
+                    foreach ($cart as $key => $item) {
+      
+                    $product_code = $item["id"];
+                        $results = $this->productmodel->get_product_data($product_code);
+                       
+                      $productShip = array_merge($productShip, $results);
+                    
+                   
+                    
+                    $cartInitialize++;
+                    }    
+}
+var_dump($productShip);
+foreach ($productShip as $ship){
+if($ship->shiping==="enabled"){
+    $shippingyes="yes";
+}
+ELSE{
+    $shippingyes="NO";
+}
+}
+var_dump($shippingyes);
+IF($shippingyes==="yes"){
+$shiping= $this->productmodel->getship();}
 if (!empty($shiping)) {
     foreach ($shiping as $scost) {
         $cost = $scost->price;
