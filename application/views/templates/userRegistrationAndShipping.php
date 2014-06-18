@@ -1,5 +1,6 @@
 <?php
 $this->load->helper('currency');
+$shiping= $this->productmodel->getship();
 if (!empty($shiping)) {
     foreach ($shiping as $scost) {
         $cost = $scost->price;
@@ -7,6 +8,7 @@ if (!empty($shiping)) {
 } else {
     $cost = 0;
 }
+
 if ($cart = $this->cart->contents()) {
     foreach ($cart as $item) {
 
@@ -443,8 +445,7 @@ function myFunction() {
      $country="";
 }
 ?>
-<!-- if logged in the above view works but 
-if clicked in continue the following view works -->
+
 <?php
     echo form_open('payment/do_payment');
 ?>
@@ -635,7 +636,7 @@ if clicked in continue the following view works -->
             <h3 style="width:40%; margin: 0px 0px 10px 0px; padding: 2px; float: left;">Shipping Options
             </h3>
             <div class="onoffswitch" style="float: right; margin-right: 20%">
-                <input type="checkbox" name="onoffswitch" value="1" onclick="myOnOffSwitch();" class="onoffswitch-checkbox" id="myonoffswitch" >
+                <input type="checkbox" name="onoffswitch" value="enableShip" onclick="myOnOffSwitch();" class="onoffswitch-checkbox" id="myonoffswitch" >
                 <label class="onoffswitch-label" for="myonoffswitch">
                     <span class="onoffswitch-inner"></span>
                     <span class="onoffswitch-switch"></span>
@@ -716,9 +717,10 @@ if clicked in continue the following view works -->
                     <th class="hide" width='55px'>Product</th>
                     <th style="text-align: left; padding: 0px 0px 0px 15px;">Name</th>
                     <th>Price</th>
-                    <th> </th>
+                    
                     <th>Qty</th>
-                    <th>Total</th>                   
+                    <th>Total</th>
+                    <th> </th>
 
                 </tr>
                 <?php
@@ -737,9 +739,10 @@ if clicked in continue the following view works -->
                         <?php echo mb_strimwidth($item['name'], 0, 20, "..."); ?></td>
         <?php } ?>
                             <td style="text-align: center;"><?php get_currency($item['price']); ?></td>
-                            <td>x</td>
+                            
                             <td style="text-align: center;"><?php echo $item['qty'] ?></td>                       
                             <td style="text-align: center;"><?php echo $item['price'] * $item['qty']; ?> </td>
+                            <td>x</td>
                         </tr>
                         <?php
                         //Data for paypal 
@@ -763,9 +766,8 @@ if clicked in continue the following view works -->
                     <td class="hide"></td>
                     <td></td>
                     <td></td>
-                    <td></td>
                     <td style="text-align: center; border-top: 1px solid #222;"> <b><?php get_currency($this->cart->total()); ?></b></td>
-
+                    <td></td>
                 </tr>
 
             </table>

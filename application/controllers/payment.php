@@ -59,10 +59,26 @@ class Payment extends CI_Controller {
         
         $this->load->library('form_validation');
 
-        $cost = trim($_POST['cost']);
-        $rate = trim($_POST['rate']);
-        $grandTotal = trim($_POST['grandtotal']);
+        if(isset($_POST['cost'])){$cost = trim($_POST['cost']); }
+        if(isset($_POST['rate'])){$rate = trim($_POST['rate']); }
+        if(isset($_POST['grandtotal'])){$grandTotal = trim($_POST['grandtotal']); }
+        if(isset($_POST['onoffswitch']))
+        {
+        $switch = $_POST['onoffswitch'];
+        }
+        else
+        {
+            $switch = "disableShip";
+        }
         
+        if(isset($_POST['pickup']))
+        {
+        $radio = $_POST['pickup'];
+        }
+        else{
+            $radio=NULL;
+        }
+        //
         $this->form_validation->set_rules('u_fname', 'First name', 'trim|regex_match[/^[a-z,0-9,A-Z]{3,15}$/]|required|xss_clean|max_length[15]');
         $this->form_validation->set_rules('u_lname', 'Last name', 'trim|regex_match[/^[a-z,0-9,A-Z]{3,15}$/]|required|xss_clean|max_length[15]');
         $this->form_validation->set_rules('street_address', 'Address', 'trim|regex_match[/^[A-Za-z0-9\-\\,.]{2,35}$/]|required|xss_clean|max_length[35]');
@@ -78,7 +94,7 @@ class Payment extends CI_Controller {
             $this->load->view('templates/navigation');
             $this->load->view('templates/userRegistrationAndShipping', $data);
             $this->load->view('templates/footer');
-            // die("");
+            
         } else {
             
             /* here are all inputed fields*/
@@ -91,31 +107,12 @@ class Payment extends CI_Controller {
         $country = $this->input->post('country');
         $contact = $this->input->post('u_contact');
         $email = $this->input->post('user_email');
-                
-              // die("iam in else");
-
         
-        if(isset($_POST['onoffswitch']))
-        {
-        $switch = $_POST['onoffswitch'];
-        }
-        else
-        {
-            $switch = 0;
-        }
         
-        if(isset($_POST['pickup']))
-        {
-        $radio = $_POST['pickup'];
-        }
-        else{
-            $radio=NULL;
-        }
         /* if shipping enabled */
-       // die($switch);
-      //  die($radio);
-        if (($switch==1) && ($radio==="shipDifferent")) {
-           // die("sdfdjsflkjdslfjdslkfjsdlkfjdslkfj");
+       
+        if (($switch==="enableShip") && ($radio==="shipDifferent")) {
+          
             $this->form_validation->set_rules('s_fname', 'First name', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,15}$/]|required|xss_clean|max_length[15]');
             $this->form_validation->set_rules('s_lname', 'Last name', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,15}$/]|required|xss_clean|max_length[15]');
             $this->form_validation->set_rules('s_address', 'Address', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,35}$/]|required|xss_clean|max_length[35]');
@@ -132,9 +129,9 @@ class Payment extends CI_Controller {
             $this->load->view('templates/navigation');
             $this->load->view('templates/userRegistrationAndShipping', $data);
             $this->load->view('templates/footer');
-            die("false");
+           
         } else {
-            $shipfname = $this->input->post('s_fname');                        
+                $shipfname = $this->input->post('s_fname');                        
                 $shiplname = $this->input->post('s_lname');                         
                 $shipstreet = $this->input->post('s_address');                        
                 $shiptown = $this->input->post('c_city');                         
@@ -143,9 +140,9 @@ class Payment extends CI_Controller {
                 $shipcountry = $this->input->post('s_country');                       
                 $shipcontact = $this->input->post('s_contact');                         
                 $shipemail = $this->input->post('s_email');
-            
+            die('true');
         }         
-        } else if (($switch==1) && ($radio=="pickup") ) {
+        } else if (($switch==="enableShip") && ($radio=="pickup") ) {
             $shipfname = $fname;
             $shiplname = $lname;
             $shipstreet = $street;
@@ -157,7 +154,7 @@ class Payment extends CI_Controller {
             $shipemail = $email;
         }
         else{
-            $shipfname = NULL;
+            $shipfname = "pickup";
             $shiplname = NULL;
             $shipstreet = NULL;
             $shiptown = NULL;
@@ -167,7 +164,7 @@ class Payment extends CI_Controller {
             $shipcontact = NULL;
             $shipemail = NULL;
         }
-   
+   die($shipfname);
        
    
 

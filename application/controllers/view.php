@@ -325,24 +325,17 @@ class View extends CI_Controller {
 
     public function login() {
 
-        if ($this->session->userdata('logged_in') || $this->session->userdata('admin_logged_in')) {
+        if ($this->session->userdata('logged_in')) {
             $data['headertitle'] = $this->viewmodel->get_header_title();
             $data['headerlogo'] = $this->viewmodel->get_header_logo();
             $data['meta'] = $this->dbmodel->get_meta_data();
             $data['headerdescription'] = $this->viewmodel->get_header_description();
-            $name = $this->session->userdata('username');
-            //$email = $this->session->userdata('useremail');
-
-            $this->load->model('dbmodel');
-            $data['detail'] = $this->productmodel->get_user($name);
-
-            if (!empty($data['detail'])) {
-                $data['shiping'] = $this->productmodel->getship();
+  
                 $this->load->view('templates/header', $data);
                 $this->load->view('templates/navigation');
-                $this->load->view('templates/userRegistrationAndShipping', $data);
+                $this->load->view('templates/userRegistrationAndShipping');
                 $this->load->view('templates/footer');
-            }
+            
         } else {
             $data['headertitle'] = $this->viewmodel->get_header_title();
             $data['headerlogo'] = $this->viewmodel->get_header_logo();
@@ -549,10 +542,10 @@ class View extends CI_Controller {
             $data['headerlogo'] = $this->viewmodel->get_header_logo();
             $data['meta'] = $this->dbmodel->get_meta_data();
             $data['headerdescription'] = $this->viewmodel->get_header_description();
-            $data['shiping'] = $this->productmodel->getship();
+           
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navigation');
-            $this->load->view('templates/userRegistrationAndShipping', $data);
+            $this->load->view('templates/userRegistrationAndShipping');
             $this->load->view('templates/cartLogin');
             $this->load->view('templates/footer');
         } else {
@@ -815,7 +808,7 @@ class View extends CI_Controller {
                 }
             }
 
-            $this->session->set_flashdata('message', 'Your details has been updatedsuccessfully');
+            $this->session->set_flashdata('message', 'Your details has been updated successfully');
             redirect('view/index');
         } else {
             $this->session->set_flashdata('message', 'Sorry You are not logged in, please login first.');

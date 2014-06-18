@@ -5,7 +5,12 @@
     </p>
      <div class="clear"></div>
  <hr class="hr-gradient"/>
-  <?php echo validation_errors(); ?>
+  <?php echo validation_errors();
+  if(isset($error))
+  {
+      echo $error;
+  }  
+  ?>
  <link rel="stylesheet" href="<?php echo base_url().'content/uploads/scripts/date.css';?>">
 <script src="<?php echo base_url().'content/uploads/scripts/jquery-1.10.2.js'; ?>"></script>
 

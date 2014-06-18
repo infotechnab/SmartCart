@@ -2,7 +2,12 @@
 <h4>Quickly Add new Product</h4>
  <hr />
 
-  <?php echo validation_errors(); ?>
+  <?php echo validation_errors();
+   if(isset($error))
+  {
+      echo $error;
+  }
+  ?>
 <p id="sucessmsg">
   <?php if($this->session->flashdata('message')){echo $this->session->flashdata('message');}?>
     </p>

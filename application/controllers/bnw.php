@@ -393,17 +393,22 @@ class bnw extends CI_Controller {
             $this->load->library('upload', $config);
             $data['meta'] = $this->dbmodel->get_meta_data();
             $data['category'] = $this->dbmodel->get_category();
+            $data['query'] = $this->dbmodel->get_all_product_orderDis();
+            $data['pList'] = $this->dbmodel->get_product();
             $this->load->view('bnw/templates/header', $data);
             $this->load->view('bnw/templates/menu');
             $this->load->helper('form');
             $this->load->library(array('form_validation', 'session'));
             $this->form_validation->set_rules('pName', 'Name', 'required|xss_clean|max_length[200]');
             $this->form_validation->set_rules('pPrice', 'Price', 'required|xss_clean|max_length[200]');
-
+            $this->form_validation->set_rules('myfile', 'Image1', 'trim|callback_valid_upload1');
             if (($this->form_validation->run() == FALSE)) {
                 $data['error'] = $this->upload->display_errors();
 
-                $this->load->view('product/addProduct', $data);
+                 $this->load->view('bnw/index', $data);
+            $this->load->view('bnw/dashboard/quickly_add', $data);
+            $this->load->view('bnw/dashboard/latest_tran', $data);
+            $this->load->view('bnw/dashboard/latest_product', $data);
             } else {
 
                 //if valid
@@ -1637,7 +1642,7 @@ class bnw extends CI_Controller {
             if (($this->form_validation->run() == TRUE)) {
                 if ($_FILES && $_FILES['offreImage']['name'] !== "") {
                     if (!$this->upload->do_upload('offreImage')) {
-                        $error = array('error' => $this->upload->display_errors('offreImage'));
+                        $error = array('error' => $this->upload->display_errors(''));
                         $this->load->view('bnw/posts/addNewPost', $error);
                     } else {
                         // die('img');
@@ -3739,7 +3744,7 @@ class bnw extends CI_Controller {
 
                 if ($_FILES && $_FILES['file']['name'] !== "") {
                     if (!$this->upload->do_upload('file')) {
-                        $error = array('error' => $this->upload->display_errors('file'));
+                        $error = array('error' => $this->upload->display_errors(''));
                         $this->load->view('bnw/event/addEvent', $error);
                     } else {
                         include_once 'imagemanipulator.php';
