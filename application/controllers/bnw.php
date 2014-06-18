@@ -534,12 +534,22 @@ class bnw extends CI_Controller {
 
             //set validation rules
             $this->form_validation->set_rules('pName', 'Product Name', 'required|xss_clean|max_length[200]');
-            $this->form_validation->set_rules('pdescription', 'Description', 'required|xss_clean');
+            $this->form_validation->set_rules('pdescription', 'Description', 'trim|xss_clean');
             $this->form_validation->set_rules('price', 'Price', 'required|xss_clean');
+             $this->form_validation->set_rules('myfile', 'Image1', 'trim|callback_valid_upload1');
+             $this->form_validation->set_rules('myfileTwo', 'Image2', 'trim|callback_valid_upload2');
+              $this->form_validation->set_rules('myfileThree', 'Image3', 'trim|callback_valid_upload3');
 
+            if ($this->form_validation->run() == FALSE ){ 
+                
+                $data['error'] = $this->upload->display_errors();
+                $id = $this->input->post('id');
+                $data['query'] = $this->dbmodel->findproduct($id);
+               
+                $this->load->view('product/editProduct', $data);
+            } else {
 
-
-            if (($this->form_validation->run() == TRUE)) {
+            
 
                 $id = $this->input->post('id');
                 $name = $this->input->post('pName');
@@ -560,22 +570,18 @@ class bnw extends CI_Controller {
                     $productImg = $data['upload_data']['file_name'];
                     //die("selected file");
                 } else {
-
-
                     $productImg = $this->input->post('firstImg');
                 }
                 if ($this->upload->do_upload('myfileTwo')) {
                     $data = array('upload_data' => $this->upload->data('myfileTwo'));
                     $productImgTwo = $data['upload_data']['file_name'];
                 } else {
-
                     $productImgTwo = $this->input->post('secondImg');
                 }
                 if ($this->upload->do_upload('myfileThree')) {
                     $data = array('upload_data' => $this->upload->data('myfileThree'));
                     $productImgThree = $data['upload_data']['file_name'];
                 } else {
-
                     $productImgThree = $this->input->post('thirdImg');
                 }
                 $shippingCost = $this->input->post('checkMe');
@@ -601,11 +607,9 @@ class bnw extends CI_Controller {
                 $this->dbmodel->update_product($id, $category, $name, $description, $summary, $price, $productImg, $productImgTwo, $productImgThree, $shipping, $allowLike, $allowShare, $featured);
                 $this->session->set_flashdata('message', 'Data Modified Sucessfully');
                 redirect('bnw/productList');
-            } else {
-                $id = $this->input->post('id');
-                $data['query'] = $this->dbmodel->findproduct($id);
-                $this->load->view('bnw/product/editProduct', $data);
-            }
+            } 
+                
+            
         } else {
             redirect('login/index/?url=' . $url, 'refresh');
         }
