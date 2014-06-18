@@ -167,17 +167,46 @@ class bnw extends CI_Controller {
         }
     }
 
-    public function valid_upload($f_type1)
+    public function valid_upload1($f_type1)
 	{
-        
+        $f_type1=$_FILES['myfile']['type'];
+       
 		if ($f_type1== "image/gif" OR $f_type1== "image/png" OR $f_type1== "" OR $f_type1== "image/jpeg" OR $f_type1== "image/JPEG" OR $f_type1== "image/PNG" OR $f_type1== "image/GIF")
 		{
-			$this->form_validation->set_message('valid_upload', 'The %s type must be gif/jpeg/png or blank');
-			return FALSE;
+			return TRUE;
 		}
 		else
 		{
+			$this->form_validation->set_message('valid_upload1', 'The %s type must be gif/jpeg/png or blank');
+			return FALSE;
+		}
+	}
+        public function valid_upload2($f_type1)
+	{
+        $f_type1=$_FILES['myfileTwo']['type'];
+       
+		if ($f_type1== "image/gif" OR $f_type1== "image/png" OR $f_type1== "" OR $f_type1== "image/jpeg" OR $f_type1== "image/JPEG" OR $f_type1== "image/PNG" OR $f_type1== "image/GIF")
+		{
 			return TRUE;
+		}
+		else
+		{
+			$this->form_validation->set_message('valid_upload2', 'The %s type must be gif/jpeg/png or blank');
+			return FALSE;
+		}
+	}
+        public function valid_upload3($f_type1)
+	{
+        $f_type1=$_FILES['myfileThree']['type'];
+       
+		if ($f_type1== "image/gif" OR $f_type1== "image/png" OR $f_type1== "" OR $f_type1== "image/jpeg" OR $f_type1== "image/JPEG" OR $f_type1== "image/PNG" OR $f_type1== "image/GIF")
+		{
+			return TRUE;
+		}
+		else
+		{
+			$this->form_validation->set_message('valid_upload3', 'The %s type must be gif/jpeg/png or blank');
+			return FALSE;
 		}
 	}
         
@@ -199,30 +228,13 @@ class bnw extends CI_Controller {
             $this->load->library(array('form_validation', 'session'));
             $this->form_validation->set_rules('pName', 'Name', 'required|xss_clean|max_length[200]');
             $this->form_validation->set_rules('pPrice', 'Price', 'required|xss_clean|max_length[200]');
-            $this->form_validation->set_rules('myfile', 'Image1', 'trim|callback_valid_upload');
-             $this->form_validation->set_rules('myfileTwo', 'Image2', 'trim|callback_valid_upload');
-              $this->form_validation->set_rules('myfileThree', 'Image3', 'trim|callback_valid_upload');
+            $this->form_validation->set_rules('myfile', 'Image1', 'trim|callback_valid_upload1');
+             $this->form_validation->set_rules('myfileTwo', 'Image2', 'trim|callback_valid_upload2');
+              $this->form_validation->set_rules('myfileThree', 'Image3', 'trim|callback_valid_upload3');
             
             
-            
-    /*        $f_type1=$_FILES['myfile']['type'];
-        if ($f_type1== "image/gif" OR $f_type1== "image/png" OR $f_type1== "" OR $f_type1== "image/jpeg" OR $f_type1== "image/JPEG" OR $f_type1== "image/PNG" OR $f_type1== "image/GIF"){
-        $error=False;
-        }else{
-        $error1=True;}
-        
-       $f_type2=$_FILES['myfileTwo']['type'];
-        if ($f_type2== "image/gif" OR $f_type2== "image/png" OR $f_type2== "" OR $f_type2== "image/jpeg" OR $f_type2== "image/JPEG" OR $f_type2== "image/PNG" OR $f_type2== "image/GIF"){
-        $error=False;
-        }else{
-        $error2=True;}
-        
-        $f_type3=$_FILES['myfileThree']['type'];
-        if ($f_type3== "image/gif" OR $f_type3== "image/png" OR $f_type3== "" OR $f_type3== "image/jpeg" OR $f_type3== "image/JPEG" OR $f_type3== "image/PNG" OR $f_type3== "image/GIF"){
-        $error=False;
-        }else{
-        $error3=True;}*/
-            if ($this->form_validation->run() == FALSE ){ //|| $error1 == TRUE || $error2 == TRUE || $error3 == TRUE) {
+  
+            if ($this->form_validation->run() == FALSE ){ 
                 
                 $data['error'] = $this->upload->display_errors();
 
