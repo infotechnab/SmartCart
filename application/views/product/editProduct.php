@@ -9,7 +9,7 @@
         if(!empty($query)){
             foreach ($query as $data){
             $id = $data->id;
-            $name= $data->name;
+            $name=  htmlspecialchars($data->name);
             $description = $data->description;
             $price= $data->price;
             $cateID = $data->category;
