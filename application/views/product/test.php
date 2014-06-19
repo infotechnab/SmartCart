@@ -28,7 +28,7 @@
             ?>
           <tr>
          
-            <td id="userDetail" style="font-size: 14px; vertical-align: top;"> <?php $tid = $data->trans_id ; ?> <a href="<?php echo base_url().'index.php/bnw/viewdetail/?id='.$tid; ?>" Style="color:black; text-decoration: none; " > <div>
+            <td id="userDetail" style="font-size: 14px; vertical-align: top;"> <?php  $tid = $data->trans_id ; ?> <a href="<?php echo base_url().'index.php/bnw/viewdetail/?id='.$tid; ?>" Style="color:black; text-decoration: none; " > <div>
                 <?php 
                echo "<b>".$tid."</b>";  
              ?>
@@ -88,9 +88,14 @@
                     $fname = $Uname->user_fname;
                     $lname = $Uname->user_lname;
                     $userEmail = $Uname->user_email;
+                    $userContact = $Uname->contact;
+                    $userStreet = $Uname->address;
+                    $userCity = $Uname->city;
+                    $userState = $Uname->state;
+                    $userZip = $Uname->zip;
                 }
             
-             echo "<b>". $fname." ".$lname."</b><br/>".$email."<br/>".$contact."<br/>".$shpAddress.",".$city."<br/>".$country;
+             echo "<b>". $fname." ".$lname."</b><br/>".$userEmail."<br/>".$userContact."<br/>".$userStreet.",".$userCity.",".$userState."<br/>".$country."<br/>".$userZip;
             ?></td>
             <td id="userDetail" style="font-size: 14px; vertical-align: top;">
                 <?php echo "<b>".$uName."</b><br/>".$email."<br/>".$contact."<br/>".$shpAddress.",".$city."<br/>".$country;  ?></td>
