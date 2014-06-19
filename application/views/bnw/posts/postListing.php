@@ -1,9 +1,9 @@
 <div class="rightSide">
     
 <div id="body">
-    <p id="sucessmsg">
+    <div class="sucessmsg">
   <?php echo $this->session->flashdata('message'); ?>
-    </p>
+    </div>
     <h2 style="float: left;">Offers >> All Offers</h2>
     <p style="float: left; margin: 25px 0px 5px 30px;">
     <?php echo anchor('bnw/addpost','Add New Offer'); ?>

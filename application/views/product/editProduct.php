@@ -10,7 +10,7 @@
             foreach ($query as $data){
             $id = $data->id;
             $name=  htmlspecialchars($data->name);
-            $description = $data->description;
+            $description = htmlspecialchars($data->description);
             $price= $data->price;
             $cateID = $data->category;
            $featured = $data->featured;

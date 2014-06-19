@@ -22,15 +22,14 @@ if ($query)
     
     <div id="forLeftPage">   
 
-  <?php echo validation_errors();
+<div class="sucessmsg">
+  <?php if($this->session->flashdata('message')){echo $this->session->flashdata('message');}
+  echo validation_errors();
   if(isset($error))
   {
       echo $error;
-  }
-  ?>
-<p id="sucessmsg">
-  <?php if($this->session->flashdata('message')){echo $this->session->flashdata('message');}?>
-</p>
+  }?>
+</div>
   <?php echo form_open_multipart('bnw/addpage');?>
   
   <p>Title:<br />

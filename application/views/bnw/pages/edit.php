@@ -20,9 +20,9 @@ if ($miscSetting)
         if(isset($query)){
             foreach ($query as $data){
            $id = $data->id;
-           $name = $data->page_name;
-           $body = $data->page_content;
-           $summary = $data->page_summary;
+           $name = htmlspecialchars($data->page_name);
+           $body = htmlspecialchars($data->page_content);
+           $summary = htmlspecialchars($data->page_summary);
            $status= $data->page_status;
            $order= $data->page_order;
            $type= $data->page_type;

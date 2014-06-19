@@ -326,10 +326,10 @@ $this->load->helper('currency');
     <?php
     if (strlen($product->name) <= 20) {
         ?>
-                            <h3><?php echo $product->name; ?></h3>
+                            <h3><?php echo htmlspecialchars($product->name); ?></h3>
                         <?php } else { ?> 
-                            <h4> <?php $text = wordwrap($product->name, 18, "\n", true);
-                                    echo mb_strimwidth($text, 0, 36, ".."); ?></h4>
+                            <h4> <?php $text= htmlspecialchars($product->name); $text1 = wordwrap($text, 18, "\n", true);
+                                    echo mb_strimwidth($text1, 0, 36, ".."); ?></h4>
                         <?php }
                         ?>
 

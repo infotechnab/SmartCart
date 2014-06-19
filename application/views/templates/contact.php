@@ -88,7 +88,7 @@ $this->load->helper('currency');
     <div class='contentHeader'>
          
             
-        <iframe src="https://docs.google.com/forms/d/1-ZM5HiNXe4mzqN6W2tvifoogVkfiWT3tTfTeE3llRfY/viewform?embedded=true" width="700" height="600" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>
+        <iframe src="https://docs.google.com/forms/d/1-ZM5HiNXe4mzqN6W2tvifoogVkfiWT3tTfTeE3llRfY/viewform?embedded=true" width="670" height="695" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>
 
     </div>
 
@@ -98,6 +98,6 @@ $this->load->helper('currency');
     
     </div>
 </div>
-</div>
+
 <!-- left side content closed here -->
  

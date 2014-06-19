@@ -11,17 +11,18 @@ if ($miscSetting)
     }
  }
  ?>
-    
+    <div class="sucessmsg">    
     <?php
  if(isset($error))
   {
      echo $error;
-  }
-        if(!empty($query)){
+  } ?>
+    </div>
+        <?Php if(!empty($query)){
             foreach ($query as $data){
             $id = $data->id;
-            $post_title= $data->post_title;
-            $post_content= $data->post_content;
+            $post_title= htmlspecialchars($data->post_title);
+            $post_content= htmlspecialchars($data->post_content);
             $post_image = $data->image;
            
             $post_status= $data->post_status;

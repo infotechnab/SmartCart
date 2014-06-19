@@ -126,7 +126,8 @@ if (!empty($product)) {
                                        ?>
                                         <h3><?php echo $product_list->name; ?></h3>
                                        <?php } else { ?>
-                                           <h4> <?php $text= wordwrap($product_list->name, 18, "\n", true); echo mb_strimwidth($text, 0, 36, ".."); ?></h4>
+                                           <h4> <?php $text= htmlspecialchars($product_list->name); $text1 = wordwrap($text, 18, "\n", true);
+                                    echo mb_strimwidth($text1, 0, 36, ".."); ?></h4>
                                      <?php  } ?>         
                     </div>
                     

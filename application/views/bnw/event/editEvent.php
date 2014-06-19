@@ -8,18 +8,20 @@ $( "#datepicker" ).datepicker();
 });
  </script>
 <div class="rightSide">
-  
+    <div class="sucessmsg" >
     <?php
  if(isset($error))
   {
      echo $error;
-  }
+  } ?>
+    </div>
+    <?php
         if(!empty($event)){
             foreach ($event as $data){
             $id = $data->id;
-            $name= $data->title;
-            $description = $data->details;
-            $location = $data->location;
+            $name= htmlspecialchars($data->title);
+            $description = htmlspecialchars($data->details);
+            $location = htmlspecialchars($data->location);
             $dateTime= $data->date;
             $image= $data->image;
                       
