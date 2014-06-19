@@ -6,13 +6,13 @@
     
     <h2>Transaction Detail </h2>
      <hr class="hr-gradient"/>     
-     
+    <?php  $getTransData = $this->dbmodel->TransDetail($_GET['id']);
+    foreach ($getTransData as $trandetail)
+                     {if(strlen($trandetail->p_id)>0){  ?> 
      <?php echo form_open('bnw/updateTrn'); ?>
     <p> <b> Transaction ID : <?php echo $_GET['id']; ?> </b> </p>
     <input type="hidden" name="trnID" value="<?php echo $_GET['id']; ?>" />  
-    <?php  $getTransData = $this->dbmodel->TransDetail($_GET['id']);
-    foreach ($getTransData as $trandetail)
-                     {if(strlen($trandetail->p_id)>0){  ?>
+    
     <p> <b> Product Detail : </b>
        
         <div> <table style="border-collapse: collapse;">
@@ -41,7 +41,7 @@
                         
                              </tr>          <?php  } ?>
                     
-                 <?php  }} ?>
+                 <?php  } ?>
                               </table>
                 </div>
        
@@ -112,7 +112,9 @@
     <?php echo form_submit('submit','Submit');
 echo form_close();?>
    </div>
-    
+                     <?php } 
+                     
+?>
     
 </div>
 <div class="clear"></div>
