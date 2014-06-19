@@ -677,7 +677,7 @@ class bnw extends CI_Controller {
 
             $this->load->view('bnw/templates/header', $data);
             $this->load->view('bnw/templates/menu');
-            $this->load->view('product/test', $data);
+            $this->load->view('product/sales_info', $data);
         } else {
             redirect('login/index/?url=' . $url, 'refresh');
         }
@@ -736,25 +736,26 @@ class bnw extends CI_Controller {
         }
     }
 
-//    function viewdetail()
-//    {
-//        $url = current_url();
-//        if ($this->session->userdata('admin_logged_in')) {
-//            //$data['query'] = $this->dbmodel->findproduct($id);
-//            $data['meta'] = $this->dbmodel->get_meta_data();
-//           // $data['category'] = $this->dbmodel->get_category();
-//            //$data['miscSetting'] = $this->dbmodel->get_misc_setting();
-//          //  $data['id'] = $id;
-//            $tid = $_GET['id'];
-//            $this->load->view("bnw/templates/header", $data);
-//            $this->load->view("bnw/templates/menu");
-//            $this->load->view('product/detailview', $data);
-//
-//           
-//        } else {
-//            redirect('login/index/?url='.$url, 'refresh');
-//        }
-//    }
+    function viewdetail()
+    {
+        $url = current_url();
+        if ($this->session->userdata('admin_logged_in')) {
+            $id = $_GET['id'];
+            $data['query'] = $this->dbmodel->findproduct($id);
+            $data['meta'] = $this->dbmodel->get_meta_data();
+            $data['category'] = $this->dbmodel->get_category();
+            $data['miscSetting'] = $this->dbmodel->get_misc_setting();
+           $data['id'] = $id;
+            
+            $this->load->view("bnw/templates/header", $data);
+            $this->load->view("bnw/templates/menu");
+            $this->load->view('product/detailview', $data);
+
+           
+        } else {
+            redirect('login/index/?url='.$url, 'refresh');
+        }
+   }
 
     function updateTrn() {
         $url = current_url();

@@ -5,16 +5,19 @@
        </div>
     
     <h2>Transaction Detail </h2>
-     <hr class="hr-gradient"/>
+     <hr class="hr-gradient"/>     
+     
      <?php echo form_open('bnw/updateTrn'); ?>
     <p> <b> Transaction ID : <?php echo $_GET['id']; ?> </b> </p>
-    <input type="hidden" name="trnID" value="<?php echo $_GET['id']; ?>" />       
+    <input type="hidden" name="trnID" value="<?php echo $_GET['id']; ?>" />  
+    <?php  $getTransData = $this->dbmodel->TransDetail($_GET['id']);
+    foreach ($getTransData as $trandetail)
+                     {if(strlen($trandetail->p_id)>0){  ?>
     <p> <b> Product Detail : </b>
-        <?php $getTransData = $this->dbmodel->TransDetail($_GET['id']); ?>
+       
         <div> <table style="border-collapse: collapse;">
-                 <?php foreach ($getTransData as $trandetail)
-                     { 
-                 $pid = $trandetail->p_id;
+                 
+               <?php  $pid = $trandetail->p_id;
                  $oid = $trandetail->o_id;
                  $qty = $trandetail->qty;
                  $status = $trandetail->status;
@@ -38,24 +41,24 @@
                         
                              </tr>          <?php  } ?>
                     
-                <?php  } ?>
+                 <?php  }} ?>
                               </table>
                 </div>
        
     </p>
-
+<?php if(strlen($trandetail->p_id)>0){ $oderDetailUser = $this->dbmodel->get_all_product_order_oid($oid);
+             foreach ($oderDetailUser as $orderUserID)
+            { ?>
     <p> <b>Customer Detail : </b> 
     <div>
-        <?php  $oderDetailUser = $this->dbmodel->get_all_product_order_oid($oid);
-             foreach ($oderDetailUser as $orderUserID)
-            {
+        <?php
                 $UserID = $orderUserID->u_id;
                 $country = $orderUserID->country;
                 $shpAddress = $orderUserID->deliver_address;
                 $city = $orderUserID->city;
                 $email = $orderUserID->email;
                 $contact = $orderUserID->contact;
-            }
+}}
             $DetailUser = $this->dbmodel->finduser($UserID);
             
                 foreach ($DetailUser as $Uname)
