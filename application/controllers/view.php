@@ -757,14 +757,16 @@ class View extends CI_Controller {
             $data['featureItem'] = $this->productmodel->featured_item();
             $data['product_info'] = $this->productmodel->product_info();
             $data['category'] = $this->productmodel->category_list();
+            $data['event'] = $this->productmodel->get_max_events();
+            $data['offer'] = $this->productmodel->get_max_offers();
             $data['facebookPopular'] = $this->variable = $this->facebookLikeCount();
-            $this->form_validation->set_rules('u_fname', 'First name', 'trim|regex_match[/^[a-z,0-9,A-Z]{2,15}$/]|xss_clean|max_length[15]');
-            $this->form_validation->set_rules('u_lname', 'Last name', 'trim|regex_match[/^[a-z,0-9,A-Z]{2,15}$/]|xss_clean|max_length[15]');
-            $this->form_validation->set_rules('street_address', 'Address', 'trim|regex_match[/^[A-Za-z0-9\-\\,.]{2,35}$/]|xss_clean|max_length[35]');
-            $this->form_validation->set_rules('Town_address', 'suburb/city', 'trim|regex_match[/^[A-Za-z0-9\-\\,.]{2,35}$/]|xss_clean|max_length[35]');
-            $this->form_validation->set_rules('District_address', 'State', 'trim|regex_match[/^[A-Za-z0-9\-\\,.]{2,35}$/]|xss_clean|max_length[35]');
+            $this->form_validation->set_rules('u_fname', 'First name', 'trim|regex_match[/^[a-z,0-9,A-Z_ ]{2,15}$/]|xss_clean|max_length[15]');
+            $this->form_validation->set_rules('u_lname', 'Last name', 'trim|regex_match[/^[a-z,0-9,A-Z_ ]{2,15}$/]|xss_clean|max_length[15]');
+            $this->form_validation->set_rules('street_address', 'Address', 'trim|regex_match[/^[A-Za-z0-9\-\\,._ ]{2,35}$/]|xss_clean|max_length[35]');
+            $this->form_validation->set_rules('Town_address', 'suburb/city', 'trim|regex_match[/^[A-Za-z0-9\-\\,._ ]{2,35}$/]|xss_clean|max_length[35]');
+            $this->form_validation->set_rules('District_address', 'State', 'trim|regex_match[/^[A-Za-z0-9\-\\,._ ]{2,35}$/]|xss_clean|max_length[35]');
             $this->form_validation->set_rules('zip', 'Post Code', 'trim|regex_match[/^[0-9]{4,15}$/]|xss_clean|max_length[15]');
-            $this->form_validation->set_rules('country', 'Country', 'trim|regex_match[/^[A-Za-z0-9\-\\,.]{2,35}$/]|xss_clean|max_length[35]');
+            $this->form_validation->set_rules('country', 'Country', 'trim|regex_match[/^[A-Za-z0-9\-\\,._ ]{2,35}$/]|xss_clean|max_length[35]');
             $this->form_validation->set_rules('u_contact', 'Contact no.', 'trim|regex_match[/^[0-9]{5,15}$/]|xss_clean|max_length[15]');
             $this->form_validation->set_rules('user_email', 'Email', 'trim|regex_match[/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/]|required|xss_clean|max_length[200]');
             if ($this->form_validation->run() == FALSE) {
@@ -773,19 +775,20 @@ class View extends CI_Controller {
                 $this->load->view('templates/header', $data);
                 $this->load->view('templates/navigation');
                 $this->load->view('templates/user_details');
+                $this->load->view('templates/sidebarOffer', $data);
                 $this->load->view('templates/cart');
                 $this->load->view('templates/sidebarview', $data);
                 $this->load->view('templates/footer');
             } else {
 
-                //  $fname = "";
-                //  $lname = "";
-                //  $street = "";
-                //  $town = "";
-                //  $district = "";
-                //  $zip = "";
-                //  $country = "";
-                //  $contact = "";
+                  $fname = "";
+                  $lname = "";
+                  $street = "";
+                  $town = "";
+                  $district = "";
+                  $zip = "";
+                  $country = "";
+                  $contact = "";
 
 
                 $fname = trim($_POST['u_fname']);
@@ -806,11 +809,11 @@ class View extends CI_Controller {
                     $this->session->set_flashdata('message', 'Your email did not match');
                     redirect('view/userdetails');
                 }
-            }
+            
 
             $this->session->set_flashdata('message', 'Your details has been updated successfully');
             redirect('view/index');
-        } else {
+        }} else {
             $this->session->set_flashdata('message', 'Sorry You are not logged in, please login first.');
             redirect('view/index');
         }

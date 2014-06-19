@@ -816,7 +816,7 @@ echo form_open('payment/do_payment');
 
                 echo '<input type="hidden" name="item_name[' . $cartInitialize . ']" value="' . $obj->name . '" />';
                 echo '<input type="hidden" name="item_code[' . $cartInitialize . ']" value="' . $product_code . '" />';
-                echo '<input type="hidden" name="item_desc[' . $cartInitialize . ']" value="' . $obj->description . '" />';
+                echo '<input type="hidden" name="item_desc[' . $cartInitialize . ']" value="' . htmlspecialchars($obj->description). '" />';
                 echo '<input type="hidden" name="item_qty[' . $cartInitialize . ']" value="' . $item["qty"] . '" />';
             }
 
