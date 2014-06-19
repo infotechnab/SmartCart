@@ -9,22 +9,25 @@
     }
  }
  ?>
- <p id="sucessmsg">
+ <div class="sucessmsg">
   <?php echo $this->session->flashdata('message'); ?>
-    </p>
- <?php echo validation_errors();
-  if(isset($error))
-  {
-      echo $error;
-  }
-  ?>
+   </div> 
+ 
 
     
 
 
 <h2>Product >> Shipping </h2>
 <hr class="hr-gradient"/>
-
+<div class="sucessmsg">
+  <?php echo validation_errors();
+  
+   if(isset($error))
+  {
+      echo $error;
+  } 
+  ?>
+</div> 
 <?php echo form_open_multipart('bnw/shippingupdate');?>
 
 

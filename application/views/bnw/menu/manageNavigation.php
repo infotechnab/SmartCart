@@ -5,9 +5,9 @@
      <p style="color: red;">
             <?php if(isset($token_error)){ echo $token_error;} ?>
         </p>
-    <p id="sucessmsg">
+    <div class="sucessmsg">
   <?php if($this->session->flashdata('message')){echo $this->session->flashdata('message');}?>
-    </p>
+    </div>
     <h2>Dashboard >> List of Navigation</h2>
     <hr class="hr-gradient"/>
     <?php    

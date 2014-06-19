@@ -10,20 +10,22 @@ if ($query)
        $i++;      
     }
  }
- ?>
-    <div class="titleArea">
+ ?><div class="sucessmsg">
+  <?php if($this->session->flashdata('message')){echo $this->session->flashdata('message');} ?>
+  </div>
+    
      <h2 style="float: left;">Pages >> Add New Page</h2>
     <p style="float: left; margin: 25px 0px 5px 30px;">
     <?php echo anchor('bnw/pages','View all Pages'); ?>
     </p>
      <div class="clear"></div>
 <hr class="hr-gradient"/>   
-    </div>
+    
     
     <div id="forLeftPage">   
 
 <div class="sucessmsg">
-  <?php if($this->session->flashdata('message')){echo $this->session->flashdata('message');}
+  <?php 
   echo validation_errors();
   if(isset($error))
   {

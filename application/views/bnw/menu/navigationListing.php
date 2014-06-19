@@ -2,9 +2,9 @@
 <div class="rightSide">
 
 <div id="body">
-    <p id="sucessmsg">
+    <div class="sucessmsg">
   <?php if($this->session->flashdata('message')){echo $this->session->flashdata('message');}?>
-    </p>
+    </div>
     <h2>DAshboard >> List of Navigation</h2>
     <hr class="hr-gradient"/>
     <?php    

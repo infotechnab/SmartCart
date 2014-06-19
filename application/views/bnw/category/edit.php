@@ -14,12 +14,15 @@
         }
         if(isset($categoryname)){
     ?>
-    <h2>Edit Category/ <?php echo $categoryname;  ?></h2>
-  <?php echo validation_errors(); ?>
- <hr class="hr-gradient"/>
-  <p id="sucessmsg">
+    <div class="sucessmsg">
   <?php echo $this->session->flashdata('message'); ?>
-    </p>
+    </div>
+    <h2>Edit Category/ <?php echo $categoryname;  ?></h2>
+    <div class="sucessmsg">
+  <?php echo validation_errors(); ?>
+    </div>
+ <hr class="hr-gradient"/>
+  
   <?php echo form_open_multipart('bnw/updatecategory');?>
   <p>Name:<br />
        <input type="hidden" name="id" value="<?php echo $id; ?>" >

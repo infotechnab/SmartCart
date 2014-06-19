@@ -8,13 +8,7 @@ $( "#datepicker" ).datepicker();
 });
  </script>
 <div class="rightSide">
-    <div class="sucessmsg" >
-    <?php
- if(isset($error))
-  {
-     echo $error;
-  } ?>
-    </div>
+    
     <?php
         if(!empty($event)){
             foreach ($event as $data){
@@ -34,17 +28,24 @@ $( "#datepicker" ).datepicker();
        $time_min = $datebrk['minute'];
        
        ?>
-        <div class="titleArea">
+    <div class="sucessmsg">
+  <?php echo $this->session->flashdata('message'); ?>
+    </div>
+        
      <h2>Events >> Edit Event/ <?php echo mb_strimwidth($name, 0, 60, "..."); ?></h2>
 <hr class="hr-gradient"/>   
-    </div> 
+   
 <!--    <div id="forLeftPage">-->
+ <div class="sucessmsg" >
+    <?php echo validation_errors();
+ if(isset($error))
+  {
+     echo $error;
+  } ?>
+    </div>
  
-  <?php echo validation_errors(); ?>
  
-  <p id="sucessmsg">
-  <?php echo $this->session->flashdata('message'); ?>
-    </p>
+  
   <?php echo form_open_multipart('bnw/update_event');?>
   <p>Name:<br />
       <input type="hidden" name="id" value="<?php echo $id; ?>" >

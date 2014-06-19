@@ -11,13 +11,7 @@ if ($miscSetting)
     }
  }
  ?>
-    <div class="sucessmsg">    
-    <?php
- if(isset($error))
-  {
-     echo $error;
-  } ?>
-    </div>
+   
         <?Php if(!empty($query)){
             foreach ($query as $data){
             $id = $data->id;
@@ -36,17 +30,22 @@ if ($miscSetting)
        }
         
     ?>
-   <div class="titleArea">
+    <div class="sucessmsg">
+  <?php echo $this->session->flashdata('message'); ?>
+    </div>
+   
      <h2>Offers >> Edit Offer/ <?php echo mb_strimwidth($post_title, 0, 65, "..."); ?></h2>
 <hr class="hr-gradient"/>   
-    </div> 
+    
     <div id="forLeftPage">
- 
-  <?php echo validation_errors(); ?>
- 
-  <p id="sucessmsg">
-  <?php echo $this->session->flashdata('message'); ?>
-    </p>
+  <div class="sucessmsg">    
+    <?php echo validation_errors();
+ if(isset($error))
+  {
+     echo $error;
+  } ?>
+    </div>
+  
   <?php echo form_open_multipart('bnw/updatepost');?>
     <input type="hidden" name="hidden_image" value="<?php echo $post_image; ?>"/>
   <p>Offer Title:<br />

@@ -8,13 +8,13 @@ if(!empty($category))
         $name = $categories->category_name;
     }
 
-?>
-    <h2>Are You Sure To Delete <?php echo $name; ?> </h2> <br/> <h3> It will also delete all product associated with this category </h3>
-  <?php echo validation_errors(); ?>
- 
-  <p id="sucessmsg">
+?><div class="sucessmsg">
   <?php if($this->session->flashdata('message')){echo $this->session->flashdata('message');}?>
-    </p>
+    </div>
+    <h2>Are You Sure To Delete <?php echo $name; ?> </h2> <br/> <h3> It will also delete all product associated with this category </h3>
+    <div class="sucessmsg"><?php echo validation_errors(); ?></div>
+ 
+  
   <?php echo form_open_multipart('bnw/delete_Product_cat');?>
   
       <input type="hidden" name="id" value="<?php echo $id; ?>" />

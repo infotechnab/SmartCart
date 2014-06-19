@@ -1,4 +1,7 @@
 <div class="rightSide">
+  <div class="sucessmsg">
+  <?php  if($this->session->flashdata('message')){echo $this->session->flashdata('message');}   ?>
+</div>  
  <h2 style="float: left;">Product >> Add New Product</h2>
     <p style="float: left; margin: 25px 0px 5px 30px;">
     <?php echo anchor('bnw/productList','View Products'); ?>
@@ -11,10 +14,7 @@
    if(isset($error))
   {
       echo $error;
-  }
-  
-   if($this->session->flashdata('message')){echo $this->session->flashdata('message');}
-  
+  } 
   ?>
 </div>  
   <?php echo form_open_multipart('bnw/addproduct');?>

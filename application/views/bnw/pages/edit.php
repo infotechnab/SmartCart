@@ -33,18 +33,18 @@ if ($miscSetting)
        }
         }
     ?>
-    <div class="titleArea">
+     <div class="sucessmsg">
+  <?php echo $this->session->flashdata('message'); ?>
+    </div>
+    
      <h2>Pages >> Edit Page/ <?php echo $name; ?></h2>
 <hr class="hr-gradient"/>   
-    </div>
+    
     <div id="forLeftPage"> 
  
-
+<div class="sucessmsg">
   <?php echo validation_errors(); ?>
- 
-  <p id="sucessmsg">
-  <?php echo $this->session->flashdata('message'); ?>
-    </p>
+</div>
   <?php echo form_open_multipart('bnw/updatepage');?>
   <p>Title:<br />
       <input type="hidden" name="id" value="<?php echo $id; ?>" >

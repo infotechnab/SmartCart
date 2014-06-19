@@ -1,16 +1,17 @@
 
 <div class="rightSide">
+    <div class="sucessmsg">
+  <?php if($this->session->flashdata('message')){echo $this->session->flashdata('message');}?>
+</div>
     <h2>Dashboard >> Add New Category</a></h2>
 <hr class="hr-gradient"/>
-     <?php echo validation_errors();
+<div class="sucessmsg">   <?php echo validation_errors();
   if(isset($error))
   {
       echo $error;
   }
   ?>
-<p id="sucessmsg">
-  <?php if($this->session->flashdata('message')){echo $this->session->flashdata('message');}?>
-</p>
+</div> 
   <?php echo form_open_multipart('bnw/addcategory');?>
   
   <p>Name:<br />

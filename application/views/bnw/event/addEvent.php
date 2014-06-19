@@ -1,4 +1,7 @@
 <div class="rightSide">
+    <div class="sucessmsg">
+  <?php if($this->session->flashdata('message')){echo $this->session->flashdata('message');}?>
+    </div>
  <h2 style="float: left;">Events >> Add New Events</h2>
     <p style="float: left; margin: 25px 0px 5px 30px;">
     <?php echo anchor('bnw/event','View all Events'); ?>
@@ -20,9 +23,7 @@
 $( "#datepicker" ).datepicker();
 });
  </script>
-  <p id="sucessmsg">
-  <?php if($this->session->flashdata('message')){echo $this->session->flashdata('message');}?>
-    </p>
+  
   <?php echo form_open_multipart('bnw/addevent');?>
       
  <p>Name:<br />

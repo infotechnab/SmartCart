@@ -1,15 +1,16 @@
 <div class="rightSide">
+    <div class="sucessmsg">
+  <?php if($this->session->flashdata('message')){echo $this->session->flashdata('message');}?>
+    </div>
     <h2 style="float: left;">Product >> List Coupons</h2>
     <p style="float: left; margin: 25px 0px 5px 30px;">
     <?php echo anchor('bnw/addcoupon','Add New Coupon'); ?>
     </p>
     <div class="clear"></div>
  <hr class="hr-gradient"/>
-
+<div class="sucessmsg">
   <?php echo validation_errors(); ?>
-<p id="sucessmsg">
-  <?php if($this->session->flashdata('message')){echo $this->session->flashdata('message');}?>
-    </p>
+</div>
     
     <div>
         <table width="40%">

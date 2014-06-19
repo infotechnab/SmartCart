@@ -1,11 +1,13 @@
 <div class="rightSide">
+    <div class="sucessmsg">
+  <?php if($this->session->flashdata('message')){echo $this->session->flashdata('message');}?>
+    </div>
  <h2>Dashboard >> Add New Menu</h2>
  <hr class="hr-gradient"/>
+ <div class="sucessmsg">
   <?php echo validation_errors(); ?>
- 
-  <p id="sucessmsg">
-  <?php if($this->session->flashdata('message')){echo $this->session->flashdata('message');}?>
-    </p>
+ </div>
+  
   <?php echo form_open_multipart('bnw/addmenu');?>
       
  <p>Menu Name:<br />
@@ -17,9 +19,6 @@
 
 
 <div id="body">
-    <p id="sucessmsg">
-  <?php if($this->session->flashdata('message')){echo $this->session->flashdata('message');}?>
-    </p>
     <h4 style="margin: 15px 0px 5px 5px;">All Menu</h4>
    <hr style="width: 30%; float: left;" />
    <div class="clear"></div>

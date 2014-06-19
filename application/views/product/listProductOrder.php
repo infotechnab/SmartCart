@@ -1,8 +1,8 @@
 <div class="rightSide">
    <div id="body">
-    <p id="sucessmsg">
+    <div class="sucessmsg">
   <?php echo $this->session->flashdata('message'); ?>
-    </p>
+    </div>
     <h2>All Product Order </h2>
      <hr class="hr-gradient"/>
     

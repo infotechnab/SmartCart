@@ -23,6 +23,11 @@
            
             //$listOfCategory = $this->dbmodel->get_list_of_category();
        } ?>
+    <div class="sucessmsg">
+  <?php echo $this->session->flashdata('message');
+ 
+  ?>
+  </div>
         <div class="titleArea">
      <h2>Edit Product</h2>
 <hr class="hr-gradient"/>   
@@ -32,7 +37,7 @@
   <?php  ?>
  
   <div class="sucessmsg">
-  <?php echo $this->session->flashdata('message');
+  <?php 
   echo validation_errors();
   ?>
   </div>
