@@ -3827,6 +3827,9 @@ class bnw extends CI_Controller {
             // $config['max_size'] = '500';
             // $config['max_width'] = '1024';
             // $config['max_height'] = '768';
+           $data['meta'] = $this->dbmodel->get_meta_data();
+           $this->load->view("bnw/templates/header", $data);
+            $this->load->view("bnw/templates/menu");
             $this->load->library('upload', $config);
             $this->load->library(array('form_validation', 'session'));
             $this->form_validation->set_rules('Name', 'Name', 'required|xss_clean|max_length[200]');
@@ -3901,7 +3904,8 @@ class bnw extends CI_Controller {
                 }
             } else {
                 $id = $this->input->post('id');
-                $data['query'] = $this->dbmodel->get_event_id($id);
+                $data['event'] = $this->dbmodel->get_event_id($id);
+            
                 $this->load->view('bnw/event/editEvent', $data);
             }
         } else {

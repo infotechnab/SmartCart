@@ -47,13 +47,13 @@ $this->load->helper('currency');
     <?php if (!empty($facebookPopular)) { ?>
 
 
-    <a href="<?php echo base_url() . "index.php/view/populars" ?>"> <div class="redColouredDiv" id='sidebarContent'><h3 style="text-decoration: underline">Popular Products</h3></div></a>
+    <a class="sideLink" href="<?php echo base_url() . "index.php/view/populars" ?>"> <div class="redColouredDiv" id='sidebarContent'><h3>Popular Products</h3></div></a>
              <?php
           
             foreach ($facebookPopular as  $populars) {
              
                 ?>         
-        <a  style="color: #000;"href="<?php echo base_url()."index.php/view/details/".$populars['id'] ?>"> <div class='sidebarContentNext' style="z-index: 1;">
+        <a style="color: #000;"href="<?php echo base_url()."index.php/view/details/".$populars['id'] ?>"> <div class='sidebarContentNext' style="z-index: 1;">
                
                 <div class="cartImage" style="float: left; width: 14%; min-height: 40px; margin: 0px; padding: 0px;">
                     <img src="<?php echo base_url() . 'content/uploads/images/' . $populars['image']; ?>" width="50" height="50"  />
@@ -97,7 +97,7 @@ $this->load->helper('currency');
 <?php foreach ($category as $catList) {
         $category_id = $catList->id;
         ?>
-    <a href="<?php echo base_url() . "index.php/view/category/" . $category_id ?>"><div class="redColouredDiv" id='sidebarContent'><h3 style="text-decoration: underline"><?php echo $catList->category_name; ?></h3></div></a>
+    <a class="sideLink" href="<?php echo base_url() . "index.php/view/category/" . $category_id ?>"><div class="redColouredDiv" id='sidebarContent'><h3><?php echo $catList->category_name; ?></h3></div></a>
        
            
 
@@ -106,12 +106,12 @@ $this->load->helper('currency');
         <?php 
     } ?>
 
-    <div class="redColouredDiv" id='sidebarContent'><h3>Sponsors</h3></div>
-<?php for ($i = 0; $i < 1; $i++) {
+ <!--   <div class="redColouredDiv" id='sidebarContent'><h3>Sponsors</h3></div>
+<?php //for ($i = 0; $i < 1; $i++) {
     ?>
         <div class='sidebarContentNext'></div>
 
-<?php } ?>
+<?php //} ?> -->
 
 </div>  
 

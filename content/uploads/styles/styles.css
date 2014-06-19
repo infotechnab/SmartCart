@@ -811,6 +811,9 @@ div.vertical-line{
         background-size: 51%;
         height: 46px;
     }
+    #signupHeader{
+        min-width: 35%; float: right;
+    }
 }
 @media only screen and (max-width : 1370px)
 {
@@ -893,6 +896,9 @@ div.vertical-line{
         {
            // height: 38px;
         }
+        #signupHeader{
+        min-width: 35%; float: right;
+    }
     /*slider ends */
 
 }
@@ -948,6 +954,9 @@ div.vertical-line{
 {
     width: 39%;
 }
+#signupHeader{
+        min-width: 35%; float: right;
+    }
 /* for slider */
 #slideshow #slideshowWindow .slide 
         {
@@ -1020,6 +1029,9 @@ div.vertical-line{
     {
         background-size: 45%;
         height: 46px;
+    }
+    #signupHeader{
+        min-width: 35%; float: right;
     }
     /* for slider */
     #slideshow #slideshowWindow .slide 
@@ -1098,6 +1110,9 @@ div.vertical-line{
 {
     width: 39%;
 }
+#signupHeader{
+        min-width: 35%; float: right;
+    }
     /* for slider */
     #slideshow #slideshowWindow .slide 
         {
@@ -1210,6 +1225,9 @@ div.vertical-line{
     {
         width: 25%;
         margin: 11px 0px 10px 0px;
+    }
+    #signupHeader{
+        min-width: 75%; float: left; padding: 0% 0% 0% 17; margin: -11.5% 0% 0% 0%;
     }
     /* slider starts*/
     #slideshow #slideshowWindow .slide 
@@ -1955,4 +1973,8 @@ input:-moz-placeholder { color:#999; }
 .likeShare
 {
     width:100%; margin: 0px; padding: 0px;
+}
+a.sideLink :hover
+{
+   background-color: purple; 
 }

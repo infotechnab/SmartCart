@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
     <head>
 
         <meta charset="utf-8">
@@ -168,14 +168,14 @@ $(function() {
                             <h1><?php echo $header->description; ?></h1>
                         </div>  <?php   }      ?>  
                      <?php  if (!$this->session->userdata('logged_in') && !$this->session->userdata('admin_logged_in') ) { ?>
-                    <div id="signupHeader" style="width: 25%; float: right;">
+                    <div id="signupHeader">
                             <div style="border-radius: 3px; padding: 5px; min-width:40%; text-align: center; margin: 15% 1% 0% 1.5%; float: left; background-color: #6fa5e2; color: #000;"><?php echo anchor('view/homeLogin', 'login') ?></div>
                             <div style="border-radius: 3px; padding: 5px; min-width:40%; text-align: center; margin: 15% 1% 0% 1.5%; float: left; background-color: #f61938; color: #000;"><?php echo anchor('view/homeLogin', 'signup') ?></div>
                         </div>
             
             <?php }
             else{ ?>
-                <div id="signupHeader" style="min-width: 30%; float: right;">
+                <div id="signupHeader">
                             <div style="border-radius: 3px; padding: 5px; min-width:40%; text-align: center; margin: 15% 1% 0% 1.5%; float: left; background-color: #6fa5e2; color: #000;"><?php echo anchor('view/userdetails',$this->session->userdata ('username')); ?></div>
                             <div style="border-radius: 3px; padding: 5px; min-width:40%; text-align: center; margin: 15% 1% 0% 1.5%; float: left; background-color: #f61938; color: #000;"><?php echo anchor('view/logout','Log Out') ?></div>
                         </div>
