@@ -207,7 +207,7 @@ $(document).ready(function() {
                                 <p> <?php echo $productDet->description; ?> </p> 
 
                             </div>
-                        <div class="loadingImg" style=" position: relative; margin:-60px 300px 2px -41px;; padding: 0px;">
+                        <div class="loadingImg" style="display: none; position: relative; margin:-60px 300px 2px -41px;; padding: 0px;">
                     <img width="30" style="margin:0px; padding: 0px;" src="<?php echo base_url() . 'content/uploads/images/page-loader.gif'; ?>" alt="loading.."/>
                     <br><b style="margin:0px; padding: 0px;">Loading...</b>
                 </div>   
