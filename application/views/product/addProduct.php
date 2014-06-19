@@ -5,7 +5,7 @@
     </p>
     <div class="clear"></div>
  <hr class="hr-gradient"/>
-
+<div class="sucessmsg">
   <?php echo validation_errors();
   
    if(isset($error))
@@ -13,12 +13,10 @@
       echo $error;
   }
   
-  ?>
-<p id="sucessmsg">
-  <?php if($this->session->flashdata('message')){echo $this->session->flashdata('message');}
+   if($this->session->flashdata('message')){echo $this->session->flashdata('message');}
   
   ?>
-    </p>
+</div>  
   <?php echo form_open_multipart('bnw/addproduct');?>
       
     <input type="hidden" name="qty" value="1" />

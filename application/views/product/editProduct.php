@@ -29,11 +29,13 @@
     </div> 
 <!--    <div id="forLeftPage">-->
  
-  <?php echo validation_errors(); ?>
+  <?php  ?>
  
-  <p id="sucessmsg">
-  <?php echo $this->session->flashdata('message'); ?>
-    </p>
+  <div class="sucessmsg">
+  <?php echo $this->session->flashdata('message');
+  echo validation_errors();
+  ?>
+  </div>
   <?php echo form_open_multipart('bnw/updateproduct');?>
   <p>Name:<br />
       <input type="hidden" name="id" value="<?php echo $id; ?>" >

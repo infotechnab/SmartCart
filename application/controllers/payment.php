@@ -128,8 +128,8 @@ class Payment extends CI_Controller {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navigation');
             $this->load->view('templates/userRegistrationAndShipping', $data);
-            $this->load->view('templates/footer');
-           
+            $this->load->view('templates/footer' );
+            var_dump("Lets see");
         } else {
                 $shipfname = $this->input->post('s_fname');                        
                 $shiplname = $this->input->post('s_lname');                         
@@ -140,7 +140,7 @@ class Payment extends CI_Controller {
                 $shipcountry = $this->input->post('s_country');                       
                 $shipcontact = $this->input->post('s_contact');                         
                 $shipemail = $this->input->post('s_email');
-            die('true');
+            
         }         
         } else if (($switch==="enableShip") && ($radio=="pickup") ) {
             $shipfname = $fname;
