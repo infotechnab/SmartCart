@@ -133,6 +133,10 @@ ul.subMenu
      display:none;
      
 }
+.sucessmsg
+{
+    color: red;  
+}
 ul.subMenu li
 {
     width: 208px;

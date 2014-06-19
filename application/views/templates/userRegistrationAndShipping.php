@@ -1,32 +1,32 @@
 <?php
 $this->load->helper('currency');
 if ($cart = $this->cart->contents()) {
-                    $cartInitialize = 0;
-                     $productShip=array();
-                    foreach ($cart as $key => $item) {
-      
-                    $product_code = $item["id"];
-                        $results = $this->productmodel->get_product_data($product_code);
-                       
-                      $productShip = array_merge($productShip, $results);
-                    
-                   
-                    
-                    $cartInitialize++;
-                    }    
-}
-var_dump($productShip);
-foreach ($productShip as $ship){
-if($ship->shiping==="enabled"){
-    $shippingyes="yes";
-}
-ELSE{
-    $shippingyes="NO";
+    $cartInitialize = 0;
+    $productShip = array();
+    foreach ($cart as $key => $item) {
+
+        $product_code = $item["id"];
+        $results = $this->productmodel->get_product_data($product_code);
+       
+            if ($results[0]->shiping === "enabled") {
+                $shippingyes = "yes";
+               
+            } else {
+                $shippingyes = "no";
+            } 
+            IF ($shippingyes === "yes") {
+    $shiping = $this->productmodel->getship();
 }
 }
-var_dump($shippingyes);
-IF($shippingyes==="yes"){
-$shiping= $this->productmodel->getship();}
+
+
+        $cartInitialize++;
+    
+}
+
+IF ($shippingyes === "yes") {
+    $shiping = $this->productmodel->getship();
+}
 if (!empty($shiping)) {
     foreach ($shiping as $scost) {
         $cost = $scost->price;
@@ -50,28 +50,28 @@ if ($cart = $this->cart->contents()) {
 
     $(document).ready(function() {
         $(function hello() {
-           // var shiping = 0;
+            // var shiping = 0;
             // alert(shiping);
-           $('#cost').html(shiping);
+            $('#cost').html(shiping);
             ship(shiping);
-      });
+        });
         $('.ship').click(function() {
             var shiping = parseInt("<?php echo $cost; ?>");
             $('#cost').html(shiping);
             ship(shiping);
 
         });
-      
+
         $('#continueRegister').click(function() {
             //  alert('work');
             //$('#table_register').css("display","block");
             $('#table_register').toggle();
             // alert('sdfdf');
         });
-        
-        
-        
-        if($('#myonoffswitch').is(':checked'))
+
+
+
+        if ($('#myonoffswitch').is(':checked'))
         {
             var price = parseInt("<?php echo $this->cart->total(); ?>");
             var shiping = parseInt("<?php
@@ -83,7 +83,7 @@ if (isset($shiping_cost) == TRUE) {
 ?>");
             // alert(shiping);
             if (rate > 0) {
-            
+
                 var dis = price * parceInt(rate) / 100;
                 var total = price - dis;
                 var grandtotal = total + shiping;
@@ -95,7 +95,7 @@ if (isset($shiping_cost) == TRUE) {
                 $('.test').val(grandtotal);
             } else {
                 rate = 0;
-               // alert(shiping);
+                // alert(shiping);
                 //var test = 'hello';
                 var grandtotal = price + shiping;
                 $('#cost').html(shiping);
@@ -107,7 +107,7 @@ if (isset($shiping_cost) == TRUE) {
             }
             $('#shippingInfoTable').show();
         }
-        else{
+        else {
             var shiping = 0;
             if (rate > 0) {
 
@@ -123,7 +123,7 @@ if (isset($shiping_cost) == TRUE) {
             } else {
                 rate = 0;
                 var grandtotal = price + shiping;
-              $('#cost').html(shiping);
+                $('#cost').html(shiping);
                 $('#rate').html(rate + '%');
                 $('#test').html(grandtotal);
                 $('.cost').val(shiping);
@@ -132,15 +132,15 @@ if (isset($shiping_cost) == TRUE) {
             }
             $('#shippingInfoTable').hide();
         }
-            
-            
-            
+
+
+
         //Toggle for Shipping option
         $('#myonoffswitch').click(function() {
             var price = parseInt("<?php echo $this->cart->total(); ?>");
             if ($(this).is(':checked'))
             {
-                
+
                 var shiping = parseInt("<?php
 if (isset($shiping_cost) == TRUE) {
     echo $cost;
@@ -157,8 +157,8 @@ if (isset($shiping_cost) == TRUE) {
                     $('#rate').html(rate + '%');
                     $('#test').html(grandtotal);
                     $('.cost').val(shiping);
-                $('.rate').val(rate);
-                $('.test').val(grandtotal);
+                    $('.rate').val(rate);
+                    $('.test').val(grandtotal);
                 } else {
                     rate = 0;
                     var grandtotal = price + shiping;
@@ -166,8 +166,8 @@ if (isset($shiping_cost) == TRUE) {
                     $('#rate').html(rate + '%');
                     $('#test').html(grandtotal);
                     $('.cost').val(shiping);
-                $('.rate').val(rate);
-                $('.test').val(grandtotal);
+                    $('.rate').val(rate);
+                    $('.test').val(grandtotal);
                 }
 
 
@@ -184,8 +184,8 @@ if (isset($shiping_cost) == TRUE) {
                     $('#rate').html(rate + '%');
                     $('#test').html(grandtotal);
                     $('.cost').val(shiping);
-                $('.rate').val(rate);
-                $('.test').val(grandtotal);
+                    $('.rate').val(rate);
+                    $('.test').val(grandtotal);
                 } else {
                     rate = 0;
                     var grandtotal = price + shiping;
@@ -193,50 +193,50 @@ if (isset($shiping_cost) == TRUE) {
                     $('#rate').html(rate + '%');
                     $('#test').html(grandtotal);
                     $('.cost').val(shiping);
-                $('.rate').val(rate);
-                $('.test').val(grandtotal);
+                    $('.rate').val(rate);
+                    $('.test').val(grandtotal);
                 }
             }
-                
-                
-                
-                
-            if($('#myonoffswitch').is(':checked'))
+
+
+
+
+            if ($('#myonoffswitch').is(':checked'))
             {
                 $('#shippingInfoTable').show();
-                if($('.ship').is(':checked'))
-            {
-                $('#shippingInfoTableList').show();
-                
+                if ($('.ship').is(':checked'))
+                {
+                    $('#shippingInfoTableList').show();
+
+                }
+
             }
-                
-            }
-            else{
+            else {
                 $('#shippingInfoTable').hide();
                 $('#shippingInfoTableList').hide();
             }
-           
-            
+
+
 
         });
-        if($('.ship').is(':checked'))
-            {
-                $('#shippingInfoTableList').show();
-                
-            }
-         $('.ship').click(function() {
-         $('#shippingInfoTableList').show();
-         });
-         $('.pick').click(function() {
-         $('#shippingInfoTableList').hide();
-         });
+        if ($('.ship').is(':checked'))
+        {
+            $('#shippingInfoTableList').show();
+
+        }
+        $('.ship').click(function() {
+            $('#shippingInfoTableList').show();
+        });
+        $('.pick').click(function() {
+            $('#shippingInfoTableList').hide();
+        });
     });
     function ship(shiping) {
         var price = parseInt("<?php echo $this->cart->total(); ?>");
         var total = price + shiping;
         // alert(shiping);
-      
-                $('.test').val(total);
+
+        $('.test').val(total);
         $('#test').html(total);
 
     }
@@ -270,8 +270,8 @@ if (isset($shiping_cost) == TRUE) {
         $('#showcoupon').click(function() {
             $('#coupontext').toggle();
         });
-        
-        
+
+
 
     });
 
@@ -286,83 +286,83 @@ if (isset($shiping_cost) == true) {
 ?>");
         var price = parseInt("<?php echo $this->cart->total(); ?>");
         // var total = price + shiping;
-         if($('#myonoffswitch').is(':checked'))
-             {
-              $('#shippingInfoTable').show();
-                if($('.ship').is(':checked'))
+        if ($('#myonoffswitch').is(':checked'))
+        {
+            $('#shippingInfoTable').show();
+            if ($('.ship').is(':checked'))
             {
                 $('#shippingInfoTableList').show();
-                
-            }    
-             
-        if (rate > 0)
-        {
-            var dis = price * parseInt(rate) / 100;
-            var total = price - dis;
-            var grandtotal = total + shiping;
-            if(grandtotal < 1)
-                {
-                    grandtotal = 0;
-                }
-            // var price = rate+'%';
-            $('#rate').html(rate + '%');
-           $('#test').html(grandtotal);
-            //$('.cost').val(shiping);
-                $('.rate').val(rate);
-                $('.test').val(grandtotal);
-        }
-        else
-        {
-            rate = 0;
-            $('#rate').html(rate + '%');
-            $('#test').html(total);
-          //  $('.cost').val(shiping);
-                $('.rate').val(rate);
-                $('.test').val(total);
-        }
-        }
-        else{
-             $('#shippingInfoTable').hide();
-                $('#shippingInfoTableList').hide();
-            if (rate > 0)
-        {
-            shiping = 0;
-            var dis = price * parseInt(rate) / 100;
-            var total = price - dis;
-            var grandtotal = total + shiping;
-            if(grandtotal < 1)
-                {
-                    grandtotal = 0;
-                }
-            // var price = rate+'%';
-            $('#rate').html(rate + '%');
-           $('#test').html(grandtotal);
-            //$('.cost').val(shiping);
-                $('.rate').val(rate);
-                $('.test').val(grandtotal);
-        }
-        else
-        {
-            rate = 0;
-            $('#rate').html(rate + '%');
-            $('#test').html(total);
-          //  $('.cost').val(shiping);
-                $('.rate').val(rate);
-                $('.test').val(total);
-        }
-        }
-            
-         if($('.ship').is(':checked'))
-            {
-                $('#shippingInfoTableList').show();
-                
+
             }
-         $('.ship').click(function() {
-         $('#shippingInfoTableList').show();
-         });
-         $('.pick').click(function() {
-         $('#shippingInfoTableList').hide();
-         });
+
+            if (rate > 0)
+            {
+                var dis = price * parseInt(rate) / 100;
+                var total = price - dis;
+                var grandtotal = total + shiping;
+                if (grandtotal < 1)
+                {
+                    grandtotal = 0;
+                }
+                // var price = rate+'%';
+                $('#rate').html(rate + '%');
+                $('#test').html(grandtotal);
+                //$('.cost').val(shiping);
+                $('.rate').val(rate);
+                $('.test').val(grandtotal);
+            }
+            else
+            {
+                rate = 0;
+                $('#rate').html(rate + '%');
+                $('#test').html(total);
+                //  $('.cost').val(shiping);
+                $('.rate').val(rate);
+                $('.test').val(total);
+            }
+        }
+        else {
+            $('#shippingInfoTable').hide();
+            $('#shippingInfoTableList').hide();
+            if (rate > 0)
+            {
+                shiping = 0;
+                var dis = price * parseInt(rate) / 100;
+                var total = price - dis;
+                var grandtotal = total + shiping;
+                if (grandtotal < 1)
+                {
+                    grandtotal = 0;
+                }
+                // var price = rate+'%';
+                $('#rate').html(rate + '%');
+                $('#test').html(grandtotal);
+                //$('.cost').val(shiping);
+                $('.rate').val(rate);
+                $('.test').val(grandtotal);
+            }
+            else
+            {
+                rate = 0;
+                $('#rate').html(rate + '%');
+                $('#test').html(total);
+                //  $('.cost').val(shiping);
+                $('.rate').val(rate);
+                $('.test').val(total);
+            }
+        }
+
+        if ($('.ship').is(':checked'))
+        {
+            $('#shippingInfoTableList').show();
+
+        }
+        $('.ship').click(function() {
+            $('#shippingInfoTableList').show();
+        });
+        $('.pick').click(function() {
+            $('#shippingInfoTableList').hide();
+        });
 
 
 
@@ -419,9 +419,9 @@ if (isset($shiping_cost) == true) {
         });
     });
 
-function myFunction() {
-    location.reload();
-}
+    function myFunction() {
+        location.reload();
+    }
     function ajaxEmail()
     {
         // alert('working');
@@ -439,11 +439,12 @@ function myFunction() {
     }
 </style>
 
-<?php if ($this->session->userdata('logged_in')) {
-           $userName = $this->session->userdata('username');
-          
-            $detail = $this->dbmodel->get_logged_in_user($userName);
-        
+<?php
+if ($this->session->userdata('logged_in')) {
+    $userName = $this->session->userdata('username');
+
+    $detail = $this->dbmodel->get_logged_in_user($userName);
+
 
     foreach ($detail as $userdetail) {
         $username = $userdetail->user_name;
@@ -457,86 +458,86 @@ function myFunction() {
         $zip = $userdetail->zip;
         $country = $userdetail->country;
     }
-}
- else {
-     $username="";
-     $fname="";
-     $lname="";
-     $email="";
-     $contact="";
-     $address="";
-     $city="";
-     $state="";
-     $zip="";
-     $country="";
+} else {
+    $username = "";
+    $fname = "";
+    $lname = "";
+    $email = "";
+    $contact = "";
+    $address = "";
+    $city = "";
+    $state = "";
+    $zip = "";
+    $country = "";
 }
 ?>
 
 <?php
-    echo form_open('payment/do_payment');
+echo form_open('payment/do_payment');
 ?>
 
 <div id="login">
     <div id="leftRegister">
         <div class="sucessmsg">
-                <?php if (isset($user_validation_message) && strlen($user_validation_message)>2) {
-                    echo $user_validation_message;
-                }
-               
-                
-                ?> </div>
-        <?php if(!$this->session->userdata('logged_in')){?>
-        <div class="RegisterLeft" id="optionalRegister">
-            <h3 style="margin: 0px 0px 10px 0px; padding: 2px; float: left; width: 55%">User Registration (Optional)</h3>
+            <?php
+            if (isset($user_validation_message) && strlen($user_validation_message) > 2) {
+                echo $user_validation_message;
+            }
+            ?> </div>
+            <?php if (!$this->session->userdata('logged_in')) { ?>
+            <div class="RegisterLeft" id="optionalRegister">
+                <h3 style="margin: 0px 0px 10px 0px; padding: 2px; float: left; width: 55%">User Registration (Optional)</h3>
 
 
-            <div class="clear"></div>
-            <hr>
-            
-            <div id="table_register" >
-                <strong id="msg" style="color:#990000 ;"></strong>
-                <table id="table_user" border="0" width="70%" >
-                    <tr>
-                        <td colspan="2"></td>
+                <div class="clear"></div>
+                <hr>
 
-                    </tr>
-                    <tr>
-                        <td colspan="2"><p style="margin: 0px; padding: 2px;">Full Name</p></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" ><input type="text" id="u_name" name="u_name" placeholder="Full Name" size="47" value="<?php if (isset($username)) { echo $username; } ?>" class="placeholder" /></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2"><p style="margin: 0px; padding: 2px;">Email</p></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2"><input type="email" id="email" name="u_email" placeholder="Email" size="47" class="placeholder" /></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2"><p style="margin: 0px; padding: 2px;">Password</p></td>
-                    </tr>
-                    <tr>
-                        <td><input type="password" name="u_pass" id="u_pass" placeholder="Password"  class="placeholder" /></td>
-                        <td ><input type="password" name="u_pass_re" id="u_pass_re" placeholder="Confirm Password"  class="placeholder" /></td>
-                    </tr> 
-                    <tr>
-                        <td colspan="2">
+                <div id="table_register" >
+                    <strong id="msg" style="color:#990000 ;"></strong>
+                    <table id="table_user" border="0" width="70%" >
+                        <tr>
+                            <td colspan="2"></td>
 
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">
+                        </tr>
+                        <tr>
+                            <td colspan="2"><p style="margin: 0px; padding: 2px;">Full Name</p></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" ><input type="text" id="u_name" name="u_name" placeholder="Full Name" size="47" value="<?php if (isset($username)) {
+                echo $username;
+            } ?>" class="placeholder" /></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><p style="margin: 0px; padding: 2px;">Email</p></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><input type="email" id="email" name="u_email" placeholder="Email" size="47" class="placeholder" /></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><p style="margin: 0px; padding: 2px;">Password</p></td>
+                        </tr>
+                        <tr>
+                            <td><input type="password" name="u_pass" id="u_pass" placeholder="Password"  class="placeholder" /></td>
+                            <td ><input type="password" name="u_pass_re" id="u_pass_re" placeholder="Confirm Password"  class="placeholder" /></td>
+                        </tr> 
+                        <tr>
+                            <td colspan="2">
 
-                            <!-- Add Ajax method to add user into database on this button click  -->
-                            <input type="button" value="Register" size="47" id="userajaxBtn" onclick="ajaxcall()" style="padding:12px 125px 12px 125px; text-align: center; background-color: black; font-weight: bold;" class="updateBtnStyle" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
 
-                        </td>
-                    </tr>
+                                <!-- Add Ajax method to add user into database on this button click  -->
+                                <input type="button" value="Register" size="47" id="userajaxBtn" onclick="ajaxcall()" style="padding:12px 125px 12px 125px; text-align: center; background-color: black; font-weight: bold;" class="updateBtnStyle" />
 
-                </table>
+                            </td>
+                        </tr>
 
+                    </table>
+
+                </div>
             </div>
-        </div>
 <?php } ?>
         <div class="RegisterLeft">
             <h3 style="margin: 0px 0px 10px 0px; padding: 2px;">Personal Details</h3>
@@ -549,37 +550,73 @@ function myFunction() {
                     <td colspan="2"><p style="margin: 0px; padding: 2px;">Full Name</p></td>
                 </tr>
                 <tr >
-                    <td><input type="text" name="u_fname" value="<?php if (strlen($fname)>0) { echo $fname; } else { echo set_value('u_fname');} ?>" placeholder="First Name" size="20" class="placeholder" required/></td>
-                    <td><input type="text" name="u_lname" value="<?php if (strlen($lname)>0) { echo $lname; } else { echo set_value('u_lname');} ?>" placeholder="Last Name" size="20" class="placeholder" required/></td>
+                    <td><input type="text" name="u_fname" value="<?php if (strlen($fname) > 0) {
+    echo $fname;
+} else {
+    echo set_value('u_fname');
+} ?>" placeholder="First Name" size="20" class="placeholder" required/></td>
+                    <td><input type="text" name="u_lname" value="<?php if (strlen($lname) > 0) {
+    echo $lname;
+} else {
+    echo set_value('u_lname');
+} ?>" placeholder="Last Name" size="20" class="placeholder" required/></td>
                 </tr>
                 <tr>
                     <td colspan="2"><p style="margin: 0px; padding: 2px;">Address</p></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><input type="text" name="street_address" value="<?php if (strlen($address)>0) { echo $address; } else { echo set_value('street_address');} ?>" placeholder="Street Address" size="47" class="placeholder" required/></td>
+                    <td colspan="2"><input type="text" name="street_address" value="<?php if (strlen($address) > 0) {
+    echo $address;
+} else {
+    echo set_value('street_address');
+} ?>" placeholder="Street Address" size="47" class="placeholder" required/></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><input type="text" name="Town_address" value="<?php if (strlen($city)>0) { echo $city; } else { echo set_value('Town_address');} ?>" placeholder="Town/ City" size="47" class="placeholder" required/></td>
+                    <td colspan="2"><input type="text" name="Town_address" value="<?php if (strlen($city) > 0) {
+    echo $city;
+} else {
+    echo set_value('Town_address');
+} ?>" placeholder="Town/ City" size="47" class="placeholder" required/></td>
                 </tr>
                 <tr>
-                    <td><input type="text" name="District_address" value="<?php if (strlen($state)>0) { echo $state; } else { echo set_value('District_address');} ?>" placeholder=" State" size="20" class="placeholder" required/></td>
-                    <td><input type="text" name="zip" value="<?php if (strlen($zip)>0) { echo $zip; } else { echo set_value('zip');} ?>" placeholder="Post Code" size="20" class="placeholder" required/></td>
+                    <td><input type="text" name="District_address" value="<?php if (strlen($state) > 0) {
+    echo $state;
+} else {
+    echo set_value('District_address');
+} ?>" placeholder=" State" size="20" class="placeholder" required/></td>
+                    <td><input type="text" name="zip" value="<?php if (strlen($zip) > 0) {
+    echo $zip;
+} else {
+    echo set_value('zip');
+} ?>" placeholder="Post Code" size="20" class="placeholder" required/></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><input type="text" name="country" value="<?php if (strlen($country)>0) { echo $country; } else { echo set_value('country');} ?>" placeholder="Country" size="47" class="placeholder" required/></td>
+                    <td colspan="2"><input type="text" name="country" value="<?php if (strlen($country) > 0) {
+    echo $country;
+} else {
+    echo set_value('country');
+} ?>" placeholder="Country" size="47" class="placeholder" required/></td>
                 </tr>
                 <tr>
                     <td colspan="2"><p style="margin: 0px; padding: 2px;">Contact Number</p></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><input type="text" name="u_contact" value="<?php if (strlen($contact)>0) { echo $contact; } else { echo set_value('u_contact');} ?>" placeholder="Contact Number" size="47" class="placeholder" required/></td>
+                    <td colspan="2"><input type="text" name="u_contact" value="<?php if (strlen($contact) > 0) {
+    echo $contact;
+} else {
+    echo set_value('u_contact');
+} ?>" placeholder="Contact Number" size="47" class="placeholder" required/></td>
                 </tr>
 
                 <tr>
                     <td colspan="2"><p style="margin: 0px; padding: 2px;">Email</p></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><input type="email" name="user_email" value="<?php if (strlen($email)>3) { echo $email; } else { echo set_value('user_email');} ?>" placeholder="Email" size="47" class="placeholder" id="register_email" /></td>
+                    <td colspan="2"><input type="email" name="user_email" value="<?php if (strlen($email) > 3) {
+    echo $email;
+} else {
+    echo set_value('user_email');
+} ?>" placeholder="Email" size="47" class="placeholder" id="register_email" /></td>
                 </tr>
 
 
@@ -675,7 +712,7 @@ function myFunction() {
 
 
             <hr>
-            
+
             <table id="shippingInfoTable" border="0" width="70%">
 
                 <tr>
@@ -732,18 +769,18 @@ function myFunction() {
     <div id="RegisterLeftCart">
         <h3 style="width:40%; margin: 0px 0px 10px 0px; padding: 2px; float: left;">Shopping Detail
         </h3>
-        <?php if ($this->cart->contents()) { ?>
+            <?php if ($this->cart->contents()) { ?>
             <div id="total_item"><h4 style="margin: 0px 0px 5px 0px">Total: <?php echo $this->cart->total_items(); ?> items</h4></div>
-        <?php } ?>
+            <?php } ?>
         <div class="clear"></div>
         <hr>
-        <?php if ($this->cart->contents()) { ?>
+            <?php if ($this->cart->contents()) { ?>
             <table width="97%" style="margin: 0px 0px 10px 12px;">
                 <tr>
                     <th class="hide" width='55px'>Product</th>
                     <th style="text-align: left; padding: 0px 0px 0px 15px;">Name</th>
                     <th>Price</th>
-                    
+
                     <th>Qty</th>
                     <th>Total</th>
                     <th> </th>
@@ -758,35 +795,35 @@ function myFunction() {
                         <tr>
                             <td class="hide"><img class="hide" src="<?php echo base_url() . 'content/uploads//images/' . $item['image1']; ?>" height="50" width="50"> </td>
                             <td style="padding: 0px 0px 0px 10px;"><?php if (strlen($item['name']) <= 20) {
-                        ?>
+                            ?>
                         <?php echo $item['name']; ?></td>
-        <?php } else { ?>         
-           
+                    <?php } else { ?>         
+
                         <?php echo mb_strimwidth($item['name'], 0, 20, "..."); ?></td>
-        <?php } ?>
+                    <?php } ?>
                             <td style="text-align: center;"><?php get_currency($item['price']); ?></td>
-                            
+
                             <td style="text-align: center;"><?php echo $item['qty'] ?></td>                       
                             <td style="text-align: center;"><?php echo $item['price'] * $item['qty']; ?> </td>
                             <td>x</td>
                         </tr>
-                        <?php
-                        //Data for paypal 
+            <?php
+            //Data for paypal 
 
-                        $product_code = $item["id"];
-                        $results = $this->productmodel->get_product_data_verify($product_code);
-                        foreach ($results as $obj) {
+            $product_code = $item["id"];
+            $results = $this->productmodel->get_product_data_verify($product_code);
+            foreach ($results as $obj) {
 
-                            echo '<input type="hidden" name="item_name[' . $cartInitialize . ']" value="' . $obj->name . '" />';
-                            echo '<input type="hidden" name="item_code[' . $cartInitialize . ']" value="' . $product_code . '" />';
-                            echo '<input type="hidden" name="item_desc[' . $cartInitialize . ']" value="' . $obj->description . '" />';
-                            echo '<input type="hidden" name="item_qty[' . $cartInitialize . ']" value="' . $item["qty"] . '" />';
-                        }
+                echo '<input type="hidden" name="item_name[' . $cartInitialize . ']" value="' . $obj->name . '" />';
+                echo '<input type="hidden" name="item_code[' . $cartInitialize . ']" value="' . $product_code . '" />';
+                echo '<input type="hidden" name="item_desc[' . $cartInitialize . ']" value="' . $obj->description . '" />';
+                echo '<input type="hidden" name="item_qty[' . $cartInitialize . ']" value="' . $item["qty"] . '" />';
+            }
 
-                        $cartInitialize++;
-                    }
-                }
-                ?>
+            $cartInitialize++;
+        }
+    }
+    ?>
                 <tr style="border-top: 1px solid #222;">
                     <td style="padding: 0px 0px 0px 15px; "><b>Total</b>:</td>
                     <td class="hide"></td>
@@ -797,11 +834,11 @@ function myFunction() {
                 </tr>
 
             </table>
-        <?php } else {
-            ?>
+<?php } else {
+    ?>
             <div id="total_item"><h4>Your cart is empty</h4></div>
-        <?php }
-        ?>
+<?php }
+?>
 
 
         <div id="coupontext" style="width: 96%; margin: 0px; padding: 2%;">
@@ -840,7 +877,7 @@ function myFunction() {
                     <td id="test">   </td>
                 </tr>
             </table>
-            
+
             <input type="hidden" class="cost" name="cost" value="" />
             <input type="hidden" class="rate" name="rate" value="" />
             <input type="hidden" class="test" name="grandtotal" value="" />
