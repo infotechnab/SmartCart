@@ -170,42 +170,43 @@ class bnw extends CI_Controller {
     public function valid_upload1($f_type1)
 	{
         $f_type1=$_FILES['myfile']['type'];
+       $f_size1=$_FILES['myfile']['size']/1024;
        
-		if ($f_type1== "image/gif" OR $f_type1== "image/png" OR $f_type1== "" OR $f_type1== "image/jpeg" OR $f_type1== "image/JPEG" OR $f_type1== "image/PNG" OR $f_type1== "image/GIF")
+		if (($f_type1== "image/gif" OR $f_type1== "image/png" OR $f_type1== "" OR $f_type1== "image/jpeg" OR $f_type1== "image/JPEG" OR $f_type1== "image/PNG" OR $f_type1== "image/GIF") AND ($f_size1 <= "500"))
 		{
 			return TRUE;
 		}
 		else
 		{
-			$this->form_validation->set_message('valid_upload1', 'The %s type must be gif/jpeg/png or blank');
+			$this->form_validation->set_message('valid_upload1', 'The %s type must be gif/jpeg/png of size 500KB or blank');
 			return FALSE;
 		}
 	}
         public function valid_upload2($f_type1)
 	{
         $f_type1=$_FILES['myfileTwo']['type'];
-       
-		if ($f_type1== "image/gif" OR $f_type1== "image/png" OR $f_type1== "" OR $f_type1== "image/jpeg" OR $f_type1== "image/JPEG" OR $f_type1== "image/PNG" OR $f_type1== "image/GIF")
+       $f_size1=$_FILES['myfileTwo']['size']/1024;
+		if (($f_type1== "image/gif" OR $f_type1== "image/png" OR $f_type1== "" OR $f_type1== "image/jpeg" OR $f_type1== "image/JPEG" OR $f_type1== "image/PNG" OR $f_type1== "image/GIF") AND ($f_size1 <= "500"))
 		{
 			return TRUE;
 		}
 		else
 		{
-			$this->form_validation->set_message('valid_upload2', 'The %s type must be gif/jpeg/png or blank');
+			$this->form_validation->set_message('valid_upload2', 'The %s type must be gif/jpeg/png of size 500KB or blank');
 			return FALSE;
 		}
 	}
         public function valid_upload3($f_type1)
 	{
         $f_type1=$_FILES['myfileThree']['type'];
-       
-		if ($f_type1== "image/gif" OR $f_type1== "image/png" OR $f_type1== "" OR $f_type1== "image/jpeg" OR $f_type1== "image/JPEG" OR $f_type1== "image/PNG" OR $f_type1== "image/GIF")
+        $f_size1=$_FILES['myfileThree']['size']/1024;
+		if (($f_type1== "image/gif" OR $f_type1== "image/png" OR $f_type1== "" OR $f_type1== "image/jpeg" OR $f_type1== "image/JPEG" OR $f_type1== "image/PNG" OR $f_type1== "image/GIF") AND ($f_size1 <= "500"))
 		{
 			return TRUE;
 		}
 		else
 		{
-			$this->form_validation->set_message('valid_upload3', 'The %s type must be gif/jpeg/png or blank');
+			$this->form_validation->set_message('valid_upload3', 'The %s type must be gif/jpeg/png of size 500KB or blank');
 			return FALSE;
 		}
 	}
@@ -215,7 +216,7 @@ class bnw extends CI_Controller {
         if ($this->session->userdata('admin_logged_in')) {
             $config['upload_path'] = './content/uploads/images/';
             $config['allowed_types'] = 'gif|jpg|png';
-            $config['max_size'] = '2000';
+            $config['max_size'] = '500';
             $config['max_width'] = '2000';
             $config['max_height'] = '2000';
 
