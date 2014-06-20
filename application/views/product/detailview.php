@@ -15,8 +15,15 @@
     
     <p> <b> Product Detail : </b>
        
-        <div> <table style="border-collapse: collapse;">
-                 
+        <div> <table width="80%" style="border-collapse: collapse;">
+                <tr><th>Product Id</th>
+            <th>Image</th>
+        <th>Product Name</th>
+        <th>Quantity</th>
+        <th>Price</th>
+        <th>Sub-total</th>
+        <th>Deliver Status</th>
+        </tr> 
                <?php  $pid = $trandetail->p_id;
                  $oid = $trandetail->o_id;
                  $qty = $trandetail->qty;
@@ -25,13 +32,16 @@
                  $product_Detail = $this->dbmodel->get_product_id($pid); ?>
            
                         <?php foreach ($product_Detail as $pdetail) { ?>
-                        <tr style="border-bottom: #ccc solid 1px; ">
-                            <td > <img src="<?php echo base_url()."content/uploads/images/".$pdetail->image1; ?>" width="60" height="40" /></td>
-                            <td id="userDetail" style="font-size: 14px; vertical-align: top;">
+                        <tr style="border-bottom: #ccc solid 1px; text-align: center ">
+                            <td><?php echo $pdetail->id;?></td>
+                            <td> <img src="<?php echo base_url()."content/uploads/images/".$pdetail->image1; ?>" width="60" height="40" /></td>
+                            <td>
                             <?php echo "<b>".$pdetail->name."</b>";  ?>
                             </td>
-                            <td id="userDetail" style="font-size: 14px; vertical-align: top;"><?php echo "Qnt :".$qty." ($".$pdetail->price.") = $".$qty * $pdetail->price; ?></td>
-                            <td id="userDetail" style="font-size: 14px; vertical-align: top;">
+                            <td><?php echo $qty; ?></td>
+                            <td><?php echo $pdetail->price; ?></td>
+                            <td><?php echo $qty * $pdetail->price; ?></td>
+                            <td>
                                 <input type="hidden" name="product_<?php echo $pid; ?>" />
                                 <select name="status_<?php echo $pid; ?>" >
                                     <option value="0"  <?php if($status == "0") echo"selected"; ?>>Not Deliver</option>
@@ -49,8 +59,8 @@
 <?php if(strlen($trandetail->p_id)>0){ $oderDetailUser = $this->dbmodel->get_all_product_order_oid($oid);
              foreach ($oderDetailUser as $orderUserID)
             { ?>
-    <p> <b>Customer Detail : </b> 
-    <div>
+    
+ 
         <?php
                 $UserID = $orderUserID->u_id;
                 $country = $orderUserID->country;
@@ -67,7 +77,14 @@
                     $fname = $Uname->user_fname;
                     $lname = $Uname->user_lname;
                     $userEmail = $Uname->user_email;
+                    $userContact = $Uname->contact;
+                    $userStreet = $Uname->address;
+                    $userCity = $Uname->city;
+                    $userState = $Uname->state;
+                    $userZip = $Uname->zip;
                 } ?>
+        <div style="width: 40%; float: left;">
+            <p> <b>Customer Detail : </b> 
         <table>
             <tr>
                 <td > <b><?php echo $fname." ".$lname ;?></b></td>
@@ -76,20 +93,25 @@
                 <td ><?php echo $userEmail; ?></td>
             </tr>
             <tr>
-                <td  > <?php echo $contact; ?></td>
+                <td  > <?php echo $userContact; ?></td>
             </tr>
             <tr>
-                <td><?php echo $shpAddress.", ".$city; ?></td>
+                <td><?php echo $userStreet.", ".$userCity.",".$userState; ?></td>
+            </tr>
+            <tr>
+                <td><?php echo $userZip; ?></td>
             </tr>
             <tr>
                 <td><?php echo $country; ?></td>
             </tr>
         </table>
-    </div>
+        </div>
+  
     </p>
     
-    <p> <b>Shipping Address :</b>
-    <div>
+   
+    <div style="width: 40%; float: left;">
+         <p> <b>Shipping Address :</b>
         <table>
             <tr>
                 <td > <b><?php echo $fname." ".$lname ;?></b></td>
@@ -108,6 +130,7 @@
             </tr>
         </table>
     </div>
+    <div class="clear"></div>
     </p>
     <?php echo form_submit('submit','Submit');
 echo form_close();?>
