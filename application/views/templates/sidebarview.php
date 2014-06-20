@@ -94,18 +94,22 @@ $this->load->helper('currency');
         <?php }
     } ?>
     <!-- till here-->
-<?php foreach ($category as $catList) {
+    <a class="sideLink" href="<?php echo base_url() . "index.php/view/index" ?>"><div class="redColouredDiv" id='sidebarContent'><h3>Categories</h3></div></a>
+<div class='sidebarContentNext' style="z-index: 1;">
+    <?php foreach ($category as $catList) {
         $category_id = $catList->id;
+        $name= $catList->category_name;
         ?>
-    <a class="sideLink" href="<?php echo base_url() . "index.php/view/category/" . $category_id ?>"><div class="redColouredDiv" id='sidebarContent'><h3><?php echo $catList->category_name; ?></h3></div></a>
-       
+    
+    <a class="categoryLink" href="<?php echo base_url() . "index.php/view/category/" . $category_id ?>"><?php echo $name; ?></a><br/>
+      
            
 
                 
 
         <?php 
     } ?>
-
+</div> 
  <!--   <div class="redColouredDiv" id='sidebarContent'><h3>Sponsors</h3></div>
 <?php //for ($i = 0; $i < 1; $i++) {
     ?>

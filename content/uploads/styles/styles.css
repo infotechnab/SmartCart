@@ -1978,3 +1978,12 @@ a.sideLink :hover
 {
    background-color: purple; 
 }
+.sidebarContentNext a.categoryLink:link
+{
+    color:black;
+}
+.sidebarContentNext a.categoryLink:hover
+{
+    color:red;
+    text-decoration: underline;
+}
