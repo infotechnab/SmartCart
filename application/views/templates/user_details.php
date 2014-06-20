@@ -5,6 +5,7 @@
             
 
     foreach ($detail as $userdetail) {
+        $userID= $userdetail->id;
         $username = $userdetail->user_name;
         $fname = $userdetail->user_fname;
         $lname = $userdetail->user_lname;
@@ -20,7 +21,7 @@
   
  else {
     
-
+    $userID="";
   $username="";
   $fname="";
   $lname="";
@@ -86,16 +87,67 @@
                 </tr>
                 <tr>
                     <td><input type="submit" id="printBtn" style="float: left; margin: 0px 10px 0px 10px; background: #000; padding:10px; border: none; border-radius: 5px;" value="Update" /></td>
-                    <td><div id="goToHomeBtn" style="float: left; margin: 0px 10px 0px 10px; background: #000; padding:10px; border: none; border-radius: 5px; max-width: 100px;"><a href="<?php echo base_url().'index.php/view/index'; ?>" style="color: #fff;">Cancel</a></td>
+                    <td><div id="goToHomeBtn" style="float: left; margin: 0px 10px 0px 10px; background: #000; padding:10px; border: none; border-radius: 5px; max-width: 100px;"><a href="<?php echo base_url().'index.php/view/index'; ?>" style="color: #fff;">Cancel</a></div></td>
                 </tr>
                 
 
             </table>
     <?php echo form_close(); ?>   
+        
+        <!-- transaction details are shown here -->
+        
+    <h3 style="text-align: center">Transaction Details</h3>
+    <?php if(strlen($userID)>0){ 
     
-    </div>   
+       $productOrder= $this->dbmodel->get_product_order($userID);
+    if(!empty($productOrder))  {   ?> 
+    <table wid cellpadding="10">
+        <tr>
+            <th>Transection ID</th>
+            <th>Purchase Date</th>
+            <th>Product Name</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Total</th>
+        </tr>
+    <?php    foreach ($productOrder as $order){
+            $product= $order->o_id;
+            $date= $order->date;
+            $productOrderDetail= $this->dbmodel->get_product_order_detail($product); 
+   
+          foreach ($productOrderDetail as $orders){
+                $transId= $orders->trans_id;
+                $qty= $orders->qty;
+                $price= $orders->price;
+                $pid=$orders->p_id;
+                $productDetail= $this->dbmodel->get_product_detail($pid);
+                foreach ($productDetail as $product){
+                    $name= $product->name;
+                    $image1= $product->image1;
+                     $image2= $product->image2;
+                      $image3= $product->image3;
+                } ?>
+                <tr>
+            <td><?php echo $transId; ?></td>
+            <td><?php echo $date; ?></td>
+            <td><?php echo $name; ?></td>
+            <td><?php echo $qty; ?></td>
+            <td><?php echo $price; ?></td>
+            <td><?php echo $qty*$price; ?></td>
+            
+        </tr>
+    <?php        }
+                 } 
+    }else{ echo "<h3>Sorry! You have not purchased goods yet.</h3>";}
+       }else{}
+        ?>
+    
+     </table>
+        
+    </div>  
+    
  </div>
-
+  
 
 
 

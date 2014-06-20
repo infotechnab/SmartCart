@@ -29,8 +29,27 @@ class Dbmodel extends CI_Model {
         $query = $this->db->get('navigation');
         return $query->result();
     }
-    
-    
+    public function get_product_order($userID)
+    {  
+        
+        $this->db->where('u_id', $userID);
+        $query = $this->db->get('product_oder');
+        return $query->result();
+    }
+    public function get_product_order_detail($product)
+    {  
+        
+        $this->db->where('o_id', $product);
+        $query = $this->db->get('product_oder_detail');
+        return $query->result();
+    }
+     public function get_product_detail($pid)
+    {  
+       
+        $this->db->where('id', $pid);
+        $query = $this->db->get('product');
+        return $query->result();
+    }
 function validate_user($email, $pass) {
     $password=md5($pass);
         $this->db->where('user_email',$email );
