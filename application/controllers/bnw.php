@@ -2124,7 +2124,7 @@ class bnw extends CI_Controller {
             $this->form_validation->set_rules('user_lname', 'Last Name', 'trim|regex_match[/^[a-z,0-9,A-Z]{2,15}$/]|required|xss_clean|max_length[200]');
             $this->form_validation->set_rules('user_email', 'User email', 'trim|regex_match[/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/]|required|xss_clean|max_length[200]');
             $this->form_validation->set_rules('user_pass', 'Password', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,35}$/]|required|xss_clean|md5|max_length[200]');
-            $this->form_validation->set_rules('user_type', 'User Type', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,35}$/]|required|xss_clean|max_length[200]');
+           // $this->form_validation->set_rules('user_type', 'User Type', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,35}$/]|required|xss_clean|max_length[200]');
             if ($this->form_validation->run() == FALSE) {
 
                 $this->load->view('bnw/users/addNew');

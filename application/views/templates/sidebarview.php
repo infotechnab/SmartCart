@@ -96,18 +96,15 @@ $this->load->helper('currency');
     <!-- till here-->
     <a class="sideLink" href="<?php echo base_url() . "index.php/view/index" ?>"><div class="redColouredDiv" id='sidebarContent'><h3>Categories</h3></div></a>
 <div class='sidebarContentNext' style="z-index: 1;">
-    <?php foreach ($category as $catList) {
+    <?php $count = count($category);
+ $i = 0;
+    foreach ($category as $catList) {
         $category_id = $catList->id;
         $name= $catList->category_name;
         ?>
     
-    <a class="categoryLink" href="<?php echo base_url() . "index.php/view/category/" . $category_id ?>"><?php echo $name; ?></a><br/>
-      
-           
-
-                
-
-        <?php 
+    <a class="categoryLink" href="<?php echo base_url() . "index.php/view/category/" . $category_id ?>"><?php echo $name; ?></a><?php if(++$i === $count) { echo ""; } else{ echo "|"; }  
+       
     } ?>
 </div> 
  <!--   <div class="redColouredDiv" id='sidebarContent'><h3>Sponsors</h3></div>
