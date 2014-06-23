@@ -34,9 +34,7 @@
   $country="";
 }
 ?>
-<div id='content'>
-    <div id="userDetail">
-        <h3 style="text-align: center">Personal Details</h3>
+
         <div class="sucessmsg">
                 <?php if (isset($user_validation_message) && strlen($user_validation_message)>2) {
                     echo $user_validation_message;
@@ -45,7 +43,7 @@
                 
                 ?> </div>
         <?php echo form_open_multipart('view/updateUser'); ?>
-    <table border="0" width="49%" align="center">
+    <table border="0" width="49%" >
                 <tr>
                     <td colspan="2"></td>
                 </tr>
@@ -96,53 +94,8 @@
         
         <!-- transaction details are shown here -->
         
-    <h3 style="text-align: center">Transaction Details</h3>
-    <?php if(strlen($userID)>0){ 
-    
-       $productOrder= $this->dbmodel->get_product_order($userID);
-    if(!empty($productOrder))  {   ?> 
-    <table wid cellpadding="10">
-        <tr>
-            <th>Transection ID</th>
-            <th>Purchase Date</th>
-            <th>Product Name</th>
-            <th>Quantity</th>
-            <th>Price</th>
-            <th>Total</th>
-        </tr>
-    <?php    foreach ($productOrder as $order){
-            $product= $order->o_id;
-            $date= $order->date;
-            $productOrderDetail= $this->dbmodel->get_product_order_detail($product); 
    
-          foreach ($productOrderDetail as $orders){
-                $transId= $orders->trans_id;
-                $qty= $orders->qty;
-                $price= $orders->price;
-                $pid=$orders->p_id;
-                $productDetail= $this->dbmodel->get_product_detail($pid);
-                foreach ($productDetail as $product){
-                    $name= $product->name;
-                    $image1= $product->image1;
-                     $image2= $product->image2;
-                      $image3= $product->image3;
-                } ?>
-                <tr>
-            <td><?php echo $transId; ?></td>
-            <td><?php echo $date; ?></td>
-            <td><?php echo $name; ?></td>
-            <td><?php echo $qty; ?></td>
-            <td><?php echo $price; ?></td>
-            <td><?php echo $qty*$price; ?></td>
-            
-        </tr>
-    <?php        }
-                 } 
-    }else{ echo "<h3>Sorry! You have not purchased goods yet.</h3>";}
-       }else{}
-        ?>
-    
-     </table>
+   
         
     </div>  
     

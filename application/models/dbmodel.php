@@ -36,9 +36,9 @@ class Dbmodel extends CI_Model {
         $query = $this->db->get('product_oder');
         return $query->result();
     }
-    public function get_product_order_detail($product)
+    public function get_product_order_detail($product, $limit, $start)
     {  
-        
+        $this->db->limit($limit, $start);
         $this->db->where('o_id', $product);
         $query = $this->db->get('product_oder_detail');
         return $query->result();
@@ -340,6 +340,12 @@ public function check_user_email($email){
     {
         $this->db->where('status','0');
         $this->db->from("product");
+        return $this->db->count_all_results();
+    }
+    function record_count_transaction($product)
+    {
+         $this->db->where('o_id', $product);
+         $this->db->from('product_oder_detail');
         return $this->db->count_all_results();
     }
     function record_count_coupon()

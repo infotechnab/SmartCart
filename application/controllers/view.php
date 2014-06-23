@@ -720,8 +720,34 @@ class View extends CI_Controller {
 
         send_email($user_email, $subject, $message);
     }
+public function user(){
+     if ($this->session->userdata('logged_in')) {
 
-    public function userdetails() {
+            $data['headertitle'] = $this->viewmodel->get_header_title();
+            $data['headerlogo'] = $this->viewmodel->get_header_logo();
+            $data['meta'] = $this->dbmodel->get_meta_data();
+            $data['headerdescription'] = $this->viewmodel->get_header_description();
+            $data['featureItem'] = $this->productmodel->featured_item();
+            $data['product_info'] = $this->productmodel->product_info();
+            $data['category'] = $this->productmodel->category_list();
+            $data['event'] = $this->productmodel->get_max_events();
+            $data['offer'] = $this->productmodel->get_max_offers();
+            $data['facebookPopular'] = $this->variable = $this->facebookLikeCount();
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/navigation');
+            $this->load->view('templates/user_detail_links');
+            $this->load->view('templates/user_details');
+            $this->load->view('templates/sidebarOffer', $data);
+            $this->load->view('templates/cart');
+            $this->load->view('templates/sidebarview', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $this->session->set_flashdata('message', 'Sorry You are not logged in, please login first.');
+            redirect('view/index');
+        }
+}
+
+public function userdetails() {
         if ($this->session->userdata('logged_in')) {
 
             $data['headertitle'] = $this->viewmodel->get_header_title();
@@ -736,7 +762,88 @@ class View extends CI_Controller {
             $data['facebookPopular'] = $this->variable = $this->facebookLikeCount();
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navigation');
+            $this->load->view('templates/user_detail_links');
             $this->load->view('templates/user_details');
+            $this->load->view('templates/sidebarOffer', $data);
+            $this->load->view('templates/cart');
+            $this->load->view('templates/sidebarview', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $this->session->set_flashdata('message', 'Sorry You are not logged in, please login first.');
+            redirect('view/index');
+        }
+    }
+    public function transactiondetails() {
+        if ($this->session->userdata('logged_in')) {
+            $userName = $this->session->userdata('username');        
+            $detail = $this->dbmodel->get_logged_in_user($userName);          
+    foreach ($detail as $userdetail) {
+        $userID= $userdetail->id;
+    }
+
+ if(strlen($userID)>0){ 
+     $config = array();
+        $config["base_url"] = base_url() . "index.php/view/transactiondetails";
+        $config["per_page"] = 6;
+        $this->pagination->initialize($config);
+        $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+        
+        
+       $productOrder= $this->dbmodel->get_product_order($userID);
+    if(!empty($productOrder))  {  
+  $array=array();
+      foreach ($productOrder as $order){
+            $product= $order->o_id;
+            $date= $order->date;
+           $data["productOrderDetail"]  = $this->dbmodel->get_product_order_detail($product,$config["per_page"], $page); 
+           $asdf= array($this->dbmodel->record_count_transaction($product));
+           $array= array_merge($array, $asdf);
+           $val= max($array);
+           
+ }}}   
+ 
+       
+        $config["total_rows"] = $val;
+        
+        
+
+        /* from here */
+        $choice = $config["total_rows"] / $config["per_page"];
+        $config["num_links"] = round($choice);
+        $config['full_tag_open'] = '<ul class="tsc_pagination tsc_paginationA tsc_paginationA01">';
+        $config['full_tag_close'] = '</ul>';
+        $config['prev_link'] = 'First';
+        $config['prev_tag_open'] = '<li>';
+        $config['prev_tag_close'] = '</li>';
+        $config['next_link'] = 'Next';
+        $config['next_tag_open'] = '<li>';
+        $config['next_tag_close'] = '</li>';
+        $config['cur_tag_open'] = '<li class="current"><a href="#">';
+        $config['cur_tag_close'] = '</a></li>';
+        $config['num_tag_open'] = '<li>';
+        $config['num_tag_close'] = '</li>';
+        $config['first_tag_open'] = '<li>';
+        $config['first_tag_close'] = '</li>';
+        $config['last_tag_open'] = '<li>';
+        $config['last_tag_close'] = '</li>';
+        $config['first_link'] = '&lt;&lt;';
+        $config['last_link'] = '&gt;&gt;';
+        $this->pagination->initialize($config);
+         $data["links"] = $this->pagination->create_links();
+            $data['headertitle'] = $this->viewmodel->get_header_title();
+            $data['headerlogo'] = $this->viewmodel->get_header_logo();
+            $data['meta'] = $this->dbmodel->get_meta_data();
+            $data['headerdescription'] = $this->viewmodel->get_header_description();
+            $data['featureItem'] = $this->productmodel->featured_item();
+            $data['product_info'] = $this->productmodel->product_info();
+            $data['category'] = $this->productmodel->category_list();
+            $data['event'] = $this->productmodel->get_max_events();
+            $data['offer'] = $this->productmodel->get_max_offers();
+            $data['facebookPopular'] = $this->variable = $this->facebookLikeCount();
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/navigation');
+            $this->load->view('templates/user_detail_links');
+            $this->load->view('templates/transaction_details');
             $this->load->view('templates/sidebarOffer', $data);
             $this->load->view('templates/cart');
             $this->load->view('templates/sidebarview', $data);

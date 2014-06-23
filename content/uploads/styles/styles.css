@@ -570,7 +570,7 @@ body
 
 #footer
 {
-    margin: 0px 0px 0px 0px;
+    margin: 10px 0px 0px 0px;
     padding: 0px;
     background-color: #222222;
     width: 100%;
@@ -1988,7 +1988,8 @@ input:-moz-placeholder { color:#999; }
 }
 a.sideLink :hover
 {
-   background-color: purple; 
+    background-color: #f61938;
+    border-radius: 5px;
 }
 .sidebarContentNext a.categoryLink:link
 {

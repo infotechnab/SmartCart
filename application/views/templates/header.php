@@ -176,7 +176,7 @@ $(function() {
             <?php }
             else{ ?>
                 <div id="signupHeader">
-                            <div style="border-radius: 3px; padding: 5px; min-width:40%; text-align: center; margin: 15% 1% 0% 1.5%; float: left; background-color: #6fa5e2; color: #000;"><?php echo anchor('view/userdetails',$this->session->userdata ('username')); ?></div>
+                            <div style="border-radius: 3px; padding: 5px; min-width:40%; text-align: center; margin: 15% 1% 0% 1.5%; float: left; background-color: #6fa5e2; color: #000;"><?php echo anchor('view/user',$this->session->userdata ('username')); ?></div>
                             <div style="border-radius: 3px; padding: 5px; min-width:40%; text-align: center; margin: 15% 1% 0% 1.5%; float: left; background-color: #f61938; color: #000;"><?php echo anchor('view/logout','Log Out') ?></div>
                         </div>
          <?php   }
