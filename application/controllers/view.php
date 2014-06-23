@@ -735,7 +735,7 @@ public function user(){
             $data['facebookPopular'] = $this->variable = $this->facebookLikeCount();
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navigation');
-            $this->load->view('templates/user_detail_links');
+            
             $this->load->view('templates/user_details');
             $this->load->view('templates/sidebarOffer', $data);
             $this->load->view('templates/cart');
@@ -762,7 +762,7 @@ public function userdetails() {
             $data['facebookPopular'] = $this->variable = $this->facebookLikeCount();
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navigation');
-            $this->load->view('templates/user_detail_links');
+            
             $this->load->view('templates/user_details');
             $this->load->view('templates/sidebarOffer', $data);
             $this->load->view('templates/cart');
@@ -784,7 +784,7 @@ public function userdetails() {
  if(strlen($userID)>0){ 
      $config = array();
         $config["base_url"] = base_url() . "index.php/view/transactiondetails";
-        $config["per_page"] = 6;
+        $config["per_page"] = 10;
         $this->pagination->initialize($config);
         $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
         
@@ -842,7 +842,7 @@ public function userdetails() {
             $data['facebookPopular'] = $this->variable = $this->facebookLikeCount();
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navigation');
-            $this->load->view('templates/user_detail_links');
+           
             $this->load->view('templates/transaction_details');
             $this->load->view('templates/sidebarOffer', $data);
             $this->load->view('templates/cart');

@@ -2,7 +2,6 @@
 $this->load->helper('currency');
 ?>
 
-
 <script type="text/javascript">
 	$(document).ready(function() {
            
