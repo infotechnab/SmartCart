@@ -1,3 +1,16 @@
+
+<div id='content'>
+    <div id="userDetail">
+        
+        <ul>
+            <li class="active"><h3><a href="<?php echo base_url()."index.php/view/user" ?>">Personal Info</a></h3></li>
+            <li><h3><a href="<?php echo base_url()."index.php/view/transactiondetails" ?>">My Transaction</a></h3></li>
+	
+</ul>
+        <div class="clear"></div>  
+        
+
+
 <?php if ($this->session->userdata('logged_in')) {
             $userName = $this->session->userdata('username');
           

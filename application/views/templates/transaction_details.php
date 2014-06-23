@@ -1,7 +1,19 @@
+
+<div id='content'>
+    <div id="userDetail">
+        
+        <ul>
+              <li><h3><a href="<?php echo base_url()."index.php/view/user" ?>">Personal Info</a></h3></li>
+          <li class="active"><h3><a href="<?php echo base_url()."index.php/view/transactiondetails" ?>">My Transaction</a></h3></li>
+          
+	
+        </ul>
+        <div class="clear"></div>  
+        
 <?php
  $config = array();
         $config["base_url"] = base_url() . "index.php/view/transactiondetails";
-        $config["per_page"] = 6;
+        $config["per_page"] = 10;
         $this->pagination->initialize($config);
         $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
         
@@ -66,7 +78,7 @@ else{
      </table>
 </div>
 <?php if (strlen($links) > 2) { ?>
-        <div style="margin: 10px 0px 5px 0px; background-color: #999; color: #3399ff; border-radius:5px; width:95%; ">
+        <div style="margin: 10px 0px 5px 0px; background-color: #999; color: #3399ff; border-radius:5px; width:100%; ">
             <?php echo $links; ?>
         </div>
     <?php } ?>

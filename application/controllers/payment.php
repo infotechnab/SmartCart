@@ -22,7 +22,7 @@ class Payment extends CI_Controller {
         $data['headerlogo'] = $this->viewmodel->get_header_logo();
         $data['meta'] = $this->dbmodel->get_meta_data();
         $data['headerdescription'] = $this->viewmodel->get_header_description();
-        
+
         $this->load->view('templates/header', $data);
         $this->load->view('templates/navigation');
         $this->load->view('templates/cartDetails');
@@ -30,243 +30,14 @@ class Payment extends CI_Controller {
     }
 
     function notify_payment() {
-
-        $received_data = print_r($this->input->post(), TRUE);
-        echo '<pre>' . $received_data . '</pre>';
-    }
-
-    function cancel_payment() {
-        echo "Its canceled";
-    }
-
-    function products() {
-        $this->load->view('product_listing');
-        $results = $this->productmodel->get_product_data_verify(26);
-        var_dump($results);
-    }
-
-    function do_payment() {
         
-       
-        include_once("paypal_config.php");
+         include_once("paypal_config.php");
         include_once("paypal.class.php");
         $paypalmode = ($PayPalMode == 'sandbox') ? '.sandbox' : '';
+        $received_data = print_r($this->input->post(), TRUE);
+        echo '<pre>' . $received_data . '</pre>';
         
-        $data['headertitle'] = $this->viewmodel->get_header_title();
-        $data['headerlogo'] = $this->viewmodel->get_header_logo();
-        $data['meta'] = $this->dbmodel->get_meta_data();
-        $data['headerdescription'] = $this->viewmodel->get_header_description();
-        
-        $this->load->library('form_validation');
-
-        if(isset($_POST['cost'])){$cost = trim($_POST['cost']); }
-        if(isset($_POST['rate'])){$rate = trim($_POST['rate']); }
-        if(isset($_POST['grandtotal'])){$grandTotal = trim($_POST['grandtotal']); }
-        if(isset($_POST['onoffswitch']))
-        {
-        $switch = $_POST['onoffswitch'];
-        }
-        else
-        {
-            $switch = "disableShip";
-        }
-        
-        if(isset($_POST['pickup']))
-        {
-        $radio = $_POST['pickup'];
-        }
-        else{
-            $radio=NULL;
-        }
-        //
-        $this->form_validation->set_rules('u_fname', 'First name', 'trim|regex_match[/^[a-z,0-9,A-Z_ ]{3,15}$/]|required|xss_clean|max_length[15]');
-        $this->form_validation->set_rules('u_lname', 'Last name', 'trim|regex_match[/^[a-z,0-9,A-Z_ ]{3,15}$/]|required|xss_clean|max_length[15]');
-        $this->form_validation->set_rules('street_address', 'Address', 'trim|regex_match[/^[A-Za-z0-9\-\\,. ]{2,35}$/]|required|xss_clean|max_length[35]');
-        $this->form_validation->set_rules('Town_address', 'City/Town', 'trim|regex_match[/^[A-Za-z0-9\-\\,. ]{2,35}$/]|required|xss_clean|max_length[35]');
-        $this->form_validation->set_rules('District_address', 'State/District', 'trim|regex_match[/^[A-Za-z0-9\-\\,. ]{2,35}$/]|required|xss_clean|max_length[35]');
-        $this->form_validation->set_rules('zip', 'Zip', 'trim|regex_match[/^[0-9]{4,15}$/]|required|xss_clean|max_length[15]');
-        $this->form_validation->set_rules('country', 'Country', 'trim|regex_match[/^[A-Za-z0-9\-\\,. ]{2,35}$/]|required|xss_clean|max_length[35]');
-        $this->form_validation->set_rules('u_contact', 'Contact no.', 'trim|regex_match[/^[0-9]{5,15}$/]|required|xss_clean|max_length[15]');
-        $this->form_validation->set_rules('user_email', 'Email', 'trim|regex_match[/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/]|required|xss_clean|max_length[200]');
-         if ($this->form_validation->run() == FALSE ) {
-            $data['user_validation_message'] = validation_errors();
-            $this->load->view('templates/header', $data);
-            $this->load->view('templates/navigation');
-            $this->load->view('templates/userRegistrationAndShipping', $data);
-            $this->load->view('templates/footer');
-            
-        } else {
-            
-            /* here are all inputed fields*/
-            $fname = $this->input->post('u_lname');
-        $lname = $this->input->post('u_lname');
-        $street = $this->input->post('street_address');
-        $town = $this->input->post('Town_address');
-        $district = $this->input->post('District_address');
-        $zip = $this->input->post('zip');
-        $country = $this->input->post('country');
-        $contact = $this->input->post('u_contact');
-        $email = $this->input->post('user_email');
-        
-        
-        /* if shipping enabled */
-       
-        if (($switch==="enableShip") && ($radio==="shipDifferent")) {
-          
-            $this->form_validation->set_rules('s_fname', 'First name', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,15}$/]|required|xss_clean|max_length[15]');
-            $this->form_validation->set_rules('s_lname', 'Last name', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,15}$/]|required|xss_clean|max_length[15]');
-            $this->form_validation->set_rules('s_address', 'Address', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,35}$/]|required|xss_clean|max_length[35]');
-            $this->form_validation->set_rules('c_city', 'City', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,35}$/]|required|xss_clean|max_length[35]');
-            $this->form_validation->set_rules('s_state', 'State', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,35}$/]|required|xss_clean|max_length[35]');
-            $this->form_validation->set_rules('s_zip', 'Zip', 'trim|regex_match[/^[0-9]{5,15}$/]|required|xss_clean|max_length[15]');
-            $this->form_validation->set_rules('s_country', 'Country', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,35}$/]|required|xss_clean|max_length[35]');
-            $this->form_validation->set_rules('s_contact', 'Contact no.', 'trim|regex_match[/^[0-9]{5,15}$/]|required|xss_clean|max_length[15]');
-            $this->form_validation->set_rules('s_email', 'Email', 'trim|regex_match[/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/]|required|xss_clean|max_length[50]');
-         
-            if ($this->form_validation->run() == FALSE ) {
-            $data['user_validation_message'] = validation_errors();
-            $this->load->view('templates/header', $data);
-            $this->load->view('templates/navigation');
-            $this->load->view('templates/userRegistrationAndShipping', $data);
-            $this->load->view('templates/footer' );
-            var_dump("Lets see");
-        } else {
-                $shipfname = $this->input->post('s_fname');                        
-                $shiplname = $this->input->post('s_lname');                         
-                $shipstreet = $this->input->post('s_address');                        
-                $shiptown = $this->input->post('c_city');                         
-                $shipdistrict = $this->input->post('s_state');                          
-                $shipzip = $this->input->post('s_zip');                          
-                $shipcountry = $this->input->post('s_country');                       
-                $shipcontact = $this->input->post('s_contact');                         
-                $shipemail = $this->input->post('s_email');
-            
-        }         
-        } else if (($switch==="enableShip") && ($radio=="pickup") ) {
-            $shipfname = $fname;
-            $shiplname = $lname;
-            $shipstreet = $street;
-            $shiptown = $town;
-            $shipdistrict = $district;
-            $shipzip = $zip;
-            $shipcountry = $country;
-            $shipcontact = $contact;
-            $shipemail = $email;
-        }
-        else{
-            $shipfname = "pickup";
-            $shiplname = NULL;
-            $shipstreet = NULL;
-            $shiptown = NULL;
-            $shipdistrict = NULL;
-            $shipzip = NULL;
-            $shipcountry = NULL;
-            $shipcontact = NULL;
-            $shipemail = NULL;
-        }
-   die($shipfname);
-       
-   
-
-        if ($_POST) { //Post Data received from product list page.
-            die($cost);
-        
-         //die($cost);
-            //Other important variables like tax, shipping cost
-            $TotalTaxAmount = 2.58;  //Sum of tax for all items in this order. 
-            $HandalingCost = 2.00;  //Handling cost for this order.
-            $InsuranceCost = 1.00;  //shipping insurance cost for this order.
-            //$ShippinDiscount = $cost;
-            $ShippinDiscount = -3.00; //Shipping discount for this order. Specify this as negative number.
-            $ShippinCost = 3.00; //Although you may change the value later, try to pass in a shipping amount that is reasonably accurate.
-            //we need 4 variables from product page Item Name, Item Price, Item Number and Item Quantity.
-            //Please Note : People can manipulate hidden field amounts in form,
-            //In practical world you must fetch actual price from database using item id. 
-            //eg : $ItemPrice = $mysqli->query("SELECT item_price FROM products WHERE id = Product_Number");
-            $paypal_data = '';
-            $ItemTotalPrice = 0;
-            foreach ($_POST['item_name'] as $key => $itmname) {
-                $product_code = filter_var($_POST['item_code'][$key], FILTER_SANITIZE_STRING);
-                $results = $this->productmodel->get_product_data_verify($product_code);
-                //$mysqli->query("SELECT name, description, price FROM product WHERE product_code='$product_code' LIMIT 1");
-
-
-                foreach ($results as $obj) {
-                    $paypal_data .= '&L_PAYMENTREQUEST_0_NAME' . $key . '=' . urlencode($obj->name);
-                    $paypal_data .= '&L_PAYMENTREQUEST_0_NUMBER' . $key . '=' . urlencode($_POST['item_code'][$key]);
-                    $paypal_data .= '&L_PAYMENTREQUEST_0_AMT' . $key . '=' . urlencode($obj->price);
-                    $paypal_data .= '&L_PAYMENTREQUEST_0_QTY' . $key . '=' . urlencode($_POST['item_qty'][$key]);
-                    // item price X quantity
-                    $subtotal = ($obj->price * $_POST['item_qty'][$key]);
-                    //total price
-                    $ItemTotalPrice = $ItemTotalPrice + $subtotal;
-                    //create items for session
-                    $paypal_product['items'][] = array('itm_name' => $obj->name,
-                        'itm_price' => $obj->price,
-                        'itm_code' => $_POST['item_code'][$key],
-                        'itm_qty' => $_POST['item_qty'][$key]
-                    );
-                    
-                }
-            }
-
-
-            //Grand total including all tax, insurance, shipping cost and discount
-            $GrandTotal = ($ItemTotalPrice + $TotalTaxAmount + $HandalingCost + $InsuranceCost + $ShippinCost + $ShippinDiscount);
-
-
-            $paypal_product['assets'] = array('tax_total' => $TotalTaxAmount,
-                'handaling_cost' => $HandalingCost,
-                'insurance_cost' => $InsuranceCost,
-                'shippin_discount' => $ShippinDiscount,
-                'shippin_cost' => $ShippinCost,
-                'grand_total' => $GrandTotal);
-
-            //create session array for later use
-            $_SESSION["paypal_products"] = $paypal_product;
-
-
-
-            //Parameters for SetExpressCheckout, which will be sent to PayPal
-            $padata = '&METHOD=SetExpressCheckout' .
-                    '&RETURNURL=' . urlencode($PayPalReturnURL) .
-                    '&CANCELURL=' . urlencode($PayPalCancelURL) .
-                    '&PAYMENTREQUEST_0_PAYMENTACTION=' . urlencode("SALE") .
-                    $paypal_data .
-                    '&NOSHIPPING=0' . //set 1 to hide buyer's shipping address, in-case products that does not require shipping
-                    '&PAYMENTREQUEST_0_ITEMAMT=' . urlencode($ItemTotalPrice) .
-                    '&PAYMENTREQUEST_0_TAXAMT=' . urlencode($TotalTaxAmount) .
-                    '&PAYMENTREQUEST_0_SHIPPINGAMT=' . urlencode($ShippinCost) .
-                    '&PAYMENTREQUEST_0_HANDLINGAMT=' . urlencode($HandalingCost) .
-                    '&PAYMENTREQUEST_0_SHIPDISCAMT=' . urlencode($ShippinDiscount) .
-                    '&PAYMENTREQUEST_0_INSURANCEAMT=' . urlencode($InsuranceCost) .
-                    '&PAYMENTREQUEST_0_AMT=' . urlencode($GrandTotal) .
-                    '&PAYMENTREQUEST_0_CURRENCYCODE=' . urlencode($PayPalCurrencyCode) .
-                    '&LOCALECODE=GB' . //PayPal pages to match the language on your website.
-                    '&LOGOIMG=http://salyani.com.np/web/images/salyaniTech.png' . //site logo
-                    '&CARTBORDERCOLOR=FFFFFF' . //border color of cart
-                    '&ALLOWNOTE=1';
-
-            //We need to execute the "SetExpressCheckOut" method to obtain paypal token
-            $paypal = new MyPayPal();
-            $httpParsedResponseAr = $paypal->PPHttpPost('SetExpressCheckout', $padata, $PayPalApiUsername, $PayPalApiPassword, $PayPalApiSignature, $PayPalMode);
-
-            //Respond according to message we receive from Paypal
-            if ("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"])) {
-                //Redirect user to PayPal store with Token received.
-                $paypalurl = 'https://www' . $paypalmode . '.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=' . $httpParsedResponseAr["TOKEN"] . '';
-                header('Location: ' . $paypalurl);
-            } else {
-                //Show error message
-                echo '<div style="color:red"><b>Error : </b>' . urldecode($httpParsedResponseAr["L_LONGMESSAGE0"]) . '</div>';
-                echo '<pre>';
-                print_r($httpParsedResponseAr);
-                echo '</pre>';
-            }
-        }
-         }
-
-//Paypal redirects back to this page using ReturnURL, We should receive TOKEN and Payer ID
+        //Paypal redirects back to this page using ReturnURL, We should receive TOKEN and Payer ID
         if (isset($_GET["token"]) && isset($_GET["PayerID"])) {
             //we will be using these two variables to execute the "DoExpressCheckoutPayment"
             //Note: we haven't received any payment yet.
@@ -338,6 +109,9 @@ class Payment extends CI_Controller {
                     echo '<br /><b>Stuff to store in database :</b><br />';
 
                     echo '<pre>';
+
+                   
+
                     /*
                       #### SAVE BUYER INFORMATION IN DATABASE ###
                       //see (http://www.sanwebe.com/2013/03/basic-php-mysqli-usage) for mysqli usage
@@ -383,21 +157,220 @@ class Payment extends CI_Controller {
             }
         }
     }
-    
-    
-    
-    
-    
-    public function email(){
-        $data['user']=array("tranId"=>'5337',"date"=>'2014/06/05',"email"=>'info@salyani.com.np',"name"=>'Ramji',"productId"=>'1',"productName"=>'Chhadke', "productImage"=>'',"qty"=>'5',"price"=>'$45',"discount"=>'5%',"ship"=>'');
+
+    function cancel_payment() {
+        echo "Its canceled";
+    }
+
+    function products() {
+        $this->load->view('product_listing');
+        $results = $this->productmodel->get_product_data_verify(26);
+        var_dump($results);
+    }
+
+    function do_payment() {
+
+        include_once("paypal_config.php");
+        include_once("paypal.class.php");
+        $paypalmode = ($PayPalMode == 'sandbox') ? '.sandbox' : '';
         $data['headertitle'] = $this->viewmodel->get_header_title();
         $data['headerlogo'] = $this->viewmodel->get_header_logo();
         $data['meta'] = $this->dbmodel->get_meta_data();
         $data['headerdescription'] = $this->viewmodel->get_header_description();
-       // var_dump($data['user']);
-       
+
+        $this->load->library('form_validation');
+
+        if (isset($_POST['cost'])) {
+            $cost = trim($_POST['cost']);
+        }
+        if (isset($_POST['rate'])) {
+            $rate = trim($_POST['rate']);
+        }
+        if (isset($_POST['grandtotal'])) {
+            $grandTotal = trim($_POST['grandtotal']);
+        }
+        if (isset($_POST['onoffswitch'])) {
+            $switch = $_POST['onoffswitch'];
+        } else {
+            $switch = "disableShip";
+        }
+
+        if (isset($_POST['pickup'])) {
+            $radio = $_POST['pickup'];
+        } else {
+            $radio = NULL;
+        }
+
+        $this->form_validation->set_rules('u_fname', 'First name', 'trim|regex_match[/^[a-z,0-9,A-Z_ ]{3,15}$/]|required|xss_clean|max_length[15]');
+        $this->form_validation->set_rules('u_lname', 'Last name', 'trim|regex_match[/^[a-z,0-9,A-Z_ ]{3,15}$/]|required|xss_clean|max_length[15]');
+        $this->form_validation->set_rules('street_address', 'Address', 'trim|regex_match[/^[A-Za-z0-9\-\\,. ]{2,35}$/]|required|xss_clean|max_length[35]');
+        $this->form_validation->set_rules('Town_address', 'City/Town', 'trim|regex_match[/^[A-Za-z0-9\-\\,. ]{2,35}$/]|required|xss_clean|max_length[35]');
+        $this->form_validation->set_rules('District_address', 'State/District', 'trim|regex_match[/^[A-Za-z0-9\-\\,. ]{2,35}$/]|required|xss_clean|max_length[35]');
+        $this->form_validation->set_rules('zip', 'Zip', 'trim|regex_match[/^[0-9]{4,15}$/]|required|xss_clean|max_length[15]');
+        $this->form_validation->set_rules('country', 'Country', 'trim|regex_match[/^[A-Za-z0-9\-\\,. ]{2,35}$/]|required|xss_clean|max_length[35]');
+        $this->form_validation->set_rules('u_contact', 'Contact no.', 'trim|regex_match[/^[0-9]{5,15}$/]|required|xss_clean|max_length[15]');
+        $this->form_validation->set_rules('user_email', 'Email', 'trim|regex_match[/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/]|required|xss_clean|max_length[200]');
+    $tempShipDiff = FALSE;
+        if (($switch === "enableShip") && ($radio === "shipDifferent")) {
+
+            $this->form_validation->set_rules('s_fname', 'First name', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,15}$/]|required|xss_clean|max_length[15]');
+            $this->form_validation->set_rules('s_lname', 'Last name', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,15}$/]|required|xss_clean|max_length[15]');
+            $this->form_validation->set_rules('s_address', 'Address', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,35}$/]|required|xss_clean|max_length[35]');
+            $this->form_validation->set_rules('c_city', 'City', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,35}$/]|required|xss_clean|max_length[35]');
+            $this->form_validation->set_rules('s_state', 'State', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,35}$/]|required|xss_clean|max_length[35]');
+            $this->form_validation->set_rules('s_zip', 'Zip', 'trim|regex_match[/^[0-9]{5,15}$/]|required|xss_clean|max_length[15]');
+            $this->form_validation->set_rules('s_country', 'Country', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,35}$/]|required|xss_clean|max_length[35]');
+            $this->form_validation->set_rules('s_contact', 'Contact no.', 'trim|regex_match[/^[0-9]{5,15}$/]|required|xss_clean|max_length[15]');
+            $this->form_validation->set_rules('s_email', 'Email', 'trim|regex_match[/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/]|required|xss_clean|max_length[50]');
+            $tempShipDiff = TRUE;
+        }
+
+        if ($this->form_validation->run() == FALSE) {
+            $data['user_validation_message'] = validation_errors();
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/navigation');
+            $this->load->view('templates/userRegistrationAndShipping', $data);
+            $this->load->view('templates/footer');
+        } else {
+
+            /* here are all inputed fields */
+            $fname = $this->input->post('u_lname');
+            $lname = $this->input->post('u_lname');
+            $street = $this->input->post('street_address');
+            $town = $this->input->post('Town_address');
+            $district = $this->input->post('District_address');
+            $zip = $this->input->post('zip');
+            $country = $this->input->post('country');
+            $contact = $this->input->post('u_contact');
+            $email = $this->input->post('user_email');
+
+
+            //for ship to different address 
+            if (($switch === "enableShip")) {
+                $pickUp = FALSE;
+                if ($tempShipDiff) {
+                    $shipfname = $this->input->post('s_fname');
+                    $shiplname = $this->input->post('s_lname');
+                    $shipstreet = $this->input->post('s_address');
+                    $shiptown = $this->input->post('c_city');
+                    $shipdistrict = $this->input->post('s_state');
+                    $shipzip = $this->input->post('s_zip');
+                    $shipcountry = $this->input->post('s_country');
+                    $shipcontact = $this->input->post('s_contact');
+                    $shipemail = $this->input->post('s_email');
+                } else {
+                    $shipToSameAddress = TRUE;
+                }
+            } else {
+                $pickUp = TRUE;
+            }
+    
+        if ($_POST) { //Post Data received from product list page.
+            //die($cost);
+            //Other important variables like tax, shipping cost
+            //$TotalTaxAmount = 2.58;  //Sum of tax for all items in this order. 
+            //$HandalingCost = 2.00;  //Handling cost for this order.
+            //$InsuranceCost = 1.00;  //shipping insurance cost for this order.
+            //$ShippinDiscount = $cost;
+            // $ShippinDiscount = -3.00; //Shipping discount for this order. Specify this as negative number.
+            $ShippinCost = $cost; //Although you may change the value later, try to pass in a shipping amount that is reasonably accurate.
+            //we need 4 variables from product page Item Name, Item Price, Item Number and Item Quantity.
+            //Please Note : People can manipulate hidden field amounts in form,
+            //In practical world you must fetch actual price from database using item id. 
+            //eg : $ItemPrice = $mysqli->query("SELECT item_price FROM products WHERE id = Product_Number");
+            $paypal_data = '';
+            $ItemTotalPrice = 0;
+            foreach ($_POST['item_name'] as $key => $itmname) {
+                $product_code = filter_var($_POST['item_code'][$key], FILTER_SANITIZE_STRING);
+                $results = $this->productmodel->get_product_data_verify($product_code);
+                //$mysqli->query("SELECT name, description, price FROM product WHERE product_code='$product_code' LIMIT 1");
+
+
+                foreach ($results as $obj) {
+                    $paypal_data .= '&L_PAYMENTREQUEST_0_NAME' . $key . '=' . urlencode($obj->name);
+                    $paypal_data .= '&L_PAYMENTREQUEST_0_NUMBER' . $key . '=' . urlencode($_POST['item_code'][$key]);
+                    $paypal_data .= '&L_PAYMENTREQUEST_0_AMT' . $key . '=' . urlencode($obj->price);
+                    $paypal_data .= '&L_PAYMENTREQUEST_0_QTY' . $key . '=' . urlencode($_POST['item_qty'][$key]);
+                    // item price X quantity
+                    $subtotal = ($obj->price * $_POST['item_qty'][$key]);
+                    //total price
+                    $ItemTotalPrice = $ItemTotalPrice + $subtotal;
+                    //create items for session
+                    $paypal_product['items'][] = array('itm_name' => $obj->name,
+                        'itm_price' => $obj->price,
+                        'itm_code' => $_POST['item_code'][$key],
+                        'itm_qty' => $_POST['item_qty'][$key]
+                    );
+                }
+            }
+
+
+            //Grand total including all tax, insurance, shipping cost and discount
+            $GrandTotal = ($ItemTotalPrice + $ShippinCost );
+
+
+            $paypal_product['assets'] = array('tax_total' => $TotalTaxAmount,
+                'handaling_cost' => $HandalingCost,
+                'insurance_cost' => $InsuranceCost,
+                'shippin_discount' => $ShippinDiscount,
+                'shippin_cost' => $ShippinCost,
+                'grand_total' => $GrandTotal);
+
+            //create session array for later use
+            $_SESSION["paypal_products"] = $paypal_product;
+           
+
+            //Parameters for SetExpressCheckout, which will be sent to PayPal
+            $padata = '&METHOD=SetExpressCheckout' .
+                    '&RETURNURL=' . urlencode($PayPalReturnURL) .
+                    '&CANCELURL=' . urlencode($PayPalCancelURL) .
+                    '&PAYMENTREQUEST_0_PAYMENTACTION=' . urlencode("SALE") .
+                    $paypal_data .
+                    '&NOSHIPPING=0' . //set 1 to hide buyer's shipping address, in-case products that does not require shipping
+                    '&PAYMENTREQUEST_0_ITEMAMT=' . urlencode($ItemTotalPrice) .
+                    '&PAYMENTREQUEST_0_TAXAMT=' . urlencode($TotalTaxAmount) .
+                    '&PAYMENTREQUEST_0_SHIPPINGAMT=' . urlencode($ShippinCost) .
+                    '&PAYMENTREQUEST_0_HANDLINGAMT=' . urlencode($HandalingCost) .
+                    '&PAYMENTREQUEST_0_SHIPDISCAMT=' . urlencode($ShippinDiscount) .
+                    '&PAYMENTREQUEST_0_INSURANCEAMT=' . urlencode($InsuranceCost) .
+                    '&PAYMENTREQUEST_0_AMT=' . urlencode($GrandTotal) .
+                    '&PAYMENTREQUEST_0_CURRENCYCODE=' . urlencode($PayPalCurrencyCode) .
+                    '&LOCALECODE=GB' . //PayPal pages to match the language on your website.
+                    '&LOGOIMG=http://salyani.com.np/web/images/salyaniTech.png' . //site logo
+                    '&CARTBORDERCOLOR=FFFFFF' . //border color of cart
+                    '&ALLOWNOTE=1';
+
+            //We need to execute the "SetExpressCheckOut" method to obtain paypal token
+            $paypal = new MyPayPal();
+            $httpParsedResponseAr = $paypal->PPHttpPost('SetExpressCheckout', $padata, $PayPalApiUsername, $PayPalApiPassword, $PayPalApiSignature, $PayPalMode);
+
+            //Respond according to message we receive from Paypal
+            if ("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"])) {
+                //Redirect user to PayPal store with Token received.
+                $paypalurl = 'https://www' . $paypalmode . '.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=' . $httpParsedResponseAr["TOKEN"] . '';
+                header('Location: ' . $paypalurl);
+            } else {
+                //Show error message
+                echo '<div style="color:red"><b>Error : </b>' . urldecode($httpParsedResponseAr["L_LONGMESSAGE0"]) . '</div>';
+                echo '<pre>';
+                print_r($httpParsedResponseAr);
+                echo '</pre>';
+            }
+        }
+        }
+
+
+    }
+
+    public function email() {
+        $data['user'] = array("tranId" => '5337', "date" => '2014/06/05', "email" => 'info@salyani.com.np', "name" => 'Ramji', "productId" => '1', "productName" => 'Chhadke', "productImage" => '', "qty" => '5', "price" => '$45', "discount" => '5%', "ship" => '');
+        $data['headertitle'] = $this->viewmodel->get_header_title();
+        $data['headerlogo'] = $this->viewmodel->get_header_logo();
+        $data['meta'] = $this->dbmodel->get_meta_data();
+        $data['headerdescription'] = $this->viewmodel->get_header_description();
+        // var_dump($data['user']);
+
         $this->load->view('templates/emailTemplate', $data);
-        
     }
 
 }

@@ -2004,3 +2004,24 @@ a.sideLink :hover
     
     margin: 5px;
 }
+
+#userDetail ul{margin: 0 0 10px 0;
+padding: 0;}
+
+            #userDetail ul li 
+            {
+                list-style: none;
+                display: inline-block;   
+                padding: 5px;
+               
+            }
+            
+            #userDetail ul li.active
+            {
+             
+    text-decoration: none;
+    background-color: #6fa5e2; color: #000;
+   
+}
+
+#userDetail ul li h3{margin: 0 0 0 0; padding: 0;}
