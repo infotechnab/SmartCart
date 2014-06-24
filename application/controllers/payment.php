@@ -30,7 +30,9 @@ class Payment extends CI_Controller {
     }
 
     function notify_payment() {
-        
+        session_start();
+       //$_SESSION["paypal_products"]="new one";
+        var_dump($_SESSION['$_SESSION["paypal_products"]']);
          include_once("paypal_config.php");
         include_once("paypal.class.php");
         $paypalmode = ($PayPalMode == 'sandbox') ? '.sandbox' : '';
@@ -309,16 +311,16 @@ class Payment extends CI_Controller {
             $GrandTotal = ($ItemTotalPrice + $ShippinCost );
 
 
-            $paypal_product['assets'] = array('tax_total' => $TotalTaxAmount,
-                'handaling_cost' => $HandalingCost,
-                'insurance_cost' => $InsuranceCost,
-                'shippin_discount' => $ShippinDiscount,
+            $paypal_product['assets'] = array(
+               
                 'shippin_cost' => $ShippinCost,
                 'grand_total' => $GrandTotal);
 
             //create session array for later use
             $_SESSION["paypal_products"] = $paypal_product;
-           
+            $_SESSION['salyani']='salyani';
+           // var_dump($_SESSION["paypal_products"]);
+          
 
             //Parameters for SetExpressCheckout, which will be sent to PayPal
             $padata = '&METHOD=SetExpressCheckout' .
@@ -328,11 +330,8 @@ class Payment extends CI_Controller {
                     $paypal_data .
                     '&NOSHIPPING=0' . //set 1 to hide buyer's shipping address, in-case products that does not require shipping
                     '&PAYMENTREQUEST_0_ITEMAMT=' . urlencode($ItemTotalPrice) .
-                    '&PAYMENTREQUEST_0_TAXAMT=' . urlencode($TotalTaxAmount) .
+                   
                     '&PAYMENTREQUEST_0_SHIPPINGAMT=' . urlencode($ShippinCost) .
-                    '&PAYMENTREQUEST_0_HANDLINGAMT=' . urlencode($HandalingCost) .
-                    '&PAYMENTREQUEST_0_SHIPDISCAMT=' . urlencode($ShippinDiscount) .
-                    '&PAYMENTREQUEST_0_INSURANCEAMT=' . urlencode($InsuranceCost) .
                     '&PAYMENTREQUEST_0_AMT=' . urlencode($GrandTotal) .
                     '&PAYMENTREQUEST_0_CURRENCYCODE=' . urlencode($PayPalCurrencyCode) .
                     '&LOCALECODE=GB' . //PayPal pages to match the language on your website.

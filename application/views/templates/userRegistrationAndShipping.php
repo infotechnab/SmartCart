@@ -50,8 +50,6 @@ if ($cart = $this->cart->contents()) {
 
     $(document).ready(function() {
         $(function hello() {
-            // var shiping = 0;
-            // alert(shiping);
             $('#cost').html(shiping);
             ship(shiping);
         });
@@ -63,10 +61,9 @@ if ($cart = $this->cart->contents()) {
         });
 
         $('#continueRegister').click(function() {
-            //  alert('work');
-            //$('#table_register').css("display","block");
+           
             $('#table_register').toggle();
-            // alert('sdfdf');
+           
         });
 
 
@@ -81,7 +78,7 @@ if (isset($shiping_cost) == TRUE) {
     echo $cost = 0;
 }
 ?>");
-            // alert(shiping);
+            
             if (rate > 0) {
 
                 var dis = price * parceInt(rate) / 100;
@@ -307,7 +304,7 @@ if (isset($shiping_cost) == true) {
                 // var price = rate+'%';
                 $('#rate').html(rate + '%');
                 $('#test').html(grandtotal);
-                //$('.cost').val(shiping);
+               
                 $('.rate').val(rate);
                 $('.test').val(grandtotal);
             }
@@ -316,7 +313,7 @@ if (isset($shiping_cost) == true) {
                 rate = 0;
                 $('#rate').html(rate + '%');
                 $('#test').html(total);
-                //  $('.cost').val(shiping);
+                
                 $('.rate').val(rate);
                 $('.test').val(total);
             }
@@ -424,8 +421,7 @@ if (isset($shiping_cost) == true) {
     }
     function ajaxEmail()
     {
-        // alert('working');
-        // alert(email);
+        
     }
 
 
@@ -550,16 +546,8 @@ echo form_open('payment/do_payment');
                     <td colspan="2"><p style="margin: 0px; padding: 2px;">Full Name</p></td>
                 </tr>
                 <tr >
-                    <td><input type="text" name="u_fname" value="<?php if (strlen($fname) > 0) {
-    echo $fname;
-} else {
-    echo set_value('u_fname');
-} ?>" placeholder="First Name" size="20" class="placeholder" required/></td>
-                    <td><input type="text" name="u_lname" value="<?php if (strlen($lname) > 0) {
-    echo $lname;
-} else {
-    echo set_value('u_lname');
-} ?>" placeholder="Last Name" size="20" class="placeholder" required/></td>
+                    <td><input type="text" name="u_fname" value="<?php if (strlen($fname) > 0) { echo $fname;} else { echo set_value('u_fname');} ?>" placeholder="First Name" size="20" class="placeholder" required/></td>
+                    <td><input type="text" name="u_lname" value="<?php if (strlen($lname) > 0) { echo $lname;} else { echo set_value('u_lname');} ?>" placeholder="Last Name" size="20" class="placeholder" required/></td>
                 </tr>
                 <tr>
                     <td colspan="2"><p style="margin: 0px; padding: 2px;">Address</p></td>
@@ -576,7 +564,7 @@ echo form_open('payment/do_payment');
     echo $city;
 } else {
     echo set_value('Town_address');
-} ?>" placeholder="Town/ City" size="47" class="placeholder" required/></td>
+} ?>" placeholder="Town" size="47" class="placeholder" required/></td>
                 </tr>
                 <tr>
                     <td><input type="text" name="District_address" value="<?php if (strlen($state) > 0) {
@@ -737,12 +725,12 @@ echo form_open('payment/do_payment');
                     <td colspan="2"><input type="text" name="s_address" value="<?php echo set_value('s_address'); ?>" placeholder="Street Address" size="47" class="placeholder" /></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><input type="text" name="c_city" value="<?php echo set_value('c_city'); ?>" placeholder="Town/ City" size="47" class="placeholder" /></td>
+                    <td colspan="2"><input type="text" name="c_city" value="<?php echo set_value('c_city'); ?>" placeholder="Town" size="47" class="placeholder" /></td>
 
                 </tr>
                 <tr>
-                    <td><input type="text" name="s_state" value="<?php echo set_value('s_state'); ?>" placeholder="District/ State" size="20" class="placeholder" /></td>
-                    <td><input type="text" name="s_zip" value="<?php echo set_value('s_zip'); ?>" placeholder="zip" size="20" class="placeholder" /></td>
+                    <td><input type="text" name="s_state" value="<?php echo set_value('s_state'); ?>" placeholder="State" size="20" class="placeholder" /></td>
+                    <td><input type="text" name="s_zip" value="<?php echo set_value('s_zip'); ?>" placeholder="Post Code" size="20" class="placeholder" /></td>
                 </tr>
                 <tr>
                     <td colspan="2"><input type="text" name="s_country" value="<?php echo set_value('s_country'); ?>" placeholder="Country" size="47" class="placeholder" /></td>
@@ -803,7 +791,7 @@ echo form_open('payment/do_payment');
                             <td style="text-align: center;"><?php get_currency($item['price']); ?></td>
 
                             <td style="text-align: center;"><?php echo $item['qty'] ?></td>                       
-                            <td style="text-align: center;"><?php echo $item['price'] * $item['qty']; ?> </td>
+                            <td style="text-align: center;"><?php echo "$".$item['price'] * $item['qty']; ?> </td>
                             <td style="text-align: center;"><a style="text-align: -moz-center;" href="<?php echo base_url(); ?>index.php/view/removeItem/<?php echo $item['rowid']; ?>"><div id="closeSymbol">X</div></a></td>
                         </tr>
             <?php

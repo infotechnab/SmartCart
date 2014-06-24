@@ -10,10 +10,10 @@ $this->load->helper('currency');
             <th class="hide" width='55px'></th>
             <th style="text-align: left; padding: 0px 0px 0px 15px;">Name</th>
             <th>Qty</th>
-            <th></th>
+           
             <th>Price</th>
 
-            <th> </th>
+            <th>Remove</th>
         </tr>
         <?php if ($cart = $this->cart->contents()) { ?>
             <?php foreach ($cart as $item) { ?>                                      
@@ -30,10 +30,10 @@ $this->load->helper('currency');
         <?php } ?>
                          
                     <td style="text-align: center;"><?php echo $item['qty'] ?></td>
-                    <td>x</td>
+                    
                     <td style="text-align: center;"><?php get_currency($item['price']); ?></td>
 
-                    <td style="text-align: center;"><a href="<?php echo base_url(); ?>index.php/view/remove/<?php echo $item['rowid']; ?>"><div id="closeSymbol">X</div></a></td>
+                    <td style="text-align: center;"><a style="text-align: -moz-center;" href="<?php echo base_url(); ?>index.php/view/remove/<?php echo $item['rowid']; ?>"><div id="closeSymbol">X</div></a></td>
                 </tr>
 
             <?php }
@@ -42,7 +42,7 @@ $this->load->helper('currency');
         <tr style="border-top: 1px solid #222;" >
             <td style="padding: 0px 0px 0px 15px;"><b>Total</b>:</td>
             <td class="hide"></td>
-            <td></td>
+            
             <td></td>
             <td style="text-align: center; "> <b><?php get_currency($this->cart->total()); ?></b></td>
 
