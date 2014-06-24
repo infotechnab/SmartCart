@@ -389,18 +389,26 @@ class View extends CI_Controller {
     }
 
     function remove($rowid) {           //function to remove item from the cart
+       
         $this->cart->update(array(
             'rowid' => $rowid,
             'qty' => 0
         ));
         redirect('view');
     }
-
+function removeItem($rowid) {           //function to remove item from the cart
+       
+        $this->cart->update(array(
+            'rowid' => $rowid,
+            'qty' => 0
+        ));
+        redirect('view/registeruser');
+    }
     function clear() {          //function to clear the cart
         $this->cart->destroy();
         redirect('view');
     }
-
+ 
     function cart_details() {   //function to goto cart details
         $data['headertitle'] = $this->viewmodel->get_header_title();
         $data['headerlogo'] = $this->viewmodel->get_header_logo();

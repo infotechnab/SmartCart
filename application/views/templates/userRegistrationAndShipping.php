@@ -767,10 +767,9 @@ echo form_open('payment/do_payment');
     </div>
     <div id="verticalline" style="width: 1px; min-height: 460px; background-color: #222; float: left;"></div>
     <div id="RegisterLeftCart">
-        <h3 style="width:40%; margin: 0px 0px 10px 0px; padding: 2px; float: left;">Shopping Detail
-        </h3>
+        <h3 style="width:40%; margin: 0px 0px -1px 0px; padding: 2px; float: left;">Shopping Detail</h3>
             <?php if ($this->cart->contents()) { ?>
-            <div id="total_item"><h4 style="margin: 0px 0px 5px 0px">Total: <?php echo $this->cart->total_items(); ?> items</h4></div>
+            <div id="total_item"><h4 style="margin: 0px 0px 6px 0px">Total: <?php echo $this->cart->total_items(); ?> items</h4></div>
             <?php } ?>
         <div class="clear"></div>
         <hr>
@@ -783,7 +782,7 @@ echo form_open('payment/do_payment');
 
                     <th>Qty</th>
                     <th>Total</th>
-                    <th> </th>
+                    <th>Remove</th>
 
                 </tr>
                 <?php
@@ -805,7 +804,7 @@ echo form_open('payment/do_payment');
 
                             <td style="text-align: center;"><?php echo $item['qty'] ?></td>                       
                             <td style="text-align: center;"><?php echo $item['price'] * $item['qty']; ?> </td>
-                            <td>x</td>
+                            <td style="text-align: center;"><a style="text-align: -moz-center;" href="<?php echo base_url(); ?>index.php/view/removeItem/<?php echo $item['rowid']; ?>"><div id="closeSymbol">X</div></a></td>
                         </tr>
             <?php
             //Data for paypal 
@@ -853,7 +852,7 @@ echo form_open('payment/do_payment');
 
         </div>
 
-        <h3 style="width:40%; margin: 0px 0px 10px 0px; padding: 2px; float: left;">Order Summery
+        <h3 style="width:40%; margin: 0px 0px 10px 0px; padding: 2px; float: left;">Order Summary
         </h3>
 
         <div class="clear"></div>
@@ -882,9 +881,10 @@ echo form_open('payment/do_payment');
             <input type="hidden" class="rate" name="rate" value="" />
             <input type="hidden" class="test" name="grandtotal" value="" />
         </div>
-        <input type="button" id="cancelBtn"  value="Cancel" />
-        <input type="submit" id="payNowBtn"  value="Pay Now" />
-
+        <div>
+        <div id="cancelButton"><?php echo anchor('view/clear', 'Cancel', array("style" => "margin-top: 10px;")) ?></div>
+        <input style="float:left;margin: 20px auto 10px auto;" type="submit" id="payNowBtn"  value="Pay Now" />
+        </div>
     </div>
     <div class="clear"></div>
 </div> 
