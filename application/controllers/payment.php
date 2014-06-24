@@ -30,9 +30,9 @@ class Payment extends CI_Controller {
     }
 
     function notify_payment() {
-        session_start();
+       session_start();  
        //$_SESSION["paypal_products"]="new one";
-        var_dump($_SESSION['$_SESSION["paypal_products"]']);
+      
          include_once("paypal_config.php");
         include_once("paypal.class.php");
         $paypalmode = ($PayPalMode == 'sandbox') ? '.sandbox' : '';
@@ -43,7 +43,8 @@ class Payment extends CI_Controller {
         if (isset($_GET["token"]) && isset($_GET["PayerID"])) {
             //we will be using these two variables to execute the "DoExpressCheckoutPayment"
             //Note: we haven't received any payment yet.
-
+           
+           
             $token = $_GET["token"];
             $payer_id = $_GET["PayerID"];
 
@@ -161,22 +162,30 @@ class Payment extends CI_Controller {
     }
 
     function cancel_payment() {
-       if ($cart = $this->cart->contents()) { 
-            foreach ($cart as $item) {                                      
-                $item['image1'];     
-                var_dump($item['name']);                                              
-                $item['qty'];                   
-                $item['price'];
-            }
-        }
-      //var_dump($item['name']);
-      die('');
+     //  if ($cart = $this->cart->contents()) { 
+     //       foreach ($cart as $item) {                                      
+     //           $item['image1'];     
+     //           ($item['name']);                                              
+    //            $item['qty'];                   
+    //            $item['price'];
+    //        }
+    //    }
+    //    $this->registerEmail($email, $name);
+  
         
         
-        $this->session->set_flashdata('message', 'Your paypal payment for products has been cancelled');
+        $this->session->set_flashdata('message', 'Your paypal payment has been cancelled');
                 redirect('view/index', 'refresh');
     }
+    
+public function registerEmail($user_email, $user_name) {
+        $this->load->helper('emailsender_helper');
+        $subject = "Payment cancel Successful";
+        $message = register_email($user_email, $user_name);
 
+
+        send_email($user_email, $subject, $message);
+    }
     function products() {
         $this->load->view('product_listing');
         $results = $this->productmodel->get_product_data_verify(26);
@@ -184,7 +193,7 @@ class Payment extends CI_Controller {
     }
 
     function do_payment() {
-
+session_start();
         include_once("paypal_config.php");
         include_once("paypal.class.php");
         $paypalmode = ($PayPalMode == 'sandbox') ? '.sandbox' : '';
@@ -332,8 +341,9 @@ class Payment extends CI_Controller {
                 'grand_total' => $GrandTotal);
 
             //create session array for later use
+           
             $_SESSION["paypal_products"] = $paypal_product;
-            $_SESSION['salyani']='salyani';
+           
            // var_dump($_SESSION["paypal_products"]);
           
 

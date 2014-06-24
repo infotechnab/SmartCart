@@ -587,7 +587,6 @@ function removeItem($rowid) {           //function to remove item from the cart
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navigation');
             $this->load->view('templates/userRegistrationAndShipping');
-            //$this->load->view('templates/cartLogin');
             $this->load->view('templates/footer');
         } else {
             redirect('view/index', 'refresh');
