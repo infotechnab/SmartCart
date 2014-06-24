@@ -843,9 +843,12 @@ public function userdetails() {
            
  }}}   
  
-       
+       if(!empty($val)){
         $config["total_rows"] = $val;
-        
+       }
+       else{
+            $config["total_rows"] = 0;
+       }
         
 
         /* from here */
