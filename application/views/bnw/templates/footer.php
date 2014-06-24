@@ -1,10 +1,10 @@
 <div id="footer">
             
 
-<p>© Copy right to Smart Access Service.
+<!--<p>© Copy right to Smart Access Service.
 
 Powered by BnW CMS.
-</p>
+</p>-->
         </div>
        
 </body>
