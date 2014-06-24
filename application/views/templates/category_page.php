@@ -179,10 +179,14 @@ if (!empty($product)) {
 
 <?php } ?>
     </div>
-      <div style="clear:both;"></div>
-   <div style="margin-top: 10px; background-color: #fff; color: #3399ff; ">
-    
-    </div>
+      
+    <div class="clear"></div>
+       <?php if (strlen($links) > 2) { ?>
+        <div style="margin: 10px 0px 5px 0px; background-color: #999; color: #3399ff; border-radius:5px; width:95%; ">
+            <?php echo $links; ?>
+        </div>
+    <?php } ?>
+      
 </div>
 <!-- left side content closed here -->
 

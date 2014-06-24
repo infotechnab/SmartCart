@@ -342,6 +342,13 @@ public function check_user_email($email){
         $this->db->from("product");
         return $this->db->count_all_results();
     }
+    function record_count_products($id)
+    {
+        $this->db->where('category',$id);
+        $this->db->where('status','0');
+        $this->db->from("product");
+        return $this->db->count_all_results();
+    }
     function record_count_transaction($product)
     {
          $this->db->where('o_id', $product);

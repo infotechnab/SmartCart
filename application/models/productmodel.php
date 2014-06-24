@@ -108,21 +108,20 @@ public function product_info(){
     
    
     
-    function get_productList($catlist,$id)
+    function get_productList($catlist,$id, $limit, $start)
     {
-        //die($id);
-        //$this->db->limit($a, $b);
-        $catlist[$id]=$id;
         
-        $status = 0;
-        //$this->db->where('category',$id);
-        foreach ($catlist as $cat)
-        {
+        //$catlist['id']=$id;
+        
+        
+        $this->db->where('category',$id);
+       // foreach ($catlist as $cat)
+      //  {
             
-            $this->db->or_where('category',$cat); 
-        }
-        $this->db->where('status',$status);
-        
+      //      $this->db->or_where('category',$cat); 
+      //  }
+        $this->db->where('status',"0");
+        $this->db->limit($limit, $start);
          $query = $this->db->get('product');
    
          return $query->result();

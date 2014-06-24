@@ -449,7 +449,40 @@ class View extends CI_Controller {
         $data['headerlogo'] = $this->viewmodel->get_header_logo();
         $data['meta'] = $this->dbmodel->get_meta_data();
         $data['headerdescription'] = $this->viewmodel->get_header_description();
+/* from here*/
+          $config = array();
+        $config["base_url"] = base_url() . "index.php/view/category/".$id;
+        $config["total_rows"] = $this->dbmodel->record_count_products($id);
+        $config["per_page"] = 15;
+        $this->pagination->initialize($config);
+        $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
 
+        /* from here */
+        $choice = $config["total_rows"] / $config["per_page"];
+        $config["num_links"] = round($choice);
+        $config['full_tag_open'] = '<ul class="tsc_pagination tsc_paginationA tsc_paginationA01">';
+        $config['full_tag_close'] = '</ul>';
+        $config['prev_link'] = 'First';
+        $config['prev_tag_open'] = '<li>';
+        $config['prev_tag_close'] = '</li>';
+        $config['next_link'] = 'Next';
+        $config['next_tag_open'] = '<li>';
+        $config['next_tag_close'] = '</li>';
+        $config['cur_tag_open'] = '<li class="current"><a href="#">';
+        $config['cur_tag_close'] = '</a></li>';
+        $config['num_tag_open'] = '<li>';
+        $config['num_tag_close'] = '</li>';
+        $config['first_tag_open'] = '<li>';
+        $config['first_tag_close'] = '</li>';
+        $config['last_tag_open'] = '<li>';
+        $config['last_tag_close'] = '</li>';
+        $config['first_link'] = '&lt;&lt;';
+        $config['last_link'] = '&gt;&gt;';
+        $this->pagination->initialize($config);
+
+        $config['display_pages'] = FALSE;
+        $data["links"] = $this->pagination->create_links();
+/* till here */
         $data['product_info'] = $this->productmodel->product_info();
         $data['event'] = $this->productmodel->get_max_events();
         $data['offer'] = $this->productmodel->get_max_offers();
@@ -458,7 +491,7 @@ class View extends CI_Controller {
         $data['facebookPopular'] = $this->variable = $this->facebookLikeCount();
         //Get all the category of this passed category
         $selectedId = 0;
-        $navigation_link = base_url() . 'index.php/view/category/' . $id;
+        $navigation_link = base_url() . 'index.php/view/category/'.$id;
         $selected_category = $this->dbmodel->get_id_of_selected_category($navigation_link);
         if (!empty($selected_category)) {
             foreach ($selected_category as $selected) {
@@ -466,12 +499,12 @@ class View extends CI_Controller {
             }
         }
         $categorylist = $this->fetch_menun($this->queryn($selectedId));
-        
+       
         $data['categoryId'] = $this->productmodel->category_list_id($id);
         foreach ($data['categoryId'] as $page) {
             $data['pageTitle'] = $page->category_name;
         }
-        $data['product'] = $this->productmodel->get_productList($categorylist, $id);
+        $data['product'] = $this->productmodel->get_productList($categorylist, $id, $config["per_page"], $page);
         foreach ($data['product'] as $page) {
             $data['pageDescription'] = $page->description;
         }
