@@ -610,6 +610,7 @@ echo form_open('payment/do_payment');
 
             </table>
         </div> 
+       
 
         <style>
             .onoffswitch {
@@ -687,7 +688,7 @@ echo form_open('payment/do_payment');
             <h3 style="width:40%; margin: 0px 0px 10px 0px; padding: 2px; float: left;">Shipping Options
             </h3>
             <div class="onoffswitch" style="float: right; margin-right: 20%">
-                <input type="checkbox" name="onoffswitch" value="enableShip" onclick="myOnOffSwitch();" class="onoffswitch-checkbox" id="myonoffswitch" >
+                <input type="checkbox" name="onoffswitch" value="enableShip" onclick="myOnOffSwitch();" class="onoffswitch-checkbox" id="myonoffswitch" <?php if (!empty($switch)){ if($switch === "enableShip"){ echo ' checked="checked"';}} ?> />
                 <label class="onoffswitch-label" for="myonoffswitch">
                     <span class="onoffswitch-inner"></span>
                     <span class="onoffswitch-switch"></span>
@@ -706,7 +707,7 @@ echo form_open('payment/do_payment');
                 <tr>
                     <td><input type="radio" name="pickup" onclick="handleClick(this);" class="pick" value="pickup" checked>To above address</td>
                     <td id='shipenable' colspan="2">
-                        <input type="radio"  name="pickup" class="ship" onclick="handleClick(this);" value="shipDifferent">To different address</td>
+                        <input type="radio"  name="pickup" class="ship" onclick="handleClick(this);" value="shipDifferent" <?php if (!empty($radio)){ if ($radio === "shipDifferent"){ echo ' checked="checked"';}} ?> >To different address</td>
                 </tr>
             </table  >
             <table id="shippingInfoTableList" border="0" width="70%" style="display:none;" >

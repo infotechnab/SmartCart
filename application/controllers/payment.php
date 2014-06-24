@@ -161,7 +161,20 @@ class Payment extends CI_Controller {
     }
 
     function cancel_payment() {
-        echo "Its canceled";
+       if ($cart = $this->cart->contents()) { 
+            foreach ($cart as $item) {                                      
+                $item['image1'];     
+                var_dump($item['name']);                                              
+                $item['qty'];                   
+                $item['price'];
+            }
+        }
+      //var_dump($item['name']);
+      die('');
+        
+        
+        $this->session->set_flashdata('message', 'Your paypal payment for products has been cancelled');
+                redirect('view/index', 'refresh');
     }
 
     function products() {
@@ -207,21 +220,21 @@ class Payment extends CI_Controller {
         $this->form_validation->set_rules('u_lname', 'Last name', 'trim|regex_match[/^[a-z,0-9,A-Z_ ]{3,15}$/]|required|xss_clean|max_length[15]');
         $this->form_validation->set_rules('street_address', 'Address', 'trim|regex_match[/^[A-Za-z0-9\-\\,. ]{2,35}$/]|required|xss_clean|max_length[35]');
         $this->form_validation->set_rules('Town_address', 'City/Town', 'trim|regex_match[/^[A-Za-z0-9\-\\,. ]{2,35}$/]|required|xss_clean|max_length[35]');
-        $this->form_validation->set_rules('District_address', 'State/District', 'trim|regex_match[/^[A-Za-z0-9\-\\,. ]{2,35}$/]|required|xss_clean|max_length[35]');
-        $this->form_validation->set_rules('zip', 'Zip', 'trim|regex_match[/^[0-9]{4,15}$/]|required|xss_clean|max_length[15]');
+        $this->form_validation->set_rules('District_address', 'State', 'trim|regex_match[/^[A-Za-z0-9\-\\,. ]{2,35}$/]|required|xss_clean|max_length[35]');
+        $this->form_validation->set_rules('zip', 'Post Code', 'trim|regex_match[/^[0-9]{4,15}$/]|required|xss_clean|max_length[15]');
         $this->form_validation->set_rules('country', 'Country', 'trim|regex_match[/^[A-Za-z0-9\-\\,. ]{2,35}$/]|required|xss_clean|max_length[35]');
         $this->form_validation->set_rules('u_contact', 'Contact no.', 'trim|regex_match[/^[0-9]{5,15}$/]|required|xss_clean|max_length[15]');
         $this->form_validation->set_rules('user_email', 'Email', 'trim|regex_match[/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/]|required|xss_clean|max_length[200]');
     $tempShipDiff = FALSE;
         if (($switch === "enableShip") && ($radio === "shipDifferent")) {
 
-            $this->form_validation->set_rules('s_fname', 'First name', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,15}$/]|required|xss_clean|max_length[15]');
-            $this->form_validation->set_rules('s_lname', 'Last name', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,15}$/]|required|xss_clean|max_length[15]');
-            $this->form_validation->set_rules('s_address', 'Address', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,35}$/]|required|xss_clean|max_length[35]');
-            $this->form_validation->set_rules('c_city', 'City', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,35}$/]|required|xss_clean|max_length[35]');
-            $this->form_validation->set_rules('s_state', 'State', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,35}$/]|required|xss_clean|max_length[35]');
-            $this->form_validation->set_rules('s_zip', 'Zip', 'trim|regex_match[/^[0-9]{5,15}$/]|required|xss_clean|max_length[15]');
-            $this->form_validation->set_rules('s_country', 'Country', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,35}$/]|required|xss_clean|max_length[35]');
+            $this->form_validation->set_rules('s_fname', 'First name', 'trim|regex_match[/^[a-z,0-9,A-Z_ ]{5,15}$/]|required|xss_clean|max_length[15]');
+            $this->form_validation->set_rules('s_lname', 'Last name', 'trim|regex_match[/^[a-z,0-9,A-Z_ ]{5,15}$/]|required|xss_clean|max_length[15]');
+            $this->form_validation->set_rules('s_address', 'Address', 'trim|regex_match[/^[/^[A-Za-z0-9\-\\,. ]{5,35}$/]|required|xss_clean|max_length[35]');
+            $this->form_validation->set_rules('c_city', 'City', 'trim|regex_match[/^[/^[A-Za-z0-9\-\\,. ]{5,35}$/]|required|xss_clean|max_length[35]');
+            $this->form_validation->set_rules('s_state', 'State', 'trim|regex_match[/^[/^[A-Za-z0-9\-\\,. ]{5,35}$/]|required|xss_clean|max_length[35]');
+            $this->form_validation->set_rules('s_zip', 'Post Code', 'trim|regex_match[/^[0-9]{5,15}$/]|required|xss_clean|max_length[15]');
+            $this->form_validation->set_rules('s_country', 'Country', 'trim|regex_match[/^[/^[A-Za-z0-9\-\\,. ]{5,35}$/]|required|xss_clean|max_length[35]');
             $this->form_validation->set_rules('s_contact', 'Contact no.', 'trim|regex_match[/^[0-9]{5,15}$/]|required|xss_clean|max_length[15]');
             $this->form_validation->set_rules('s_email', 'Email', 'trim|regex_match[/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/]|required|xss_clean|max_length[50]');
             $tempShipDiff = TRUE;
@@ -229,6 +242,8 @@ class Payment extends CI_Controller {
 
         if ($this->form_validation->run() == FALSE) {
             $data['user_validation_message'] = validation_errors();
+            $data['switch']=$switch;
+            $data['radio']= $radio;
             $this->load->view('templates/header', $data);
             $this->load->view('templates/navigation');
             $this->load->view('templates/userRegistrationAndShipping', $data);
