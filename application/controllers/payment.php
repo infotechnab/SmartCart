@@ -56,21 +56,7 @@ class Payment extends CI_Controller {
             $ItemTotalPrice = 0;
             
           
-            foreach ($paypal_product['items'] as $key => $p_item) {
-                $paypal_data .= '&L_PAYMENTREQUEST_0_QTY' . $key . '=' . urlencode($p_item['itm_qty']);
-                $paypal_data .= '&L_PAYMENTREQUEST_0_AMT' . $key . '=' . urlencode($p_item['itm_price']);
-                $paypal_data .= '&L_PAYMENTREQUEST_0_NAME' . $key . '=' . urlencode($p_item['itm_name']);
-                $paypal_data .= '&L_PAYMENTREQUEST_0_NUMBER' . $key . '=' . urlencode($p_item['itm_code']);
-
-                // item price X quantity
-                $subtotal = ($p_item['itm_price'] * $p_item['itm_qty']);
-
-                //total price
-                $ItemTotalPrice = ($ItemTotalPrice + $subtotal);
-                $itemId= $p_item['itm_code'];
-                $itemQty= $p_item['itm_qty'];
-                $itemPrice= $p_item['itm_price'];
-            }
+           
            $temp = $paypal_product['buyer'][0];
            
                 $fname= $temp['buyer_fname'];
@@ -178,9 +164,6 @@ class Payment extends CI_Controller {
                 
                         $this->productmodel->order_user($uid, $fname, $lname, $street, $city, $state, $post, $country, $contact, $email,$shipfname, $shiplname, $shipstreet , $shipcity, $shipstate, $shippost, $shipcountry, $shipcontact, $shipemail);
                       
-                        
-                die('here');        
-                        
                         $orderId = $this->productmodel->get_last_order();
             foreach ($orderId as $oid) {
                 $oId = $oid->o_id;
@@ -197,8 +180,23 @@ class Payment extends CI_Controller {
             $a = "TRD";
             $tr = $tr + 1;
             $tid = $a . $tr;
-            
-                        $this->productmodel->insert_transaction_items($oId, $itemId, $itemQty, $itemPrice, $subtotal, $tid, $tr);
+             foreach ($paypal_product['items'] as $key => $p_item) {
+                $paypal_data .= '&L_PAYMENTREQUEST_0_QTY' . $key . '=' . urlencode($p_item['itm_qty']);
+                $paypal_data .= '&L_PAYMENTREQUEST_0_AMT' . $key . '=' . urlencode($p_item['itm_price']);
+                $paypal_data .= '&L_PAYMENTREQUEST_0_NAME' . $key . '=' . urlencode($p_item['itm_name']);
+                $paypal_data .= '&L_PAYMENTREQUEST_0_NUMBER' . $key . '=' . urlencode($p_item['itm_code']);
+
+                // item price X quantity
+                $subtotal = ($p_item['itm_price'] * $p_item['itm_qty']);
+
+                //total price
+                $ItemTotalPrice = ($ItemTotalPrice + $subtotal);
+                $itemId= $p_item['itm_code'];
+                $itemQty= $p_item['itm_qty'];
+                $itemPrice= $p_item['itm_price'];
+                $this->productmodel->insert_transaction_items($oId, $itemId, $itemQty, $itemPrice, $subtotal, $tid, $tr);
+            }
+                        
                      // $insert_row = $mysqli->query("INSERT INTO BuyerTable
                      // (BuyerName,BuyerEmail,TransactionID,ItemName,ItemNumber, ItemAmount,ItemQTY)
                      // VALUES ('$buyerName','$buyerEmail','$transactionID','$ItemName',$ItemNumber, $ItemTotalPrice,$ItemQTY)");
