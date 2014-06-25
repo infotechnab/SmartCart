@@ -43,8 +43,9 @@ class Payment extends CI_Controller {
         if (isset($_GET["token"]) && isset($_GET["PayerID"])) {
             //we will be using these two variables to execute the "DoExpressCheckoutPayment"
             //Note: we haven't received any payment yet.
-           
+          
          
+           
        
             $token = $_GET["token"];
             $payer_id = $_GET["PayerID"];
@@ -66,11 +67,14 @@ class Payment extends CI_Controller {
 
                 //total price
                 $ItemTotalPrice = ($ItemTotalPrice + $subtotal);
+                $itemId= $p_item['itm_code'];
+                $itemQty= $p_item['itm_qty'];
+                $itemPrice= $p_item['itm_price'];
             }
            $temp = $paypal_product['buyer'][0];
            
-                $fnane= $temp['buyer_fname'];
-                $lnane=  $temp['buyer_lname'];
+                $fname= $temp['buyer_fname'];
+                $lname=  $temp['buyer_lname'];
                 $street=  $temp['buyer_street'];
                 $city=  $temp['buyer_city'];
                 $state=  $temp['buyer_state'];
@@ -79,12 +83,13 @@ class Payment extends CI_Controller {
                 $contact= $temp['buyer_contact'];
                 $email= $temp['buyer_email'];
             
-          
+                var_dump($contact);    
            $receiver= $paypal_product['receiver'][0];
 
-                $shipfnane= $receiver['receiver_fname'];
-                $shiplnane= $receiver['receiver_lname'];
-                $hhipstreet= $receiver['receiver_street'];
+                $shipfname= $receiver['receiver_fname'];
+                $shiplname= $receiver['receiver_lname'];
+                
+                $shipstreet= $receiver['receiver_street'];
                 $shipcity= $receiver['receiver_city'];
                 $shipstate= $receiver['receiver_state'];
                 $shippost= $receiver['receiver_post'];
@@ -92,22 +97,10 @@ class Payment extends CI_Controller {
                 $shipcontact= $receiver['receiver_contact'];
                 $shipemail= $receiver['receiver_email'];
                 
-          $lastuser = $this->productmodel->get_id_user($email);
-            if(!empty($lastuser)){foreach ($lastuser as $userId) {
-                $uid = $userId->id;
-            }}else{$uid=  NULL;}
+           
             
-            $tr = 0;
-
-            $trans_id = $this->productmodel->getTranId();
-
-            foreach ($trans_id as $tranId) {
-                $tr = $tranId->trans_num;
-            }
-
-            $a = "TRD";
-            $tr = $tr + 1;
-            $tid = $a . $tr;
+            
+            
             
             
             
@@ -175,7 +168,37 @@ class Payment extends CI_Controller {
                       //if ($mysqli->connect_error) {
                       //die('Error : ('. $mysqli->connect_errno .') '. $mysqli->connect_error);
                       //}
-                        $this->productmodel->order_user($shipfnane, $shiplnane,$hhipstreet , $shipcity, $shipstate, $shippost, $shipcountry, $shipcontact, $shipemail, $uid);
+                                      
+                    $lastuser = $this->productmodel->get_id_user($email);
+                if(!empty($lastuser)){foreach ($lastuser as $userId) {
+                $uid = $userId->id;
+                }}else{
+                 $uid = 0;
+                 } 
+                
+                        $this->productmodel->order_user($uid, $fname, $lname, $street, $city, $state, $post, $country, $contact, $email,$shipfname, $shiplname, $shipstreet , $shipcity, $shipstate, $shippost, $shipcountry, $shipcontact, $shipemail);
+                      
+                        
+                die('here');        
+                        
+                        $orderId = $this->productmodel->get_last_order();
+            foreach ($orderId as $oid) {
+                $oId = $oid->o_id;
+            }
+                    
+            $tr = 0;
+
+            $trans_id = $this->productmodel->getTranId();
+
+            foreach ($trans_id as $tranId) {
+                $tr = $tranId->trans_num;
+            }
+
+            $a = "TRD";
+            $tr = $tr + 1;
+            $tid = $a . $tr;
+            
+                        $this->productmodel->insert_transaction_items($oId, $itemId, $itemQty, $itemPrice, $subtotal, $tid, $tr);
                      // $insert_row = $mysqli->query("INSERT INTO BuyerTable
                      // (BuyerName,BuyerEmail,TransactionID,ItemName,ItemNumber, ItemAmount,ItemQTY)
                      // VALUES ('$buyerName','$buyerEmail','$transactionID','$ItemName',$ItemNumber, $ItemTotalPrice,$ItemQTY)");
@@ -284,11 +307,11 @@ session_start();
 
             $this->form_validation->set_rules('s_fname', 'First name', 'trim|regex_match[/^[a-z,0-9,A-Z_ ]{5,15}$/]|required|xss_clean|max_length[15]');
             $this->form_validation->set_rules('s_lname', 'Last name', 'trim|regex_match[/^[a-z,0-9,A-Z_ ]{5,15}$/]|required|xss_clean|max_length[15]');
-            $this->form_validation->set_rules('s_address', 'Address', 'trim|regex_match[/^[/^[A-Za-z0-9\-\\,. ]{5,35}$/]|required|xss_clean|max_length[35]');
-            $this->form_validation->set_rules('c_city', 'City', 'trim|regex_match[/^[/^[A-Za-z0-9\-\\,. ]{5,35}$/]|required|xss_clean|max_length[35]');
-            $this->form_validation->set_rules('s_state', 'State', 'trim|regex_match[/^[/^[A-Za-z0-9\-\\,. ]{5,35}$/]|required|xss_clean|max_length[35]');
+            $this->form_validation->set_rules('s_address', 'Address', 'trim|regex_match[/^[A-Za-z0-9\-\\,. ]{5,35}$/]|required|xss_clean|max_length[35]');
+            $this->form_validation->set_rules('c_city', 'City', 'trim|regex_match[/^[A-Za-z0-9\-\\,. ]{5,35}$/]|required|xss_clean|max_length[35]');
+            $this->form_validation->set_rules('s_state', 'State', 'trim|regex_match[/^[A-Za-z0-9\-\\,. ]{5,35}$/]|required|xss_clean|max_length[35]');
             $this->form_validation->set_rules('s_zip', 'Post Code', 'trim|regex_match[/^[0-9]{5,15}$/]|required|xss_clean|max_length[15]');
-            $this->form_validation->set_rules('s_country', 'Country', 'trim|regex_match[/^[/^[A-Za-z0-9\-\\,. ]{5,35}$/]|required|xss_clean|max_length[35]');
+            $this->form_validation->set_rules('s_country', 'Country', 'trim|regex_match[/^[A-Za-z0-9\-\\,. ]{5,35}$/]|required|xss_clean|max_length[35]');
             $this->form_validation->set_rules('s_contact', 'Contact no.', 'trim|regex_match[/^[0-9]{5,15}$/]|required|xss_clean|max_length[15]');
             $this->form_validation->set_rules('s_email', 'Email', 'trim|regex_match[/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/]|required|xss_clean|max_length[50]');
             $tempShipDiff = TRUE;
@@ -305,7 +328,7 @@ session_start();
         } else {
 
             /* here are all inputed fields */
-            $fname = $this->input->post('u_lname');
+            $fname = $this->input->post('u_fname');
             $lname = $this->input->post('u_lname');
             $street = $this->input->post('street_address');
             $town = $this->input->post('Town_address');
@@ -331,6 +354,16 @@ session_start();
                     $shipemail = $this->input->post('s_email');
                 } else {
                     $shipToSameAddress = TRUE;
+                     $shipfname = $fname;
+                    
+                    $shiplname = $lname;
+                    $shipstreet = $street;
+                    $shiptown = $town;
+                    $shipdistrict = $district;
+                    $shipzip = $zip;
+                    $shipcountry = $country;
+                    $shipcontact = $contact;
+                    $shipemail = $email;
                 }
             } else {
                 $pickUp = TRUE;
@@ -388,10 +421,11 @@ session_start();
                 'buyer_country' => $country,
                 'buyer_contact' => $contact,
                 'buyer_email'=> $email);
-
+ 
             $paypal_product['receiver'][] = array(               
                 'receiver_fname' => $shipfname,
                 'receiver_lname' => $shiplname,
+                
                 'receiver_street' => $shipstreet,
                 'receiver_city' => $shiptown,
                 'receiver_state' => $shipdistrict,

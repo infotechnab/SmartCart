@@ -135,6 +135,9 @@ public function product_info(){
         return $query->result();
         
     }
+    
+    
+    
     public function add_new_user($username, $fname, $lname, $email, $pass, $contact,$address,$city,$state,$country,$zip)
     {   
         $user_type = 1;
@@ -166,8 +169,6 @@ public function product_info(){
     
     function get_id_user($email)
     {
-       
-        
         $this->db->where('user_email',$email);
         $query = $this->db->get('user',1);
         return $query->result();
@@ -175,28 +176,39 @@ public function product_info(){
     
     function get_last_order()
     {
-       
         $this->db->order_by('o_id','DESC');
         $query = $this->db->get('product_oder',1);
         return $query->result();
     }
     
-    function order_user($shipfnane, $shiplnane,$hhipstreet , $shipcity, $shipstate, $shippost, $shipcountry, $shipcontact, $shipemail, $uid)
-    {
-        
+    public function order_user($uid, $fname, $lname, $street, $city, $state, $post, $country, $contact, $email,$shipfname, $shiplname, $shipstreet , $shipcity, $shipstate, $shippost, $shipcountry, $shipcontact, $shipemail)
+    { 
         $data = array(
             'u_id'=>$uid,
-            'user_name'=>$shipfnane." ".$shiplnane,
-            'deliver_address'=>$hhipstreet,
-            'city'=>$shipcity,
-            'state'=>$shipstate,
-            'zip'=>$shippost,
-            'country'=>$shipcountry,
-            'email'=>$shipemail,
-            'contact'=>$shipcontact);
+           
+            'buyer_full_name'=>$fname." ".$lname,
+            'buyer_full_address'=>$street.", ".$city.", ".$state.", ".$country.", ".$post,
+            'buyer_contact_no'=>$contact,
+            'buyer_email'=>$email,
+             'receiver_full_name'=>$shipfname." ".$shiplname,
+            'receiver_full_address'=>$shipstreet.", ".$shipcity.", ".$shipstate.", ".$shipcountry.", ".$shippost,
+            'receiver_contact_no'=>$shipcontact,
+            'receiver_email'=>$shipemail);
         $this->db->insert('product_oder',$data);
     }
-    
+    public function insert_transaction_items($oId, $itemId, $itemQty, $itemPrice, $subtotal, $tid, $tr)
+    {
+        $data = array(
+            'o_id'=>$oId,
+            'p_id'=>$itemId,
+            'qty'=>$itemQty,
+            'price'=>$itemPrice,
+            'total'=>$subtotal,
+            'trans_id'=>$tid,
+            'trans_num'=>$tr);
+        $this->db->insert('product_oder_detail',$data);
+    }
+            
     function validate() {
        
                 
