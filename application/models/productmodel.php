@@ -167,7 +167,7 @@ public function product_info(){
     function get_id_user($email)
     {
        
-        //$this->db->order_by('id','DESC');
+        
         $this->db->where('user_email',$email);
         $query = $this->db->get('user',1);
         return $query->result();
@@ -181,20 +181,19 @@ public function product_info(){
         return $query->result();
     }
     
-    function order_user($name,$address,$city,$state,$country,$zip,$email,$contact,$uid)
+    function order_user($shipfnane, $shiplnane,$hhipstreet , $shipcity, $shipstate, $shippost, $shipcountry, $shipcontact, $shipemail, $uid)
     {
         
         $data = array(
             'u_id'=>$uid,
-            'user_name'=>$name,
-            'deliver_address'=>$address,
-            'city'=>$city,
-            'state'=>$state,
-            'zip'=>$zip,
-            'country'=>$country,
-            'email'=>$email,
-            'contact'=>$contact
-        );
+            'user_name'=>$shipfnane." ".$shiplnane,
+            'deliver_address'=>$hhipstreet,
+            'city'=>$shipcity,
+            'state'=>$shipstate,
+            'zip'=>$shippost,
+            'country'=>$shipcountry,
+            'email'=>$shipemail,
+            'contact'=>$shipcontact);
         $this->db->insert('product_oder',$data);
     }
     

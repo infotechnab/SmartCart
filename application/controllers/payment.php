@@ -31,7 +31,7 @@ class Payment extends CI_Controller {
 
     function notify_payment() {
        session_start();  
-       //$_SESSION["paypal_products"]="new one";
+       
       
          include_once("paypal_config.php");
         include_once("paypal.class.php");
@@ -44,7 +44,8 @@ class Payment extends CI_Controller {
             //we will be using these two variables to execute the "DoExpressCheckoutPayment"
             //Note: we haven't received any payment yet.
            
-           
+         
+       
             $token = $_GET["token"];
             $payer_id = $_GET["PayerID"];
 
@@ -52,7 +53,8 @@ class Payment extends CI_Controller {
             $paypal_product = $_SESSION["paypal_products"];
             $paypal_data = '';
             $ItemTotalPrice = 0;
-
+            
+          
             foreach ($paypal_product['items'] as $key => $p_item) {
                 $paypal_data .= '&L_PAYMENTREQUEST_0_QTY' . $key . '=' . urlencode($p_item['itm_qty']);
                 $paypal_data .= '&L_PAYMENTREQUEST_0_AMT' . $key . '=' . urlencode($p_item['itm_price']);
@@ -65,17 +67,60 @@ class Payment extends CI_Controller {
                 //total price
                 $ItemTotalPrice = ($ItemTotalPrice + $subtotal);
             }
+           $temp = $paypal_product['buyer'][0];
+           
+                $fnane= $temp['buyer_fname'];
+                $lnane=  $temp['buyer_lname'];
+                $street=  $temp['buyer_street'];
+                $city=  $temp['buyer_city'];
+                $state=  $temp['buyer_state'];
+                $post= $temp['buyer_post'];
+                $country= $temp['buyer_country'];
+                $contact= $temp['buyer_contact'];
+                $email= $temp['buyer_email'];
+            
+          
+           $receiver= $paypal_product['receiver'][0];
 
+                $shipfnane= $receiver['receiver_fname'];
+                $shiplnane= $receiver['receiver_lname'];
+                $hhipstreet= $receiver['receiver_street'];
+                $shipcity= $receiver['receiver_city'];
+                $shipstate= $receiver['receiver_state'];
+                $shippost= $receiver['receiver_post'];
+                $shipcountry= $receiver['receiver_country'];
+                $shipcontact= $receiver['receiver_contact'];
+                $shipemail= $receiver['receiver_email'];
+                
+          $lastuser = $this->productmodel->get_id_user($email);
+            if(!empty($lastuser)){foreach ($lastuser as $userId) {
+                $uid = $userId->id;
+            }}else{$uid=  NULL;}
+            
+            $tr = 0;
+
+            $trans_id = $this->productmodel->getTranId();
+
+            foreach ($trans_id as $tranId) {
+                $tr = $tranId->trans_num;
+            }
+
+            $a = "TRD";
+            $tr = $tr + 1;
+            $tid = $a . $tr;
+            
+            
+            
             $padata = '&TOKEN=' . urlencode($token) .
                     '&PAYERID=' . urlencode($payer_id) .
                     '&PAYMENTREQUEST_0_PAYMENTACTION=' . urlencode("SALE") .
                     $paypal_data .
                     '&PAYMENTREQUEST_0_ITEMAMT=' . urlencode($ItemTotalPrice) .
-                    '&PAYMENTREQUEST_0_TAXAMT=' . urlencode($paypal_product['assets']['tax_total']) .
+                    //'&PAYMENTREQUEST_0_TAXAMT=' . urlencode($paypal_product['assets']['tax_total']) .
                     '&PAYMENTREQUEST_0_SHIPPINGAMT=' . urlencode($paypal_product['assets']['shippin_cost']) .
-                    '&PAYMENTREQUEST_0_HANDLINGAMT=' . urlencode($paypal_product['assets']['handaling_cost']) .
-                    '&PAYMENTREQUEST_0_SHIPDISCAMT=' . urlencode($paypal_product['assets']['shippin_discount']) .
-                    '&PAYMENTREQUEST_0_INSURANCEAMT=' . urlencode($paypal_product['assets']['insurance_cost']) .
+                   // '&PAYMENTREQUEST_0_HANDLINGAMT=' . urlencode($paypal_product['assets']['handaling_cost']) .
+                    //'&PAYMENTREQUEST_0_SHIPDISCAMT=' . urlencode($paypal_product['assets']['shippin_discount']) .
+                    //'&PAYMENTREQUEST_0_INSURANCEAMT=' . urlencode($paypal_product['assets']['insurance_cost']) .
                     '&PAYMENTREQUEST_0_AMT=' . urlencode($paypal_product['assets']['grand_total']) .
                     '&PAYMENTREQUEST_0_CURRENCYCODE=' . urlencode($PayPalCurrencyCode);
 
@@ -115,33 +160,33 @@ class Payment extends CI_Controller {
 
                    
 
-                    /*
+                   
                       #### SAVE BUYER INFORMATION IN DATABASE ###
                       //see (http://www.sanwebe.com/2013/03/basic-php-mysqli-usage) for mysqli usage
                       //use urldecode() to decode url encoded strings.
 
-                      $buyerName = urldecode($httpParsedResponseAr["FIRSTNAME"]).' '.urldecode($httpParsedResponseAr["LASTNAME"]);
-                      $buyerEmail = urldecode($httpParsedResponseAr["EMAIL"]);
+                     // $buyerName = urldecode($httpParsedResponseAr["FIRSTNAME"]).' '.urldecode($httpParsedResponseAr["LASTNAME"]);
+                    //  $buyerEmail = urldecode($httpParsedResponseAr["EMAIL"]);
 
                       //Open a new connection to the MySQL server
-                      $mysqli = new mysqli('host','username','password','database_name');
+                     // $mysqli = new mysqli('host','username','password','database_name');
 
                       //Output any connection error
-                      if ($mysqli->connect_error) {
-                      die('Error : ('. $mysqli->connect_errno .') '. $mysqli->connect_error);
-                      }
+                      //if ($mysqli->connect_error) {
+                      //die('Error : ('. $mysqli->connect_errno .') '. $mysqli->connect_error);
+                      //}
+                        $this->productmodel->order_user($shipfnane, $shiplnane,$hhipstreet , $shipcity, $shipstate, $shippost, $shipcountry, $shipcontact, $shipemail, $uid);
+                     // $insert_row = $mysqli->query("INSERT INTO BuyerTable
+                     // (BuyerName,BuyerEmail,TransactionID,ItemName,ItemNumber, ItemAmount,ItemQTY)
+                     // VALUES ('$buyerName','$buyerEmail','$transactionID','$ItemName',$ItemNumber, $ItemTotalPrice,$ItemQTY)");
 
-                      $insert_row = $mysqli->query("INSERT INTO BuyerTable
-                      (BuyerName,BuyerEmail,TransactionID,ItemName,ItemNumber, ItemAmount,ItemQTY)
-                      VALUES ('$buyerName','$buyerEmail','$transactionID','$ItemName',$ItemNumber, $ItemTotalPrice,$ItemQTY)");
+                    //  if($insert_row){
+                     // print 'Success! ID of last inserted record is : ' .$mysqli->insert_id .'<br />';
+                     // }else{
+                    //  die('Error : ('. $mysqli->errno .') '. $mysqli->error);
+                    //  }
 
-                      if($insert_row){
-                      print 'Success! ID of last inserted record is : ' .$mysqli->insert_id .'<br />';
-                      }else{
-                      die('Error : ('. $mysqli->errno .') '. $mysqli->error);
-                      }
-
-                     */
+               
 
                     echo '<pre>';
                     print_r($httpParsedResponseAr);
@@ -178,14 +223,14 @@ class Payment extends CI_Controller {
                 redirect('view/index', 'refresh');
     }
     
-public function registerEmail($user_email, $user_name) {
-        $this->load->helper('emailsender_helper');
-        $subject = "Payment cancel Successful";
-        $message = register_email($user_email, $user_name);
+//public function registerEmail($user_email, $user_name) {
+    //    $this->load->helper('emailsender_helper');
+     //   $subject = "Payment cancel Successful";
+     //   $message = register_email($user_email, $user_name);
 
 
-        send_email($user_email, $subject, $message);
-    }
+       // send_email($user_email, $subject, $message);
+  //  }
     function products() {
         $this->load->view('product_listing');
         $results = $this->productmodel->get_product_data_verify(26);
@@ -333,8 +378,28 @@ session_start();
 
             //Grand total including all tax, insurance, shipping cost and discount
             $GrandTotal = ($ItemTotalPrice + $ShippinCost );
+            $paypal_product['buyer'][] = array(               
+                'buyer_fname' => $fname,
+                'buyer_lname' => $lname,
+                'buyer_street' => $street,
+                'buyer_city' => $town,
+                'buyer_state' => $district,
+                'buyer_post' => $zip,
+                'buyer_country' => $country,
+                'buyer_contact' => $contact,
+                'buyer_email'=> $email);
 
-
+            $paypal_product['receiver'][] = array(               
+                'receiver_fname' => $shipfname,
+                'receiver_lname' => $shiplname,
+                'receiver_street' => $shipstreet,
+                'receiver_city' => $shiptown,
+                'receiver_state' => $shipdistrict,
+                'receiver_post' => $shipzip,
+                'receiver_country' => $shipcountry,
+                'receiver_contact' => $shipcontact,
+                'receiver_email'=> $shipemail);
+            
             $paypal_product['assets'] = array(
                
                 'shippin_cost' => $ShippinCost,

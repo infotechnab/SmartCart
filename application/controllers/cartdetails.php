@@ -91,12 +91,12 @@ class Cartdetails extends CI_Controller {
 
 
             // $this->productmodel->add_new_user($username, $fname, $lname, $email, $pass, $contact,$address,$city,$state,$country,$zip);
-            $lastuser = $this->productmodel->get_id_user($email);
-            foreach ($lastuser as $userId) {
-                $uid = $userId->id;
-            }
+           // $lastuser = $this->productmodel->get_id_user($email);
+           // foreach ($lastuser as $userId) {
+           //     $uid = $userId->id;
+           // }
 
-            $this->productmodel->order_user($s_username, $s_address, $s_city, $s_state, $s_country, $s_zip, $s_email, $s_contact, $uid);
+           // $this->productmodel->order_user($s_username, $s_address, $s_city, $s_state, $s_country, $s_zip, $s_email, $s_contact, $uid);
             $orderId = $this->productmodel->get_last_order();
             foreach ($orderId as $oid) {
                 $oId = $oid->o_id;
